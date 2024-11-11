@@ -1,0 +1,157 @@
+.rewardCreationHeader{
+    width: 86%;
+
+    margin-left: 3%;
+}
+
+.rewardCreationContainer {
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 92%;
+    padding: 3% 21px 21px 8%;
+}
+
+.rewardCreationOutForm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 5%;
+    padding-top: 1%;
+}
+
+
+.rewardCreationSectionDivider{
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.rewardCreationForm {
+    width: 40%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.rewardCreationTitle {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.rewardCreationFormSection {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.rewardCreationFormSection label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.rewardCreationInput {
+    padding: 10px;
+    border: 1px solid #b29c59;
+    border-radius: 4px;
+}
+
+.rewardCreationCheckboxGroup {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rewardCreationCheckbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rewardCreationNumberInput {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #b29c59;
+    border-radius: 4px;
+}
+
+.rewardCreationAddRewardButton {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #b29c59;
+    border: none;
+    border-radius: 17px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 39%;
+    width: 21%;
+    /* padding-left: 1%; */
+
+}
+
+.rewardCreationList {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rewardCreationItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 74%;
+}
+
+.rewardCreationIcon {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+}
+
+.rewardCreationInfo h5 {
+    font-weight: bold;
+    color: #b29c59;
+}
+
+
+.rewardCreationDescription{
+}
+.rewardCreationPrice{
+    font-weight: bold;
+    color: #b29c59;
+}
+
+.rewardCreationDeleteButton {
+    margin-left: auto;
+    color: #b29c59;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+/* Bottom Button */
+.rewardCreationNextStepButton {
+    width: 21%;
+    padding: 15px 0;
+    font-size: 18px;
+    color: #b29c59;
+    background-color: #333;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    text-align: center;
+    margin-left: 37%;
+    margin-top: 5%;
+    font-weight: bold;
+}
+
+
