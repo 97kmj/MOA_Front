@@ -1,0 +1,324 @@
+.fundingDetail {
+    /*padding: 20px;*/
+    /*margin: 16%;*/
+    /*padding: 6%;*/
+    padding: 6% 10% 10%;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notifyButton {
+    background: none;
+    border: 1px solid #c9a74e;
+    color: #c9a74e;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/*.funding-header {*/
+/*    display: flex;*/
+/*    align-items: flex-start;*/
+/*    !*gap: 20px;*!*/
+/*    gap: 10%;*/
+/*    margin-bottom: 30px;*/
+/*}*/
+
+/*.main-image {*/
+/*    width: 60%;*/
+/*    max-width: 600px;*/
+/*    height: auto;*/
+/*    border-radius: 8px;*/
+/*}*/
+
+/*.funding-info {*/
+/*    width: 40%;*/
+/*}*/
+
+.fundingHeader {
+    display: flex;
+    align-items: flex-start;
+    width: 1200px; /* 고정된 너비 설정 */
+    gap: 6%;
+    margin-bottom: 30px;
+}
+
+#project-plan-images {
+
+}
+
+/*.main-image {*/
+/*    width: 700px; !* 고정된 이미지 너비 *!*/
+/*    max-width: 600px;*/
+/*    height: auto;*/
+/*    border-radius: 8px;*/
+/*}*/
+
+/*.main-image {*/
+/*    width: 100%; !* 컨테이너의 가로 크기에 맞춤 *!*/
+/*    height: 500px; !* 고정된 높이 설정 *!*/
+/*    object-fit: cover; !* 비율을 유지하면서 잘라서 보여줌 *!*/
+/*    border-radius: 8px;*/
+/*}*/
+
+.imageCard {
+    width: 100%;
+    max-width: 600px; /* 카드의 최대 너비 설정 */
+    aspect-ratio: 4 / 3; /* 4:3 비율로 카드 높이 설정 */
+    overflow: hidden; /* 이미지를 카드 영역 안에 자르기 위해 사용 */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; /* 이미지가 로드되지 않을 때 배경색 */
+}
+
+.mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 카드 크기에 맞추어 이미지 비율 유지하며 잘라서 보여줌 */
+}
+
+
+.fundingInfo {
+    width: 500px; /* 고정된 정보 영역 너비 */
+}
+
+.fundingInfo h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+
+.artistInfoButton {
+    background: #ffffff;
+    border: 1px solid #b39c59;
+    color: #b39c59;
+    padding: 2px 8px;
+    font-size: 12px;
+    margin-left: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.fundingDetailProgress {
+    color: #b39c59;
+    background-color: #ffffff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.fundButton {
+    padding: 10px 20px;
+    background-color: #333;
+    border: none;
+    color: #b39c59;
+    /*border-radius: 5px;*/
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 150px;
+
+}
+
+.sectionDivider {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.fundingDetailContentContainer {
+    display: flex;
+    gap: 20px;
+}
+
+/*프로젝트 계획 start*/
+.projectPlan {
+    flex: 2;
+}
+
+.showArtworks {
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.projectDetails {
+    margin-top: 20px;
+}
+
+/*.artwork-image {*/
+/*    width: 100%;*/
+/*    max-width: 400px;*/
+/*    margin-top: 20px;*/
+/*    border-radius: 8px;*/
+/*}*/
+/*프로젝트 계획 end*/
+
+
+
+/*리워드 부분 start */
+.rewardSelection {
+    flex: 1;
+}
+
+.rewardSelection h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/*선택된 리워드  start*/
+.rewardCard {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.rewardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.rewardHeader h5 {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #b39c59;
+    cursor: pointer;
+}
+
+.rewardDescription {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.quantitySelector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantitySelector button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.quantitySelector input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    font-size: 16px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+}
+
+.rewardButton {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #b39c59;
+    background-color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/*선택된 리워드  end*/
+
+
+
+
+.rewardSelection {
+    max-height: 1000px; /*리워드 부분 스크롤 */
+    overflow-y: auto;
+    padding: 20px;
+    /*border: 1px solid #e0e0e0;*/
+    border-radius: 8px;
+}
+
+/*리워드 리스트 start*/
+.rewardList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 17px;
+}
+
+.rewardItem {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rewardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rewardHeader h5 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.rewardLeft {
+    font-size: 14px;
+    color: #ff6666;
+    background-color: #ffe6e6;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.rewardDescription {
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+}
+
+/*.reward-details {*/
+/*    font-size: 14px;*/
+/*    color: #999;*/
+/*    margin-top: 5px;*/
+/*}*/
+/*리워드 리스트 end*/
+
+
+/*리워드 부분 end */

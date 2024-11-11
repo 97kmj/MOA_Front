@@ -1,0 +1,85 @@
+.myUploadedFundingDetail {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.myUploadedFundingDetail h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.FundingInfo {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border: 1px solid #e0d5b8;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f7f4;
+    margin-bottom: 20px;
+}
+
+.fundingImage {
+    width: 300px;
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.fundingDetails h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.fundingDetails p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #5d4a00;
+}
+
+.fundingDates p {
+    font-size: 14px;
+    color: #5d4a00;
+}
+
+.end-date {
+    color: red;
+}
+
+.contributorsList {
+    border: 1px solid #e0d5b8;
+    border-radius: 8px;
+    background-color: #f9f7f4;
+    overflow-x: auto;
+}
+
+.contributorsList table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contributorsList th,
+.contributorsList td {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #5d4a00;
+}
+
+.contributorsList th {
+    font-weight: bold;
+    background-color: #e0d5b8;
+}
+
+.contributorsList td {
+    border-top: 1px solid #e0d5b8;
+}
+
+.contributorsList tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
