@@ -1,0 +1,400 @@
+.bar {
+
+    margin-left : 200px ;
+    margin-bottom: 20px;
+    text-align : "left"; 
+    width: 1475px;
+    height: 5px;
+    background-color: #b39c59;
+  }
+  
+  .bar2 {
+    margin-left : 200px ;
+    margin-top: 20px;
+    text-align : "left"; 
+    width: 1475px;
+    height: 3px;
+    background-color: #b39c59;
+  }
+
+.listposition{
+    margin: 0px 20px;
+     display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 1650px;
+}
+
+.titlename{
+    margin-left:200px;
+    text-align:left;
+}
+
+.listcategory{
+
+    margin-left:200px;
+    border-radius:10px;
+    border-color:#b39c59;
+    height:30px;
+    width:100px;
+    font-size:15px;
+    text-align: center;
+}
+
+.listtype{
+
+    margin-left:10px;
+    border-radius:10px;
+    border-color:#b39c59;
+    height:30px;
+    width:100px;
+    font-size:15px;
+    text-align: center;
+  
+}
+.listsearch{
+    
+    margin-right:10px;
+    border-radius:10px;
+    border-color:#b39c59;
+    height:30px;
+    width:100px;
+    font-size:15px;
+    text-align: center;
+  
+}
+.saleList{
+
+    display:inline-flex;
+    flex-wrap:wrap;
+    width: 1450px;
+    padding: 10px 210px;
+}
+
+.artworks{
+    margin: 20px 20px;
+    border: 3px solid lightgray; 
+    height: 400px;
+    width: 315px;
+    border-radius:1px;
+    background-color: lightgray;
+    
+}
+.arkworktle{
+    margin: 20px 20px;
+    width: 270px;
+    height: 270px;
+    text-align: center;
+    border:2px solid black; 
+}
+
+.arkworkimg{
+    width: 270px;
+    height: 270px;
+}
+.artworkcontentslist{
+    margin: 0px 20px;
+    width: 270px;
+    height: 65px;
+    background-color: white;
+
+}
+.artworkcontent{
+    size : 20px;
+}
+
+.seemore{
+    size : 20px;
+    text-align: center;
+}
+
+/* 판매상세 */
+
+.detailTop{
+
+    margin: 0px auto;
+    width: 1400px;
+    height: 400px;
+    display: flex;
+
+}
+.detailTopLeft{
+
+    width: 400px;
+    height: 400px;
+}
+.detailTopLeftImg{
+    text-align: center;
+    margin: 50px;
+}
+
+.detailTopRight{
+    text-align: center;
+    width: 1070px;
+    height: 400px;
+    
+}
+.detailTopRightTable{
+    display: inline-flex;
+    width: 1000px;
+    height: 300px;
+}
+
+.detailTopRightArtworkName{
+   
+    font-size : 25px;
+    width: 1000px;
+    height: 30px;
+    text-align: center;
+    margin-left : 50px;
+}
+
+.detailtitlearray{
+    text-align: left;
+    margin: auto;
+    margin-left: 50px;
+}
+
+.detailTopRightArray{
+    display: inline-flex;
+    justify-content: space-around;
+    width: 400px;
+    font-size : 20px;
+    height: 25px;
+    margin: 10px;
+    
+}
+
+.colorGold{
+    color: #b39c59;
+}
+
+.detailTopRightArrayFrame{
+    display: inline;
+    width: 500px;
+    font-size : 20px;
+    height: 25px;
+    margin: 10px;
+}
+    
+.detailtitlearraFrame{
+    color: black;
+    text-align: center;
+    width: 220px;
+    border: 1px solid #b39c59;
+    border-radius: 10px;
+}
+.align-center{
+    display: inline-block;;
+    justify-content: center; 
+    align-items: left;      
+}
+.topmiddle{
+    margin: 0px auto;
+    width:  1070px;
+    display: flex;
+   
+  
+}
+.leftgoldheart{
+    width: 400px;
+}
+
+.goldheart{
+    align-items: center;
+}
+
+.totalprice{
+    width: 800px;
+    margin-left: 200px;
+    border: 1px solid #b39c59;
+    display: inline-flex;
+}
+.totalpricetbody{
+    width: 300px;
+}
+.totalpriceleft{
+    display: inline-block;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 15px;
+}
+.totalpriceright{
+    display: inline-block;
+    margin-left: 50px;
+    font-size: 20px;
+    color: #b39c59;
+}
+
+.detailmiddle{
+    margin: 20px auto;
+    width: 1400px;
+    height: 500px;
+    text-align: center;
+}
+.detailmiddleimg{
+    margin: 0px auto;
+    width: 600px;
+    height:  600px;
+}
+.artworkInfo{
+    margin: 100px 200px;
+    width: 1400px;
+    height: 500px;
+    
+}
+.artworkInfoTable{
+    margin:auto; 
+}
+.artworkInfotitle{
+    width: 300px;
+    height: 50px;
+    border: 1px solid lightgray;
+    text-align: center;
+}
+.artworkInfotitleNone{
+    width: 300px;
+    height: 50px;
+    text-align: center;
+}
+.artworkInfocontent{
+    width: 900px;
+    height: 400px;
+    border: 1px solid #c1c1c1;
+    text-align: center;
+    background-color: #F5F5F5;
+}
+
+/* 판매결제 */
+.userInfo{
+    margin: 0px 300px;
+    width: 1400px;
+    display: flex;;
+    float: left;
+    font-size: 20px;
+}
+.userInfoButton{
+    margin-left: 156px;
+
+}
+.userInfoButtonstyle{
+     
+    border: none;
+    border-radius: 40px;
+    padding: 10px 10px;
+    border-color: #b39c59;
+    background-color: white;
+    color: black;
+}
+
+.deltailorder{
+    margin: 0px 200px;
+    display: inline-flex;
+    width: 1400px;
+    align-items: flex-end;
+    justify-content: space-around;
+}
+.deltailorderLefr{
+    border: 1px solid #b39c59;
+    border-radius: 10px;
+    width: 500px;
+    padding: 5px;
+    display: inline-table;
+}
+.imgInfo{
+    margin-left: 10px;
+    width:  20px;
+    height: 20px;
+}
+.deltailorderLefrtitle{
+   
+}
+.deltailorderLefrcontent{
+    
+    padding: 10px;
+    border-radius: 20px;
+}
+.deltailordertotalprice{
+    width: 500px;
+    margin-left: 50px;
+    border: 1px solid #b39c59;
+    display: inline-flex;
+}
+.deltailordertotalpricetbody{
+    width: 400px;
+}
+.deltailordertotalpriceleft{
+    display: inline-block;
+    padding: 2px;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 15px;
+}
+.detaildiv{
+    text-align: center;
+    margin: 50px auto;
+}
+.detailbottombutton{
+    color: #b39c59;
+    background-color: black;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;   
+}
+/* 이용약관 */
+.TermsofUseInfo{
+    margin: 0px 300px;
+}
+.TermsofUseInfoCheckbox{
+    padding:  5px 0px;
+}
+.middleartwork{
+   margin: 0px 300px;
+   display: inline-flex;
+}
+
+.artworkAddInfo{
+    border: 1PX solid #b39c59;
+    width: 700PX;
+    height: 700PX;
+}
+
+.artworkname{
+    margin: 30px 0px 0px 30px;
+    display: inline-flex;
+
+}
+.arworkInfotdTitle{
+    font-size: 18px;
+    color: #b39c59;
+    width: 150px;
+}
+.artworkInfocontent{
+    border: 1px solid #b39c59;
+    border-radius: 20px;
+    width: 400px;
+    height: 30px;
+    text-align: center;
+    padding: 5px 0px 0px 0px;
+}
+
+.artworkimg{
+    border: 1PX solid #b39c59;
+    width: 300px;
+    height: 300px;
+}
+.aerworkInfotd{
+    border: none;
+    border-radius: 10px;   
+}
+
+.artworkmiddle{
+    border: 1px solid #b39c59;
+    border-radius: 20px;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    padding: 5px 0px 0px 0px;
+
+}
