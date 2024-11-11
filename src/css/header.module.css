@@ -41,7 +41,7 @@ a {
     color:#B39C59;
     text-align:center;
 }
-#submenu {
+.submenu {
     list-style: none;
     display: none;
     opacity: 0;
@@ -50,7 +50,7 @@ a {
     margin: 0;
     padding: 0;
 }
-#submenu li {
+.submenu li {
     display: block;
     margin: 0;
     padding: 5px;
