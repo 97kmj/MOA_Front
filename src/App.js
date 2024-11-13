@@ -14,8 +14,8 @@ import MyContributedFunding from "./views/mypage/funding/MyContributedFunding";
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <Main/>
+      {/*<Header/>*/}
+      {/*<Main/>*/}
       {/* <div>
         <Routes>
           <Route exect path='/' element={<Main/>}/>
@@ -25,18 +25,18 @@ function App() {
 
         {/*npm install react-masonry-css*/}
 
-        {/*<FundingList/>*/}
-        {/*<FundingDetail/>*/}
-        {/*<FundingContribute/>*/}
+        <FundingList/>
+        <FundingDetail/>
+        <FundingContribute/>
 
-        {/*<FundingRegistration/>*/}
-        {/*<RewardCreation/>*/}
-        {/*<FundingArtCreation/>*/}
+        <FundingRegistration/>
+        <RewardCreation/>
+        <FundingArtCreation/>
 
 
-        {/*<MyUploadedFunding/>*/}
-        {/*<MyUploadedFundingDetail/>*/}
-        {/*<MyContributedFunding/>*/}
+        <MyUploadedFunding/>
+        <MyUploadedFundingDetail/>
+        <MyContributedFunding/>
 
 
 

@@ -12,8 +12,13 @@ const FundingContribute = () => {
                 <div className={styles.fundingContributeLeft}>
 
                     <header className={styles.fundingContributeHeader}>
-                        <h2>펀딩 결제</h2>
+
                     </header>
+
+                    <div className={styles.breadcrumb}>
+                        펀딩 &gt; 펀딩상세 &gt; 펀딩결제
+                    </div>
+
                     <hr className={styles.fundingContributeSectionDivider}/>
                     {/* 이미지 , 펀딩 */}
                     <div className={styles.fundingContributeMainInfo}>
@@ -32,66 +37,66 @@ const FundingContribute = () => {
                     </div>
 
                     <div className={styles.fundingContributeContent}>
-                    <div className={styles.fundingContributeContentInfo}>
-                        {/* 리워드 정보  */}
-                        <section className={styles.fundingContributeRewardInfo}>
-                            <h4 className={styles.sectionTitle}>
-                                <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
-                                     className={styles.sectionIcon}/>
-                                리워드 정보
-                            </h4>
-                            <div className={styles.fundingContributeRewardItem}>
-                                <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
-                                     className={styles.rewardIcon}/>
-                                <div className={styles.rewardText}>
-                                    <h5>리워드 없는 후원</h5>
-                                    <p>리워드 없는 후원</p>
-                                    <p className={styles.rewardPrice}>100,000원 / 1개</p>
+                        <div className={styles.fundingContributeContentInfo}>
+                            {/* 리워드 정보  */}
+                            <section className={styles.fundingContributeRewardInfo}>
+                                <h4 className={styles.sectionTitle}>
+                                    <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
+                                         className={styles.sectionIcon}/>
+                                    리워드 정보
+                                </h4>
+                                <div className={styles.fundingContributeRewardItem}>
+                                    <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
+                                         className={styles.rewardIcon}/>
+                                    <div className={styles.rewardText}>
+                                        <h5>리워드 없는 후원</h5>
+                                        <p>리워드 없는 후원</p>
+                                        <p className={styles.rewardPrice}>100,000원 / 1개</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className={styles.fundingContributeRewardItem}>
-                                <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
-                                     className={styles.rewardIcon}/>
-                                <div className={styles.rewardText}>
-                                    <h5>조각품 미니어처 5종세트</h5>
-                                    <p>전시된 작품의 미니어처</p>
-                                    <p className={styles.rewardPrice}>100,000원 / 1개</p>
+                                <div className={styles.fundingContributeRewardItem}>
+                                    <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
+                                         className={styles.rewardIcon}/>
+                                    <div className={styles.rewardText}>
+                                        <h5>조각품 미니어처 5종세트</h5>
+                                        <p>전시된 작품의 미니어처</p>
+                                        <p className={styles.rewardPrice}>100,000원 / 1개</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
 
 
-                        <section className={styles.fundingContributeSupporterInfo}>
-                            <h4 className="section-title">👤 후원자 정보</h4>
-                            <div className={styles.supporterDetails}>
-                                <p>이름: 르브론 제임스</p>
-                                <p>연락처: 010-0000-0000</p>
-                            </div>
-                        </section>
+                            <section className={styles.fundingContributeSupporterInfo}>
+                                <h4 className="section-title">👤 후원자 정보</h4>
+                                <div className={styles.supporterDetails}>
+                                    <p>이름: 르브론 제임스</p>
+                                    <p>연락처: 010-0000-0000</p>
+                                </div>
+                            </section>
 
 
-                         <section className={styles.fundingContributeShippingInfo}>
-                             <h4 className="section-title">📦 배송지 정보</h4>
-                             <p className="shipping-note">리워드를 받을 배송지 입력해주세요</p>
+                            <section className={styles.fundingContributeShippingInfo}>
+                                <h4 className="section-title">📦 배송지 정보</h4>
+                                <p className="shipping-note">리워드를 받을 배송지 입력해주세요</p>
 
-                             <div className={styles.shippingDetails}>
-                                 <label>
-                                     <span>이름</span>
-                                     <input type="text" placeholder="이름을 입력하세요"/>
-                                 </label>
-                                 <label>
-                                     <span>연락처</span>
-                                     <input type="text" placeholder="연락처를 입력하세요"/>
-                                 </label>
-                                 <label>
-                                     <span>주소</span>
-                                     <input type="text" placeholder="주소를 입력하세요"/>
-                                 </label>
-                             </div>
+                                <div className={styles.shippingDetails}>
+                                    <label>
+                                        <span>이름</span>
+                                        <input type="text" placeholder="이름을 입력하세요"/>
+                                    </label>
+                                    <label>
+                                        <span>연락처</span>
+                                        <input type="text" placeholder="연락처를 입력하세요"/>
+                                    </label>
+                                    <label>
+                                        <span>주소</span>
+                                        <input type="text" placeholder="주소를 입력하세요"/>
+                                    </label>
+                                </div>
 
-                         </section>
-                     </div>
+                            </section>
+                        </div>
                         {/* 사이드바 */}
                         <aside className={styles.fundingContributeSummary}>
                             <div>
@@ -99,18 +104,18 @@ const FundingContribute = () => {
                                 <p className={styles.totalAmount}>200,000원</p>
                                 <label>
                                     <input type="checkbox"/> 개인정보 제 3자 제공 동의
-                        </label>
-                        <label>
-                            <input type="checkbox"/> 후원 유의사항 확인
-                        </label>
-                        <p className={styles.noticeText}>
-                            ※ 후원 유의사항: 후원자가 만일 중도 취소할 경우 환불 절차가 필요할 수 있습니다.
-                        </p>
-                        <button className={styles.fundingContributeButton}>펀딩하기</button>
-                    </div>
-                </aside>
+                                </label>
+                                <label>
+                                    <input type="checkbox"/> 후원 유의사항 확인
+                                </label>
+                                <p className={styles.noticeText}>
+                                    ※ 후원 유의사항: 후원자가 만일 중도 취소할 경우 환불 절차가 필요할 수 있습니다.
+                                </p>
+                                <button className={styles.fundingContributeButton}>펀딩하기</button>
+                            </div>
+                        </aside>
 
-            </div>
+                    </div>
 
                 </div>
             </div>
