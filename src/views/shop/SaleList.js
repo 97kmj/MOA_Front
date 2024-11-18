@@ -42,7 +42,6 @@ const SaleList = () => {
     
     // }
 
-
     return(
         <>
             <h2 className={styles.titlename}>판매리스트</h2>

@@ -40,7 +40,8 @@ function App() {
     <div className="App">
     
       <Header/>
-      <SaleList/>
+      <SaleOrder/>
+  
       {/* <ShoppingCart/> */}
 
       {/* <SaleOrder/>
