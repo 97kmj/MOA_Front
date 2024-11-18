@@ -1,6 +1,6 @@
 import styles from '../../css/shop/SaleList.module.css';
 import { Checkbox } from '../../views/shop/Checkbox';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 
 
@@ -9,8 +9,11 @@ const Artwork = () => {
     const [category, setCategory] = useState('');
     const [type, setType] = useState('');
     const [theme, setTheme] = useState('');
-    const [canvasAvailable, setCanvasAvailable] = useState(''); // S "국제 캔버스 여부" 
-    // const [canvasType,setCanvasType] = useState('F');
+    const [canvasAvailable, setCanvasAvailable] = useState(''); 
+    const [imgPath, setImgPath] = useState('');
+   
+    
+    const imgRef = useRef(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,7 +35,6 @@ const Artwork = () => {
                 break;
         }
     };
-
 
 
     const getTypeOptions = () => {
@@ -93,6 +95,16 @@ const Artwork = () => {
         console.log(formData);  // Submit formData, or send it to your server
     };
 
+    const handleImagePreview = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImgPath(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     return(
         <>
             <h2 className={styles.titlename}>작품 등록</h2>
@@ -107,14 +119,13 @@ const Artwork = () => {
                 <div className={styles.artworkAddInfo}>
                     <div className={styles.artworkname}>
                         <div className={styles.arworkInfotdTitle}>작품명</div>
-                        <div className={styles.artworkInfocontent}>골드런1234667889</div>
+                        <input className={styles.artworkInfocontent}></input>
                     </div>
                     <div className={styles.artworkname}>
                         <div className={styles.arworkInfotdTitle}>카테고리</div>
                         <select
                             value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                        >
+                            onChange={(e) => setCategory(e.target.value)}>
                             <option value="">카테고리 선택</option>
                             <option value="그림">그림</option>
                             <option value="조소">조소</option>
@@ -192,13 +203,14 @@ const Artwork = () => {
                     </div>
                     <div className={styles.artworkname}>
                         <div className={styles.arworkInfotdTitle}> 가로</div>
-                        <div className={styles.artworkmiddle}>골드런1234667889</div>
+                     
+                        <input className={styles.artworkmiddle} ></input>
                         <div className={styles.arworkInfotdTitle}>세로</div>
-                        <div className={styles.artworkmiddle}>골드런1234667889</div>
+                        <input className={styles.artworkmiddle} ></input>
                     </div>
                     <div className={styles.artworkname}>
                         <div className={styles.arworkInfotdTitle}> 높이</div>
-                        <div className={styles.artworkmiddle}>골드런1234667889</div>
+                        <input className={styles.artworkmiddle} ></input>
                     </div>
                     <div></div>
                     <div className={styles.artworkname}>
@@ -210,21 +222,37 @@ const Artwork = () => {
                     </div>
                     <div className={styles.artworkname}>
                         <div className={styles.arworkInfotdTitle}> 판매 금액</div>
-                        <div className={styles.artworkmiddle}>골드런1234667889</div>
+                        <input className={styles.artworkmiddle} ></input>
                         <div className={styles.arworkInfotdTitle}>수량</div>
-                        <div className={styles.artworkmiddle}>골드런1234667889</div>
+                        <input className={styles.artworkmiddle} ></input>
                     </div>
                 </div>
-                <div> 이거맞음?</div>
+                <div className={styles.artworknameBlankSpace}> </div>
                 <div>
                     <div>대표이미지</div>
-                    <div className={styles.artworkimg}></div>
-                    <div>사진추가</div>
-                    <div className={styles.artworkimg}></div>
+                    <div className={styles.artworkimg}>
+                        <img src={imgPath ? imgPath : './img/search.png'} alt='이미지 업로드' className={styles.artworksearch}/>
+                    </div>
+                    <input
+                        type="file"
+                        id="artworkAdd"
+                        name="artworkAdd"
+                        accept=".png, .jpeg, .jpg"
+                        onChange={handleImagePreview}
+                        ref={imgRef}
+                    />
+                    <div>작품추가</div>
+                    <div>작품추가</div>
                 </div>
             </div>
-            <div>
-                <button type="submit">등록하기</button>
+            <div className={styles.artworkInfobackground}>
+                <div className={styles.artworkInfoAdd}><b>작품설명</b></div>
+                    
+                <input className={styles.artworkInfoInput} style={{ whiteSpace: "pre-wrap" }}/>
+            </div>
+
+            <div className={styles.artworkInfoButton}>
+                <button className={styles.artworkInfoButtonDetail} type="submit" >등록하기</button>
             </div>
         </>
     )

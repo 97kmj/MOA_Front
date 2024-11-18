@@ -1,4 +1,4 @@
-import styles from './SaleList.css';
+import styles from '../../css/shop/SaleList.module.css';
 import { Table, Label, Button , Input} from 'reactstrap';
 import { useState } from 'react';
 
@@ -27,13 +27,13 @@ const SaleDetail = () => {
             <div className={styles.bar}></div>
             <div className={styles.detailTop}>
                 <div className={styles.detailTopLeft}>
-                    <img src='Test.jpg' alt="Artwork Image" className={styles.detailTopLeftImg}/>
+                    <img src='./img/Test.jpg' alt="Artwork Image" className={styles.detailTopLeftImg}/>
                 </div>
                 <div className={styles.detailTopRight}>
                     <div className={styles.detailTopRightArtworkName}>
                         <b>골드런</b>
                     </div>
-                    <div className={styles.detailTopRightArtworkName, styles.colorGold}>
+                    <div className={styles.detailTopRightArtworkprice}>
                         <b>{new Intl.NumberFormat().format(basePrice)}</b>
                     </div>
                     <br />
@@ -55,7 +55,7 @@ const SaleDetail = () => {
                             <tr className={styles.detailTopRightArray}>
                                 <td><Label>STOCK</Label></td>
                             </tr>
-                            <tr className={styles.detailTopRightArray, styles.colorGold}>
+                            <tr className={styles.detailTopRightOption}>
                                 <td><Label>OPTION</Label></td>
                             </tr>
                         </tbody>
@@ -75,11 +75,9 @@ const SaleDetail = () => {
                             <tr className={styles.detailTopRightArray}>
                                 <td><Label>수묵화</Label></td>
                             </tr>
-                            <tr className={styles.detailTopRightArrayFrame}>
-                                {/* <td className='detailtitlearraFrame align-center colorGold'>기본 프레임 +100000</td> &nbsp;&nbsp;&nbsp;
-                                <td className='align-center colorGold'><Button>추천프레임</Button></td> */}
+                            <tr>
                                 <Input
-                                    className={styles.detailtitlearraFrame, styles.align-center ,styles.colorGold}
+                                    className={styles.detailtitlearraFrame}
                                     type="select"
                                     value={selectedFrame}
                                     onChange={(e) => setSelectedFrame(e.target.value)}>
@@ -88,7 +86,7 @@ const SaleDetail = () => {
                                     <option value="basic">기본 프레임 +100000</option>
                                     <option value="premium">고급 프레임 +200000</option>
                                 </Input> &nbsp;&nbsp;&nbsp;
-                                <td className={styles.align-center, styles.colorGold}><Button>추천프레임</Button></td>
+                                <td className={styles.alignCenter}><Button className={styles.frameButton}>추천프레임</Button></td>
 
                             </tr>
                         </tbody>
@@ -102,7 +100,7 @@ const SaleDetail = () => {
                     <img src={styles.goldheart.png}/>
                 </div>
                 <Table className={styles.totalprice}>
-                    <tbody className={totalpricetbody}>
+                    <tbody className={styles.totalpricetbody}>
                         <tr className={styles.totalpricetbody}>
                             <td className={styles.totalpriceleft}><Label>골드런나아가라폭포의 한숨</Label></td>
                         </tr>
@@ -123,7 +121,7 @@ const SaleDetail = () => {
                         </tr>
                         <br></br>
                         <tr>
-                            <td className={totalpriceright}>{new Intl.NumberFormat().format(totalPrice)}</td> &nbsp;&nbsp;&nbsp;
+                            <td className={styles.totalpriceright}>{new Intl.NumberFormat().format(totalPrice)}</td> &nbsp;&nbsp;&nbsp;
                         </tr>
                     </tbody>     
                 </Table>
@@ -131,7 +129,7 @@ const SaleDetail = () => {
             <div className={styles.bar2}></div>
             <br/>
             <div className={styles.detailmiddle}>
-                <img src='TEST.jpg' className={styles.detailmiddleimg}/>
+                <img src='./img/TEST.jpg' className={styles.detailmiddleimg}/>
             </div>
 
             <div className={styles.artworkInfo}>
@@ -148,7 +146,7 @@ const SaleDetail = () => {
                     </tbody>
                 </Table>
             </div>
-            <div className={styles.artworkInfo}>
+            <div className={styles.artworkInfo2}>
                 <Table className={styles.artworkInfoTable}>
                     <tbody>
                         <tr >
