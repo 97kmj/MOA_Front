@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker'; // React Datepicker 라이브러리
 import 'react-datepicker/dist/react-datepicker.css'; // Datepicker 기본 스타일
 import Header from "../Header";
-import SideNav from "./SideNav"; // SideNav 컴포넌트 추가
+import SideNav from "./side"; // SideNav 컴포넌트 추가
 import styles from '../../css/mypage/RegArtworkList.module.css';
 
 function RegArtworkList() {

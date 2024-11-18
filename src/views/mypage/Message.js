@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../css/mypage/Message.module.css';
 import Header from "../Header";
-import SideNav from "./SideNav"; // SideNav 컴포넌트 추가
+import SideNav from "./side"; // SideNav 컴포넌트 추가
 
 function Message() {
     const [activeTab, setActiveTab] = useState('received'); // Default to "받은 메시지"
