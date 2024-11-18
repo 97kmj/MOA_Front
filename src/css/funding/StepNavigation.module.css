@@ -1,0 +1,20 @@
+/* StepNavigation.module.css */
+.stepNavigation {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.step {
+    /*cursor: pointer;*/
+    padding: 5px;
+}
+
+.step:hover {
+    /*text-decoration: underline;*/
+}
+
+.active {
+    font-weight: bold;
+    color: #b29c59;
+}

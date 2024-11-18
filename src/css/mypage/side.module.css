@@ -1,6 +1,3 @@
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -12,8 +9,8 @@ a, a:active, a:focus, a:hover {
   text-decoration: none;
 }
 
-.snb_area {
-    background-color: #000000; /* 배경색을 검정색으로 설정 */
+.snbArea {
+  background-color: #000000; /* 배경색을 검정색으로 설정 */
   color: #B29C58; /* 모든 텍스트 색상을 #B29C58로 설정 */
   padding: 20px;
   margin-right: 40px;
@@ -21,22 +18,20 @@ a, a:active, a:focus, a:hover {
   height: 90%;
 }
 
-.snb_main_title {
-    color: #B29C58; /* 메인 타이틀 색상 */
-
+.snbMainTitle {
+  color: #B29C58; /* 메인 타이틀 색상 */
   font-size: 24px;
   font-weight: 700;
   line-height: 29px;
   padding-bottom: 30px;
 }
 
-.snb_list {
-    color: #B29C58; /* 각 섹션 타이틀 색상 */
-
+.snbList {
+  color: #B29C58; /* 각 섹션 타이틀 색상 */
   margin-top: 40px;
 }
 
-.snb_title {
+.snbTitle {
   color: #B29C58;
   display: flex;
   font-size: 18px;
@@ -46,30 +41,29 @@ a, a:active, a:focus, a:hover {
   align-items: center;
 }
 
-.cart_icon {
-  
+.cartIcon {
   margin-right: 5px;
 }
 
-.menu_item {
-  
+.menuItem {
   list-style-type: none;
   padding: 3px 0;
 }
 
-.menu_item:hover {
+.menuItem:hover {
   background-color: #f0f0f0;
   transition: background-color 0.3s ease;
   border-radius: 8px;
 }
 
-.menu_link {
-    color: #B29C58; /* 링크 색상 */
-    text-decoration: none;  font-size: 13px;
+.menuLink {
+  color: #B29C58; /* 링크 색상 */
+  text-decoration: none;
+  font-size: 13px;
   line-height: 18px;
 }
 
-.menu_item.active .menu_link {
+.menuItemActive .menuLink {
   font-weight: bold;
   color: #d4b678; /* 호버 시 색상을 조금 밝게 변경 */
 }
