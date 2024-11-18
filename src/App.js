@@ -36,66 +36,14 @@ import AdminItem from './views/admin/AdminItem';
 import AdminFrame from './views/admin/AdminFrame';
 import ArtistRegist from './views/mypage/artist/ArtistRegist';
 import ArtistEdit from './views/mypage/artist/ArtistEdit';
-
-
+import MySaleList from './views/mypage/shop/MySaleList';
+import MyOrderList from './views/mypage/shop/MyOrderList';
 function App() {
   return (
     <div className="App">
       <Header/>
-
-      <SaleOrder/>
+      <MyOrderList/>
   
-      <SaleList/>
-
-      {/* <ShoppingCart/> */}
-
-      {/* <SaleOrder/>
- 
-      <SaleAddResult/>
-      <SaleOrderResult/>
-    
-
-      <Artwork/>
-      <SaleList/>
-      <SaleDetail/>
-
-
-
-      <Main/>
-      <Notice/> */}
-
-      {/* <div>
-        <Routes>
-          <Route exect path='/' element={<Main/>}/>
-        </Routes>
-      </div> */}
-
-
-        {/*npm install react-masonry-css*/}
-
-
-        <FundingList/>
-        <FundingDetail/>
-        <FundingContribute/>
-
-
-        {/*<FundingRegistration/>*/}
-        {/*<RewardCreation/>*/}
-        {/*<FundingArtCreation/>*/}
-        <MyUploadedFunding/>
-        <MyUploadedFundingDetail/>
-
-        <MyContributedFunding/>
-
-        <AdminNotice/>
-        <AdminQnA/>
-        <AdminArtist/>
-        <AdminFunding/>
-        <AdminArtwork/>
-        <AdminItem/>
-        <AdminFrame/>
-        <ArtistRegist/>
-        <ArtistEdit/>
 
 
     </div>
