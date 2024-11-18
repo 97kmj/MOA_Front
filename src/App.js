@@ -15,12 +15,25 @@ import FundingArtCreation from "./views/funding/FundingArtCreation";
 import MyUploadedFunding from "./views/mypage/funding/MyUploadedFunding";
 import MyUploadedFundingDetail from "./views/mypage/funding/MyUploadedFundingDetail";
 import MyContributedFunding from "./views/mypage/funding/MyContributedFunding";
+
 import SaleOrderResult from './views/shop/SaleOrderResult';
 import SaleList from './views/shop/SaleList';
 import SaleDetail from './views/shop/SaleDetail';
 import SaleAddResult from './views/shop/SaleAddResult';
 import ShoppingCart from './views/shop/ShoppingCart';
 import SaleOrder from './views/shop/SaleOrder'
+
+import AdminSidebar from './views/admin/AdminSidebar';
+import AdminNotice from './views/admin/AdminNotice';
+import AdminQnA from './views/admin/AdminQnA';
+import AdminArtist from './views/admin/AdminArtist';
+import AdminFunding from './views/admin/AdminFunding';
+import AdminArtwork from './views/admin/AdminArtwork';
+import AdminItem from './views/admin/AdminItem';
+import AdminFrame from './views/admin/AdminFrame';
+import ArtistRegist from './views/mypage/artist/ArtistRegist';
+import ArtistEdit from './views/mypage/artist/ArtistEdit';
+
 
 function App() {
   return (
@@ -66,7 +79,15 @@ function App() {
         <MyUploadedFundingDetail/>
         <MyContributedFunding/> */}
 
-
+        <AdminNotice/>
+        <AdminQnA/>
+        <AdminArtist/>
+        <AdminFunding/>
+        <AdminArtwork/>
+        <AdminItem/>
+        <AdminFrame/>
+        <ArtistRegist/>
+        <ArtistEdit/>
 
     </div>
   );
