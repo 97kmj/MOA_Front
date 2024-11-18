@@ -2,8 +2,17 @@ import React from 'react';
 import styles from'../../css/funding/FundingRegistration.module.css';
 import Header from "../Header";
 import StepNavigation from "./StepNavigation";
+import {useNavigate} from "react-router-dom";
 
 function FundingRegistration() {
+    const navigate = useNavigate();
+
+    const goToNextStep = () => {
+        navigate("/funding/rewardCreation"); // RewardCreation 페이지로 이동
+    };
+
+
+
     return (
 
        <>
@@ -78,7 +87,9 @@ function FundingRegistration() {
                   </div>
               </div>
 
-              <button className={styles.fundingRegistrationSubmit}>다음 단계</button>
+              <button className={styles.fundingRegistrationSubmit}
+                      onClick={goToNextStep}
+              >다음 단계</button>
           </div>
       </div>
        </>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../../css/funding/FundingList.module.css';
 import Header from "../Header";
+import {useNavigate} from "react-router-dom";
 
 
 const FundingList = () => {
@@ -13,6 +14,14 @@ const FundingList = () => {
         amount: '236,000원',
         daysLeft: 17,
     }));
+
+
+    const navigate = useNavigate();
+
+    const goDetailNavigation = () => {
+        navigate(`/fundingDetail/`);
+    };
+
 
     return (
       <>
@@ -32,7 +41,10 @@ const FundingList = () => {
                  </div>
                  <div className={styles.fundingCards}>
                      {fundings.map((funding, index) => (
-                         <div key={index} className={styles.fundingCard}>
+                         <div key={index} className={styles.fundingCard}
+                              onClick={() => goDetailNavigation()} //
+                         >
+
                              <img src={funding.imageUrl} alt={funding.title}/>
                              <div className={styles.fundingInfo}>
                                  <h3>{funding.title}</h3>

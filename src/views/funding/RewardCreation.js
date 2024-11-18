@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import styles from '../../css/funding/RewardCreation.module.css';
 import Header from "../Header";
 import StepNavigation from "./StepNavigation";
+import {useNavigate} from "react-router-dom";
 const RewardCreation = () => {
+    const navigate = useNavigate();
+
+    const goToNextStep = () => {
+        navigate("/funding/artCreation"); // 다음 단계 경로로 이동
+    };
+
+
     const [rewardList, setRewardList] = useState([
         { id: 1, name: '리워드 없는 후원', description: '리워드 없는 후원', price: 100000, quantity: 1 }
     ]);
@@ -163,7 +171,9 @@ const RewardCreation = () => {
                         ))}
                     </section>
                 </div>
-                    <button className={styles.rewardCreationNextStepButton}>다음 단계</button>
+                    <button className={styles.rewardCreationNextStepButton}
+                            onClick={goToNextStep}
+                    >다음 단계</button>
             </div>
            </div>
         </>

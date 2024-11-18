@@ -3,6 +3,7 @@ import styles from '../../css/funding/FundingDetail.module.css';
 
 import Header from "../Header";
 import MasonryGallery from "./MasonryGallery";
+import {useNavigate} from "react-router-dom";
 
 
 const FundingDetail = () => {
@@ -82,6 +83,15 @@ const FundingDetail = () => {
             lastSelectedRewardRef.current.scrollIntoView({behavior:'smooth',block:'center'});
         }
     },[selectedRewards])
+
+
+    const navigate = useNavigate();
+
+    const handleContribute = () => {
+        // 후원 경로로 이동
+        navigate("/funding/contribute", {
+        });
+    };
 
 
     return (
@@ -180,7 +190,9 @@ const FundingDetail = () => {
                     {/* 총 금액 표시와 후원하기 버튼 start */}
                     {selectedRewards.length > 0 && (
                         <div className={styles.totalSupport}>
-                            <button className={styles.rewardButton}>총 {totalAmount.toLocaleString()}원 후원하기</button>
+                            <button className={styles.rewardButton}
+                                    onClick={handleContribute}
+                            >총 {totalAmount.toLocaleString()}원 후원하기</button>
                         </div>
                     )}
                     {/* 총 금액 표시와 후원하기 end */}

@@ -36,68 +36,14 @@ import AdminItem from './views/admin/AdminItem';
 import AdminFrame from './views/admin/AdminFrame';
 import ArtistRegist from './views/mypage/artist/ArtistRegist';
 import ArtistEdit from './views/mypage/artist/ArtistEdit';
+import AppRouter from "./routes/AppRouter";
 
 
 function App() {
-  return (
-    <div className="App">
-      <Header/>
-
-      <SaleOrder/>
-
-      <SaleList/>
-
-      {/* <ShoppingCart/> */}
-
-      {/* <SaleOrder/>
- 
-      <SaleAddResult/>
-      <SaleOrderResult/>
-
-
-      <Artwork/>
-      <SaleList/>
-      <SaleDetail/>
+    return <AppRouter/>;
 
 
 
-      <Main/>
-      <Notice/> */}
-
-      {/* <div>
-        <Routes>
-          <Route exect path='/' element={<Main/>}/>
-        </Routes>
-      </div> */}
-
-
-        {/*npm install react-masonry-css*/}
-
-
-        <FundingList/>
-        <FundingDetail/>
-        <FundingContribute/>
-
-
-        {/*<FundingRegistration/>*/}
-        {/*<RewardCreation/>*/}
-        {/*<FundingArtCreation/>*/}
-        <MyUploadedFunding/>
-        <MyUploadedFundingDetail/>
-        <MyContributedFunding/>
-
-        <AdminNotice/>
-        <AdminQnA/>
-        <AdminArtist/>
-        <AdminFunding/>
-        <AdminArtwork/>
-        <AdminItem/>
-        <AdminFrame/>
-        <ArtistRegist/>
-        <ArtistEdit/>
-
-    </div>
-  );
 }
 
 export default App;
