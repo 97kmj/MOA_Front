@@ -98,22 +98,25 @@ const SaleDetail = () => {
                     <tbody className={styles.deltailorderLeft}>
                         <tr>
                             <td><img src='./img/User.png' className={styles.imgInfo} /></td>
-                            <td className={styles.deltailorderLefttilte}>이 &nbsp;&nbsp;&nbsp;름 :</td>
+                            <td className={styles.deltailorderLefttilte}>이 &nbsp;&nbsp;름 :</td>
                             <td colSpan="2" className={styles.deltailorderLeftContent}>수목원</td>
                         </tr>
+                        <br/>
                         <tr>
                             <td><img src='./img/Phone.png' className={styles.imgInfo} /></td>
                             <td className={styles.deltailorderLefttilte}>연락처 :</td>
                             <td colSpan="2" className={styles.deltailorderLeftContent}>010-6429-****</td>
                         </tr>
+                        <br/>
                         <tr>
                             <td><img src='./img/Letter.png' className={styles.imgInfo} /></td>
                             <td className={styles.deltailorderLefttilte}>이메일 :</td>
                             <td colSpan="2" className={styles.deltailorderLeftContent}>junyung123456789@naver.com</td>
                         </tr>
+                        <br/>
                         <tr>
                             <td><img src='./img/City.png' className={styles.imgInfo} /></td>
-                            <td className={styles.deltailorderLefttilte}>주 &nbsp;&nbsp;&nbsp;소 :</td>
+                            <td className={styles.deltailorderLefttilte}>주 &nbsp;&nbsp;소 :</td>
                             <td colSpan="2" className={styles.deltailorderLeftContent}>경기도 안양시 동안로 14-10 이스케이프 룸 5층 가나다라마바사아자차카파타하</td>
                         </tr>
                     </tbody>
