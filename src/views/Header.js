@@ -18,7 +18,7 @@ const Header = () => {
                     <li><a href="">NOTICE/FAQ</a></li>
                     {/* { user.role=='ARTIST' && */}
                         
-                        <li>REGIST&nbsp;
+                        <li className={styles.regist}>REGIST&nbsp;
                             <img src="/img/Sort Down.png"/>
                             <ul className={styles.submenu}>
                                 <li><a href="">Artwork</a></li>

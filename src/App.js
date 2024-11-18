@@ -36,13 +36,15 @@ import AdminItem from './views/admin/AdminItem';
 import AdminFrame from './views/admin/AdminFrame';
 import ArtistRegist from './views/mypage/artist/ArtistRegist';
 import ArtistEdit from './views/mypage/artist/ArtistEdit';
+
+import ArtistDetail from './views/user/ArtistDetail';
+
 import AppRouter from "./routes/AppRouter";
+
 
 
 function App() {
     return <AppRouter/>;
-
-
 
 }
 
