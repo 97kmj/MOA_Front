@@ -121,15 +121,14 @@
 }
 
 .loadMore {
-    font-size: 16px;
+    font-size: 25px;
     padding: 10px 20px;
     border: none;
-    background-color: #ddd;
+    color: #b29c59;
+    background-color: #333;
     cursor: pointer;
     border-radius: 5px;
+    font-weight: bold;
     transition: background-color 0.2s;
 }
 
-.loadMore:hover {
-    background-color: #ccc;
-}
