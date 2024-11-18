@@ -3,7 +3,7 @@
     margin:0 auto;
     padding:0;
 }
-.header-text {
+.headerText {
     border-bottom: #B39C59 5px solid;
     width: 1500px;
     display: inline-block;
@@ -15,7 +15,7 @@
     width: 1240px;
     margin-left: 130px;
 }
-.notice-list {
+.noticeList {
     align-items: center;
 }
 
@@ -25,11 +25,11 @@
 ul {
     padding-inline-start: 0;
 }
-.notice-list ul li {
+.noticeList ul li {
     padding:20px;
     margin:10px auto;
 }
-.notice-list ul li:hover {
+.noticeList ul li:hover {
     border:#B39C59 2px solid;
     cursor: pointer;
 }
