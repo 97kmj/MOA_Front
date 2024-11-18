@@ -15,6 +15,14 @@ import FundingArtCreation from "./views/funding/FundingArtCreation";
 import MyUploadedFunding from "./views/mypage/funding/MyUploadedFunding";
 import MyUploadedFundingDetail from "./views/mypage/funding/MyUploadedFundingDetail";
 import MyContributedFunding from "./views/mypage/funding/MyContributedFunding";
+
+import SaleOrderResult from './views/shop/SaleOrderResult';
+import SaleList from './views/shop/SaleList';
+import SaleDetail from './views/shop/SaleDetail';
+import SaleAddResult from './views/shop/SaleAddResult';
+import ShoppingCart from './views/shop/ShoppingCart';
+import SaleOrder from './views/shop/SaleOrder'
+
 import AdminSidebar from './views/admin/AdminSidebar';
 import AdminNotice from './views/admin/AdminNotice';
 import AdminQnA from './views/admin/AdminQnA';
@@ -30,12 +38,24 @@ import ArtistEdit from './views/mypage/artist/ArtistEdit';
 function App() {
   return (
     <div className="App">
+    
       <Header/>
+      <SaleList/>
+      {/* <ShoppingCart/> */}
 
+      {/* <SaleOrder/>
+ 
+      <SaleAddResult/>
+      <SaleOrderResult/>
+    
       <Artwork/>
+      <SaleList/>
+      <SaleDetail/>
+
+
 
       <Main/>
-      <Notice/>
+      <Notice/> */}
 
       {/* <div>
         <Routes>
@@ -46,7 +66,7 @@ function App() {
 
         {/*npm install react-masonry-css*/}
 
-        <FundingList/>
+        {/* <FundingList/>
         <FundingDetail/>
         <FundingContribute/>
 
@@ -57,7 +77,7 @@ function App() {
 
         <MyUploadedFunding/>
         <MyUploadedFundingDetail/>
-        <MyContributedFunding/>
+        <MyContributedFunding/> */}
 
         <AdminNotice/>
         <AdminQnA/>
