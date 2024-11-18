@@ -1,0 +1,79 @@
+.joinContainer {
+    background-color: #FFFFFF;
+    border: 2px solid #B39C59;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.joinTitle {
+    text-align: center;
+    color: #B39C59;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+}
+
+/* Form Styling */
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.formGroup label {
+    display: block;
+    color: #B39C59;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: center;
+}
+
+.inputGroup input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #B39C59;
+    border-radius: 4px;
+}
+
+.inputGroup button {
+    margin-left: 8px;
+    background-color: #B39C59;
+    color: #FFFFFF;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Input Field Styling */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #B39C59;
+    border-radius: 4px;
+}
+
+/* Submit Button Styling */
+.submitButton {
+    width: 100%;
+    background-color: #B39C59;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.submitButton:hover {
+    background-color: #9e8a45;
+}

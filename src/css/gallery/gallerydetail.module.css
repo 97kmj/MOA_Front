@@ -1,0 +1,81 @@
+.galleryDetailContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.galleryDisplayArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.smallImageArea {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.smallImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  margin-right: 20px;
+}
+
+.imageDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.imageTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.likeButton {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.likeButton:hover {
+  background-color: #ff3b3b;
+}
+
+.largeImageArea {
+  margin-bottom: 20px;
+}
+
+.largeImage {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.artDescription {
+  text-align: center;
+}
+
+.descriptionBox {
+  width: 300px;
+  height: 100px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}

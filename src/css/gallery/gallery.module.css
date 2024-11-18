@@ -1,0 +1,170 @@
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #f97316;
+  margin-bottom: 8px;
+}
+
+.separator {
+  width: 100%;
+  border: none;
+  height: 4px;
+  background-color: #b39c59;
+  margin-bottom: 16px;
+}
+
+.viewButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btnActive {
+  background-color: #f97316;
+  color: #fff;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownBtn {
+  background-color: #e5e7eb;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 10;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f3f4f6;
+}
+
+.dropdownCheckbox {
+  margin-right: 8px;
+}
+
+.search {
+  display: flex;
+}
+
+.searchInput {
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+}
+
+.searchBtn {
+  padding: 8px;
+  background-color: #e5e7eb;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.cardImage {
+  width: 100%;
+  height: 192px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.galleryView {
+  display: flex;
+  perspective: 1000px;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  position: relative;
+}
+
+.galleryCard {
+  width: 200px;
+  height: 300px;
+  background-color: #444;
+  position: absolute;
+  transition: transform 0.5s ease;
+  transform-origin: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  overflow: hidden;
+}
+
+.galleryImage {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.galleryTitle {
+  padding: 8px;
+  font-size: 1rem;
+  color: #f97316;
+}

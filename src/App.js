@@ -15,17 +15,20 @@ import FundingArtCreation from "./views/funding/FundingArtCreation";
 import MyUploadedFunding from "./views/mypage/funding/MyUploadedFunding";
 import MyUploadedFundingDetail from "./views/mypage/funding/MyUploadedFundingDetail";
 import MyContributedFunding from "./views/mypage/funding/MyContributedFunding";
+import RegArtworkList from './views/mypage/regArtworkList';
+import Gallery from './views/gallery/gallery';
+import GalleryDetail from './views/gallery/gallerydetail';
 
 
 function App() {
   return (
     <div className="App">
       <Header/>
-
+{/* 
       <Artwork/>
 
       <Main/>
-      <Notice/>
+      <Notice/> */}
 
       {/* <div>
         <Routes>
@@ -36,7 +39,7 @@ function App() {
 
         {/*npm install react-masonry-css*/}
 
-        <FundingList/>
+        {/* <FundingList/>
         <FundingDetail/>
         <FundingContribute/>
 
@@ -47,9 +50,12 @@ function App() {
 
         <MyUploadedFunding/>
         <MyUploadedFundingDetail/>
-        <MyContributedFunding/>
+        <MyContributedFunding/> */}
 
-
+          <RegArtworkList/>
+          <Gallery/>
+          <GalleryDetail/>
+      
 
     </div>
   );
