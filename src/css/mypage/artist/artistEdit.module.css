@@ -2,7 +2,7 @@
     margin:0;
     padding:0;
     text-align: center;
-
+    display: flex;
 }
 .body{ 
     width:1000px;
@@ -44,6 +44,7 @@
 
 .goldbutton {
     height: 38px;
+    padding:0 10px 0 10px;
     font-size: 14px;
     border-radius: 34px;
     border: 1px solid #B39C59;
@@ -54,4 +55,27 @@
     background-color: white;
     color: #B39C59;
     cursor: pointer;
+}
+
+.imgUploadbox  label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+}
+.imgUploadbox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+.imgUploadbox{
+    margin-top:10px;
+    margin-bottom: 10px;
+    text-align: left;
 }

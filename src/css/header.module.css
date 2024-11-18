@@ -61,7 +61,7 @@ a {
     width:70px;
 }
 
-li:hover #submenu {
+.regist:hover .submenu {
     opacity: 1;
     display: block;
 }

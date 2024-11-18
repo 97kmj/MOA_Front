@@ -52,6 +52,7 @@
 .goldbutton {
     height: 38px;
     font-size: 14px;
+    padding:0 10px 0 10px;
     border-radius: 34px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
@@ -66,8 +67,8 @@
 .noticeDetail {
     background-color: white;
     border: 1px solid #B39C49;
-    margin: 50px 30px 50px 30px;
-    width: 1000px;
+    margin: 50px auto;
+    width:850px;    
     padding:30px;
     text-align: left;
 }

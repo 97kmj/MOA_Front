@@ -46,6 +46,7 @@
 
 .goldbutton {
     height: 38px;
+    padding:0 10px 0 10px;
     font-size: 14px;
     border-radius: 34px;
     border: 1px solid #B39C59;

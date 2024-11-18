@@ -36,18 +36,18 @@ import AdminItem from './views/admin/AdminItem';
 import AdminFrame from './views/admin/AdminFrame';
 import ArtistRegist from './views/mypage/artist/ArtistRegist';
 import ArtistEdit from './views/mypage/artist/ArtistEdit';
-import MySaleList from './views/mypage/shop/MySaleList';
-import MyOrderList from './views/mypage/shop/MyOrderList';
+
+
+import ArtistDetail from './views/user/ArtistDetail';
+
+import AppRouter from "./routes/AppRouter";
+
+
+
 function App() {
-  return (
-    <div className="App">
-      <Header/>
-      <MyOrderList/>
-  
+    return <AppRouter/>;
 
 
-    </div>
-  );
 }
 
 export default App;
