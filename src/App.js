@@ -1,7 +1,13 @@
 import './App.css';
-import {Routes, Route} from 'react-router-dom';
+// import {Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import Header from './views/Header';
 import Main from './views/user/Main';
+
+import Login from './views/user/login';
+import Join from './views/user/join';
+
 
 import Artwork from './views/shop/ArtworkAdd';
 import Notice from './views/user/Notice';
@@ -36,7 +42,8 @@ import AdminItem from './views/admin/AdminItem';
 import AdminFrame from './views/admin/AdminFrame';
 import ArtistRegist from './views/mypage/artist/ArtistRegist';
 import ArtistEdit from './views/mypage/artist/ArtistEdit';
-
+import Message from './views/mypage/Message';
+import SideNav from './views/mypage/side';
 
 import ArtistDetail from './views/user/ArtistDetail';
 
@@ -46,7 +53,6 @@ import AppRouter from "./routes/AppRouter";
 
 function App() {
     return <AppRouter/>;
-
 
 }
 

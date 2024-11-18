@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../css/user/join.module.css";
+import styles from "../../css/user/Join.module.css";
 
 function Join() {
     return (
