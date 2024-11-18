@@ -1,7 +1,7 @@
 import React from 'react';
 import  styles from '../../../css/mypage/funding/MyUploadedFundingDetail.module.css';
 import Header from "../../Header";
-import SideNav from "../side";
+import SideNav from "../SideNav";
 
 function MyUploadedFundingDetail() {
     const contributors = [

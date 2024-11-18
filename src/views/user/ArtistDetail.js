@@ -1,5 +1,5 @@
 import Header from "../Header";
-import styles from "../../css/user/artistDetail.module.css"
+import styles from "../../css/user/ArtistDetail.module.css"
 const ArtistDetail = () => {
     return(
         <>

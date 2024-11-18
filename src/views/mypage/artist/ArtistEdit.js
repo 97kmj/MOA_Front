@@ -1,6 +1,6 @@
 import Header from "../../Header";
 import styles from "../../../css/mypage/artist/artistEdit.module.css"
-import SideNav from "../side";
+import SideNav from "../SideNav";
 
 const ArtistEdit = () => {
     const profileUpload = (e) => {

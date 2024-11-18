@@ -1,5 +1,5 @@
 import AdminSidebar from "./AdminSidebar";
-import styles from "../../css/admin/adminItem.module.css";
+import styles from "../../css/admin/AdminItem.module.css";
 const AdminItem = () => {
     return(
         <>

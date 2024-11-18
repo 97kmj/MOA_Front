@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"; // 스타일 파일 임포트
 import styles from '../../../css/mypage/MyPageSaleList.module.css';
-import SideNav from '../../../views/mypage/side';
+import SideNav from '../../../views/mypage/SideNav';
 
 function MyContributedFunding() {
     const itemsPerPage = 5; // Items per page

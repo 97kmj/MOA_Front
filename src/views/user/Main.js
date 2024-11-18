@@ -1,4 +1,4 @@
-import styles from '../../css/user/main.module.css';
+import styles from '../../css/user/Main.module.css';
 import Header from '../Header';
 
 const Main = () => {

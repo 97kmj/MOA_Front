@@ -1,6 +1,6 @@
 import { useAtom } from "jotai/react";
 import { userAtom } from "../atoms";
-import styles from '../css/header.module.css';
+import styles from '../css/Header.module.css';
 
 
 const Header = () => {
