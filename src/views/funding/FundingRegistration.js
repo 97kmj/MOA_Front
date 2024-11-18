@@ -8,7 +8,7 @@ function FundingRegistration() {
     const navigate = useNavigate();
 
     const goToNextStep = () => {
-        navigate("/funding/rewardCreation"); // RewardCreation 페이지로 이동
+        navigate("/funding/new/rewards"); // RewardCreation 페이지로 이동
     };
 
 

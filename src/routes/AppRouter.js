@@ -22,23 +22,26 @@ function AppRouter() {
                 <Route path="/" element={<Main />} />
 
                 {/*펀딩*/}
-                <Route path="/fundingList" element={<FundingList />} />
-                <Route path="/fundingDetail" element={<FundingDetail />} />
-                <Route path="/funding/contribute" element={<FundingContribute />} />
+                <Route path="/fundings" element={<FundingList />} />
+                <Route path="/fundings/:id" element={<FundingDetail />} />
+                <Route path="/fundings/:id/contributions" element={<FundingContribute />} />
+
+
                 <Route path="/galleryExam" element={<GalleryExam />} />
 
-                <Route path="/funding/registration" element={<FundingRegistration />} />
-                <Route path="/funding/rewardCreation" element={<RewardCreation />} />
-                <Route path="/funding/artCreation" element={<FundingArtCreation />} />
-                <Route path="/funding/fundingRegistrationThankYou" element={<FundingRegistrationThankYou />} />
+                <Route path="/funding/new" element={<FundingRegistration />} />
+                <Route path="/funding/new/rewards" element={<RewardCreation />} />
+                <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
+                <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
+
+
+
 
 
                 {/* 마이페이지*/}
-                <Route path="/mypage/myUploadedFunding" element={<MyUploadedFunding />} />
-                <Route path="/mypage/myUploadedFundingDetail" element={<MyUploadedFundingDetail />} />
-                <Route path="/mypage/myContributedFunding" element={<MyContributedFunding />} />
-
-
+                <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
+                <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
+                <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
 
             </Routes>
         </Router>

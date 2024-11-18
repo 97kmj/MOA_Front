@@ -9,8 +9,13 @@ import {useNavigate} from "react-router-dom";
 const FundingDetail = () => {
     const [selectedRewards, setSelectedRewards] = useState([]);
     const lastSelectedRewardRef = useRef(null);
+    const rewardSectionRef = useRef(null);
 
 
+    const fundButtonToMoveRewardSection = () => {
+        // 리워드 섹션으로 스크롤 이동
+        rewardSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
     const images = [
         "image1.jpg",
         "image2.jpg",
@@ -26,6 +31,7 @@ const FundingDetail = () => {
         "image6.png"
         // 필요한 만큼 이미지 추가
     ];
+
 
 
 
@@ -87,11 +93,13 @@ const FundingDetail = () => {
 
     const navigate = useNavigate();
 
-    const handleContribute = () => {
+    const goToContribute = (id) => {
         // 후원 경로로 이동
-        navigate("/funding/contribute", {
-        });
+        navigate(`/fundings/${id}/contributions`);
     };
+
+    //펀딩 버튼 누르면 리워드로 선택으로 이동
+
 
 
     return (
@@ -128,7 +136,10 @@ const FundingDetail = () => {
                     </p>
                     <p>목표 금액: 500,000원</p>
                     <p>펀딩 기간: 2024.09.15 - 2024.10.30</p>
-                    <button className={styles.fundButton}>펀딩하기</button>
+
+                    <button className={styles.fundButton} onClick={fundButtonToMoveRewardSection}>
+                        펀딩하기
+                    </button>
                 </div>
                 {/*펀딩 디테일 소개 정보 end*/}
 
@@ -161,7 +172,9 @@ const FundingDetail = () => {
                 {/*프로젝트 계획 end*/}
 
                 {/*리워드 섹션 start*/}
-                <div className={styles.rewardSelection}>
+                <div className={styles.rewardSelection}
+                     ref={rewardSectionRef}
+                >
                     <h4>리워드 선택</h4>
                     {/* 선택된 리워드 카드들 start */}
                     {selectedRewards.map((reward, index) => (
@@ -191,7 +204,7 @@ const FundingDetail = () => {
                     {selectedRewards.length > 0 && (
                         <div className={styles.totalSupport}>
                             <button className={styles.rewardButton}
-                                    onClick={handleContribute}
+                                    onClick={()=>goToContribute(123)}
                             >총 {totalAmount.toLocaleString()}원 후원하기</button>
                         </div>
                     )}

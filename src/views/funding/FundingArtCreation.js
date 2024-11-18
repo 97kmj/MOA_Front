@@ -42,7 +42,7 @@ function FundingArtCreation() {
     const navigate = useNavigate();
 
     const fundingRegistrationThankYou = () => {
-        navigate("/funding/fundingRegistrationThankYou");
+        navigate("/funding/new/thankYou");
     };
 
 

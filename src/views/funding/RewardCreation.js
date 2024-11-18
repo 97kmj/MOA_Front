@@ -7,7 +7,7 @@ const RewardCreation = () => {
     const navigate = useNavigate();
 
     const goToNextStep = () => {
-        navigate("/funding/artCreation"); // 다음 단계 경로로 이동
+        navigate("/funding/new/artworks"); // 다음 단계 경로로 이동
     };
 
 

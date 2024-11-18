@@ -18,8 +18,8 @@ const FundingList = () => {
 
     const navigate = useNavigate();
 
-    const goDetailNavigation = () => {
-        navigate(`/fundingDetail/`);
+    const goDetailNavigation = (id) => {
+        navigate(`/fundings/${id}`);
     };
 
 
@@ -35,14 +35,18 @@ const FundingList = () => {
                  <div className={styles.customSelect}>
                      <select>
                          <option>최신순</option>
-                         {/* 다른 정렬 옵션 추가 가능 */}
+                         <option>진행중 펀딩</option>
+                         <option>완료된 펀딩</option>
+                         <option>공개예정 펀딩</option>
                      </select>
                  </div>
-                 </div>
-                 <div className={styles.fundingCards}>
-                     {fundings.map((funding, index) => (
-                         <div key={index} className={styles.fundingCard}
-                              onClick={() => goDetailNavigation()} //
+
+
+             </div>
+             <div className={styles.fundingCards}>
+                 {fundings.map((funding, index) => (
+                     <div key={index} className={styles.fundingCard}
+                          onClick={() => goDetailNavigation(123)} //
                          >
 
                              <img src={funding.imageUrl} alt={funding.title}/>
@@ -64,7 +68,7 @@ const FundingList = () => {
                  </div>
 
                  <div className={styles.loadMoreContainer}>
-                     <button className={styles.loadMore}>더 보기</button>
+                     <button className={styles.loadMore}>+</button>
                  </div>
              </div>
          </div>
