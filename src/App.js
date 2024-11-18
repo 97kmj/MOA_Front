@@ -25,18 +25,18 @@ function App() {
 
         {/*npm install react-masonry-css*/}
 
-        <FundingList/>
-        <FundingDetail/>
-        <FundingContribute/>
+        {/*<FundingList/>*/}
+        {/*<FundingDetail/>*/}
+        {/*<FundingContribute/>*/}
 
-        <FundingRegistration/>
-        <RewardCreation/>
-        <FundingArtCreation/>
+        {/*<FundingRegistration/>*/}
+        {/*<RewardCreation/>*/}
+        {/*<FundingArtCreation/>*/}
 
 
-        <MyUploadedFunding/>
-        <MyUploadedFundingDetail/>
-        <MyContributedFunding/>
+        {/*<MyUploadedFunding/>*/}
+        {/*<MyUploadedFundingDetail/>*/}
+        {/*<MyContributedFunding/>*/}
 
 
 
