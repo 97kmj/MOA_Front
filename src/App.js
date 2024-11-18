@@ -38,7 +38,6 @@ import ArtistEdit from './views/mypage/artist/ArtistEdit';
 function App() {
   return (
     <div className="App">
-    
       <Header/>
       <SaleList/>
       {/* <ShoppingCart/> */}
@@ -66,18 +65,18 @@ function App() {
 
         {/*npm install react-masonry-css*/}
 
-        {/* <FundingList/>
+
+        <FundingList/>
         <FundingDetail/>
         <FundingContribute/>
 
-        <FundingRegistration/>
-        <RewardCreation/>
-        <FundingArtCreation/>
 
-
+        {/*<FundingRegistration/>*/}
+        {/*<RewardCreation/>*/}
+        {/*<FundingArtCreation/>*/}
         <MyUploadedFunding/>
         <MyUploadedFundingDetail/>
-        <MyContributedFunding/> */}
+        <MyContributedFunding/>
 
         <AdminNotice/>
         <AdminQnA/>

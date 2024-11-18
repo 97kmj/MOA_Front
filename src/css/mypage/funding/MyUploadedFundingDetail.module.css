@@ -18,7 +18,7 @@
     border: 1px solid #e0d5b8;
     padding: 20px;
     border-radius: 8px;
-    background-color: #f9f7f4;
+    /*background-color: #f9f7f4;*/
     margin-bottom: 20px;
 }
 
@@ -54,7 +54,7 @@
 .contributorsList {
     border: 1px solid #e0d5b8;
     border-radius: 8px;
-    background-color: #f9f7f4;
+    /*background-color: #f9f7f4;*/
     overflow-x: auto;
 }
 
@@ -73,11 +73,11 @@
 
 .contributorsList th {
     font-weight: bold;
-    background-color: #e0d5b8;
+    background-color: #b39c59;
 }
 
 .contributorsList td {
-    border-top: 1px solid #e0d5b8;
+    border-top: 1px solid #b29c59;
 }
 
 .contributorsList tr:nth-child(even) {
