@@ -45,31 +45,15 @@ import ArtistEdit from './views/mypage/artist/ArtistEdit';
 import Message from './views/mypage/Message';
 import SideNav from './views/mypage/side';
 
+import ArtistDetail from './views/user/ArtistDetail';
+
+import AppRouter from "./routes/AppRouter";
+
+
 
 function App() {
-  return (
-    <div >
-    <Router>
-      <Routes>
-      {/* <Route path="/" element={<Login />} />
-      <Route path="/join" element={<Join />} />  */}
-      <Route path="/" element={<Gallery />} />
-      <Route path="/detail/:id" element={<GalleryDetail />} />
-    </Routes>
-  </Router>
-  
-  {/* <RegArtworkList/> */}
-  
-  {/* <Gallery/>
-  <GalleryDetail/> */}
-  {/* <MyContributedFunding/>
-  <MyUploadedFunding/>
-  <RegArtworkList/> */}
-  
-  {/* <Message/>
-  <RegArtworkList/> */}
-    </div>
-  );
+    return <AppRouter/>;
+
 }
 
 export default App;

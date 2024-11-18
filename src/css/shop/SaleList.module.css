@@ -194,7 +194,7 @@
 .deltailorderLeftContent{
     border: 1px solid #b39c59;
     border-radius: 20px;
-    padding: 0px 10px;
+    padding: 5px 10px;
 }
 
 .colorGold{
@@ -751,6 +751,6 @@
     cursor: pointer;
     padding: 8px 15px;
     font-weight: bold;
-
-    
   }
+
+  

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from '../../css/funding/FundingArtCreation.module.css';
 import Header from "../Header";
 import StepNavigation from "./StepNavigation";
+import {useNavigate} from "react-router-dom";
 
 function FundingArtCreation() {
     const [fundingTitle, setFundingTitle] = useState('');
@@ -36,6 +37,14 @@ function FundingArtCreation() {
             setArtWorkImage(null);
         }
     };
+
+
+    const navigate = useNavigate();
+
+    const fundingRegistrationThankYou = () => {
+        navigate("/funding/new/thankYou");
+    };
+
 
     return (
         <>
@@ -145,7 +154,9 @@ function FundingArtCreation() {
                 </div>
 
                 <div>
-                    <button className={styles.FundingArtCreationSubmitButton}>펀딩 신청</button>
+                    <button className={styles.FundingArtCreationSubmitButton}
+                            onClick={fundingRegistrationThankYou}
+                    >펀딩 신청</button>
                 </div>
             </div>
         </>

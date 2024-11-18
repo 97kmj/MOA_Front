@@ -1,12 +1,13 @@
 import styles from '../../css/user/notice.module.css';
+import Header from '../Header';
 const Notice = () => {
     const showNotice = (e) => {
         console.log(e.target.nextElementSibling)
-        
         e.target.nextElementSibling.style.display='block';
     }
     return(
         <>
+        <Header/>
         <div className={styles.container}>
             <div className={styles.headerText}>
                 <h2 align="center">공지사항</h2>
