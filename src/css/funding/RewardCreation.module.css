@@ -1,46 +1,47 @@
-.rewardCreationHeader{
+.rewardCreationHeader {
     width: 86%;
-
     margin-left: 3%;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
 }
 
 .rewardCreationContainer {
-
     display: flex;
-
     flex-direction: column;
-
     width: 92%;
-    padding: 3% 21px 21px 8%;
+    padding: 3% 21px 21px 11%;
+    border-radius: 10px;
+    /*box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);*/
 }
 
-.rewardCreationOutForm{
+.rewardCreationOutForm {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding-left: 5%;
-    padding-top: 1%;
+    /*padding-top: 1%;*/
+    gap: 20px;
 }
 
-
-.rewardCreationSectionDivider{
+.rewardCreationSectionDivider {
     margin: 20px 0;
     border: none;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #e0e0e0;
 }
 
 .rewardCreationForm {
-    width: 40%;
-    padding: 20px;
+    width: 45%;
+    padding: 25px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .rewardCreationTitle {
-    font-size: 1.2em;
+    font-size: 1.4em;
     margin-bottom: 15px;
     font-weight: bold;
+    color: #333;
 }
 
 .rewardCreationFormSection {
@@ -51,19 +52,28 @@
 
 .rewardCreationFormSection label {
     font-weight: bold;
+    color: #495057;
     margin-bottom: 5px;
 }
 
 .rewardCreationInput {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #b29c59;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #495057;
+    background-color: #fff;
+    transition: border-color 0.3s;
+    font-weight: bold;
+}
+
+.rewardCreationInput:focus {
 }
 
 .rewardCreationCheckboxGroup {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .rewardCreationCheckbox {
@@ -73,42 +83,54 @@
 }
 
 .rewardCreationNumberInput {
-    width: 50px;
-    padding: 5px;
+    width: 60px;
+    padding: 6px;
     text-align: center;
     border: 1px solid #b29c59;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #495057;
+    background-color: #fff;
 }
 
 .rewardCreationAddRewardButton {
-    padding: 10px 20px;
+    padding: 12px 24px;
     background-color: #333;
     color: #b29c59;
     border: none;
-    border-radius: 17px;
+    border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
-    margin-left: 39%;
-    width: 21%;
-    /* padding-left: 1%; */
+    width: 20%;
+    margin: 15px auto;
+    display: block;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
 
+.rewardCreationAddRewardButton:hover {
 }
 
 .rewardCreationList {
     width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .rewardCreationItem {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #f9f9f9;
-    width: 74%;
+    width: 80%;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s;
+}
+
+.rewardCreationItem:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .rewardCreationIcon {
@@ -117,17 +139,22 @@
     margin-right: 15px;
 }
 
-.rewardCreationInfo h5 {
+.rewardCreationInfo h3 {
     font-weight: bold;
-    color: #b29c59;
+    color: #333;
+    margin: 0;
 }
 
-
-.rewardCreationDescription{
+.rewardCreationDescription {
+    color: #666;
+    font-size: 14px;
+    margin: 5px 0;
 }
-.rewardCreationPrice{
+
+.rewardCreationPrice {
     font-weight: bold;
     color: #b29c59;
+    font-size: 16px;
 }
 
 .rewardCreationDeleteButton {
@@ -136,22 +163,27 @@
     cursor: pointer;
     background: none;
     border: none;
+    font-size: 18px;
+    transition: color 0.3s;
 }
 
-/* Bottom Button */
+.rewardCreationDeleteButton:hover {
+}
+
 .rewardCreationNextStepButton {
-    width: 21%;
-    padding: 15px 0;
+    width: 17%;
+    padding: 15px;
     font-size: 18px;
     color: #b29c59;
     background-color: #333;
     border: none;
-    /* border-radius: 5px; */
+    border-radius: 8px;
     cursor: pointer;
     text-align: center;
-    margin-left: 37%;
-    margin-top: 5%;
+    margin-left: 35%;
+    margin-top: 3%;
     font-weight: bold;
+    display: block;
+    transition: background-color 0.3s, transform 0.3s;
 }
-
 

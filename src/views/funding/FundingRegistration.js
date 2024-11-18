@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from'../../css/funding/FundingRegistration.module.css';
 import Header from "../Header";
+import StepNavigation from "./StepNavigation";
 
 function FundingRegistration() {
     return (
@@ -8,8 +9,9 @@ function FundingRegistration() {
        <>
            <Header/>
       <div className={styles.fundingRegistrationOutForm}>
+              <StepNavigation currentStep="펀딩 등록" />
           <div className={styles.fundingRegistration}>
-              <h2>펀딩 등록</h2>
+              {/*<h2>펀딩 등록</h2>*/}
 
               {/* 목표 금액 및 펀딩 일정 안내 */}
               <div className={styles.fundingRegistrationInfo}>

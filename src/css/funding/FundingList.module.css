@@ -3,6 +3,12 @@
     padding: 6% 10% 10%;
 }
 
+.fundingTitle{
+    color: #888;
+    height: 11px;
+    font-size: 14px;
+}
+
 .fundingList h2 {
     font-size: 24px;
     font-weight: bold;

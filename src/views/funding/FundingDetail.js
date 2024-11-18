@@ -4,6 +4,7 @@ import styles from '../../css/funding/FundingDetail.module.css';
 import Header from "../Header";
 import MasonryGallery from "./MasonryGallery";
 
+
 const FundingDetail = () => {
     const [selectedRewards, setSelectedRewards] = useState([]);
     const lastSelectedRewardRef = useRef(null);

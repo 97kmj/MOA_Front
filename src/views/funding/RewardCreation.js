@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../css/funding/RewardCreation.module.css';
 import Header from "../Header";
+import StepNavigation from "./StepNavigation";
 const RewardCreation = () => {
     const [rewardList, setRewardList] = useState([
         { id: 1, name: '리워드 없는 후원', description: '리워드 없는 후원', price: 100000, quantity: 1 }
@@ -47,10 +48,11 @@ const RewardCreation = () => {
         <>
             <Header/>
 
+           <div>
             <div className={styles.rewardCreationContainer}>
+                    <StepNavigation currentStep="리워드 등록" />
                 <div className={styles.rewardCreationHeader}>
-                    <h3 className="">리워드 등록</h3>
-                    <hr className={styles.rewardCreationSectionDivider}/>
+                    {/*<hr className={styles.rewardCreationSectionDivider}/>*/}
                 </div>
                 <div className={styles.rewardCreationOutForm}>
                     <div className={styles.rewardCreationForm}>
@@ -163,6 +165,7 @@ const RewardCreation = () => {
                 </div>
                     <button className={styles.rewardCreationNextStepButton}>다음 단계</button>
             </div>
+           </div>
         </>
     );
 };

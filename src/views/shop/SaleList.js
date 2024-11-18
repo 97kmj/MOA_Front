@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {Col,Button,FormGroup,Input,Table, Pagination,PaginationItem,PaginationLink} from 'reactstrap';
-import styles from './SaleList.css';
+import styles from '../../css/shop/SaleList.module.css';
 
 const options = [
     { value: "iron", name: "아이언"},
@@ -73,8 +73,8 @@ const SaleList = () => {
                     </select>
 
                 </div>
-                <div style={{textAlign:"center", width:"100px", display: "inline", border:"2px"}}>
-                        &nbsp;&nbsp;&nbsp;검색&nbsp;&nbsp;&nbsp;
+                <div className={styles.artistsearch}>
+                       <input/>&nbsp;<button>검색</button>
                     </div>
                 <>    
                     <select className={styles.listsearch}>
@@ -155,7 +155,7 @@ const SaleList = () => {
                 </div>
             </div>
             <div className={styles.seemore}>
-                <img className={styles.seemore} src="./seemore.png"></img>
+                <img className={styles.seemore} src="./img/seemore.png"></img>
             </div>                    
             {/* <FormGroup row>
                 <Col sm={3}>

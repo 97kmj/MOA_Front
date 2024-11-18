@@ -1,0 +1,22 @@
+.sidebar {
+    width:280px;
+    margin:0;
+    padding:0;
+    background-color: white;
+    border-right: #b39C59 1px solid;
+}
+
+.sidemenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom:1px solid #b39C59;
+    padding:10px 0px 0px 0px;
+}
+
+.sidemenu:hover {
+    background-color: #b39C59;
+    cursor: pointer;
+}
