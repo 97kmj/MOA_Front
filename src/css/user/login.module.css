@@ -1,0 +1,96 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  height: 100vh;
+}
+
+.loginSideText {
+  margin-right: 150px;
+  text-align: right;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 50px;
+  color: #b39c59;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.loginBox {
+  width: 350px;
+  padding: 30px;
+  border: 3px solid #b39c59;
+  border-radius: 0px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.loginTitle {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #b39c59;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.inputLabel {
+  display: block;
+  margin: 10px 0 5px;
+  color: #b39c59;
+  font-weight: bold;
+  text-align: left;
+}
+
+.inputBox {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #b39c59;
+  border-radius: 10px;
+}
+
+.loginButton,
+.signupButton,
+.findButton {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #b39c59;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.findOptions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.findButton {
+  width: 48%;
+  padding: 10px;
+  background-color: #b39c59;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.socialLogin {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.socialButton {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}

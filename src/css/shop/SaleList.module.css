@@ -178,6 +178,9 @@
     margin: 10px;
     
 }
+.deltailOrderTr{
+    margin: 10px 0px;
+}
 .detailTopRightOption{
     display: inline-flex;
     justify-content: space-around;
@@ -188,7 +191,11 @@
     color: #b39c59;
     
 }
-
+.deltailorderLeftContent{
+    border: 1px solid #b39c59;
+    border-radius: 20px;
+    padding: 0px 10px;
+}
 
 .colorGold{
     color: #b39c59;
@@ -327,6 +334,7 @@
 
 }
 .userInfoButtonstyle{
+    
     margin-bottom: 5px;
     margin-right: 10px;
     border-radius: 20px;
