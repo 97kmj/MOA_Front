@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import styles from "../../css/gallery/gallery.module.css";
+import { useNavigate } from "react-router-dom";
+import styles from "../../css/gallery/Gallery.module.css";
 
-// Dropdown 컴포넌트
 const Dropdown = ({ label, options }) => {
-  const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림/닫힘 상태
+  const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   return (
@@ -25,37 +25,43 @@ const Dropdown = ({ label, options }) => {
 };
 
 const Gallery = () => {
-  const [viewMode, setViewMode] = useState("list"); // 초기 뷰 모드: 리스트
-  const [visibleCount, setVisibleCount] = useState(8); // 표시할 카드 수
+  const [viewMode, setViewMode] = useState("list");
+  const [visibleCount, setVisibleCount] = useState(8);
+  const navigate = useNavigate();
 
-  // 데이터 배열
   const data = Array.from({ length: 40 }).map((_, index) => ({
     id: index + 1,
     title: `작품 설명 ${index + 1}`,
-    image: `https://via.placeholder.com/300x200?text=작품+${index + 1}`, // 샘플 이미지
+    image: `https://via.placeholder.com/300x200?text=작품+${index + 1}`,
   }));
 
-  const loadMore = () => setVisibleCount(visibleCount + 8); // 더보기 버튼 클릭 시 8개 추가
+  const loadMore = () => setVisibleCount(visibleCount + 8);
+
+  const handleCardClick = (id) => {
+    navigate(`/detail/${id}`);
+  };
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>GALLERY</h1>
-        <hr className={styles.separator} />
-        <div className={styles.viewButtons}>
-          <button
-            className={`${styles.btn} ${viewMode === "gallery" ? styles.btnActive : ""}`}
-            onClick={() => setViewMode("gallery")}
-          >
-            갤러리로 보기
-          </button>
-          <button
-            className={`${styles.btn} ${viewMode === "list" ? styles.btnActive : ""}`}
-            onClick={() => setViewMode("list")}
-          >
-            리스트로 보기
-          </button>
+        <div className={styles.headerTop}>
+          <h1 className={styles.title}>GALLERY</h1>
+          <div className={styles.viewButtons}>
+            <button
+              className={`${styles.btn} ${viewMode === "gallery" ? styles.btnActive : ""}`}
+              onClick={() => setViewMode("gallery")}
+            >
+              갤러리로 보기
+            </button>
+            <button
+              className={`${styles.btn} ${viewMode === "list" ? styles.btnActive : ""}`}
+              onClick={() => setViewMode("list")}
+            >
+              리스트로 보기
+            </button>
+          </div>
         </div>
+        <hr className={styles.separator} />
       </header>
 
       <div className={styles.filters}>
@@ -77,7 +83,11 @@ const Gallery = () => {
       {viewMode === "list" ? (
         <div className={styles.galleryGrid}>
           {data.slice(0, visibleCount).map((item) => (
-            <div className={styles.card} key={item.id}>
+            <div
+              className={styles.card}
+              key={item.id}
+              onClick={() => handleCardClick(item.id)}
+            >
               <img src={item.image} alt={item.title} className={styles.cardImage} />
               <h2 className={styles.cardTitle}>{item.title}</h2>
             </div>

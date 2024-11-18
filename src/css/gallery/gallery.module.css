@@ -11,11 +11,18 @@
   margin-bottom: 16px;
 }
 
+.headerTop {
+  display: flex;
+  justify-content: space-between; /* 제목과 버튼 간 여백 추가 */
+  align-items: center; /* 수직 정렬 */
+  width: 100%; /* 전체 폭 */
+}
+
 .title {
   font-size: 1.875rem;
   font-weight: bold;
-  color: #f97316;
-  margin-bottom: 8px;
+  color: #b39c59;
+  margin-bottom: 0; /* 여백 제거 */
 }
 
 .separator {
@@ -23,7 +30,7 @@
   border: none;
   height: 4px;
   background-color: #b39c59;
-  margin-bottom: 16px;
+  margin: 8px 0 16px; /* 위아래 여백 조정 */
 }
 
 .viewButtons {
@@ -40,7 +47,7 @@
 }
 
 .btnActive {
-  background-color: #f97316;
+  background-color: #b39c59;
   color: #fff;
 }
 
@@ -167,4 +174,24 @@
   padding: 8px;
   font-size: 1rem;
   color: #f97316;
+}
+
+.loadMore {
+  display: flex; /* 플렉스 박스 사용 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin: 32px auto; /* 위아래 여백 및 수평 중앙 정렬 */
+  grid-column: span 4; /* 카드 그리드의 가운데 위치 */
+}
+
+.loadMore .btn {
+  background-color: #b39c59;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.loadMore .btn:hover {
+  background-color: #a2844f;
 }

@@ -1,69 +1,114 @@
-import React from 'react';
-import styles from '../../css/mypage/regArtworkList.module.css';
-import SideNav from './side';
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker'; // React Datepicker 라이브러리
+import 'react-datepicker/dist/react-datepicker.css'; // Datepicker 기본 스타일
+import Header from "../Header";
+import SideNav from "./SideNav"; // SideNav 컴포넌트 추가
+import styles from '../../css/mypage/RegArtworkList.module.css';
 
 function RegArtworkList() {
-  return (
-    <div className={styles.containerMy}>
-      {/* 사이드 네비게이션 */}
-      <SideNav />
+    const [startDate, setStartDate] = useState(null); // 시작 날짜
+    const [endDate, setEndDate] = useState(null); // 종료 날짜
+    const [activeTab, setActiveTab] = useState('recent'); // Default to "최근 1개월"
 
-      {/* 메인 컨텐츠 */}
-      <div className={styles.contentArea}>
-        <div className={styles.myBidlist}>
-          <div className={`${styles.contentTitle} ${styles.contentTitleBorder}`}>
-            <div className={styles.title}>
-              <h2>등록작품목록</h2>
-            </div>
-          </div>
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
 
-          {/* 필터 */}
-          <form action="#" method="get">
-            <div className={styles.filters}>
-              <button type="submit" name="num" value="1">최근 1개월</button>
-              <button type="submit" name="num" value="3">3개월</button>
-              <button type="submit" name="num" value="6">6개월</button>
-              <input
-                type="text"
-                id="daterange"
-                name="daterange"
-                style={{ width: '200px' }}
-              />
-              <input type="hidden" id="startDate" name="startDate" />
-              <input type="hidden" id="endDate" name="endDate" />
-              <button type="submit">조회</button>
-            </div>
-          </form>
+    const handleSearch = () => {
+        if (startDate && endDate) {
+            console.log(`기간 검색: ${startDate.toISOString()} - ${endDate.toISOString()}`);
+        }
+    };
 
-          {/* 작품 리스트 */}
-          <div className={styles.itemContainer}>
-            <div className={styles.item}>
-              <span>목표금액</span>
-            </div>
-            <div className={styles.item}>
-              <span>최종가</span>
-            </div>
-            <div className={styles.item}>
-              <span>펀딩종료일</span>
-            </div>
-          </div>
+    const artworkList = [
+        { id: 1, title: "작품 1", goalAmount: "100,000 원", finalPrice: "90,000 원", endDate: "2024-11-11" },
+        { id: 2, title: "작품 2", goalAmount: "200,000 원", finalPrice: "180,000 원", endDate: "2024-11-12" },
+        // ... 추가 항목
+    ];
 
-          {/* 작품 항목 - 기본 레이아웃 */}
-          <div className={styles.historyItem}>
-            <img src="/img/sample.jpg" alt="작품 이미지" />
-            <div className={styles.historyContent}>
-              <span>작품 제목</span>
+    return (
+        <>
+            <Header />
+            <div className={styles.regArtworkListContainer}>
+                {/* Side Navigation */}
+                <SideNav />
+
+                {/* Main Content */}
+                <div className={styles.regArtworkMainContent}>
+                    <h2>등록작품목록</h2>
+
+                    {/* Tabs with DatePicker */}
+                    <div className={styles.regArtworkTabsContainer}>
+                        <div className={styles.regArtworkTabs}>
+                            <button
+                                className={activeTab === 'recent' ? 'active' : ''}
+                                onClick={() => handleTabClick('recent')}
+                            >
+                                최근 1개월
+                            </button>
+                            <button
+                                className={activeTab === 'threeMonths' ? 'active' : ''}
+                                onClick={() => handleTabClick('threeMonths')}
+                            >
+                                3개월
+                            </button>
+                            <button
+                                className={activeTab === 'sixMonths' ? 'active' : ''}
+                                onClick={() => handleTabClick('sixMonths')}
+                            >
+                                6개월
+                            </button>
+                        </div>
+                        <div className={styles.dateRangePicker}>
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                selectsStart
+                                startDate={startDate}
+                                endDate={endDate}
+                                placeholderText="시작 날짜"
+                            />
+                            <DatePicker
+                                selected={endDate}
+                                onChange={(date) => setEndDate(date)}
+                                selectsEnd
+                                startDate={startDate}
+                                endDate={endDate}
+                                placeholderText="종료 날짜"
+                            />
+                            <button onClick={handleSearch} className={styles.searchButton}>
+                                검색
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Artwork List */}
+                    <div className={styles.regArtworkListItems}>
+                        {artworkList.map((artwork) => (
+                            <div key={artwork.id} className={styles.regArtworkItem}>
+                                <img src="https://via.placeholder.com/60" alt="artwork" className={styles.regArtworkItemImg} />
+                                <div className={styles.regArtworkItemDetails}>
+                                    <h4>{artwork.title}</h4>
+                                    <p>목표금액: {artwork.goalAmount}</p>
+                                    <p style={{ color: 'red' }}>최종가: {artwork.finalPrice}</p>
+                                    <p>마감일: {artwork.endDate}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Pagination */}
+                    <div className={styles.regArtworkPagination}>
+                        <button>&lt;</button>
+                        <button className="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>&gt;</button>
+                    </div>
+                </div>
             </div>
-            <div className={styles.prices}>
-              <span>목표금액: 100,000원</span>
-              <span style={{ color: 'red' }}>최종가: 90,000원</span>
-              <span>2024-11-11</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+        </>
+    );
 }
 
 export default RegArtworkList;
