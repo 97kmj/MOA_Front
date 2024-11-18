@@ -1,7 +1,7 @@
 import Header from "../../Header";
 import { useState } from "react";
 import styles from "../../../css/mypage/artist/artistRegist.module.css";
-import SideNav from "../side";
+import SideNav from "../SideNav";
 const ArtistRegist = () => {
 
     const [portfolioName, setPortfolioName] = useState('');

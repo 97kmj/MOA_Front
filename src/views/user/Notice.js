@@ -1,4 +1,4 @@
-import styles from '../../css/user/notice.module.css';
+import styles from '../../css/user/Notice.module.css';
 import Header from '../Header';
 const Notice = () => {
     const showNotice = (e) => {

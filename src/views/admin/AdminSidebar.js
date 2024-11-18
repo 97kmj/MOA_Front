@@ -1,4 +1,4 @@
-import styles from "../../css/admin/adminside.module.css"
+import styles from "../../css/admin/Adminside.module.css"
 const AdminSidebar = () => {
     return(
         <div className={styles.sidebar}>

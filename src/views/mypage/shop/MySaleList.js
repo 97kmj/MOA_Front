@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"; // 날짜 picker 스타일 파일
 import styles from '../../../css/mypage/MyPageSaleList.module.css';
-import SideNav from '../../../views/mypage/side';
+import SideNav from '../../../views/mypage/SideNav';
 
 function MyContributedFunding() {
     const [activeTab, setActiveTab] = useState('all'); // Default to "전체 보기"
