@@ -49,6 +49,8 @@
     border: none;
     border-radius: 50px; /* 버튼에 둥근 모서리 적용 */
     cursor: pointer;
+    margin-bottom: 0.5rem;
+
 }
 
 /* Input Field Styling */

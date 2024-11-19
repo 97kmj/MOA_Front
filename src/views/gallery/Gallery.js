@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
-import Header from "../Header"; // Header 컴포넌트 import
+import Header from "../Header";
 
 const Dropdown = ({ label, options }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,8 +26,10 @@ const Dropdown = ({ label, options }) => {
 };
 
 const Gallery = () => {
-  const [viewMode, setViewMode] = useState("list");
-  const [visibleCount, setVisibleCount] = useState(8);
+  const [viewMode, setViewMode] = useState("gallery");
+  const [visibleCount, setVisibleCount] = useState(8); // 리스트 모드에서 더보기로 로드할 개수
+  const [currentIndex, setCurrentIndex] = useState(0); // 갤러리 모드에서 중심 이미지 인덱스
+  const [slideDirection, setSlideDirection] = useState(""); // 슬라이드 방향 (left/right)
   const navigate = useNavigate();
 
   const data = Array.from({ length: 40 }).map((_, index) => ({
@@ -36,7 +38,30 @@ const Gallery = () => {
     image: `https://via.placeholder.com/300x200?text=작품+${index + 1}`,
   }));
 
-  const loadMore = () => setVisibleCount(visibleCount + 8);
+  const loadMore = () => setVisibleCount((prev) => prev + 8);
+
+  const handlePrev = () => {
+    setSlideDirection("left"); // 왼쪽 이동
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
+    }, 300); // 애니메이션 시간과 동기화
+  };
+
+  const handleNext = () => {
+    setSlideDirection("right"); // 오른쪽 이동
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % data.length);
+    }, 300); // 애니메이션 시간과 동기화
+  };
+
+  const visibleItems = (() => {
+    // 현재 인덱스를 기준으로 5개의 데이터를 계산
+    const items = [];
+    for (let i = 0; i < 5; i++) {
+      items.push(data[(currentIndex + i) % data.length]);
+    }
+    return items;
+  })();
 
   const handleCardClick = (id) => {
     navigate(`/detail/${id}`);
@@ -45,7 +70,6 @@ const Gallery = () => {
   return (
     <>
       <Header />
-      
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.headerTop}>
@@ -84,7 +108,35 @@ const Gallery = () => {
           </div>
         </div>
 
-        {viewMode === "list" ? (
+        {viewMode === "gallery" && (
+          <div className={styles.galleryView}>
+            <button className={styles.arrowLeft} onClick={handlePrev}>
+              ◀
+            </button>
+            <div className={`${styles.galleryItems} ${styles[slideDirection]}`}>
+              {visibleItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`${styles.galleryItem} ${
+                    index === 2 ? styles.centerItem : ""
+                  }`}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className={styles.galleryImage}
+                  />
+                  <h2 className={styles.galleryTitle}>{item.title}</h2>
+                </div>
+              ))}
+            </div>
+            <button className={styles.arrowRight} onClick={handleNext}>
+              ▶
+            </button>
+          </div>
+        )}
+
+        {viewMode === "list" && (
           <div className={styles.galleryGrid}>
             {data.slice(0, visibleCount).map((item) => (
               <div
@@ -103,25 +155,6 @@ const Gallery = () => {
                 </button>
               </div>
             )}
-          </div>
-        ) : (
-          <div className={styles.galleryView}>
-            {data.map((item, index) => (
-              <div
-                className={styles.galleryCard}
-                key={item.id}
-                style={{
-                  transform: `rotateY(${index * 15}deg) translateZ(300px)`,
-                }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className={styles.galleryImage}
-                />
-                <h2 className={styles.galleryTitle}>{item.title}</h2>
-              </div>
-            ))}
           </div>
         )}
       </div>
