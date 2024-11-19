@@ -1,7 +1,18 @@
 import Header from "../Header";
 import styles from "../../css/user/ArtistDetail.module.css"
+import { useState } from "react";
 const ArtistDetail = () => {
-    return(
+    const [modalOpen,setModalOpen] = useState(false);
+
+    const showModal = () => {
+        setModalOpen(true);
+        
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+    
+    return(        
         <>
         <Header/>
         <div className={styles.container}>
@@ -12,7 +23,7 @@ const ArtistDetail = () => {
                     <div className={styles.artistImgBox}>
                         <img className={styles.artistImg}/>
                     </div>
-                    <div><b>홍길동</b> &nbsp;<button className={styles.goldbutton}>쪽지 보내기</button></div>
+                    <div><b>홍길동</b> &nbsp;<button className={styles.messagebutton} onClick={showModal}>쪽지 보내기</button></div>
                     <div className={styles.likecount}>
                         <img src="/img/heart.svg" />&nbsp;&nbsp;&nbsp;222&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/?size=40&id=5215&format=png&color=B39C59"/>&nbsp;&nbsp;&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <img src="https://img.icons8.com/?size=40&id=15892&format=png&color=B39C49"/>&nbsp;&nbsp;&nbsp;11
@@ -60,6 +71,27 @@ const ArtistDetail = () => {
 
             </div>
         </div>
+        {
+            modalOpen &&
+            <div className={styles.modalBackground}>
+
+                <div className={styles.modalContainer}>
+                    <button className={styles.close} onClick={closeModal}><img src='https://img.icons8.com/?size=15&id=71200&format=png&color=B39C49'/></button>
+                    <h3>작가에게 쪽지보내기</h3>
+                    <div>제목</div>
+                    <input></input>
+                    <br/>
+                    <div>내용 </div>
+                    <br/>
+                    <textarea></textarea>
+                    <div className={styles.buttonDiv}>
+                        <button className={styles.sendbutton}>쪽지보내기</button>
+                    </div>
+                </div>
+            </div>
+            
+        }
+
         </>
     )
 }
