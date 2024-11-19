@@ -10,7 +10,7 @@ import Login from "../views/user/Login";
 import RegArtworkList from "../views/mypage/RegArtworkList";
 import Gallery from "../views/gallery/Gallery";
 import GalleryDetail from "../views/gallery/GalleryDetail";
-import Message from "../views/mypage/Message";
+
 
 import FundingList from "../views/funding/FundingList";
 import FundingDetail from "../views/funding/FundingDetail";
@@ -24,8 +24,7 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
-import SaleDetail from "../views/shop/SaleOrder";
-import SaleList from "../views/shop/SaleList";
+
 
 import AdminNotice from "../views/admin/AdminNotice";
 
@@ -83,14 +82,14 @@ function AppRouter() {
                 <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
                 {/* 판매 */}
-                <Route path="/shop/ArtworkAdd" element={<ArtworkAdd />} />
-                <Route path="/shop/RecommendFrame/:frameId" element={<RecommendFrame />} />
-                <Route path="/shop/SaleAddResult/:artworkId" element={<SaleAddResult />} />
-                <Route path="/shop/SaleDetail/:artworkId" element={<SaleDetail />} />
-                <Route path="/shop/SaleList" element={<SaleList />} />
-                <Route path="/shop/SaleOrder/:artworkId" element={<SaleOrder />} />
-                <Route path="/shop/SaleOrderResult/:frameId" element={<SaleOrderResult />} />
-                <Route path="/shop/ShoppingCart/:artworkId" element={<ShoppingCart />} />
+                <Route path="/shop/artworkAdd" element={<ArtworkAdd />} />
+                <Route path="/shop/recommendFrame/:frameId" element={<RecommendFrame />} />
+                <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
+                <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail />} />
+                <Route path="/shop/saleList" element={<SaleList />} />
+                <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
+                <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
+                <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
 
 
 

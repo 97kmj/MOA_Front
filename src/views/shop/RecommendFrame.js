@@ -7,16 +7,16 @@ const RecommendFrame = () => {
   
   // List of frame images
   const frameImages = [
-    './img/액자1.png',
-    './img/액자2.png',
-    './img/액자3.png',
+    '/img/액자1.png',
+    '/img/액자2.png',
+
   ];
 
 
   const frameClasses=[
     styles.frameArtwork1,
     styles.frameArtwork2,
-    styles.frameArtwork3
+
   ];
 
 
@@ -34,14 +34,14 @@ const RecommendFrame = () => {
 
 
   return (
-    <>
-      <h2 className={styles.titlename}>추천프레임</h2>
+    <div className={styles.container}>
+      <h3 className={styles.titlename}>추천프레임</h3>
       <div className={styles.bar}></div>
       <div className={styles.recommendFrame}>
         {/* Left move button */}
         <div className={styles.frameMoveButtonSetting}>
           <img
-            src='./img/LEFT.PNG'
+            src='/img/LEFT.PNG'
             className={styles.frameMoveButton}
             onClick={handleLeftClick}
             alt="Move Left"
@@ -51,21 +51,21 @@ const RecommendFrame = () => {
         {/* Image frame selection */}
         <div className={styles.recommendFrametile}>
           <img
-            src='./img/TEST.jpg'
+            src='/img/sample1.webp'
             className={frameClasses[selectedFrame]}
             alt="Artwork"
           />
-          <img
+          {/* { <img
             src={frameImages[selectedFrame]}
             className={styles.frameImgchoice}
             alt="Selected Frame"
-          />
+          /> } */}
           
         </div>
 
         <div className={styles.frameMoveButtonSetting}>
           <img
-            src='./img/RIGHT.PNG'
+            src='/img/RIGHT.PNG'
             className={styles.frameMoveButton}
             onClick={handleRightClick}
             alt="Move Right"
@@ -85,7 +85,7 @@ const RecommendFrame = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -60,6 +60,15 @@ const SaleDetail = () => {
                                 </tr>
                                 <tr className={styles.detailTopRightOption}>
                                     <td><Label>OPTION</Label></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <Button className={styles.buttonDarkStyle}><b>ADD TO CART</b></Button>
+                                    </td>
+                                    <td>
+                                     <Button className={styles.buttonDarkStyle}><b>결제하기</b></Button>
+                                     </td>
                                 </tr>
                             </tbody>
                             <tbody className={styles.detailtitlearray}>
@@ -96,9 +105,6 @@ const SaleDetail = () => {
                                     <td className={styles.alignCenter}><Button className={styles.frameButton}>추천프레임</Button></td>
 
                                 </tr>
-                                <tr>
-                                    <Button className={styles.buttonDarkStyle}><b>ADD TO CART</b></Button>&nbsp;&nbsp;&nbsp;&nbsp; <Button className={styles.buttonDarkStyle}><b>결제하기</b></Button>
-                                </tr>
                             </tbody>
                         </Table>
 
@@ -109,29 +115,27 @@ const SaleDetail = () => {
             
                 <div className={styles.topmiddle}>
                     <div className={styles.leftgoldheart}>
-                        <img src={styles.goldheart.png}/>
+                        <img src='/img/goldheart.png'/>
                     </div>
                     <Table className={styles.totalprice}>
                         <tbody className={styles.totalpricetbody}>
-                            <tr className={styles.totalpricetbody}>
+                            <tr>
                                 <td className={styles.totalpriceleft}><Label>골드런나아가라폭포의 한숨</Label></td>
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceleft}> {framename[selectedFrame]} </td>&nbsp;&nbsp;&nbsp;
                             </tr>
-                            <br/>
                             <tr>
                                 <td className={styles.totalpriceright} >총 금액 </td>&nbsp;&nbsp;&nbsp;
                             </tr>
                         </tbody>
-                        <tbody className={styles.totalpricetbody}>
-                        <tr className={styles.totalpricetbody}>
+                        <tbody className={styles.totalpricetbody2}>
+                            <tr>
                                 <td className={styles.totalpriceleft}>{new Intl.NumberFormat().format(basePrice)}</td>
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceleft}>+{new Intl.NumberFormat().format(framePrices[selectedFrame])}</td>
                             </tr>
-                            <br></br>
                             <tr>
                                 <td className={styles.totalpriceright}>{new Intl.NumberFormat().format(totalPrice)}</td> &nbsp;&nbsp;&nbsp;
                             </tr>
