@@ -1,0 +1,137 @@
+.container {
+    padding: 50px 11%;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*margin-bottom: 20px;*/
+    padding-top: 1%;
+}
+
+.selectGroup {
+    display: flex;
+    gap: 10px;
+}
+
+.filter {
+    padding: 7px 13px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    background-color: #fff;
+    font-size: 15px;
+
+}
+
+
+
+.searchGroup {
+    align-items: center;
+    gap: 1px;
+    margin-left: 57%;
+}
+
+.searchInput {
+    width: 200px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.searchButton {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.bar {
+    height: 2px;
+    margin-top: 10px;
+    border-top: 2px solid #b39c59;
+}
+.grid {
+    padding-top: 1%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 450px; /* 移대뱶�� 怨좎젙 �믪씠 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.imageWrapper {
+    width: 100%;
+    height: 60%; /* �대�吏� �곸뿭 鍮꾩쑉 怨좎젙 */
+    /*background-color: #f4f4f4;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.image {
+    max-width: 100%; /* �대�吏�媛� 移대뱶�� �덈퉬瑜� �섏� �딅룄濡� */
+    max-height: 100%; /* �대�吏�媛� 移대뱶�� �믪씠瑜� �섏� �딅룄濡� */
+    object-fit: contain; /* �대�吏� 鍮꾩쑉 �좎� */
+}
+
+.info {
+    padding: 15px;
+    background-color: #ffffff;
+    border-top: 1px solid #eaeaea;
+    text-align: left;
+    height: 73%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.artist {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.category {
+    font-size: 12px;
+    color: #999;
+}
