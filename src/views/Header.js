@@ -14,7 +14,7 @@ const Header = () => {
                 <ul>
                     <li><a href="">GALLERY</a></li>
                     <li><a href= "">SHOP</a></li>
-                    <li><a href="">FUNDING</a></li>
+                    <li><a href="/fundings">FUNDING</a></li>
                     <li><a href="">NOTICE/FAQ</a></li>
                     {/* { user.role=='ARTIST' && */}
                         
@@ -22,7 +22,7 @@ const Header = () => {
                             <img src="/img/Sort Down.png"/>
                             <ul className={styles.submenu}>
                                 <li><a href="">Artwork</a></li>
-                                <li><a href="">Funding</a></li>
+                                <li><a href="/funding/new">Funding</a></li>
                             </ul>
                         </li>
                         

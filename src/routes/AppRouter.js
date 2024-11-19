@@ -12,6 +12,8 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
+import SaleDetail from "../views/shop/SaleOrder";
+import SaleList from "../views/shop/SaleList";
 
 import AdminNotice from "../views/admin/AdminNotice";
 
@@ -59,6 +61,7 @@ function AppRouter() {
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
 
 
+
                 {/* 판매 */}
                 <Route path="/shop/ArtworkAdd" element={<ArtworkAdd />} />
                 <Route path="/shop/RecommendFrame/:frameId" element={<RecommendFrame />} />
@@ -70,10 +73,12 @@ function AppRouter() {
                 <Route path="/shop/ShoppingCart/:artworkId" element={<ShoppingCart />} />
 
 
+
                 {/* 마이페이지*/}
                 <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
                 <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
                 <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
+
 
                 <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
                 <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
@@ -93,6 +98,7 @@ function AppRouter() {
                 {/* 작가상세 */}
                 <Route path="/artistDetail" element={<ArtistDetail/>}/>
                 
+
             </Routes>
         </Router>
     );

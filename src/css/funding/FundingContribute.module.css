@@ -1,16 +1,14 @@
 .fundingContributeContainer {
-    display: flex;
     font-family: Arial, sans-serif;
-    width: 100%;
-    padding: 5% 7% 5% 10%;
+    padding: 50px 11% 5% 10%;
     /*background-color: #f8f9fa;*/
 }
 
 .fundingContributeSectionDivider {
-    margin: 20px 0;
+    margin: 15px 0;
     border: none;
-    border-top: 1px solid #e2e2e2;
-    width: 96%;
+    border-top: 2px solid #b29c58;
+    width: 102%;
 }
 
 .fundingContributeContent {
@@ -24,12 +22,10 @@
 }
 
 .fundingContributeLeft {
-    /* flex: 2 1; */
     background-color: #fff;
-    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 79%;
+    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
+    padding: 29px 29px 29px 1%;
 }
 
 .breadcrumb {
@@ -38,7 +34,6 @@
     display: flex;
     gap: 8px;
     align-items: center;
-    padding-top: 2%;
 
 }
 

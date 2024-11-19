@@ -28,7 +28,8 @@ const FundingList = () => {
       <Header/>
         <div className={styles.fundingList}>
          <div>
-            <p className={styles.fundingTitle}>펀딩</p>
+            {/*<p className={styles.fundingTitle}>펀딩</p>*/}
+            <h3>펀딩</h3>
             <div className={styles.titleLine}></div> {/* 금색 줄  */}
 
              <div className={styles.filter}>

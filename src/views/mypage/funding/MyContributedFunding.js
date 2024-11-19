@@ -21,7 +21,7 @@ function MyContributedFunding() {
             <div className={styles.container}>
                 <SideNav />
                 <div className={styles.myContributedFunding}>
-                    <h2>내가 후원한 펀딩 조회</h2>
+                    <h3>내가 후원한 펀딩 조회</h3>
 
                     {/* Tabs */}
                     <div className={styles.myContributedFundingTabs}>
