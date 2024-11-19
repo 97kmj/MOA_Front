@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../../css/mypage/funding/MyContributedFunding.module.css';
 import Header from "../../Header";
-import SideNav from "../side";
+import SideNav from "../SideNav";
 
 function MyContributedFunding() {
     const [activeTab, setActiveTab] = useState('success'); // Default to "성공 펀딩"

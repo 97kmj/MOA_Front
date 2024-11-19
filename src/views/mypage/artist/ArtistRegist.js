@@ -1,18 +1,48 @@
 import Header from "../../Header";
+import { useState } from "react";
 import styles from "../../../css/mypage/artist/artistRegist.module.css";
+import SideNav from "../SideNav";
 const ArtistRegist = () => {
+
+    const [portfolioName, setPortfolioName] = useState('');
+    const [profileImg, setProfileImg] = useState('');
+    const [portfolioFile, setPortfolioFile] = useState('');
+    const portfolioUpload =(e) => {
+        const portfolio = e.target.files[0];
+        if(portfolio) {
+            setPortfolioName(portfolio.name);
+        }
+    };
+
+    const profileChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setProfileImg(reader.result);
+        };
+    }
     return(
         <>
         <Header/>
         <div className={styles.container}>
+            <SideNav/>
             <div className={styles.body}>
                 <h3>작가 등록 신청</h3>
                 <div className={styles.registform}>
                     <h4 style={{textAlign:"left"}}>포트폴리오</h4>
-                    <input type="file" />
+                    <div className={styles.filebox}>
+                        <input className={styles.uploadName} value={portfolioName} placeholder="첨부파일" readOnly/>
+                        <label for="portfolio">파일찾기</label> 
+                        <input type="file" id="portfolio" onChange={portfolioUpload}/>
+                    </div>    
                     <h4 style={{textAlign:"left"}}>프로필 사진</h4>
                     <div className={styles.imgBox}>
-                    </div><input type="file" />
+                        <img src={profileImg? profileImg : "https://img.icons8.com/?size=150&id=114064&format=png&color=B39C59"}/>
+                    </div>
+                    <div className={styles.imgUploadbox}>
+                    <label for="profileImage">프로필 사진 선택</label><input type="file" id="profileImage" accept='image/*' onChange={profileChange}/>
+                    </div>
                     <h4 style={{textAlign:"left"}}>작가 이력</h4>
                     <textarea></textarea>
                     <h4 style={{textAlign:"left"}}>작가 노트</h4>

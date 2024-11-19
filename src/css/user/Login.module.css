@@ -6,12 +6,12 @@
   height: 100vh;
 }
 
-.loginSideText {
+.loginSideText h2 {
   margin-right: 150px;
   text-align: right;
   font-weight: bold;
   font-style: italic;
-  font-size: 50px;
+  font-size: 70px;
   color: #b39c59;
   line-height: 1.5;
   white-space: nowrap;
@@ -20,10 +20,12 @@
 .loginBox {
   width: 350px;
   padding: 30px;
+  
   border: 3px solid #b39c59;
   border-radius: 0px;
   background-color: #ffffff;
   text-align: center;
+  
 }
 
 .loginTitle {
@@ -40,6 +42,11 @@
   color: #b39c59;
   font-weight: bold;
   text-align: left;
+  width: 100%; /* 부모 요소 너비에 맞게 설정 */
+  max-width: 95%; /* inputBox와 동일한 너비 */
+  box-sizing: border-box; /* 패딩 포함 너비 계산 */
+  padding-left: 5px; /* 왼쪽 정렬 여백 */
+  
 }
 
 .inputBox {
@@ -48,6 +55,8 @@
   margin-bottom: 20px;
   border: 1px solid #b39c59;
   border-radius: 10px;
+  box-sizing: border-box; /* 패딩 포함 너비 계산 */
+
 }
 
 .loginButton,
@@ -55,6 +64,7 @@
 .findButton {
   width: 100%;
   padding: 10px;
+  margin-top: 10px; /* 로그인 버튼 상단 간격 추가 */
   margin-bottom: 10px;
   background-color: #b39c59;
   border: none;

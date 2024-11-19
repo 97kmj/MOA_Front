@@ -1,0 +1,147 @@
+.container {
+    margin:20px auto;
+    padding:0;
+    width: 1500px;
+}
+.artistInfo {
+    display: flex;
+    margin:0 auto;
+}
+
+.infoLeftBox {
+    width:40%;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.artistImgBox {
+    margin:40px auto;
+    border: #B39C59 2px solid;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+.artistImg {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.goldbutton {
+    height: 36px;
+    padding:0 10px 0 10px;
+    font-size: 12px;
+    border-radius: 30px;
+    border: 1px solid #B39C59;
+    color: #B39C59;
+    background-color: white;
+}
+
+.likecount {
+    vertical-align: middle;
+    margin:8px auto;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+}
+
+.infoRightBox {
+    width:50%;
+    margin:0 auto;   
+}
+.toggle {
+    margin:30px 0 0 0;
+    display: flex;
+}
+
+.note, .career {
+    font-size: x-large;
+    padding:4px;
+    margin-bottom: 10px;
+    height: 40px;
+}
+.note:hover , .career:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+}
+.note {
+    color:#B39C59;
+    border-bottom: 2px solid #B39C59;
+}
+
+.infoRightBox textarea {
+    width:100%;
+    height:330px;
+    resize: none;
+    overflow-y: auto;
+    border: #B39C59 1px solid;
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+.artworkList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    
+}
+.artworkList article {
+    width:480px;
+    margin:10px;
+    
+}
+
+.artworkInfo {
+    vertical-align: middle;
+    margin:8px auto;
+    display : flex;
+    justify-content: space-between;
+    align-items : center;
+}
+.artworkTitle {
+    max-width: 70%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.artworktoggle {
+    margin-top:10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    
+}
+.gallery, .sale, .soldout {
+    display: flex;
+    align-items : center;
+    justify-content: center;
+    vertical-align: middle;
+    font-size: 20px;
+    height: 60px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding:0 8px 0 8px;
+}
+
+.gallery {
+    background-color: #B39C59;
+    color: white;
+    font-weight: bold;
+}
+
+.gallery:hover, .sale:hover, .soldout:hover {
+    cursor: pointer;
+    border-bottom: #B39C59 1px solid;
+}
+
+.artwork {
+    width: 480px;
+    height: 480px;
+    vertical-align:middle;
+    background-color: #ececec;
+}
+.artImg {
+    width: 480px;
+    height: 480px;
+    object-fit: contain;
+}

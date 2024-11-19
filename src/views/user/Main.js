@@ -1,8 +1,10 @@
-import styles from '../../css/user/main.module.css';
+import styles from '../../css/user/Main.module.css';
+import Header from '../Header';
 
 const Main = () => {
     return(
         <>
+        <Header/>
         <div className={styles.container}>
             <div className={styles.banner}>
                 <div className={styles.bannerleft} style={{fontSize:"60px",fontWeight:"bold"}}>

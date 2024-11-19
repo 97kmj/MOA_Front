@@ -1,0 +1,113 @@
+.galleryDetailContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center; /* 기본 중앙 정렬 */
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left; /* 타이틀 왼쪽 정렬 */
+  margin-left: calc(10%); /* 금색 줄과 같은 위치에 맞춤 */
+  width: 80%; /* 금색 줄 너비와 일치 */
+}
+
+.titleSeparator {
+  border: none;
+  height: 2px;
+  background-color: #b39c59;
+  margin: 10px auto 20px;
+  width: 80%; /* 줄 길이를 중앙 정렬 */
+}
+
+.galleryDisplayArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 콘텐츠를 중앙으로 */
+}
+
+.smallImageArea {
+  display: flex;
+  align-items: flex-start; /* 이미지와 텍스트 위쪽 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-bottom: 30px; /* 여백 추가 */
+  gap: 20px; /* 이미지와 텍스트 사이 간격 */
+}
+
+.smallImage {
+  width: 300px; /* 이미지 너비 증가 */
+  height: 300px; /* 이미지 높이 증가 */
+  object-fit: cover;
+  border: 2px solid #ddd; /* 테두리 두께 증가 */
+}
+
+.imageDetails {
+  text-align: left; /* 텍스트 좌측 정렬 */
+  font-size: 18px; /* 기본 텍스트 크기 증가 */
+  line-height: 1.8; /* 줄 간격 조정 */
+  max-width: 400px; /* 텍스트 최대 너비 제한 */
+}
+
+.imageTitle {
+  font-size: 22px; /* 제목 크기 증가 */
+  font-weight: bold;
+  margin-bottom: 15px; /* 여백 추가 */
+}
+
+.likeButton {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px; /* 버튼 크기 증가 */
+  cursor: pointer;
+  font-size: 16px; /* 버튼 텍스트 크기 증가 */
+  margin-top: 20px; /* 여백 추가 */
+}
+
+.likeButton:hover {
+  background-color: #ff3b3b;
+}
+
+.imageSeparator {
+  border: none;
+  height: 2px;
+  background-color: #b39c59;
+  margin: 20px auto;
+  width: 80%; /* 줄 길이를 중앙 정렬 */
+}
+
+.largeImageArea {
+  margin-bottom: 20px;
+}
+
+.largeImage {
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.artDescription {
+  margin-top: 20px;
+  text-align: center; /* 기본 중앙 정렬 */
+}
+
+.artDescription h3 {
+  width: 500px; /* 설명 박스와 동일한 너비 */
+  margin: 0 auto 10px; /* 설명 박스와 간격 조정 및 중앙 배치 */
+  text-align: left; /* 왼쪽 정렬 */
+  font-size: 18px; /* 폰트 크기 */
+  font-weight: bold; /* 강조 */
+}
+
+.descriptionBox {
+  width: 500px; /* 설명 박스 너비 */
+  height: 500px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  margin: 0 auto; /* 박스를 중앙에 위치 */
+}

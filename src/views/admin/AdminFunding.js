@@ -1,5 +1,5 @@
 import AdminSidebar from "./AdminSidebar";
-import styles from "../../css/admin/adminFunding.module.css"
+import styles from "../../css/admin/AdminFunding.module.css"
 const AdminFunding = () => {
     return(
         <>

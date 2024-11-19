@@ -1,5 +1,5 @@
 import AdminSidebar from "./AdminSidebar";
-import styles from "../../css/admin/adminNotice.module.css"
+import styles from "../../css/admin/AdminNotice.module.css"
 const AdminNotice = () => {
     return(
         

@@ -1,0 +1,159 @@
+/* 전체 컨테이너 */
+.regArtworkListContainer {
+  display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
+}
+
+/* 사이드 네비게이션 스타일 */
+.sideNav {
+  flex: 0 0 200px; /* 고정 너비 */
+  margin-right: 20px;
+  background-color: #f9f9f9; /* 배경 색 */
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 메인 콘텐츠 */
+.regArtworkMainContent {
+  flex: 1; /* SideNav 옆의 공간을 채움 */
+  padding-left: 20px;
+}
+
+.regArtworkList {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.regArtworkList h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 40px; /* 헤더와의 간격 */
+  margin-bottom: 40px; /* 1개월, 3개월, 6개월 버튼과의 간격 */
+  padding-bottom: 15px; /* 제목 아래에 추가 여백 */
+  text-align: left; /* 제목 왼쪽 정렬 */
+}
+
+.regArtworkMainContent {
+  flex: 1; /* 메인 콘텐츠가 SideNav 옆에 넓게 배치 */
+  padding: 50px; /* 상하좌우 여백 추가 */
+  padding-top: 40px; /* 헤더와의 간격 추가 */
+
+  
+}
+
+.regArtworkTabsContainer {
+  display: flex; /* 탭 버튼과 달력 검색을 한 줄에 배치 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: space-between; /* 양쪽 정렬 */
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.regArtworkTabs {
+  display: flex;
+  gap: 10px; /* 버튼 간 간격 */
+}
+
+.regArtworkTabs button {
+  padding: 10px 20px;
+  border: 1px solid #e0d5b8;
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: #5d4a00;
+  cursor: pointer;
+}
+
+.regArtworkTabs button.active {
+  background-color: #b84700;
+  color: #fff;
+  border-color: #b84700;
+}
+
+.dateRangePicker {
+  display: flex; /* 달력 폼 한 줄 배치 */
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 10px; /* 달력 칸과 검색 버튼 간 간격 */
+}
+
+.dateRangePicker input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  height: 40px; /* 높이를 검색 버튼과 동일하게 설정 */
+  box-sizing: border-box; /* 패딩 포함 높이 계산 */
+}
+
+.searchButton {
+  padding: 0 20px; /* 좌우 패딩 */
+  background-color: #b84700;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 40px; /* 달력 칸과 동일한 높이 설정 */
+  box-sizing: border-box; /* 패딩 포함 높이 계산 */
+  display: flex;
+  align-items: center; /* 텍스트 수직 중앙 정렬 */
+  justify-content: center; /* 텍스트 수평 중앙 정렬 */
+  margin-left: 10px; /* 종료 날짜 칸과 간격 유지 */
+  margin-top: -5px; /* 검색 버튼을 위로 올림 */
+}
+
+.searchButton:hover {
+  background-color: #a83d00;
+}
+
+.regArtworkListItems {
+  border-top: 1px solid #e0d5b8;
+}
+
+.regArtworkItem {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0d5b8;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #fafafa;
+}
+
+.regArtworkItemImg {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  margin-right: 15px;
+}
+
+.regArtworkItemDetails h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.regArtworkItemDetails p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #5d4a00;
+}
+
+.regArtworkPagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.regArtworkPagination button {
+  padding: 8px 12px;
+  border: none;
+  color: #5d4a00;
+  cursor: pointer;
+}
+
+.regArtworkPagination button.active {
+  font-weight: bold;
+  color: #b84700;
+}
