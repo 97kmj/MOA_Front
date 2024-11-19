@@ -22,25 +22,7 @@ const SaleList = () => {
     const selectList = ["전체보기","그림","조소","공예"];
     const [Selected, setSelected] = useState("전체보기");
     
-    // const submit = (page) => {
-    //     const listUrl = `${url}/workList?page=${oage}&type=${type}&keyword=${artiest}`;
-    //     axios.get(listUrl)
-    //         .then(res=>{
-    //             let pageInfo = res.data.pageInfo;
-    //             console.log(res.data.artworkList)
-    //             setArtworkList([...res.data.artworkList])
-    //             let page = [];
-    //             for (let i=pageInfo.startPage; i<=pageInfo.endPage; i++){
-    //                 page.push(i);
-    //             }
-    //             setPageBtn([...page]);
-    //             setPageInfo(pageInfo);
 
-
-    //         })
-    
-    
-    // }
 
     return(
         <>
@@ -131,7 +113,7 @@ const SaleList = () => {
                 </div>
                 <div className={styles.artworks}>
                     <div className={styles.arkworktle}>
-                        <img className={styles.arkworkimg} src="./Test.jpg"></img>
+                        <img className={styles.arkworkimg} src="./img/Test.jpg"></img>
                     </div>
                     <div className={styles.artworkcontentslist}>
                         <span className={styles.artworkcontent}>그림이름</span><br/>
@@ -156,28 +138,7 @@ const SaleList = () => {
             <div className={styles.seemore}>
                 <img className={styles.seemore} src="./img/seemore.png"></img>
             </div>                    
-            {/* <FormGroup row>
-                <Col sm={3}>
-                    <Input type="text" name="keyword" onChange={(e)=>setKeyword(e.target.value)}/>
-                </Col>
-                <Col sm={3}>
-                    <Button onClick={()=>SubmitEvent(1)}>검색</Button>
-                </Col>
-            </FormGroup> */}
-            
-            {/* <Pagination style={{margin:"0 auto",width:"900px",justifyContent:"center"}}>
-                <PaginationItem>
-                    <PaginationLink previous/>
-                </PaginationItem>
-                {pageBtn.map(page=>(
-                    <PaginationItem key={page}>
-                        <PaginationLink>{page}</PaginationLink>
-                    </PaginationItem>
-                ))}
-                <PaginationItem>
-                    <PaginationLink next/>
-                </PaginationItem>
-            </Pagination> */}
+
 
         </>
     )
