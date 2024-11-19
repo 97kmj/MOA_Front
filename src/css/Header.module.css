@@ -5,7 +5,7 @@
     background-color: black;
     height: 125px;
 }
-a {
+.header a {
     text-decoration: none;
 }
 .moa {

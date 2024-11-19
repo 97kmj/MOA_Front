@@ -11,7 +11,6 @@ import RegArtworkList from "../views/mypage/RegArtworkList";
 import Gallery from "../views/gallery/Gallery";
 import GalleryDetail from "../views/gallery/GalleryDetail";
 
-
 import FundingList from "../views/funding/FundingList";
 import FundingDetail from "../views/funding/FundingDetail";
 import FundingContribute from "../views/funding/FundingContribute";
@@ -24,7 +23,6 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
-
 
 import AdminNotice from "../views/admin/AdminNotice";
 
@@ -57,17 +55,17 @@ function AppRouter() {
         <Router>
             <Routes>
 
-            <Route path="/findid" element={<FindId/>} />
-            <Route path="/findidres" element={<FindIdResult/>} />
-            <Route path="/findpwd" element={<FindPwd/>} />
-            <Route path="/findpwdres" element={<FindPwdResult/>} />
+                <Route path="/findid" element={<FindId/>} />
+                <Route path="/findidres" element={<FindIdResult/>} />
+                <Route path="/findpwd" element={<FindPwd/>} />
+                <Route path="/findpwdres" element={<FindPwdResult/>} />
 
 
-            <Route path="/login" element={<Login/>} />
-            <Route path="/join" element={<Join/>} />
+                <Route path="/login" element={<Login/>} />
+                <Route path="/join" element={<Join/>} />
 
-            {/*메인*/}
-            <Route path="/" element={<Main />} />
+                {/*메인*/}
+                <Route path="/" element={<Main />} />
 
                 {/*펀딩*/}
                 <Route path="/fundings" element={<FundingList />} />
@@ -93,14 +91,14 @@ function AppRouter() {
 
 
 
-            <Route path="/regartworklist" element={<RegArtworkList/>} />
+                <Route path="/regartworklist" element={<RegArtworkList/>} />
 
-            <Route path="/gallery" element={<Gallery/>} />
-            <Route path="/gallerydetail" element={<GalleryDetail/>} />
+                <Route path="/gallery" element={<Gallery/>} />
+                <Route path="/gallerydetail" element={<GalleryDetail/>} />
 
 
-            <Route path="message" element={<Message/>} />
-  {/* 마이페이지*/}
+                <Route path="message" element={<Message/>} />
+                {/* 마이페이지*/}
                 <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
                 <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
                 <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
@@ -121,7 +119,7 @@ function AppRouter() {
                 <Route path="/notice" element={<Notice/>}/>
                 {/* 작가상세 */}
                 <Route path="/artistDetail" element={<ArtistDetail/>}/>
-               
+            
             </Routes>
         </Router>
     );
