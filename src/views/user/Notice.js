@@ -1,6 +1,19 @@
+import { useState } from 'react';
 import styles from '../../css/user/Notice.module.css';
 import Header from '../Header';
 const Notice = () => {
+    const [modalOpen,setModalOpen] = useState(false);
+
+    const FAQList = [{id:"1",question:"안녕하세요",answer:"반갑습니다",date:"2024-10-10"}]
+
+    const showModal = () => {
+        setModalOpen(true);
+        
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
     const showNotice = (e) => {
         console.log(e.target.nextElementSibling)
         e.target.nextElementSibling.style.display='block';
@@ -35,7 +48,7 @@ const Notice = () => {
             <div className={styles.more}><img src='/img/Vector.png' alt=''/></div>
             <br/>
             <div className={styles.headerText}>
-                <h3 className={styles.faq}>FAQ</h3><span className={styles.questionbox}><button className={styles.question}>1대1 문의하기</button></span>
+                <h3 className={styles.faq}>FAQ</h3><span className={styles.questionbox}><button className={styles.question} onClick={showModal}>1대1 문의하기</button></span>
             </div>
             <hr className={styles.bar}></hr>
             <br/>
@@ -60,6 +73,26 @@ const Notice = () => {
                 </ul>
             </div>
         </div>
+        {
+            modalOpen &&
+            <div className={styles.modalBackground}>
+
+                <div className={styles.modalContainer}>
+                    <button className={styles.close} onClick={closeModal}><img src='https://img.icons8.com/?size=15&id=71200&format=png&color=B39C49'/></button>
+                    <h3>문의하기</h3>
+                    <div>제목</div>
+                    <input></input>
+                    <br/>
+                    <div>내용 </div>
+                    <br/>
+                    <textarea></textarea>
+                    <div className={styles.buttonDiv}>
+                        <button className={styles.goldbutton}>문의하기</button>
+                    </div>
+                </div>
+            </div>
+            
+        }
         </>
     )
 }
