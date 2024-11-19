@@ -106,13 +106,13 @@ const FundingDetail = () => {
         <>
         <Header/>
 
+        <div className={styles.fundingDetailOutForm}>
         <div className={styles.fundingDetail}>
-        <div>
             <div className={styles.breadcrumb}>
                 펀딩 &gt; 펀딩상세
                 <button className={styles.notifyButton}>알림받기</button>
             </div>
-            <hr className={styles.sectionDivider}/>
+            <hr className={styles.titleLine}></hr>
 
             {/*펀딩 디테일 헤더 start*/}
             <div className={styles.fundingHeader}>

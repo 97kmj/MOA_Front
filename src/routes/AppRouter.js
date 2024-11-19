@@ -12,6 +12,9 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
+import Gallery from "../views/gallery/gallery";
+import SaleDetail from "../views/shop/SaleOrder";
+import SaleList from "../views/shop/SaleList";
 
 
 function AppRouter() {
@@ -35,13 +38,13 @@ function AppRouter() {
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
 
 
-
-
-
                 {/* 마이페이지*/}
                 <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
                 <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
                 <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
+
+
+
 
             </Routes>
         </Router>
