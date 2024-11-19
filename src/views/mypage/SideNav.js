@@ -14,8 +14,8 @@ const SideNav = () => {
             조회
           </strong>
           <ul className={styles.snbMenu}>
-            <li className={styles.menuItem}><a href="/supportFundings" className={styles.menuLink}>후원한 펀딩 조회</a></li>
-            <li className={styles.menuItem}><a href="/myFundings" className={styles.menuLink}>올린 펀딩 조회</a></li>
+            <li className={styles.menuItem}><a href="/mypage/fundings/contributed" className={styles.menuLink}>후원한 펀딩 조회</a></li>
+            <li className={styles.menuItem}><a href="/mypage/fundings/uploaded" className={styles.menuLink}>올린 펀딩 조회</a></li>
             <li className={styles.menuItem}><a href="/salesPosts" className={styles.menuLink}>판매글 조회</a></li>
           </ul>
         </div>

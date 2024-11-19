@@ -137,7 +137,7 @@
 
 .titleLine{
     width: 100%;
-    background-color: #b29c59; /* 금색 줄 색상 */
+    border-top: 2px solid #b29c58;
     margin: 10px 0; /* 제목과 줄 사이 간격 */
 }
 

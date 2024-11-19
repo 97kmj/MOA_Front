@@ -12,7 +12,6 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
-import Gallery from "../views/gallery/gallery";
 import SaleDetail from "../views/shop/SaleOrder";
 import SaleList from "../views/shop/SaleList";
 

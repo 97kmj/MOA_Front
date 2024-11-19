@@ -18,25 +18,29 @@ function MyUploadedFundingDetail() {
             <div className={styles.container}>
                 <SideNav />
                 <div className={styles.myUploadedFundingDetail}>
-                    <h2>내가 올린 펀딩 조회 상세</h2>
+                    {/*<h2>내가 올린 펀딩 조회 상세</h2>*/}
 
                     {/* Funding Information */}
-                    <div className={styles.FundingInfo}>
+                    <div className={styles.fundingInfo}>
                         <img
                             src="https://via.placeholder.com/300x200"
                             alt="funding item"
                             className={styles.fundingImage}
                         />
                         <div className={styles.fundingDetails}>
-                            <h3>펀딩 아이템 제목</h3>
+                            <h5>펀딩 아이템 제목</h5>
                             <p>모집 희망 금액: 3000만원</p>
                             <p>최종 모집 금액: 4500만원</p>
-                            <p>달성률: 150%</p>
+                            <p>달성률: <span className={styles.fundingDetailsGoal}>150%</span>
+
+                            </p>
                         </div>
                         <div className={styles.fundingDates}>
-                            <p>펀딩 시작 일자: 24/09/01</p>
+                            <p>펀딩 시작 일자: <span className={styles.startDate}>24/10/24</span>
+
+                            </p>
                             <p>
-                                펀딩 마감 일자: <span className="end-date">24/10/24</span>
+                            펀딩 마감 일자: <span className={styles.endDate}>24/10/24</span>
                             </p>
                         </div>
                     </div>
