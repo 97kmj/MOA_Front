@@ -80,14 +80,14 @@ function AppRouter() {
                 <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
                 {/* 판매 */}
-                <Route path="/shop/ArtworkAdd" element={<ArtworkAdd />} />
-                <Route path="/shop/RecommendFrame/:frameId" element={<RecommendFrame />} />
-                <Route path="/shop/SaleAddResult/:artworkId" element={<SaleAddResult />} />
-                <Route path="/shop/SaleDetail/:artworkId" element={<SaleDetail />} />
-                <Route path="/shop/SaleList" element={<SaleList />} />
-                <Route path="/shop/SaleOrder/:artworkId" element={<SaleOrder />} />
-                <Route path="/shop/SaleOrderResult/:frameId" element={<SaleOrderResult />} />
-                <Route path="/shop/ShoppingCart/:artworkId" element={<ShoppingCart />} />
+                <Route path="/shop/artworkAdd" element={<ArtworkAdd />} />
+                <Route path="/shop/recommendFrame/:frameId" element={<RecommendFrame />} />
+                <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
+                <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail />} />
+                <Route path="/shop/saleList" element={<SaleList />} />
+                <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
+                <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
+                <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
 
 
 
