@@ -15,6 +15,30 @@ import FundingRegistrationThankYou from "../views/funding/FundingRegistrationTha
 import SaleDetail from "../views/shop/SaleOrder";
 import SaleList from "../views/shop/SaleList";
 
+import AdminNotice from "../views/admin/AdminNotice";
+
+import ArtworkAdd from "../views/shop/ArtworkAdd";
+import RecommendFrame from "../views/shop/RecommendFrame";
+import SaleAddResult from "../views/shop/SaleAddResult";
+import SaleDetail from "../views/shop/SaleDetail";
+import SaleList from "../views/shop/SaleList";
+import SaleOrder from "../views/shop/SaleOrder";
+import SaleOrderResult from "../views/shop/SaleOrderResult";
+import ShoppingCart from "../views/shop/ShoppingCart";
+
+
+import Notice from "../views/user/Notice";
+import ArtistDetail from "../views/user/ArtistDetail";
+import AdminQnA from "../views/admin/AdminQnA";
+import AdminArtist from "../views/admin/AdminArtist";
+import AdminArtwork from "../views/admin/AdminArtwork";
+import AdminFunding from "../views/admin/AdminFunding";
+import AdminItem from "../views/admin/AdminItem";
+import AdminFrame from "../views/admin/AdminFrame";
+import ArtistRegist from "../views/mypage/artist/ArtistRegist";
+import ArtistEdit from "../views/mypage/artist/ArtistEdit";
+import Message from "../views/mypage/Message";
+import MyQnA from "../views/mypage/MyQnA";
 
 function AppRouter() {
     return (
@@ -37,13 +61,43 @@ function AppRouter() {
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
 
 
+
+                {/* 판매 */}
+                <Route path="/shop/ArtworkAdd" element={<ArtworkAdd />} />
+                <Route path="/shop/RecommendFrame/:frameId" element={<RecommendFrame />} />
+                <Route path="/shop/SaleAddResult/:artworkId" element={<SaleAddResult />} />
+                <Route path="/shop/SaleDetail/:artworkId" element={<SaleDetail />} />
+                <Route path="/shop/SaleList" element={<SaleList />} />
+                <Route path="/shop/SaleOrder/:artworkId" element={<SaleOrder />} />
+                <Route path="/shop/SaleOrderResult/:frameId" element={<SaleOrderResult />} />
+                <Route path="/shop/ShoppingCart/:artworkId" element={<ShoppingCart />} />
+
+
+
                 {/* 마이페이지*/}
                 <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
                 <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
                 <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
 
 
+                <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
+                <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
+                <Route path="/mypage/message" element={<Message/>}/>
+                <Route path="/mypage/qna" element={<MyQnA/>}/>
+                {/* 관리자 */}
+                <Route path="/admin/notice" element={<AdminNotice/>} />
+                <Route path="/admin/QnA" element={<AdminQnA/>} />
+                <Route path="/admin/artistLIst" element={<AdminArtist/>} />
+                <Route path="/admin/blackArtwork" element={<AdminArtwork/>} />
+                <Route path="/admin/funding" element={<AdminFunding/>} />
+                <Route path="/admin/item" element={<AdminItem/>} />
+                <Route path="/admin/frame" element={<AdminFrame/>} />
 
+                {/* 공지사항 */}
+                <Route path="/notice" element={<Notice/>}/>
+                {/* 작가상세 */}
+                <Route path="/artistDetail" element={<ArtistDetail/>}/>
+                
 
             </Routes>
         </Router>

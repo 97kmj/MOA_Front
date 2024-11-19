@@ -205,7 +205,6 @@ const AdminQnA = () => {
                 <div className={styles.detailTitle}>제목</div><input   readOnly />
                 <div className={styles.detailContent}>내용</div>
                 <textarea></textarea>
-                <hr/>
                 <h4>답변 작성</h4>
                 <div className={styles.detailTitle}>제목</div><input   readOnly />
                 <div className={styles.detailContent}>내용</div>
@@ -213,7 +212,6 @@ const AdminQnA = () => {
                 <div className={styles.buttonDiv}>
                     <button className={styles.goldbutton}>답변하기</button>
                 </div>
-
             </div>
         </div>
         </>

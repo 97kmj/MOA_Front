@@ -7,7 +7,6 @@ const AdminArtwork = () => {
             <AdminSidebar/>
             <div className={styles.regList}>
                 <h4>신고/의심 작품 리스트</h4>
-                <hr></hr>
                 <table>
                     <thead>
                         <tr><th>아이디</th><th>제목</th><th>게시일</th></tr>

@@ -18,21 +18,25 @@ const AdminItem = () => {
                         <tr>
                         <td>hong1234</td><td>artist1234</td><td>별이 빛나는 밤</td><td>2024-10-10</td>
                         <td>
-                            <select className="select" name="select">
-                                <option className="option" value="작가 배송대기" selected>작가 배송대기</option>
-                                <option className="option" value="검수중">검수중</option>
-                                <option className="option" value="발송완료">발송완료</option>
+                            <div className={styles.customSelect}>
+                            <select>
+                                <option value="작가 배송대기" selected>작가 배송대기</option>
+                                <option value="검수중">검수중</option>
+                                <option value="발송완료">발송완료</option>
                             </select>
+                            </div>
                         </td>
                         </tr>
                         <tr>
                         <td>hong1234</td><td>artist1234</td><td>별이 빛나는 밤</td><td>2024-10-10</td>
                         <td>
-                            <select className="select" name="select">
-                                <option className="option" value="작가 배송대기" selected>작가 배송대기</option>
-                                <option className="option" value="검수중">검수중</option>
-                                <option className="option" value="발송완료">발송완료</option>
+                            <div className={styles.customSelect}>
+                            <select>
+                                <option value="작가 배송대기" selected>작가 배송대기</option>
+                                <option value="검수중">검수중</option>
+                                <option value="발송완료">발송완료</option>
                             </select>
+                            </div>
                         </td>
                         </tr>
                         

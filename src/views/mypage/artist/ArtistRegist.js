@@ -1,6 +1,6 @@
 import Header from "../../Header";
 import { useState } from "react";
-import styles from "../../../css/mypage/artist/artistRegist.module.css";
+import styles from "../../../css/mypage/artist/ArtistRegist.module.css";
 import SideNav from "../SideNav";
 const ArtistRegist = () => {
 

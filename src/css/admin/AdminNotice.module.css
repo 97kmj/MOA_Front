@@ -1,9 +1,9 @@
 .container {
     display: flex;
     background-color:whitesmoke ;
-    
     margin:0;
     padding:0;
+    height: 100vh;
 }
 
 .noticeList {
@@ -53,7 +53,7 @@
     height: 38px;
     font-size: 14px;
     padding:0 10px 0 10px;
-    border-radius: 34px;
+    border-radius: 50px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;
@@ -68,7 +68,7 @@
     background-color: white;
     border: 1px solid #B39C49;
     margin: 50px auto;
-    width:850px;    
+    width:848px;    
     padding:30px;
     text-align: left;
 }
@@ -80,12 +80,19 @@
 }
 
 .noticeDetail input {
-    width : 100%;
+    width: 838px;
+    border:1px solid #B39C59;
+    border-radius: 10px;
+    padding:5px;
 }
 .noticeDetail textarea {
-    width: 100%;
+    width:808px;
     height: 500px;
     resize: none;
+    border:1px solid #B39C59;
+    border-radius: 10px;
+    padding:20px;
+    
 }
 .noticeList table tbody::-webkit-scrollbar {
     width: 8px;
