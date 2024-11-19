@@ -12,6 +12,15 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
+import ArtworkAdd from "../views/shop/ArtworkAdd";
+import RecommendFrame from "../views/shop/RecommendFrame";
+import SaleAddResult from "../views/shop/SaleAddResult";
+import SaleDetail from "../views/shop/SaleDetail";
+import SaleList from "../views/shop/SaleList";
+import SaleOrder from "../views/shop/SaleOrder";
+import SaleOrderResult from "../views/shop/SaleOrderResult";
+import ShoppingCart from "../views/shop/ShoppingCart";
+
 
 
 function AppRouter() {
@@ -35,8 +44,15 @@ function AppRouter() {
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
 
 
-
-
+                {/* 판매 */}
+                <Route path="/shop/ArtworkAdd" element={<ArtworkAdd />} />
+                <Route path="/shop/RecommendFrame/:frameId" element={<RecommendFrame />} />
+                <Route path="/shop/SaleAddResult/:artworkId" element={<SaleAddResult />} />
+                <Route path="/shop/SaleDetail/:artworkId" element={<SaleDetail />} />
+                <Route path="/shop/SaleList" element={<SaleList />} />
+                <Route path="/shop/SaleOrder/:artworkId" element={<SaleOrder />} />
+                <Route path="/shop/SaleOrderResult/:frameId" element={<SaleOrderResult />} />
+                <Route path="/shop/ShoppingCart/:artworkId" element={<ShoppingCart />} />
 
                 {/* 마이페이지*/}
                 <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
