@@ -52,7 +52,7 @@
 }
 
 /* Input Field Styling */
-input[type="text"],
+.formGroup input[type="text"],
 input[type="password"],
 input[type="email"] {
     width: 100%;
