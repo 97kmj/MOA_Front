@@ -34,14 +34,15 @@
 }
 
 .customSelect select {
-    font-size: 16px;
+    font-size: 15px;
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 50px;
     background-color: #fff;
     appearance: none; /* 기본 드롭다운 화살표 제거 */
     -webkit-appearance: none;
     -moz-appearance: none;
-    padding: 5px 30px 5px 10px;
+    padding: 7px 13px;
+    width: 83px;
 }
 
 .customSelect::after {
