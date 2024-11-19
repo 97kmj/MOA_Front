@@ -1,162 +1,183 @@
-import styles from '../../css/shop/SaleList.module.css';
-import { Table, Label, Button } from 'reactstrap';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import styles from '../../css/shop/SaleOrder.module.css';
+import Header from '../Header';
 
-const framePrices = {
-    none: 0,
-    basic: 100000,
-    premium: 200000
-};
+const SaleOrder = () => {
+    const [buyerInfo, setBuyerInfo] = useState({
+        name: '',
+        contact: '',
+        email: '',
+        address: '',
+    });
 
-const framename={
-    none: "프레임 없음",
-    basic: "기본 프레임",
-    premium: "고급 프레임"
-}
+    const [useMemberInfo, setUseMemberInfo] = useState(false);
 
+    const [artworkDetails] = useState({
+        title: '투우',
+        price: 2200000,
+        artist: '피카소',
+        size: '72.7 X 90.9CM',
+        stock: 1,
+        option: '기본 프레임 +100,000₩',
+        optionPrice: 100000,
+    });
 
-const SaleDetail = () => {
-    const [selectedFrame, setSelectedFrame] = useState('basic');
-    const basePrice = 18000000000;
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setBuyerInfo((prevInfo) => ({
+            ...prevInfo,
+            [name]: value,
+        }));
+    };
 
-    const totalPrice = basePrice + framePrices[selectedFrame];
+    const handleUseMemberInfo = () => {
+        setBuyerInfo({
+            name: '회원 이름',
+            contact: '010-1234-5678',
+            email: 'member@example.com',
+            address: '서울특별시 강남구',
+        });
+        setUseMemberInfo(true);
+    };
+
+    const handleDirectInput = () => {
+        setBuyerInfo({
+            name: '',
+            contact: '',
+            email: '',
+            address: '',
+        });
+        setUseMemberInfo(false);
+    };
+
+    const calculateTotalPrice = () => {
+        return artworkDetails.price + artworkDetails.optionPrice;
+    };
 
     return (
         <>
-                        <h2 className={styles.titlename}>판매 결제</h2>
-            <div className={styles.bar}></div>
-            <div className={styles.detailTop}>
-                <div className={styles.detailTopLeft}>
-                    <img src='./img/Test.jpg' alt="Artwork Image" className={styles.detailTopLeftImg} />
-                </div>
-                <div className={styles.detailTopRight}>
-                    <div className={styles.detailTopRightArtworkName}>
-                        <b>골드런</b>
+            <Header />
+            <div className={styles.saleOrder}>
+                <h3 className={styles.title}>판매 결제</h3>
+                <hr className={styles.titleLine} />
+
+                <div className={styles.content}>
+                    {/* Left Section */}
+                    <div className={styles.leftSection}>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/img/funding/image5.png`}
+                            alt="Artwork"
+                            className={styles.artworkImage}
+                        />
+                        <div className={styles.buyerInfo}>
+                            <h3>구매자 정보</h3>
+                            <div className={styles.infoButtons}>
+                                <button
+                                    className={`${styles.memberButton} ${
+                                        useMemberInfo ? styles.activeButton : ''
+                                    }`}
+                                    onClick={handleUseMemberInfo}
+                                >
+                                    회원 배송지
+                                </button>
+                                <button
+                                    className={`${styles.inputButton} ${
+                                        !useMemberInfo ? styles.activeButton : ''
+                                    }`}
+                                    onClick={handleDirectInput}
+                                >
+                                    직접 입력
+                                </button>
+                            </div>
+                            <section className={styles.buyerForm}>
+                                <div className={styles.formRow}>
+                                    <span className={styles.icon}>👤</span>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="이름"
+                                        value={buyerInfo.name}
+                                        onChange={handleInputChange}
+                                        disabled={useMemberInfo}
+                                    />
+                                </div>
+                                <div className={styles.formRow}>
+                                    <span className={styles.icon}>📞</span>
+                                    <input
+                                        type="text"
+                                        name="contact"
+                                        placeholder="연락처"
+                                        value={buyerInfo.contact}
+                                        onChange={handleInputChange}
+                                        disabled={useMemberInfo}
+                                    />
+                                </div>
+                                <div className={styles.formRow}>
+                                    <span className={styles.icon}>📧</span>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="이메일"
+                                        value={buyerInfo.email}
+                                        onChange={handleInputChange}
+                                        disabled={useMemberInfo}
+                                    />
+                                </div>
+                                <div className={styles.formRow}>
+                                    <span className={styles.icon}>📍</span>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        placeholder="배송지"
+                                        value={buyerInfo.address}
+                                        onChange={handleInputChange}
+                                        disabled={useMemberInfo}
+                                    />
+                                </div>
+                            </section>
+                        </div>
                     </div>
-                    <div className={`${styles.detailTopRightArtworkName} ${styles.colorGold}`}>
-                        <b>{new Intl.NumberFormat().format(basePrice)}</b>
+
+                    {/* Right Section */}
+                    <div className={styles.rightSection}>
+                        <div className={styles.artworkDetails}>
+                            <h3>{artworkDetails.title}</h3>
+                            <p className={styles.price}>
+                                {artworkDetails.price.toLocaleString()}₩
+                            </p>
+                            <p>
+                                <span className={styles.title}>ARTIST</span>
+                                <span className={styles.content}>{artworkDetails.artist}</span>
+                            </p>
+                            <p>
+                                <span className={styles.title}>SIZE</span>
+                                <span className={styles.content}>{artworkDetails.size}</span>
+                            </p>
+                            <p>
+                                <span className={styles.title}>STOCK</span>
+                                <span className={styles.content}>{artworkDetails.stock}개</span>
+                            </p>
+                            <p>
+                                <span className={styles.title}>Option</span>
+                                <span className={styles.content}>{artworkDetails.option}</span>
+                            </p>
+                        </div>
+                        <div className={styles.summary}>
+                            <p>
+                                {artworkDetails.title}{' '}
+                                {artworkDetails.price.toLocaleString()}₩
+                            </p>
+                            <p>{artworkDetails.option}</p>
+                            <p className={styles.total}>
+                                총 금액: {calculateTotalPrice().toLocaleString()}₩
+                            </p>
+                        </div>
+                        <button className={styles.payButton}>결제하기</button>
                     </div>
-
-                    <br />
-
-                    <Table borderless className={styles.detailTopRightTable}>
-                        <tbody className={styles.detailtitlearray}>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>ARTIST</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>SIZE</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>TYPE</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>SUBJECT</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>STOCK</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightOption}>
-                                <td><Label>OPTION</Label></td>
-                            </tr>
-                        </tbody>
-                        <tbody className={styles.detailtitlearray}>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>피카소</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>1000x1200000</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>그림</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>수채화</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td><Label>수묵화</Label></td>
-                            </tr>
-                            <tr className={styles.detailTopRightArray}>
-                                <td className={styles.colorGold}>기본 프레임 +100000</td>
-                            </tr>
-                        </tbody>
-                    </Table>
                 </div>
-            </div>
-
-            <div>
-                <div className={styles.userInfo}>
-                    <div>구매자 정보</div>&nbsp;
-                    <div className={styles.userInfoButton}>
-                        <Button className={styles.userInfoButtonstyle}>회원 배송지</Button>
-                    </div> 
-                    <div><Button className={styles.userInfoButtonstylechoice}>직접 입력</Button></div>
-                </div>
-                <br />
-
-                <Table className={styles.deltailorder}>
-                    <tbody className={styles.deltailorderLeft}>
-                        <tr>
-                            <td><img src='./img/User.png' className={styles.imgInfo} /></td>
-                            <td className={styles.deltailorderLefttilte}>이 &nbsp;&nbsp;름 :</td>
-                            <td colSpan="2" className={styles.deltailorderLeftContent}>수목원</td>
-                        </tr>
-                        <br/>
-                        <tr>
-                            <td><img src='./img/Phone.png' className={styles.imgInfo} /></td>
-                            <td className={styles.deltailorderLefttilte}>연락처 :</td>
-                            <td colSpan="2" className={styles.deltailorderLeftContent}>010-6429-****</td>
-                        </tr>
-                        <br/>
-                        <tr>
-                            <td><img src='./img/Letter.png' className={styles.imgInfo} /></td>
-                            <td className={styles.deltailorderLefttilte}>이메일 :</td>
-                            <td colSpan="2" className={styles.deltailorderLeftContent}>junyung123456789@naver.com</td>
-                        </tr>
-                        <br/>
-                        <tr>
-                            <td><img src='./img/City.png' className={styles.imgInfo} /></td>
-                            <td className={styles.deltailorderLefttilte}>주 &nbsp;&nbsp;소 :</td>
-                            <td colSpan="2" className={styles.deltailorderLeftContent}>경기도 안양시 동안로 14-10 이스케이프 룸 5층 가나다라마바사아자차카파타하</td>
-                        </tr>
-                    </tbody>
-
-                    <tbody>
-                        <Table className={styles.deltailordertotalprice}>
-                            <tbody className={styles.deltailordertotalpricetbody}>
-                                <tr>
-                                    <td className={styles.deltailordertotalpriceleft}><Label>골드런나아가라폭포의 한숨</Label></td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.deltailordertotalpriceleft}>{framename[selectedFrame]}</td>&nbsp;&nbsp;&nbsp;
-                                </tr>
-                                <tr>
-                                    <td className={`${styles.deltailordertotalpriceleft} ${styles.colorGold}`}>총 금액</td>&nbsp;&nbsp;&nbsp;
-                                </tr>
-                            </tbody>
-                            <tbody className={styles.deltailordertotalpricetbody}>
-                                <tr>
-                                    <td className={styles.deltailordertotalpriceleft}>{new Intl.NumberFormat().format(basePrice)}</td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.deltailordertotalpriceleft}>+{new Intl.NumberFormat().format(framePrices[selectedFrame])}</td>
-                                </tr>
-                                <tr>
-                                    <td className={`${styles.deltailordertotalpriceleft} ${styles.colorGold}`}>
-                                        {new Intl.NumberFormat().format(totalPrice)}
-                                    </td> &nbsp;&nbsp;&nbsp;
-                                </tr>
-                            </tbody>
-                        </Table>
-                    </tbody>
-                </Table>
-            </div>
-
-            <div className={styles.detaildiv}>
-                <Button className={styles.detailbottombutton}>결제하기</Button>
             </div>
         </>
     );
 };
 
-export default SaleDetail;
+export default SaleOrder;

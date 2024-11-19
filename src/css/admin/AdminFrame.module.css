@@ -66,10 +66,6 @@
     cursor: pointer;
 }
 
-hr {
-    border: 1px solid #B39C59;
-}
-
 .select {
     box-sizing: border-box;
     width: 100px;

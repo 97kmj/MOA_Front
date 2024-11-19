@@ -18,7 +18,7 @@
     margin-top: 60px;
     font-size: 50px;
     color: #b39c59;
-  
+
 }
 
 .middleresultFont{
@@ -26,8 +26,8 @@
     color: #b39c59;
 }
 .priceInfo{
-    
-    width: 520px; 
+
+    width: 520px;
     margin: 30px 700px;
     height: 40px;
     margin-top: 100px;
@@ -39,7 +39,7 @@
     justify-content: center;
     padding-top: 10px;
 
-    
+
 }
 .resultInfoTable{
     border: 1px solid #b39c59;
@@ -54,9 +54,9 @@
 }
 
 .resultInfoButton{
-    width: 320px; 
+    width: 320px;
     height: 40px;
-    margin: 30px 800px; 
+    margin: 30px 800px;
     border: 1px solid #b39c59;
     background-color: #b39c59;
     color: white;
