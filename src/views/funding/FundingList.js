@@ -42,15 +42,14 @@ const FundingList = () => {
                      </select>
                  </div>
 
-
              </div>
              <div className={styles.fundingCards}>
                  {fundings.map((funding, index) => (
                      <div key={index} className={styles.fundingCard}
                           onClick={() => goDetailNavigation(123)} //
-                         >
+                     >
 
-                             <img src={funding.imageUrl} alt={funding.title}/>
+                         <img src={funding.imageUrl} alt={funding.title}/>
                              <div className={styles.fundingInfo}>
                                  <h3>{funding.title}</h3>
                                  <p>{funding.description}</p>

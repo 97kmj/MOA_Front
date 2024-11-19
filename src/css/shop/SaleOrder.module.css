@@ -1,0 +1,163 @@
+.saleOrder {
+    padding: 50px;
+    padding-left: 11%;
+    padding-right: 11%;
+}
+
+
+.titleLine{
+    margin-top: 10px;
+    border-top: 2px solid #b39c59;
+}
+
+.title {
+    font-weight: bold;
+    color: #555;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    padding-top: 1%;
+}
+
+.leftSection {
+    width: 50%;
+}
+
+.artworkImage {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.buyerInfo {
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.buyerInfo h2 {
+    margin-bottom: 15px;
+}
+
+.infoButtons {
+
+    margin-bottom: 15px;
+}
+
+.infoButtons button {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.infoButtons .inputButton {
+    background: #333;
+    color: #b29c59;
+    font-weight: bold;
+    border-radius: 50px;
+}
+
+
+
+
+.buyerForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.formRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.formRow input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.rightSection {
+    width: 40%;
+}
+
+.artworkDetails {
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 8px;
+    color: #333;
+}
+
+
+
+
+.artworkDetails .price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d94a4a; /* 강조된 색상 */
+    margin-bottom: 10px;
+}
+.summary {
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    margin-top: 15px;
+    border-radius: 8px;
+    color: #333;
+}
+
+.total {
+    font-weight: bold;
+    color: #d94a4a;
+}
+
+.payButton {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: #b29c59;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.activeButton {
+    background-color: #333;
+    color: #b29c59;
+}
+
+.memberButton,
+.inputButton {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    background: #fff;
+    margin-right: 5px;
+}
+
+.artworkDetails p {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.artworkDetails p span.title {
+    font-weight: bold;
+    color: #555;
+    min-width: 100px;
+    text-align: left;
+}
+
+
+

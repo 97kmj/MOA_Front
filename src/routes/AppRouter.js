@@ -10,7 +10,6 @@ import Login from "../views/user/Login";
 import RegArtworkList from "../views/mypage/RegArtworkList";
 import Gallery from "../views/gallery/Gallery";
 import GalleryDetail from "../views/gallery/GalleryDetail";
-import Message from "../views/mypage/Message";
 
 import FundingList from "../views/funding/FundingList";
 import FundingDetail from "../views/funding/FundingDetail";
@@ -24,8 +23,6 @@ import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
 import Main from "../views/user/Main";
 import GalleryExam from "../views/funding/GalleryExam";
 import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
-import SaleDetail from "../views/shop/SaleOrder";
-import SaleList from "../views/shop/SaleList";
 
 import AdminNotice from "../views/admin/AdminNotice";
 
