@@ -1,5 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import FindId from "../views/user/FindId";
+import FindIdResult from "../views/user/FindIdResult";
+import FindPwd from "../views/user/FindPwd";
+import FindPwdResult from "../views/user/FindPwdResult";
+import Join from "../views/user/Join";
+import Login from "../views/user/Login";
+import RegArtworkList from "../views/mypage/RegArtworkList";
+import Gallery from "../views/gallery/Gallery";
+import GalleryDetail from "../views/gallery/GalleryDetail";
+import Message from "../views/mypage/Message";
+
 import FundingList from "../views/funding/FundingList";
 import FundingDetail from "../views/funding/FundingDetail";
 import FundingContribute from "../views/funding/FundingContribute";
@@ -40,12 +52,23 @@ import ArtistEdit from "../views/mypage/artist/ArtistEdit";
 import Message from "../views/mypage/Message";
 import MyQnA from "../views/mypage/MyQnA";
 
+
 function AppRouter() {
     return (
         <Router>
             <Routes>
-                {/*메인*/}
-                <Route path="/" element={<Main />} />
+
+            <Route path="/findid" element={<FindId/>} />
+            <Route path="/findidres" element={<FindIdResult/>} />
+            <Route path="/findpwd" element={<FindPwd/>} />
+            <Route path="/findpwdres" element={<FindPwdResult/>} />
+
+
+            <Route path="/login" element={<Login/>} />
+            <Route path="/join" element={<Join/>} />
+
+            {/*메인*/}
+            <Route path="/" element={<Main />} />
 
                 {/*펀딩*/}
                 <Route path="/fundings" element={<FundingList />} />
@@ -59,9 +82,6 @@ function AppRouter() {
                 <Route path="/funding/new/rewards" element={<RewardCreation />} />
                 <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
                 <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
-
-
-
                 {/* 판매 */}
                 <Route path="/shop/ArtworkAdd" element={<ArtworkAdd />} />
                 <Route path="/shop/RecommendFrame/:frameId" element={<RecommendFrame />} />
@@ -74,12 +94,17 @@ function AppRouter() {
 
 
 
-                {/* 마이페이지*/}
+            <Route path="/regartworklist" element={<RegArtworkList/>} />
+
+            <Route path="/gallery" element={<Gallery/>} />
+            <Route path="/gallerydetail" element={<GalleryDetail/>} />
+
+
+            <Route path="message" element={<Message/>} />
+  {/* 마이페이지*/}
                 <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
                 <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
                 <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
-
-
                 <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
                 <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
                 <Route path="/mypage/message" element={<Message/>}/>
@@ -97,8 +122,7 @@ function AppRouter() {
                 <Route path="/notice" element={<Notice/>}/>
                 {/* 작가상세 */}
                 <Route path="/artistDetail" element={<ArtistDetail/>}/>
-                
-
+               
             </Routes>
         </Router>
     );

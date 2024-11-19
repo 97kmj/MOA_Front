@@ -1,7 +1,9 @@
 /* 전체 레이아웃 컨테이너 */
 .container {
     display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
-    margin-top: 0; /* 헤더와 붙이기 */
+    margin-top: 0;
+    /* margin: 50px auto 0; 상단 여백을 50px로 설정 */
+    max-width: 1240px;
   }
   
   /* Side Navigation */
@@ -24,7 +26,7 @@
     border-radius: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
     padding: 50px; /* 상하좌우 여백 추가 */
-    padding-top: 40px; /* 헤더와의 간격 추가 */
+    padding-top: 50px; /* 헤더와의 간격 추가 */
 
   }
   

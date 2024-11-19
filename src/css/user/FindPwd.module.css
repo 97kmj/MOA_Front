@@ -1,0 +1,113 @@
+.container {
+    max-width: 24rem;
+    margin: 0 auto;
+    padding: 10rem;
+    background-color: white;
+    color: #4a4a4a;
+    text-align: center; /* 중앙정렬 */
+    
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #b39c59;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #b39c59; 
+    margin-bottom: 0.5rem;
+  }
+  
+  .separator {
+    width: 100%;
+    height: 2px;
+    background-color: #b39c59; /* 지정된 색상 */
+    margin-bottom: 1.5rem;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .button {
+    flex: 1;
+    padding: 0.5rem 0;
+    border: 2px solid #b39c59; 
+    color: #b39c59;
+    border-radius: 0.5rem;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #b39c59;
+    color: white;
+  }
+  
+  .inputGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .label {
+    display: block;
+    color: #b39c59; 
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #b39c59; 
+    border-radius: 0.5rem;
+  }
+  
+  .shortInput {
+    width: 95%; /* 길이 축소 */
+    margin: 0 auto;
+  }
+  
+  .titleWithButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .smallButton {
+    padding: 0.25rem 0.75rem;
+    border: 2px solid #b39c59; /* orange-400 */
+    color: #b39c59;
+    border-radius: 0.5rem;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .smallButton:hover {
+    background-color: #b39c59;
+    color: white;
+  }
+  
+  .alignCenter {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .primaryButton {
+    padding: 0.5rem 1.5rem;
+    background-color: #b39c59; 
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .primaryButton:hover {
+    background-color: #b39c59; 
+  }
+  
