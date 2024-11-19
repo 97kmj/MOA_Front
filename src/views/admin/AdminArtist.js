@@ -7,7 +7,6 @@ const AdminArtist = () => {
             <AdminSidebar/>
             <div className={styles.regList}>
                 <h4>작가 신청 목록</h4>
-                <hr></hr>
                 <table>
                     <thead>
                         <tr><th>이름</th><th>아이디</th><th>신청일</th></tr>
@@ -23,12 +22,12 @@ const AdminArtist = () => {
                     <div className={styles.imgBox}>
                     </div>
                     <table className={styles.info}>
-                        <tr><td>아이디</td><td><b>hong1234</b></td></tr>
-                        <tr><td>이름</td><td><b>홍길동</b></td></tr>
+                        <tr><td>아이디</td><td>hong1234</td></tr>
+                        <tr><td>이름</td><td>홍길동</td></tr>
                     </table>
+                <button className={styles.goldbutton}>포트폴리오 다운로드</button>
                 </div>
-                <h5>포트폴리오</h5>
-                <input type="file"></input>    
+                <br></br>
                 <h5>작가이력</h5>
                 <textarea></textarea>
                 <h5>작가노트</h5>

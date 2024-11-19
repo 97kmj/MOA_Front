@@ -9,9 +9,9 @@ const Notice = () => {
         <>
         <Header/>
         <div className={styles.container}>
-            <div className={styles.headerText}>
-                <h2 align="center">공지사항</h2>
-            </div><br/>
+            <h3 align="center">공지사항</h3>
+            <hr className={styles.bar}></hr>
+            <br/>
             <div className={styles.noticeList}>
                 <ul>
                     <li onClick={showNotice}><span className={styles.noticeTitle}>작가 등록 시 유의사항 안내</span><span className={styles.date}>2024-10-15</span></li>
@@ -35,8 +35,10 @@ const Notice = () => {
             <div className={styles.more}><img src='/img/Vector.png' alt=''/></div>
             <br/>
             <div className={styles.headerText}>
-                <h2 className={styles.faq}>FAQ</h2><span style={{display:"inline-block", verticalAlign:"middles"}}><button className={styles.question}>1대1문의하기</button></span>
-            </div><br/>
+                <h3 className={styles.faq}>FAQ</h3><span className={styles.questionbox}><button className={styles.question}>1대1 문의하기</button></span>
+            </div>
+            <hr className={styles.bar}></hr>
+            <br/>
             <div className={styles.noticeList}>
                 <ul>
                     <li onClick={showNotice}><span className={styles.noticeTitle}>작가 등록 시 유의사항 안내</span><span className={styles.date}>2024-10-15</span></li>

@@ -6,7 +6,7 @@
 }
 .body{ 
     width:1000px;
-    margin:20px auto;    
+    margin:50px auto;    
 }
 .body h3 {
     text-align: left;
@@ -30,7 +30,7 @@
     resize: none;
     border: #B39C59 1px solid;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
     overflow-y: auto;
 }
 
@@ -46,7 +46,7 @@
     height: 38px;
     padding:0 10px 0 10px;
     font-size: 14px;
-    border-radius: 34px;
+    border-radius: 50px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;
@@ -60,6 +60,7 @@
 .imgUploadbox  label {
     display: inline-block;
     padding: 10px 20px;
+    border-radius: 50px;
     color: #fff;
     vertical-align: middle;
     background-color: #999999;

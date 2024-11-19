@@ -3,6 +3,7 @@
     background-color: whitesmoke;
     margin:0;
     padding:0;
+    height: 100vh;
 }
 .tableBox {
     height: 650px;
@@ -48,7 +49,7 @@
     height: 38px;
     padding:0 10px 0 10px;
     font-size: 14px;
-    border-radius: 34px;
+    border-radius: 50px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;
@@ -59,21 +60,36 @@
     cursor: pointer;
 }
 
-hr {
-    border: 1px solid #B39C59;
-}
-
-.select {
-    box-sizing: border-box;
-    width: 100px;
-    padding: 4px;
-    font-size: 14px;
-    border-radius: 6px;
-  }
-  
 .option {
     padding: 4px;
     font-size: 14px;
     color: #fff;
     background: #272822;
   }
+
+.customSelect {
+    position: relative;
+    display: inline-block;
+}
+
+.customSelect select {
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    appearance: none; /* 기본 드롭다운 화살표 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 5px 30px 5px 10px;
+}
+
+.customSelect::after {
+    content: "▼";
+    font-size: 12px;
+    color: #939090;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}

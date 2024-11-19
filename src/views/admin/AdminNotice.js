@@ -2,7 +2,6 @@ import AdminSidebar from "./AdminSidebar";
 import styles from "../../css/admin/AdminNotice.module.css"
 const AdminNotice = () => {
     return(
-        
         <>
         <div className={styles.container}>
             <AdminSidebar/>
@@ -117,7 +116,6 @@ const AdminNotice = () => {
             </div>
         </div>
         </>
-        
     )
 }
  

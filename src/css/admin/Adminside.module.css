@@ -6,6 +6,17 @@
     border-right: #b39C59 1px solid;
 }
 
+.sidehead {
+    text-align: center;
+}
+.sidehead h1 {
+    color: #b39C59;
+    font-style: italic;
+}
+.sidehead h1:hover {
+    cursor: pointer;
+}
+
 .sidemenu {
     display: flex;
     flex-direction: column;

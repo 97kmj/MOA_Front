@@ -23,6 +23,7 @@ const SaleDetail = () => {
 
     return (
         <>
+
             <h2 className={styles.titlename}>판매 > 판매상세</h2>
             <div className={styles.bar}></div>
             <div className={styles.detailTop}>
@@ -168,6 +169,7 @@ const SaleDetail = () => {
                     </tbody>
                 </Table>
             </div>
+        
         </>
     );
 }

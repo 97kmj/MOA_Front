@@ -7,7 +7,6 @@ const AdminFunding = () => {
             <AdminSidebar/>
             <div className={styles.regList}>
                 <h4>펀딩 신청 목록</h4>
-                <hr></hr>
                 <table>
                     <thead>
                         <tr><th>이름</th><th>아이디</th><th>신청일</th></tr>

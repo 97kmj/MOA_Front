@@ -1,5 +1,5 @@
 import Header from "../../Header";
-import styles from "../../../css/mypage/artist/artistEdit.module.css"
+import styles from "../../../css/mypage/artist/ArtistEdit.module.css"
 import SideNav from "../SideNav";
 
 const ArtistEdit = () => {
