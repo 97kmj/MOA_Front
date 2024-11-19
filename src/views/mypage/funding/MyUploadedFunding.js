@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from '../../../css/mypage/funding/MyUploadedFunding.module.css';
 import Header from "../../Header";
 import SideNav from "../SideNav";
+import {useNavigate} from "react-router-dom";
 function MyUploadedFunding() {
     const [activeTab, setActiveTab] = useState('success'); // Default to "성공 펀딩"
 
@@ -15,6 +16,13 @@ function MyUploadedFunding() {
         // ... 추가 항목
     ];
 
+     const navigate = useNavigate();
+
+     const goToDetail = (id) => {
+            navigate(`/mypage/fundings/uploaded/${id}`);
+     }
+
+
     return (
         <>
             <Header />
@@ -23,7 +31,7 @@ function MyUploadedFunding() {
 
                 <div className={styles.mainContent}>
                     <div className={styles.myUploadedFunding}>
-                        <h2>내가 올린 펀딩 조회</h2>
+                        <h3>내가 올린 펀딩 조회</h3>
 
                         {/* Tabs */}
                         <div className={styles.myUploadedFundingTabs}>
@@ -48,7 +56,9 @@ function MyUploadedFunding() {
                         </div>
 
                         {/* Funding List */}
-                        <div className={styles.myUploadedFundingList}>
+                        <div className={styles.myUploadedFundingList}
+                                onClick={() => goToDetail(fundingList.id)}
+                            >
                             {fundingList.map((funding) => (
                                 <div key={funding.id} className={styles.myUploadedFundingItem}>
                                     <img

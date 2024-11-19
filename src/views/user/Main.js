@@ -16,10 +16,9 @@ const Main = () => {
                     <span>펀딩으로 신진작가의 성장을 함께 지원하세요.</span>
                 </div>
             </div>
-
-            <div className={styles.headerText} >
-                <h2>Artwork</h2>
-            </div><br/>
+            <h3>Artwork</h3>          
+            <hr className={styles.bar}></hr>
+            <br/>
             <div className = {styles.mainartwork}>
                 <img src="/img/sample1.webp"/>
             </div><br/>
@@ -49,9 +48,10 @@ const Main = () => {
                 <button className={styles.goldbutton}>Shop</button>
             </div><br/>
 
-            <div className={styles.headerText} >
-                <h2>진행중인 펀딩</h2>
-            </div><br/>
+            <h3>진행중인 펀딩</h3>
+            <hr className={styles.bar}></hr>
+
+            <br/>
             <div className={styles.fundingBox}>
                 <article>
                     <div className={styles.fundingImg}>

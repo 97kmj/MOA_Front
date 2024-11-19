@@ -1,7 +1,7 @@
 .container {
     display: flex;
     background-color: whitesmoke;
-    
+    height: 100vh;
     margin:0;
     padding:0;
 }
@@ -17,12 +17,16 @@
 .regList table{
     width:100%;
     border-spacing:4px 4px;
+    border-collapse: collapse;
 }
 .regList table tbody{
     max-height: 600px;
     overflow-y:scroll;
 }
-
+.regList table thead tr{
+    border-bottom: 2px solid #B39C59;
+    border-top: 2px solid #B39C59;
+}
 
 .buttonDiv {
     margin:20px auto;
@@ -36,7 +40,7 @@
     height: 38px;
     padding:0 10px 0 10px;
     font-size: 14px;
-    border-radius: 34px;
+    border-radius: 50px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;
@@ -92,9 +96,6 @@
     padding: 10px;
     overflow-y: auto;
 }
-hr {
-    border: 1px solid #B39C59;
-}
 
 .detailLeftBox {
     width: 45%;
@@ -109,7 +110,11 @@ hr {
     
     padding:0;
 }
-
+.bar {
+    border: none;
+    height: 2px;
+    background-color: #B39C59;
+}
 .goalAmount {
     width: 100%;
     font-size: 20px;
@@ -121,10 +126,12 @@ hr {
 .fundingPeriod {
     width: 100%;
     text-align: center;
+    
 }
 
 .fundingPeriod td {
     border: #B39C59 0.5px solid;
+    border-radius: 10px;
 }
 .rewardListContainer{
     width: 100%;

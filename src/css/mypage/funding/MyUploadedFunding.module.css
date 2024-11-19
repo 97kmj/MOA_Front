@@ -10,13 +10,14 @@
 }
 
 .mainContent {
-    flex: 1;
-    padding: 20px;
+    width: 65%;
+    padding-top: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .myUploadedFunding {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+    padding-top: 50px;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -36,10 +37,11 @@
 .myUploadedFundingTabs button {
     padding: 10px 20px;
     border: 1px solid #e0d5b8;
-    border-radius: 20px;
-    background-color: #ffffff;
-    color: #5d4a00;
+    border-radius: 50px;
+    background-color: #b29c59;
+    color: #FFFFFF;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .myUploadedFundingTabs button.active {
@@ -49,7 +51,8 @@
 }
 
 .myUploadedFundingList {
-    border-top: 1px solid #e0d5b8;
+    border-top: 2px solid #b29c59;
+
 }
 
 .myUploadedFundingItem {
