@@ -1,0 +1,80 @@
+.container {
+    display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
+    margin-top: 0; /* 헤더와 붙이기 */
+}
+
+.qnabody{
+    margin:50px auto;
+    width: 1240px;
+
+}
+
+.bar {
+    border: none;
+    height: 2px;
+    background-color: #B39C59;
+}
+
+.buttonTabs {
+    display: flex;
+}
+.goldbutton {
+    height: 38px;
+    padding:0 10px 0 10px;
+    font-size: 14px;
+    border-radius: 50px;
+    margin-right:20px;
+    border: 1px solid #B39C59;
+    background-color: #B39C59;
+    color: white;
+}
+.whitebutton {
+    height: 38px;
+    padding:0 10px 0 10px;
+    font-size: 14px;
+    border-radius: 50px;
+    margin-right:20px;
+    border: 1px solid #B39C59;
+    background-color: white;
+    color: #B39C59;
+}
+.goldbutton:hover , .whitebutton:hover {
+    cursor: pointer;
+}
+
+.messageDate {
+    float: right;
+}
+.queestionList {
+    margin-top:10px;
+    height: 500px;
+    overflow-y: auto;
+}
+.question {
+    border: 1px solid #B39C59;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+
+  /* 페이지네이션 */
+.messagePagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px;
+  }
+  
+.messagePagination button {
+    padding: 8px 12px;
+    border: none;
+    color: #5d4a00;
+    cursor: pointer;
+  }
+  
+.messagePagination button.active {
+    font-weight: bold;
+    color: #b84700;
+  }

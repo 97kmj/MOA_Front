@@ -1,6 +1,6 @@
 .container {
     width: 1500px;
-    margin:0 auto;
+    margin:30px auto;
     padding:0;
 }
 .banner {
@@ -23,10 +23,6 @@
 .italic {
     font-style: italic;
 }
-.header-text {
-    border-bottom: #B39C59 5px solid;
-    width: 1500px;
-}
 .mainartwork{
     width: 100%;
     height: auto;
@@ -34,6 +30,8 @@
     align-items: center;
 }
 .mainartwork img {
+    width:700px;
+    height: 500px;
     object-fit: contain;
 }
 .artworkbox{
@@ -66,7 +64,7 @@
     width: 95px;
     height: 38px;
     font-size: 14px;
-    border-radius: 34px;
+    border-radius: 50px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;
@@ -109,4 +107,10 @@
     height: 100%;
     overflow: hidden;
     position: relative;
+}
+
+.bar {
+    border: none;
+    height: 2px;
+    background-color: #B39C59;
 }

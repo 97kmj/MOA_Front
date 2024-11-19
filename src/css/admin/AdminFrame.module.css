@@ -3,6 +3,7 @@
     background-color: whitesmoke;
     margin:0;
     padding:0;
+    height: 100vh;
 }
 .listBox {
     height: 500px;
@@ -54,7 +55,7 @@
     height: 38px;
     padding:0 10px 0 10px;
     font-size: 14px;
-    border-radius: 34px;
+    border-radius: 50px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;

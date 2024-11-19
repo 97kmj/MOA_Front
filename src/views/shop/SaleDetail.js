@@ -184,6 +184,7 @@ const SaleDetail = () => {
                     </Table>
                 </div>
             </div>
+        
         </>
     );
 }

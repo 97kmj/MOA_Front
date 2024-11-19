@@ -6,8 +6,7 @@ const ArtistDetail = () => {
         <Header/>
         <div className={styles.container}>
             <h3>작가 정보</h3>
-            
-            <hr/>
+            <hr className={styles.bar}></hr>
             <div className={styles.artistInfo}>
                 <div className={styles.infoLeftBox}>
                     <div className={styles.artistImgBox}>
