@@ -1,0 +1,112 @@
+.container {
+    max-width: 24rem;
+    margin: 0 auto;
+    padding: 10rem;
+    background-color: white;
+    color: #4a4a4a;
+    text-align: center;
+/* 화면 정중앙 배치를 위한 flexbox 스타일 */
+/* display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100vh; 
+box-sizing: border-box;  */
+    
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #b39c59;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #b39c59;
+    margin-bottom: 0.5rem;
+}
+
+.separator {
+    width: 100%;
+    height: 2px;
+    background-color: #b39c59;
+    margin-bottom: 1.5rem;
+}
+
+.inputGroup {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.label {
+    display: block;
+    color: #b39c59;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #b39c59;
+    border-radius: 0.5rem;
+    background-color: #f9f9f9;
+    color: #4a4a4a;
+    margin-bottom: 1rem; /* 입력 필드 간 간격 */
+}
+
+.shortInput {
+    width: 95%;
+    margin: 5 auto;
+}
+
+.titleWithButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    position: relative; /* 버튼 위치를 조정하기 위한 설정 */
+}
+
+.smallButton {
+    padding: 0.25rem 0.75rem;
+    border: 2px solid #b39c59;
+    color: #b39c59;
+    border-radius: 0.5rem;
+    background: none;
+    cursor: pointer;
+    position: absolute;
+    top: -5px; /* 버튼을 위로 10px 이동 */
+    right: 0; /* 오른쪽 정렬 */
+}
+
+.smallButton:hover {
+    background-color: #b39c59;
+    color: white;
+}
+
+.alignCenter {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.primaryButton {
+    padding: 0.5rem 2.5rem;
+    background-color: #b39c59;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    position: absolute;
+}
+
+.primaryButton:hover {
+    background-color: #9d8652;
+}

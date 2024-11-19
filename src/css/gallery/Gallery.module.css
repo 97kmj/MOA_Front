@@ -1,6 +1,6 @@
 .container {
-  max-width: 1024px;
-  margin: 0 auto;
+  max-width: 1500px;
+  margin: 50px auto;
   padding: 16px;
 }
 
@@ -28,7 +28,7 @@
 .separator {
   width: 100%;
   border: none;
-  height: 4px;
+  height: 2px;
   background-color: #b39c59;
   margin: 8px 0 16px; /* 위아래 여백 조정 */
 }
@@ -67,10 +67,10 @@
 }
 
 .dropdownBtn {
-  background-color: #e5e7eb;
+  background-color: #b39c59;
   padding: 8px 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
 }
 

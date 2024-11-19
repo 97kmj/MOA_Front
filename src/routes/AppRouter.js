@@ -1,48 +1,35 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import FundingList from "../views/funding/FundingList";
-import FundingDetail from "../views/funding/FundingDetail";
-import FundingContribute from "../views/funding/FundingContribute";
-import FundingRegistration from "../views/funding/FundingRegistration";
-import RewardCreation from "../views/funding/RewardCreation";
-import FundingArtCreation from "../views/funding/FundingArtCreation";
-import MyUploadedFunding from "../views/mypage/funding/MyUploadedFunding";
-import MyUploadedFundingDetail from "../views/mypage/funding/MyUploadedFundingDetail";
-import MyContributedFunding from "../views/mypage/funding/MyContributedFunding";
-import Main from "../views/user/Main";
-import GalleryExam from "../views/funding/GalleryExam";
-import FundingRegistrationThankYou from "../views/funding/FundingRegistrationThankYou";
-
+import FindId from "../views/user/FindId";
+import FindIdResult from "../views/user/FindIdResult";
+import FindPwd from "../views/user/FindPwd";
+import FindPwdResult from "../views/user/FindPwdResult";
+import Join from "../views/user/Join";
+import Login from "../views/user/Login";
+import RegArtworkList from "../views/mypage/RegArtworkList";
+import Gallery from "../views/gallery/Gallery";
+import GalleryDetail from "../views/gallery/GalleryDetail";
+import Message from "../views/mypage/Message";
 
 function AppRouter() {
     return (
         <Router>
             <Routes>
-                {/*메인*/}
-                <Route path="/" element={<Main />} />
 
-                {/*펀딩*/}
-                <Route path="/fundings" element={<FundingList />} />
-                <Route path="/fundings/:id" element={<FundingDetail />} />
-                <Route path="/fundings/:id/contributions" element={<FundingContribute />} />
+            <Route path="/findid" element={<FindId/>} />
+            <Route path="/findidres" element={<FindIdResult/>} />
+            <Route path="/findpwd" element={<FindPwd/>} />
+            <Route path="/findpwdres" element={<FindPwdResult/>} />
 
+            <Route path="/login" element={<Login/>} />
+            <Route path="/join" element={<Join/>} />
 
-                <Route path="/galleryExam" element={<GalleryExam />} />
+            <Route path="/regartworklist" element={<RegArtworkList/>} />
 
-                <Route path="/funding/new" element={<FundingRegistration />} />
-                <Route path="/funding/new/rewards" element={<RewardCreation />} />
-                <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
-                <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
+            <Route path="/gallery" element={<Gallery/>} />
+            <Route path="/gallerydetail" element={<GalleryDetail/>} />
 
-
-
-
-
-                {/* 마이페이지*/}
-                <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
-                <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
-                <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
-
+            <Route path="message" element={<Message/>} />
             </Routes>
         </Router>
     );
