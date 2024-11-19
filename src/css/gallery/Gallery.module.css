@@ -13,16 +13,16 @@
 
 .headerTop {
   display: flex;
-  justify-content: space-between; /* 제목과 버튼 간 여백 추가 */
-  align-items: center; /* 수직 정렬 */
-  width: 100%; /* 전체 폭 */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .title {
   font-size: 1.875rem;
   font-weight: bold;
   color: #b39c59;
-  margin-bottom: 0; /* 여백 제거 */
+  margin-bottom: 0;
 }
 
 .separator {
@@ -30,7 +30,7 @@
   border: none;
   height: 2px;
   background-color: #b39c59;
-  margin: 8px 0 16px; /* 위아래 여백 조정 */
+  margin: 8px 0 16px;
 }
 
 .viewButtons {
@@ -144,43 +144,78 @@
 
 .galleryView {
   display: flex;
-  perspective: 1000px;
-  justify-content: center;
   align-items: center;
-  height: 400px;
+  justify-content: center;
   position: relative;
+  width: 100%;
+  height: 400px;
 }
 
 .galleryCard {
-  width: 200px;
-  height: 300px;
-  background-color: #444;
-  position: absolute;
-  transition: transform 0.5s ease;
-  transform-origin: center;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  width: 300px;
+  height: 400px;
   text-align: center;
-  overflow: hidden;
+  transition: transform 0.5s ease;
 }
 
 .galleryImage {
   width: 100%;
   height: 80%;
   object-fit: cover;
+  border-radius: 8px;
 }
 
 .galleryTitle {
-  padding: 8px;
   font-size: 1rem;
-  color: #f97316;
+  margin-top: 8px;
+  color: #b39c59;
 }
 
+.arrowLeft,
+.arrowRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.arrowLeft,
+.arrowRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10; /* 다른 요소 위에 표시되도록 설정 */
+}
+
+.arrowLeft {
+  left: 10px;
+}
+
+.arrowRight {
+  right: 10px;
+}
+
+
 .loadMore {
-  display: flex; /* 플렉스 박스 사용 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  margin: 32px auto; /* 위아래 여백 및 수평 중앙 정렬 */
-  grid-column: span 4; /* 카드 그리드의 가운데 위치 */
+  display: flex;
+  justify-content: center;
+  margin: 32px auto;
+  grid-column: span 4;
 }
 
 .loadMore .btn {
@@ -194,4 +229,46 @@
 
 .loadMore .btn:hover {
   background-color: #a2844f;
+}
+
+
+.galleryItems {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.galleryItem {
+  flex: 1;
+  text-align: center;
+  opacity: 0.8;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.centerItem {
+  flex: 2;
+  opacity: 1;
+  position: relative; /* 자식 요소 위치 조정 가능 */
+}
+
+.centerItem .galleryImage {
+  transform: scale(1.2);
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.centerItem .galleryTitle {
+  position: absolute; /* 이미지 위에 텍스트 배치 */
+  bottom: 8px; /* 하단 여백 */
+  left: 50%; /* 가운데 정렬 */
+  transform: translateX(-50%); /* 정확한 가운데 정렬 */
+  background-color: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+  color: #fff; /* 텍스트 색상 */
+  padding: 8px 16px; /* 텍스트 패딩 */
+  border-radius: 4px; /* 약간 둥근 모서리 */
+  font-size: 1rem; /* 텍스트 크기 */
+  text-align: center; /* 텍스트 정렬 */
+  z-index: 2; /* 텍스트가 이미지 위에 위치하도록 설정 */
 }
