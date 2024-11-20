@@ -17,12 +17,14 @@
 }
 
 .container {
+   
     margin:20px auto;
     padding:0;
     width: 1500px;
 }
 .titlename{
-    margin: 18px 0px;
+
+    margin: 68px 0px 18px 0px;
 }
 
 .listcategory{
@@ -601,18 +603,17 @@
       margin-left: 10px;
     width: 1000px;
     max-height: 450px;
-    border: 40px solid #dca56b;
-    border-image: url("//image.ibb.co/dgydgn/wood_frame.png") 63 64;
-    /* border-image: URL(/img/액자1.png) 63 64;  */
+    border: 40px solid white;
+    border-image: url('../../../public/img/액자1.png') 50 64;
+    
 
 }
 .frameArtwork1{
     margin-left: 10px;
     width: 1000px;
     max-height: 450px;
-    border: 40px solid #dca56b;
-    border-image: url("//image.ibb.co/nvJENS/pattern.png") 73 74 round
-    
+    border: 40px solid white;
+    border-image: url('../../../public/img/액자32.png') 100 100 round
 }
 
 

@@ -9,6 +9,7 @@ import Join from "../views/user/Join";
 import Login from "../views/user/Login";
 import RegArtworkList from "../views/mypage/RegArtworkList";
 import Gallery from "../views/gallery/Gallery";
+import MyGallery from "../views/gallery/MyGallery";
 import GalleryDetail from "../views/gallery/GalleryDetail";
 
 import FundingList from "../views/funding/FundingList";
@@ -30,7 +31,8 @@ import AdminNotice from "../views/admin/AdminNotice";
 import ArtworkAdd from "../views/shop/ArtworkAdd";
 import RecommendFrame from "../views/shop/RecommendFrame";
 import SaleAddResult from "../views/shop/SaleAddResult";
-import SaleDetail from "../views/shop/SaleOrder";
+import SaleDetail from "../views/shop/SaleDetail";
+
 import SaleList from "../views/shop/SaleList";
 import SaleOrder from "../views/shop/SaleOrder";
 import SaleOrderResult from "../views/shop/SaleOrderResult";
@@ -56,74 +58,74 @@ function AppRouter() {
         <Router>
             <Routes>
 
-                <Route path="/findid" element={<FindId/>} />
-                <Route path="/findidres" element={<FindIdResult/>} />
-                <Route path="/findpwd" element={<FindPwd/>} />
-                <Route path="/findpwdres" element={<FindPwdResult/>} />
+
+                <Route path="/user/findId" element={<FindId/>} />
+                <Route path="/user/findIdResult" element={<FindIdResult/>} />
+                <Route path="/user/findPwd" element={<FindPwd/>} />
+                <Route path="/user/findPwdResult" element={<FindPwdResult/>} />
+                <Route path="/user/login" element={<Login/>} />
+                <Route path="/user/join" element={<Join/>} />
+
+            <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />
+            <Route path="/mypage/message" element={<Message/>} />
+            
+            <Route path="/gallery/mygallery" element={<MyGallery/>} />
+            <Route path="/gallery/gallery" element={<Gallery/>} />
+            <Route path="/gallery/galleryDetail" element={<GalleryDetail/>} />
+
+
+            {/*메인*/}
+            <Route path="/" element={<Main />} />
+
+            {/*펀딩*/}
+            <Route path="/fundings" element={<FundingList />} />
+            <Route path="/fundings/:id" element={<FundingDetail />} />
+            <Route path="/fundings/:id/contributions" element={<FundingContribute />} />
+
+
+            <Route path="/galleryExam" element={<GalleryExam />} />
+
+            <Route path="/funding/new" element={<FundingRegistration />} />
+            <Route path="/funding/new/rewards" element={<RewardCreation />} />
+            <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
+            <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
+            {/* 판매 */}
+            <Route path="/shop/artworkAdd" element={<ArtworkAdd />} />
+            <Route path="/shop/recommendFrame/:frameId" element={<RecommendFrame />} />
+            <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
+            <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail />} />
+            <Route path="/shop/saleList" element={<SaleList />} />
+            <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
+            <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
+            <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
+
 
             <Route path="/regartworklist" element={<RegArtworkList/>} />
-            <Route path="message" element={<Message/>} />
-            
+
             <Route path="/gallery" element={<Gallery/>} />
             <Route path="/gallerydetail" element={<GalleryDetail/>} />
 
-                <Route path="/login" element={<Login/>} />
-                <Route path="/join" element={<Join/>} />
+            {/* 마이페이지*/}
+            <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
+            <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
+            <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
+            <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
+            <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
+            <Route path="/mypage/message" element={<Message/>}/>
+            <Route path="/mypage/qna" element={<MyQnA/>}/>
+            {/* 관리자 */}
+            <Route path="/admin/notice" element={<AdminNotice/>} />
+            <Route path="/admin/QnA" element={<AdminQnA/>} />
+            <Route path="/admin/artistLIst" element={<AdminArtist/>} />
+            <Route path="/admin/blackArtwork" element={<AdminArtwork/>} />
+            <Route path="/admin/funding" element={<AdminFunding/>} />
+            <Route path="/admin/item" element={<AdminItem/>} />
+            <Route path="/admin/frame" element={<AdminFrame/>} />
 
-                {/*메인*/}
-                <Route path="/" element={<Main />} />
-
-                {/*펀딩*/}
-                <Route path="/fundings" element={<FundingList />} />
-                <Route path="/fundings/:id" element={<FundingDetail />} />
-                <Route path="/fundings/:id/contributions" element={<FundingContribute />} />
-
-
-                <Route path="/galleryExam" element={<GalleryExam />} />
-
-                <Route path="/funding/new" element={<FundingRegistration />} />
-                <Route path="/funding/new/rewards" element={<RewardCreation />} />
-                <Route path="/funding/new/artworks" element={<FundingArtCreation />} />
-                <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
-                {/* 판매 */}
-                <Route path="/shop/artworkAdd" element={<ArtworkAdd />} />
-                <Route path="/shop/recommendFrame/:frameId" element={<RecommendFrame />} />
-                <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
-                <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail />} />
-                <Route path="/shop/saleList" element={<SaleList />} />
-                <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
-                <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
-                <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
-
-
-                <Route path="/regartworklist" element={<RegArtworkList/>} />
-
-                <Route path="/gallery" element={<Gallery/>} />
-                <Route path="/gallerydetail" element={<GalleryDetail/>} />
-
-
-                <Route path="message" element={<Message/>} />
-                {/* 마이페이지*/}
-                <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
-                <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
-                <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
-                <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
-                <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
-                <Route path="/mypage/message" element={<Message/>}/>
-                <Route path="/mypage/qna" element={<MyQnA/>}/>
-                {/* 관리자 */}
-                <Route path="/admin/notice" element={<AdminNotice/>} />
-                <Route path="/admin/QnA" element={<AdminQnA/>} />
-                <Route path="/admin/artistLIst" element={<AdminArtist/>} />
-                <Route path="/admin/blackArtwork" element={<AdminArtwork/>} />
-                <Route path="/admin/funding" element={<AdminFunding/>} />
-                <Route path="/admin/item" element={<AdminItem/>} />
-                <Route path="/admin/frame" element={<AdminFrame/>} />
-
-                {/* 공지사항 */}
-                <Route path="/notice" element={<Notice/>}/>
-                {/* 작가상세 */}
-                <Route path="/artistDetail" element={<ArtistDetail/>}/>
+            {/* 공지사항 */}
+            <Route path="/notice" element={<Notice/>}/>
+            {/* 작가상세 */}
+            <Route path="/artistDetail" element={<ArtistDetail/>}/>
             
             </Routes>
         </Router>

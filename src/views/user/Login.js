@@ -7,8 +7,18 @@ const Login = () => {
 
   // 회원가입 버튼 클릭 시 호출되는 함수
   const handleSignupClick = () => {
-    navigate('/join'); // /join 경로로 이동
+    navigate('/user/join'); // /join 경로로 이동
   };
+// 아이디 찾기 버튼 클릭 시 호출되는 함수
+const handleFindIdClick = () => {
+  navigate('/user/findid'); // /user/findid 경로로 이동
+};
+
+// 비밀번호 찾기 버튼 클릭 시 호출되는 함수
+const handleFindPwdClick = () => {
+  navigate('/user/findpwd'); // /user/findpwd 경로로 이동
+};
+
 
   return (
     <div className={styles.loginContainer}>
@@ -27,8 +37,8 @@ const Login = () => {
         <button className={styles.signupButton} onClick={handleSignupClick}>회원가입</button>
 
         <div className={styles.findOptions}>
-          <button className={styles.findButton}>아이디 찾기</button>
-          <button className={styles.findButton}>비밀번호 찾기</button>
+          <button className={styles.findButton} onClick={handleFindIdClick}>아이디 찾기</button>
+          <button className={styles.findButton} onClick={handleFindPwdClick}>비밀번호 찾기</button>
         </div>
 
         <div className={styles.socialLogin}>

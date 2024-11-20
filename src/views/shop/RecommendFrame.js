@@ -8,15 +8,13 @@ const RecommendFrame = () => {
   // List of frame images
   const frameImages = [
     '/img/액자1.png',
-    '/img/액자2.png',
-
+    '/img/액자32.png',
   ];
 
 
   const frameClasses=[
     styles.frameArtwork1,
     styles.frameArtwork2,
-
   ];
 
 
@@ -55,11 +53,6 @@ const RecommendFrame = () => {
             className={frameClasses[selectedFrame]}
             alt="Artwork"
           />
-          {/* { <img
-            src={frameImages[selectedFrame]}
-            className={styles.frameImgchoice}
-            alt="Selected Frame"
-          /> } */}
           
         </div>
 
