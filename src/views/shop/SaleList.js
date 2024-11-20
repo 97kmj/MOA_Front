@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../../css/shop/SaleList.module.css';
+import styles from '../../css/shop/ArtSaleList.module.css';
 import Header from "../Header";
 
 const SaleList = () => {
