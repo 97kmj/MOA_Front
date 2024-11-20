@@ -9,7 +9,10 @@
     margin-top: 10px;
     border-top: 2px solid #b39c59;
 }
-
+.titleName{
+    font-weight: bold;
+    color: #b39c59;
+}
 .title {
     font-weight: bold;
     color: #555;
