@@ -58,7 +58,7 @@ const SaleOrder = () => {
         <>
             <Header />
             <div className={styles.saleOrder}>
-                <h3 className={styles.title}>판매 결제</h3>
+                <p className={styles.title}>판매 결제</p>
                 <hr className={styles.titleLine} />
 
                 <div className={styles.content}>
@@ -141,10 +141,7 @@ const SaleOrder = () => {
                     {/* Right Section */}
                     <div className={styles.rightSection}>
                         <div className={styles.artworkDetails}>
-                            <h3>{artworkDetails.title}</h3>
-                            <p className={styles.price}>
-                                {artworkDetails.price.toLocaleString()}₩
-                            </p>
+                            <h3 className={styles.titleName}>{artworkDetails.title}</h3>
                             <p>
                                 <span className={styles.title}>ARTIST</span>
                                 <span className={styles.content}>{artworkDetails.artist}</span>
@@ -152,6 +149,10 @@ const SaleOrder = () => {
                             <p>
                                 <span className={styles.title}>SIZE</span>
                                 <span className={styles.content}>{artworkDetails.size}</span>
+                            </p>
+                            <p>
+                                <span className={styles.title}>PRICE</span>
+                                <span className={styles.content}>{artworkDetails.price.toLocaleString()}원</span> 
                             </p>
                             <p>
                                 <span className={styles.title}>STOCK</span>

@@ -23,11 +23,13 @@ const SaleDetail = () => {
 
     const totalPrice = basePrice + framePrices[selectedFrame];
 
+
+
     return (
         <>
             <Header/>
             <div className={styles.container}>
-                <p className={styles.titlename}>판매상세</p>
+                <p className={styles.titlename}><b>판매상세</b></p>
                 <div className={styles.bar}></div>
                 <div className={styles.detailTop}>
                     <div className={styles.detailTopLeft}>
@@ -35,7 +37,7 @@ const SaleDetail = () => {
                     </div>
                     <div className={styles.detailTopRight}>
                         <div className={styles.detailTopRightArtworkName}>
-                            <b>이 작품 다들 알지?</b>
+                            <b>별이 빛나는 밤</b>
                         </div>
                         <br />
                         <Table borderless className={styles.detailTopRightTable}>
@@ -80,16 +82,16 @@ const SaleDetail = () => {
                                     <td><Label>1000x1200000</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>그림</Label></td>
+                                    <td><Label>수묵화</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>수채화</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>수묵화</Label></td>
+                                    <td><Label>{new Intl.NumberFormat().format(basePrice)}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{new Intl.NumberFormat().format(basePrice)}</Label></td>
+                                    <td><Label>5개</Label></td>
                                 </tr>
                                 <tr>
                                     <Input
@@ -103,7 +105,6 @@ const SaleDetail = () => {
                                         <option value="premium">고급 프레임 +200000</option>
                                     </Input> &nbsp;&nbsp;&nbsp;
                                     <td className={styles.alignCenter}><Button className={styles.frameButton}>추천프레임</Button></td>
-
                                 </tr>
                             </tbody>
                         </Table>
@@ -188,7 +189,6 @@ const SaleDetail = () => {
                     </Table>
                 </div>
             </div>
-        
         </>
     );
 }

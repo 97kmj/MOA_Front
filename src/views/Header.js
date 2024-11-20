@@ -10,21 +10,21 @@ const Header = () => {
     return(
         <>
         <div className={styles.header}>
-            <a href="/" className={styles.moa}>MOA</a>
+            <Link to="/" className={styles.moa}>MOA</Link>
             <nav className={styles.navmenu}>
                 <ul>
-                    <li><a href="">GALLERY</a></li>
-                    <li><a href="">SHOP</a></li>
+                    <li><Link to="/gallery">GALLERY</Link></li>
+                    <li><Link to="/shop/saleList">SHOP</Link></li>
                     <li>
                         <Link to="/fundings">FUNDING</Link>
                     </li>
-                    <li><a href="">NOTICE/FAQ</a></li>
+                    <li><Link to="/notice">NOTICE/FAQ</Link></li>
                     {/* { user.role=='ARTIST' && */}
 
                     <li className={styles.regist}>REGIST&nbsp;
                         <img src="/img/Sort Down.png"/>
                         <ul className={styles.submenu}>
-                            <li><a href="">Artwork</a></li>
+                            <li><Link to="/shop/artworkAdd">Artwork</Link></li>
                             <li>
                                 <Link to="/funding/new">Funding</Link>
                             </li>
@@ -36,7 +36,9 @@ const Header = () => {
             </nav>
             <div>
             {/* <a href="#" className={styles.login}>Login</a> */}
-            <Link to="/user/login" className={styles.login}>Login</Link>            </div>
+                <Link to="/user/login" className={styles.login}>Login</Link>            
+            </div>
+
         </div>
         </>
     )
