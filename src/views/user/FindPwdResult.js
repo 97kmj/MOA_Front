@@ -1,14 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../css/user/FindPwdResult.module.css';
 
 const FindPwdResult = () => {
+  const navigate = useNavigate();
+
+  // 로그인 화면으로 돌아가기 버튼 클릭 시 호출되는 함수
+  const handleGoToLogin = () => {
+    navigate('/user/login');
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>MOA</h1>
       <h2 className={styles.subtitle}>비밀번호찾기</h2>
       <div className={styles.separator}></div>
-
-      
 
       <div className={styles.inputGroup}>
         <div className={styles.titleWithButton}>
@@ -25,13 +31,12 @@ const FindPwdResult = () => {
           className={`${styles.input} ${styles.shortInput}`}
           placeholder="비밀번호 확인"
         />
-
       </div>
 
-      
-
       <div className={styles.alignCenter}>
-        <button className={styles.primaryButton}>로그인 화면으로 돌아가기 </button>
+        <button className={styles.primaryButton} onClick={handleGoToLogin}>
+          로그인 화면으로 돌아가기
+        </button>
       </div>
     </div>
   );

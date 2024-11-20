@@ -35,8 +35,10 @@ const Header = () => {
                 </ul>
             </nav>
             <div>
-            <Link to="/login"className={styles.login}>Login</Link>
+            {/* <a href="#" className={styles.login}>Login</a> */}
+                <Link to="/user/login" className={styles.login}>Login</Link>            
             </div>
+
         </div>
         </>
     )
