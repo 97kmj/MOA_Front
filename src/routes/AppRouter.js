@@ -9,6 +9,7 @@ import Join from "../views/user/Join";
 import Login from "../views/user/Login";
 import RegArtworkList from "../views/mypage/RegArtworkList";
 import Gallery from "../views/gallery/Gallery";
+import MyGallery from "../views/gallery/MyGallery";
 import GalleryDetail from "../views/gallery/GalleryDetail";
 
 import FundingList from "../views/funding/FundingList";
@@ -56,19 +57,21 @@ function AppRouter() {
         <Router>
             <Routes>
 
-                <Route path="/findid" element={<FindId/>} />
-                <Route path="/findidres" element={<FindIdResult/>} />
-                <Route path="/findpwd" element={<FindPwd/>} />
-                <Route path="/findpwdres" element={<FindPwdResult/>} />
+                <Route path="/user/findId" element={<FindId/>} />
+                <Route path="/user/findIdResult" element={<FindIdResult/>} />
+                <Route path="/user/findPwd" element={<FindPwd/>} />
+                <Route path="/user/findPwdResult" element={<FindPwdResult/>} />
+                <Route path="/user/login" element={<Login/>} />
+                <Route path="/user/join" element={<Join/>} />
 
-            <Route path="/regartworklist" element={<RegArtworkList/>} />
-            <Route path="message" element={<Message/>} />
+            <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />
+            <Route path="/mypage/message" element={<Message/>} />
             
-            <Route path="/gallery" element={<Gallery/>} />
-            <Route path="/gallerydetail" element={<GalleryDetail/>} />
+            <Route path="/gallery/Mygallery" element={<MyGallery/>} />
+            <Route path="/gallery/gallery" element={<Gallery/>} />
+            <Route path="/gallery/galleryDetail" element={<GalleryDetail/>} />
 
-                <Route path="/login" element={<Login/>} />
-                <Route path="/join" element={<Join/>} />
+                
 
                 {/*메인*/}
                 <Route path="/" element={<Main />} />

@@ -1,7 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../css/user/FindId.module.css';
 
 const FindId = () => {
+  const navigate = useNavigate();
+
+  // 아이디 찾기 버튼 클릭 시 호출되는 함수
+  const handleFindIdClick = () => {
+    navigate('/user/findIdResult'); // /user/findIdResult 경로로 이동
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>MOA</h1>
@@ -38,7 +46,9 @@ const FindId = () => {
       </div>
 
       <div className={styles.alignCenter}>
-        <button className={styles.primaryButton}>아이디 찾기</button>
+        <button className={styles.primaryButton} onClick={handleFindIdClick}>
+          아이디 찾기
+        </button>
       </div>
     </div>
   );

@@ -1,7 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../css/user/FindPwd.module.css';
 
 const FindPwd = () => {
+  const navigate = useNavigate();
+
+  // 비밀번호 찾기 버튼 클릭 시 호출되는 함수
+  const handleFindPwdClick = () => {
+    navigate('/user/findPwdResult'); // /user/findPwdResult 경로로 이동
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>MOA</h1>
@@ -50,7 +58,9 @@ const FindPwd = () => {
       </div>
 
       <div className={styles.alignCenter}>
-        <button className={styles.primaryButton}>비밀번호 찾기</button>
+        <button className={styles.primaryButton} onClick={handleFindPwdClick}>
+          비밀번호 찾기
+        </button>
       </div>
     </div>
   );
