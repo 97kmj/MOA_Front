@@ -1,11 +1,9 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import styles from '../../css/user/Notice.module.css';
 import Header from '../Header';
+import axios from 'axios';
 const Notice = () => {
     const [modalOpen,setModalOpen] = useState(false);
-
-    const FAQList = [{id:"1",question:"안녕하세요",answer:"반갑습니다",date:"2024-10-10"}]
-
     const showModal = () => {
         setModalOpen(true);
         
@@ -13,6 +11,9 @@ const Notice = () => {
     const closeModal = () => {
         setModalOpen(false);
     }
+    
+
+
 
     const showNotice = (e) => {
         console.log(e.target.nextElementSibling)
