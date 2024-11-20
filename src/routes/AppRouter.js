@@ -30,7 +30,8 @@ import AdminNotice from "../views/admin/AdminNotice";
 import ArtworkAdd from "../views/shop/ArtworkAdd";
 import RecommendFrame from "../views/shop/RecommendFrame";
 import SaleAddResult from "../views/shop/SaleAddResult";
-import SaleDetail from "../views/shop/SaleOrder";
+import SaleDetail from "../views/shop/SaleDetail";
+
 import SaleList from "../views/shop/SaleList";
 import SaleOrder from "../views/shop/SaleOrder";
 import SaleOrderResult from "../views/shop/SaleOrderResult";
@@ -61,11 +62,11 @@ function AppRouter() {
             <Route path="/findpwd" element={<FindPwd/>} />
             <Route path="/findpwdres" element={<FindPwdResult/>} />
 
-            <Route path="/regartworklist" element={<RegArtworkList/>} />
-            <Route path="message" element={<Message/>} />
-            
-            <Route path="/gallery" element={<Gallery/>} />
-            <Route path="/gallerydetail" element={<GalleryDetail/>} />
+                <Route path="/regartworklist" element={<RegArtworkList/>} />
+                <Route path="message" element={<Message/>} />
+                
+                <Route path="/gallery" element={<Gallery/>} />
+                <Route path="/gallerydetail" element={<GalleryDetail/>} />
 
             <Route path="/login" element={<Login/>} />
             <Route path="/join" element={<Join/>} />
