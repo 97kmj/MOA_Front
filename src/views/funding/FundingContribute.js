@@ -9,7 +9,11 @@ const FundingContribute = () => {
         phoneNumber: "",
         address: "",
     });
-    const selectedRewardIds = [1, 2, 3]; // 리워드 ID를 임의로 설정
+    const selectedRewardInfo = [
+        { rewardId: 1, rewardPrice: 100, rewardQuantity: 2 },
+        { rewardId: 2, rewardPrice: 200, rewardQuantity: 1 },
+        { rewardId: 3, rewardPrice: 300, rewardQuantity: 3 },
+    ];
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -62,7 +66,7 @@ const FundingContribute = () => {
                     totalAmount: paymentData.amount,
                     paymentType: rsp.pay_method.toUpperCase(),
                     fundingId: 1,
-                    rewardId:  1,
+                    rewardList: selectedRewardInfo,
                     rewardPrice: 100,
                     rewardQuantity: 2,
                     userName: 'user1',
