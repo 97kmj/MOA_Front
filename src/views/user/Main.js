@@ -7,11 +7,11 @@ const Main = () => {
         <Header/>
         <div className={styles.container}>
             <div className={styles.banner}>
-                <div className={styles.bannerleft} style={{fontSize:"60px",fontWeight:"bold"}}>
+                <div className={styles.bannerleft} style={{fontSize:"50px",fontWeight:"bold"}}>
                     <span className={styles.white}>우리 모두의 예술</span><br/>
                     <span className={`${styles.gold} ${styles.italic}`}>MOA</span>
                 </div>
-                <div className={`${styles.bannerright} ${styles.white}`} style={{fontSize:"20px",fontWeight:"semibold"}}>
+                <div className={`${styles.bannerright} ${styles.white}`} style={{fontSize:"16px",fontWeight:"semibold"}}>
                     <span>모아에서 다양한 작품을 감상하고 소장하세요.</span><br/>
                     <span>펀딩으로 신진작가의 성장을 함께 지원하세요.</span>
                 </div>
@@ -20,18 +20,18 @@ const Main = () => {
             <hr className={styles.bar}></hr>
             <br/>
             <div className = {styles.mainartwork}>
-                <img src="/img/sample1.webp"/>
+                
+                    <img className={styles.mainArtImg} src="/img/sample1.webp"/>
+                
             </div><br/>
 
             <div className={styles.artworkbox}>
                 <div className={styles.artwork}>
+                    
                     <img className={styles.artImg} src="/img/sample1.webp" alt=''/>
                     {/* <div>
                     <img src='/img/heart.svg'/>&nbsp;<span className='gold'>1032</span>
                     </div> */}
-                </div>
-                <div className={styles.artwork}>
-                    <img className={styles.artImg} src="/img/sample1.webp" alt=''/>
                 </div>
                 <div className={styles.artwork}>
                     <img className={styles.artImg} src="/img/sample1.webp" alt=''/>
@@ -108,7 +108,7 @@ const Main = () => {
                 
             </div>
             <div className={styles.buttonDiv}>
-                <button className={styles.goldbutton}>See More</button>
+                <button className={styles.goldbutton}>전체보기</button>
             </div><br/>
                 
         </div>

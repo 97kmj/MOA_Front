@@ -115,7 +115,7 @@ function AppRouter() {
             <Route path="/mypage/qna" element={<MyQnA/>}/>
             {/* 관리자 */}
             <Route path="/admin/notice" element={<AdminNotice/>} />
-            <Route path="/admin/QnA" element={<AdminQnA/>} />
+            <Route path="/admin/qna" element={<AdminQnA/>} />
             <Route path="/admin/artistLIst" element={<AdminArtist/>} />
             <Route path="/admin/blackArtwork" element={<AdminArtwork/>} />
             <Route path="/admin/funding" element={<AdminFunding/>} />
