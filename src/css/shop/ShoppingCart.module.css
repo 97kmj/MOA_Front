@@ -1,0 +1,183 @@
+/* <장바구니> */
+.bar {
+    margin-bottom: 20px;
+    text-align : "left"; 
+    width: 1200px;
+    height: 2px;
+    background-color: #b39c59;
+  }
+.container {
+   
+    margin:20px auto;
+    padding:0;
+    width: 1200px;
+}
+.cartTable {
+    width: 1200px;  /* 총 테이블 너비를 1520px로 설정 */
+   
+    border-collapse: collapse;
+  }
+  
+  .tableHeader {
+    background-color: #f4f4f4;
+  }
+  
+  
+  
+  /* 상품들의 테두리 스타일 */
+  .cartTable tr {
+    border-bottom: 3px solid #b39c59; /* 각 상품 아래에 3px 줄 추가 */
+  }
+  
+  .cartTable tr:first-child {
+    border-top: 5px solid #b39c59; /* 첫 번째 상품 위에 5px 줄 추가 */
+  }
+  
+  .cartTable tr:last-child {
+    border-bottom: 5px solid #b39c59; /* 마지막 상품 아래에 5px 줄 추가 */
+  }
+  
+  /* 각 열의 너비를 설정 */
+  .cartTable th, .cartTable td {
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .cartTable th:nth-child(1), .cartTable td:nth-child(1) {
+    width: 4%; /* 선택 열 */
+  }
+  
+  .cartTable th:nth-child(2), .cartTable td:nth-child(2) {
+    width: 15%; /* 이미지 열 */
+  }
+  
+  .cartTable th:nth-child(3), .cartTable td:nth-child(3) {
+    width: 25%; /* 상품 정보 열 */
+  }
+  
+  .cartTable th:nth-child(4), .cartTable td:nth-child(4) {
+    width: 31%; /* 옵션 열 */
+  }
+  
+  .cartTable th:nth-child(5), .cartTable td:nth-child(5) {
+    width: 15%; /* 상품 금액 열 */
+  }
+  
+  .cartTable th:nth-child(6), .cartTable td:nth-child(6) {
+    width: 10%; /* 배송비 열 */
+  }
+  
+  .cartTable th:nth-child(7), .cartTable td:nth-child(7) {
+    width: 0%; /* 주문하기 열 */
+  }
+  
+  /* 상품 이미지 스타일 */
+  .imageColumn {
+    text-align: center;
+  }
+  
+  .summarySection {
+    margin: 20px 0px; /* 양쪽에 200px 마진 적용 */
+    background-color: #f9f9f9;
+    width: 1200px;
+    padding: 15px 0px;
+    border: 1px solid #ddd;
+  }
+  
+  .summarySection div {
+    margin-bottom: 5px;
+  }
+  
+  .topBar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 0px;
+
+  }
+  .topButton{
+    /* margin-left: 385px; */
+    width: 100px;
+  }
+  
+  .selectAllCheckbox {
+    display: flex;
+    align-items: center;
+    width: 200px;
+  }
+  
+  .selectAllCheckbox input {
+    margin-right: 5px;
+  }
+  
+  .cartListButton {
+    cursor: pointer;
+    padding: 8px 15px;
+    background-color: #b39c59;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+  }
+   .cartListTopButton{
+    cursor: pointer;
+    padding: 8px 15px;
+    background-color: #b39c59;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    margin-left: 910px;
+   }
+
+
+  .pricetile{
+    display: inline-flex;
+    width: 1200px;
+  }
+  .productPrice{
+    padding-top: 10px;
+    margin-left: 10px;
+    font-size: 20px;
+    width: 200px;
+    text-align: center;
+    
+  }
+  .priceMiddle{
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 20px;
+    font-size: 20px;
+
+
+  }
+  .priceMiddle{
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 25px;
+    font-size: 20px;
+  }
+  .totalPriceMiddle{
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 25px;
+    font-size: 20px;
+    color: #b39c59;
+  }
+
+  .priceMiddleButton{
+    margin-top: 20px;
+    margin-left: 80px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: #b39c59;
+    border-color: #b39c59;
+    color: white;
+    cursor: pointer;
+    padding: 8px 15px;
+    font-weight: bold;
+  }
+
+  

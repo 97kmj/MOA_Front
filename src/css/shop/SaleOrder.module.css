@@ -80,8 +80,22 @@
 
 .icon {
     margin-right: 10px;
+
+
+}
+.imgInfo{
+    width:  40px;
+    height: 70px;
 }
 
+.imgInfo2{
+    width:  40px;
+    height: 40px;
+}
+.imgInfo3{
+    width:  40px;
+    height: 50px;
+}
 .formRow input {
     flex: 1;
     padding: 10px;
@@ -106,7 +120,7 @@
 .artworkDetails .price {
     font-size: 20px;
     font-weight: bold;
-    color: #d94a4a; /* 강조된 색상 */
+    color: #b39c59; /* 강조된 색상 */
     margin-bottom: 10px;
 }
 .summary {
@@ -120,7 +134,7 @@
 
 .total {
     font-weight: bold;
-    color: #d94a4a;
+    color: #b39c59;
 }
 
 .payButton {

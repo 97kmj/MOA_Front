@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from '../../css/shop/ArtSaleList.module.css';
 import Header from "../Header";
+import { useNavigate } from 'react-router';
+import { Button } from 'reactstrap';
 
 const SaleList = () => {
     const [selectedCategory, setSelectedCategory] = useState("종류");
@@ -10,17 +12,25 @@ const SaleList = () => {
         setSelectedCategory(e.target.value);
     };
 
+    //디테일 이동
+    const navigate = useNavigate();
+
+    const goDetailNavigation = (artworkId) => {
+        navigate(`/shop/saleDetail/${artworkId}`);
+    }
+
+
     const saleData = [
-        { id: 1, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화", image: "../logo192.png", },
-        { id: 3, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화",image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
-        { id: 4, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image5.png` },
-        { id: 5, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image6.png` },
-        { id: 6, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image3.png` },
-        { id: 7, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
-        { id: 2, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: "../logo192.png", },
-        { id: 8, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image5.png` },
-        { id: 9, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image6.png` },
-        { id: 10, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image3.png` },
+        { artworkId: 1, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화", image: "../logo192.png", },
+        { artworkId: 3, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화",image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
+        { artworkId: 4, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image5.png` },
+        { artworkId: 5, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image6.png` },
+        { artworkId: 6, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image3.png` },
+        { artworkId: 7, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
+        { artworkId: 2, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: "../logo192.png", },
+        { artworkId: 8, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image5.png` },
+        { artworkId: 9, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image6.png` },
+        { artworkId: 10, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image3.png` },
 
     ];
 
@@ -55,7 +65,10 @@ const SaleList = () => {
                             onChange={(e) => setSearchKeyword(e.target.value)}
                             className={styles.searchInput}
                         />
-                        <button className={styles.searchButton}>🔍</button>
+                       
+                        <button className={styles.searchButton}>
+                            <img src='/img/search.png' />
+                        </button>
                     </div>
 
                     <select className={styles.filter}>
@@ -66,7 +79,7 @@ const SaleList = () => {
 
                 <div className={styles.grid}>
                     {saleData.map((item) => (
-                        <div className={styles.card} key={item.id}>
+                        <div className={styles.card} key={item.id} onClick={()=> goDetailNavigation()}>
                             <div className={styles.imageWrapper}>
                                 <img src={item.image} alt={item.title} className={styles.image}/>
                             </div>
@@ -82,6 +95,9 @@ const SaleList = () => {
                     ))}
                 </div>
             </div>
+            <div className={styles.seemore}>
+                <button><img className={styles.seemore} src="/img/seemore.png"/></button>
+            </div>   
 
         </>
     )

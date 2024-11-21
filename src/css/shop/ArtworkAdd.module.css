@@ -1,6 +1,6 @@
 .container {
     margin:50px auto;
-    width:1500px;
+    width:1200px;
 }
 
 .bar {
@@ -20,11 +20,13 @@
 .middleartwork{
    margin: 0 20px;
    display: flex;
-    justify-content: space-between;
+   
+    /* ustify-content: space-between;j */
 }
 .artworkRegistDetail {
-    width: 50%;
+    width: 60%;
     border:1px solid #B39C59;
+    border-radius: 10px;
     padding:20px;
 }
 .artworkRegistDetail table {
@@ -48,7 +50,7 @@
 .artworkInfotdTitle{
     font-size: 18px;
     color: #b39c59;
-    width:200px;
+    width: 140px;
     
 }
 .artworkInfocontent{
@@ -64,6 +66,8 @@
     height:400px;
 
 }
+
+
 .aerworkInfotd{
     border: none;
     border-radius: 10px;   
@@ -95,15 +99,14 @@
 }
 .artworkInfoInput{
     display: block;
-    width: 1418px;
+    width: 1170px;
     font-size :18px;
     min-height: 300px;
     overflow-y: auto;
     margin:10px auto;
     border:1px #b39c59 solid;
     border-radius: 10px;
-    padding: 20px;
-    
+    padding: 10px;
 }
 
 
@@ -137,7 +140,8 @@
 
 
 .buttonDiv {
-    margin:20px auto;
+  
+    margin: 20px auto;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -158,10 +162,49 @@
     cursor: pointer;
 }
 .artworkInfoBox {
-    width:1460px;
-    margin:0 auto;
+    width:1200px;
+    margin: auto 10px;
+}
+.artworkInfoBox h4{
+    margin-left: 10px;
 }
 
+.artworktitle{
+    display: inline;
+    width: 600px;
+}
+.artworktitle h3{
+    margin-left: 100px;
+    font-size: 18px;
+}
 .imgInputBox {
-    width: 40%;
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+    cursor: pointer;
+    margin-left: 100px;    
+}
+.hiddenFileInput {
+    display: none;
+}
+.plusIcon {
+    font-size: 70px;
+    color: #b29c59;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+.goldbutton:hover {
+
+    cursor: pointer;
 }

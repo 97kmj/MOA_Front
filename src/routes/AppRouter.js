@@ -51,6 +51,7 @@ import ArtistRegist from "../views/mypage/artist/ArtistRegist";
 import ArtistEdit from "../views/mypage/artist/ArtistEdit";
 import Message from "../views/mypage/Message";
 import MyQnA from "../views/mypage/MyQnA";
+import ShoppingCartOrder from "../views/shop/ShoppingCartOrder";
 
 
 function AppRouter() {
@@ -98,7 +99,7 @@ function AppRouter() {
             <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
             <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
             <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
-
+            <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
 
             <Route path="/regartworklist" element={<RegArtworkList/>} />
 
@@ -125,7 +126,7 @@ function AppRouter() {
             {/* 공지사항 */}
             <Route path="/notice" element={<Notice/>}/>
             {/* 작가상세 */}
-            <Route path="/artistDetail" element={<ArtistDetail/>}/>
+            <Route path="/artistDetail/:id" element={<ArtistDetail/>}/>
             
             </Routes>
         </Router>

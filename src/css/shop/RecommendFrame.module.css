@@ -1,0 +1,83 @@
+
+
+.bar {
+
+    margin-bottom: 20px;
+    text-align : "left"; 
+    width: 1200px;
+    height: 2px;
+    background-color: #b39c59;
+  }
+  
+  
+.container {
+      
+    margin:20px auto;
+    padding:0;
+    width: 1200px;
+ }
+ .titlename{
+
+    margin: 68px 0px 18px 0px;
+}
+
+.frameMoveButton
+{
+    size : 20px;
+}
+.frameMoveButtonSetting
+{
+    margin-top: 300px;
+    width: 100px;
+
+}
+.recommendFrame{
+    display: inline-flex;
+    margin: 0px 100px;
+
+}
+
+.recommendFrametile{
+    width: 800px;
+    margin-top: 50px;
+    align-items: center
+
+}
+
+.frameArtwork2{
+      margin-left: 10px;
+    width: 700px;
+    max-height: 450px;
+    border: 40px solid white;
+    border-image: url('../../../public/img/액자1.png') 50 64;
+    
+
+}
+.frameArtwork1{
+    margin-left: 10px;
+    width: 700px;
+    max-height: 450px;
+    border: 40px solid white;
+    border-image: url('../../../public/img/액자32.png') 100 100 round
+}
+
+
+.FrameSlideView{
+    display: inline-flex;
+    margin: 10px 200px;
+    width: 700px;
+
+}
+.frameImgSetting{
+    width: 300px;
+    height: 200px;
+    margin: 30px 50px ;
+   
+}
+.frameImgchoice{
+    
+    left: 400px;
+    margin-left: 100px;
+    width: 870px;
+    height: 450px;
+}

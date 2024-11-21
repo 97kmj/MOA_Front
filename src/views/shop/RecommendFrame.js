@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../../css/shop/SaleList.module.css';
+import styles from '../../css/shop/RecommendFrame.module.css';
 
 const RecommendFrame = () => {
   // State to keep track of the selected frame index
