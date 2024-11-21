@@ -1,6 +1,23 @@
 import AdminSidebar from "./AdminSidebar";
-import styles from "../../css/admin/AdminQnA.module.css"
+import styles from "../../css/admin/AdminQnA.module.css";
+import {useState, useEffect} from "react";
+import axios from "axios";
+
 const AdminQnA = () => {
+    const [notAnswerQuestions,setNotAnswerQuestions] = useState([]);
+    const [answeredQuestions, setAnsweredQuestions] = useState([]);
+    useEffect(()=>{
+        axios.get("http://localhost:8080/adminQnA")
+            .then(res => {
+                console.log(res.data)
+                setNotAnswerQuestions(res.data.notAnswerQuestions);
+                setAnsweredQuestions(res.data.answeredQuestions);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    },[])
+
     return(
         
         <>
@@ -8,195 +25,49 @@ const AdminQnA = () => {
             <AdminSidebar/>
             <div className={styles.questionList}>
                 <h4>답변 완료한 문의</h4>
-                <hr/>
+                <hr className={styles.bar}/>
                 <table>
                     <tbody>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
+                    {
+    answeredQuestions.length > 0 ? (
+        answeredQuestions.map((question) => (
+            <tr key={question.questionId}>
+                <td className={styles.title}>{question.title}</td>
+                <td className={styles.date}>{new Date(question.questionAt).toISOString().slice(0, 10)}</td>
+            </tr>
+        ))
+    ) : (
+        <tr>
+            <td colSpan={2}>등록된 문의가 없습니다</td>
+        </tr>
+    )
+}
                     </tbody>
                 </table>
             </div>
             <div className={styles.questionList}>
                 <h4>답변 대기중 문의</h4>
-                <hr/>
+                <hr className={styles.bar}/>
                 <table>
                     <tbody>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.title}>작가 회원 신청 시 유의사항</td>
-                        <td className={styles.date}>2024-10-22</td>
-                    </tr>
+                    {
+                        notAnswerQuestions.length > 0 ? (
+                            notAnswerQuestions.map((question) => {
+                                
+                                <tr key={question.questionId}>
+                                <td className={styles.title}>{question.title}</td>
+                                <td className={styles.date}>{new Date(question.questionAt).toISOString().slice(0, 10)}</td>
+                                </tr>
+                                
+                            })
+                        ) : (
+                            <tr>
+                            <td colSpan={2}>등록된 문의가 없습니다</td>
+                            </tr>
+                        )
+                    }
+                    
+                    
                     </tbody>
                 </table>
             </div>

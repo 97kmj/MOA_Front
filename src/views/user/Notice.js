@@ -10,7 +10,8 @@ const Notice = () => {
     const [noticeCount, setNoticeCount] = useState(0);
     const [page,setPage] = useState(0);
     const [hasMore,setHasMore] = useState(true);
-    
+    const [username,setUsername] = useState('hong');
+    const [question,setQuestion] = useState({username:'',title:'',content:''});
     useEffect(()=>{
         fetchInitialData();
     },[])
@@ -52,6 +53,28 @@ const Notice = () => {
             console.log(err);
         }
     }
+    const edit = (e) => {
+        setQuestion({...question,[e.target.name]:e.target.value})
+    }
+
+    const sendQuestion = () => {
+        setQuestion({...question, username:username});
+        
+        axios.post("http://localhost:8080/sendQuestion",question)
+            .then(res => {
+                if(res.data === true) {
+                    alert("문의 완료");
+                } else {
+                    alert("문의 실패");
+                }
+                closeModal();
+            })
+            .catch(err => {
+                console.log(err);
+                closeModal();
+            })
+    }
+
 
     const [modalOpen,setModalOpen] = useState(false);
     const showModal = () => {
@@ -123,10 +146,10 @@ const Notice = () => {
                                     className={`${styles.faqItem} ${
                                         faq.faqId === selectedFAQId ? styles.selected : ""
                                     }`}>
-                                    <span className={styles.faqQuestion}>{faq.question}</span>
+                                    <span className={styles.faqQuestion}>Q. &nbsp;{faq.question}</span>
                                 </li>
                                 { faq.faqId === selectedFAQId && (
-                                    <div className={styles.faqAnswer}>{faq.answer}</div>
+                                    <div className={styles.faqAnswer}>A. &nbsp;{faq.answer}</div>
                                 )}
                                 </>
                                 ))
@@ -144,13 +167,13 @@ const Notice = () => {
                     <button className={styles.close} onClick={closeModal}><img src='https://img.icons8.com/?size=15&id=71200&format=png&color=B39C49'/></button>
                     <h3>문의하기</h3>
                     <div>제목</div>
-                    <input></input>
+                    <input name="title" value={question.title} onChange={edit}></input>
                     <br/>
                     <div>내용 </div>
                     <br/>
-                    <textarea></textarea>
+                    <textarea name="content" value={question.content} onChange={edit}> </textarea>
                     <div className={styles.buttonDiv}>
-                        <button className={styles.goldbutton}>문의하기</button>
+                        <button className={styles.goldbutton} onClick={sendQuestion}>문의하기</button>
                     </div>
                 </div>
             </div>
