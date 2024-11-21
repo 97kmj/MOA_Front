@@ -1,8 +1,99 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../css/funding/FundingContribute.module.css';
 import Header from "../Header";
+import axios from "axios";
 
 const FundingContribute = () => {
+    const [shippingInfo, setShippingInfo] = useState({
+        name: "",
+        phoneNumber: "",
+        address: "",
+    });
+    const selectedRewardIds = [1, 2, 3]; // 리워드 ID를 임의로 설정
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    const inputValueShippingInfo = (e) => {
+        const { name, value } = e.target;
+        setShippingInfo((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const requestPayment = () => {
+        if (!window.IMP) {
+            alert('아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.');
+            return;
+        }
+
+        const {IMP} = window;
+        IMP.init('imp55612646');
+
+        const paymentData = {
+            pg: 'html5_inicis', //
+            pay_method: 'card', // 결제수단
+            merchant_uid: `merchant_${new Date().getTime()}`,
+            name: '테스트 결제', // 결제 이름
+            amount: 100, // 결제 금액
+            buyer_email: 'test@example.com', // 구매자 이메일
+            buyer_name: '테스트 사용자', // 구매자 이름
+            buyer_tel: '010-1234-5678', // 구매자 연락처
+            buyer_addr: '서울특별시 강남구 삼성동', // 구매자 주소
+            buyer_postcode: '123-456', // 구매자 우편번호
+        };
+
+        IMP.request_pay(paymentData, (rsp) => {
+            if (rsp.success) {
+                console.log('결제 요청 성공, 백엔드 검증 시작:', rsp);
+
+                // 백엔드에 전달할 데이터
+                const requestData = {
+                    impUid: rsp.imp_uid,
+                    totalAmount: paymentData.amount,
+                    paymentType: rsp.pay_method.toUpperCase(),
+                    fundingId: 1,
+                    rewardId:  1,
+                    rewardPrice: 100,
+                    rewardQuantity: 2,
+                    userName: 'user1',
+                    address:  shippingInfo.address,
+                    phoneNumber: shippingInfo.phoneNumber,
+                    name: shippingInfo.name,
+                };
+
+                // 백엔드 검증 요청
+                axios
+                    .post('http://localhost:8080/api/funding/payment', requestData)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            alert('결제가 성공');
+                            console.log('백엔드 검증 완료:', response.data);
+                        } else {
+                            alert('결제는 되었으나 서버오류문제가 있습니다 고객센터로 전화주세요.');
+                            console.error('백엔드 검증 실패:', response.data);
+                        }
+                    })
+                    .catch((error) => {
+                        alert('결제 검증 중 문제가 발생했습니다.');
+                        console.error('백엔드 검증 실패:', error);
+                    });
+            } else {
+                alert(`결제 요청에 실패하였습니다. 에러 메시지: ${rsp.error_msg}`);
+                console.error('결제 요청 실패:', rsp);
+            }
+        });
+    };
+
     return (
         <>
             <Header/>
@@ -70,7 +161,7 @@ const FundingContribute = () => {
                             <section className={styles.fundingContributeSupporterInfo}>
                                 <h4 className="section-title">👤 후원자 정보</h4>
                                 <div className={styles.supporterDetails}>
-                                    <p>이름: 르브론 제임스</p>
+                                    <p>ID: user1</p>
                                     <p>연락처: 010-0000-0000</p>
                                 </div>
                             </section>
@@ -83,15 +174,33 @@ const FundingContribute = () => {
                                 <div className={styles.shippingDetails}>
                                     <label>
                                         <span>이름</span>
-                                        <input type="text" placeholder="이름을 입력하세요"/>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            placeholder="이름을 입력하세요"
+                                            value={shippingInfo.name}
+                                            onChange={inputValueShippingInfo}
+                                        />
                                     </label>
                                     <label>
                                         <span>연락처</span>
-                                        <input type="text" placeholder="연락처를 입력하세요"/>
+                                        <input
+                                            type="text"
+                                            name="phoneNumber"
+                                            placeholder="연락처를 입력하세요"
+                                            value={shippingInfo.phoneNumber}
+                                            onChange={inputValueShippingInfo}
+                                        />
                                     </label>
                                     <label>
                                         <span>주소</span>
-                                        <input type="text" placeholder="주소를 입력하세요"/>
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            placeholder="주소를 입력하세요"
+                                            value={shippingInfo.address}
+                                            onChange={inputValueShippingInfo}
+                                        />
                                     </label>
                                 </div>
 
@@ -111,7 +220,7 @@ const FundingContribute = () => {
                                 <p className={styles.noticeText}>
                                     ※ 후원 유의사항: 후원자가 만일 중도 취소할 경우 환불 절차가 필요할 수 있습니다.
                                 </p>
-                                <button className={styles.fundingContributeButton}>펀딩하기</button>
+                                <button onClick={requestPayment} className={styles.fundingContributeButton}>펀딩하기</button>
                             </div>
                         </aside>
 
