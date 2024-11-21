@@ -8,7 +8,8 @@
     background-color: #B39C59;
 }
 .bar2 {
-    border-bottom: 3px solid #b39c59;
+ 
+    width: 200px;
    
 
 }
@@ -34,32 +35,26 @@
   }
   
   .cartTable th:nth-child(1), .cartTable td:nth-child(1) {
-    width: 4%; /* 선택 열 */
-  }
-  
-  .cartTable th:nth-child(2), .cartTable td:nth-child(2) {
     width: 15%; /* 이미지 열 */
   }
   
-  .cartTable th:nth-child(3), .cartTable td:nth-child(3) {
+  .cartTable th:nth-child(2), .cartTable td:nth-child(2) {
     width: 25%; /* 상품 정보 열 */
   }
   
+  .cartTable th:nth-child(3), .cartTable td:nth-child(3) {
+    width: 35%; /* 옵션 열 */
+  }
+  
   .cartTable th:nth-child(4), .cartTable td:nth-child(4) {
-    width: 31%; /* 옵션 열 */
+    width: 13%; /* 상품 금액 열 */
   }
   
   .cartTable th:nth-child(5), .cartTable td:nth-child(5) {
-    width: 15%; /* 상품 금액 열 */
+    width: 15%; /* 배송비 열 */
   }
   
-  .cartTable th:nth-child(6), .cartTable td:nth-child(6) {
-    width: 10%; /* 배송비 열 */
-  }
-  
-  .cartTable th:nth-child(7), .cartTable td:nth-child(7) {
-    width: 0%; /* 주문하기 열 */
-  }
+
   
   /* 상품 이미지 스타일 */
   .imageColumn {
@@ -81,6 +76,12 @@
     border: 1px solid #ddd;
     background: #fff;
     margin-right: 5px;
+    border-radius: 50px;
+}
+
+.activeButton {
+    background-color: #333;
+    color: #b29c59;
 }
 
 .infoButtons {
@@ -96,6 +97,11 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+}
+.formRow input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
 
 .icon {
@@ -147,8 +153,10 @@
 }
 .content {
     display: flex;
-    justify-content: space-be
-    gitween;
+    justify-content: space-between;
     padding: 0 50px;
     padding-top: 1%;
+}
+.leftSection {
+    width: 50%;
 }

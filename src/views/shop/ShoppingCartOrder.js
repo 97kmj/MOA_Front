@@ -151,10 +151,11 @@ const ShoppingCartOrder = () =>{
                             <div>{(item.shipping * item.quantity).toLocaleString()}원</div>
                             </td>
                         </tr>
-
-
+                        
                         ))}
+                       
                     </tbody>
+                   
                 </Table>
                 <div className={styles.bar}/>
                 <div className={styles.content}>
