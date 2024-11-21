@@ -2,6 +2,7 @@ import styles from '../../css/shop/ArtworkAdd.module.css';
 import { Checkbox } from '../../views/shop/Checkbox';
 import React, { useState, useEffect, useRef } from 'react'
 import Header from '../Header';
+// import {url} from '../config';
 import axios from 'axios';
 import { Navigate } from 'react-router';
 
@@ -17,9 +18,9 @@ const Artwork = () => {
     const [saleStatus, setSaleStatus] = useState(false);
 
 
-    const [artwork, setArtwork] = useState({adminCheck:'',canvasType:'',description:'',height:'',image_url:'',
-        isStandaedcanvas:'', lenth:'', price:'', stock:'', sale_status:'AVAILABLE',termsAccepted:'',title:'',
-        width:'', canvasId:'', categoryId:'',subjectId:'',typeId:''
+    const [artwork, setArtwork] = useState({adminCheck:'',canvasType:'',description:'',height:'',imageUrl:'',
+        isStandaedcanvas:'', lenth:'', price:'', stock:'', saleStatus:'AVAILABLE',termsAccepted:'',title:'',
+        width:'', canvasId:'', categoryId:'',subjectId:'',typeId:'',artwotk:'user1'
     });
     
 
@@ -29,12 +30,12 @@ const Artwork = () => {
         formData.append("canvasType",artwork.canvasType);
         formData.append("description",artwork.description);
         formData.append("height",artwork.height);
-        formData.append("image_url",artwork.image_url);
+        formData.append("imageUrl",artwork.imageUrl);
         formData.append("isStandaedcanvas",artwork.isStandaedcanvas);
         formData.append("lenth",artwork.lenth);
         formData.append("price",artwork.price);
         formData.append("stock",artwork.stock);
-        formData.append("sale_status",artwork.sale_status);
+        formData.append("saleStatus",artwork.saleStatus);
         formData.append("termsAccepted",artwork.termsAccepted);
         formData.append("title",artwork.title);
         formData.append("width",artwork.width);
@@ -42,11 +43,13 @@ const Artwork = () => {
         formData.append("categoryId",artwork.categoryId);
         formData.append("subjectId",artwork.subjectId);
         formData.append("typeId",artwork.typeId);
-        // formData.append("typeId",user.id);
-        axios.post(`/sale/artworkAdd`, formData)
+        formData.append("artiseId",artwork.id);
+        
+
+        axios.post(`http://localhost:8080/shop/artworkAdd`, formData)
             .then(res=>{
                 console.log(res.data);
-                Navigate(`/artworkDetail/${res.data}`)
+                Navigate(`/shop/artworkDetail/${res.data}`)
             })
             .catch(err=>{
                 console.log(err);
@@ -147,17 +150,17 @@ const Artwork = () => {
                 <div className={styles.TermsofUseInfo}>
                     <div><b>약관안내</b></div>
                     <div><b>판매금의 10%는 플랫폼의 수수료 입니다.</b> </div>
-                    <div className={styles.TermsofUseInfoCheckbox}><Checkbox>&nbsp;개인정보 제 3자 제공 동의</Checkbox></div>
-                    <div className={styles.TermsofUseInfoCheckbox}><Checkbox>&nbsp;판매 정책 동의</Checkbox></div>
+                    <div className={styles.TermsofUseInfoCheckbox} id='adminCheck' name='adminCheck'><Checkbox>&nbsp;개인정보 제 3자 제공 동의</Checkbox></div>
+                    <div className={styles.TermsofUseInfoCheckbox} id='termsAccepted' name='termsAccepted'><Checkbox>&nbsp;판매 정책 동의</Checkbox></div>
                 </div>
                 <div className={styles.middleartwork}>
                     <div className={styles.artworkRegistDetail}>
                         <table>
-                            <tr><td  className={styles.artworkInfotdTitle}>작품명</td><td colSpan={3}><input className={styles.artworkInfocontent}></input></td></tr>
+                            <tr><td  className={styles.artworkInfotdTitle}>작품명</td><td colSpan={3}><input className={styles.artworkInfocontent } id='title' name='title'></input></td></tr>
                             <tr><td  className={styles.artworkInfotdTitle}>카테고리</td><td><div className={styles.customSelect}>
                                     <select
                                     value={category}
-                                    onChange={(e) => setCategory(e.target.value)}>
+                                    onChange={(e) => setCategory(e.target.value)}  id='categoryId' name='categoryId'>
                                     <option value="">카테고리 선택</option>
                                     <option value="그림">그림</option>
                                     <option value="조소">조소</option>
@@ -171,7 +174,7 @@ const Artwork = () => {
                                     disabled={!category}>
                                     <option value="">타입 선택</option>
                                     {getTypeOptions().map((option, index) => (
-                                        <option key={index} value={option}>{option}</option>
+                                        <option key={index} value={option} id='typeId' name='typeId'>{option}</option>
                                     ))}
                                 </select>
                                 </div></td>
@@ -179,7 +182,7 @@ const Artwork = () => {
                                     <select value={theme} onChange={(e) => setTheme(e.target.value)} disabled={!category}>
                                         <option value="">주제 선택</option>
                                         {getThemeOptions().map((option, index) => (
-                                            <option key={index} value={option}>{option}</option>
+                                            <option key={index} value={option} id='subjectId' name='subjectId'>{option}</option>
                                         ))}
                                     </select>
                                 </div></td>
@@ -189,24 +192,24 @@ const Artwork = () => {
                                     <div className={styles.canvasRadio}>
                                     <input
                                             type="radio"
-                                            id="canvasYes"
+                                            id="isStandaedcanvas"
                                             name="canvasAvailable"
                                             value="예"
                                             checked={isCanvasAvailable === true}
                                             onChange={handleInputChange}
                                             />
-                                        <label htmlFor="canvasYes">&nbsp;예</label>
+                                        <label htmlFor="isStandaedcanvas">&nbsp;예</label>
                                     </div>
                                     <div className={styles.canvasRadio}>
                                     <input
                                             type="radio"
-                                            id="canvasNo"
+                                            id="isStandaedcanvas"
                                             name="canvasAvailable"
                                         value="아니요"
                                         checked={isCanvasAvailable === false}
                                         onChange={handleInputChange}
                                         />
-                                    <label htmlFor="canvasNo">&nbsp;아니요</label>
+                                    <label htmlFor="isStandaedcanvas">&nbsp;아니요</label>
                                     </div>
                                 </td>
                             </tr>
@@ -214,71 +217,70 @@ const Artwork = () => {
                                 <td className={styles.artworkInfotdTitle}>캔버스 타입</td>
                                 <td>
                                 <div className={styles.customSelect}>
-                                    <select disabled={!isCanvasAvailable}>
-                                    <option value="F" >F</option>
-                                    <option value="P" >P</option>
-                                    <option value="M" >M</option>
-                                    <option value="S" >S</option>
-                                </select>
+                                    <select disabled={!isCanvasAvailable} id='canvasType' name='canvasType' >
+                                        <option value="F" >F</option>
+                                        <option value="P" >P</option>
+                                        <option value="M" >M</option>
+                                        <option value="S" >S</option>
+                                    </select>
                                 </div>
                                 </td>
                                 <td className={styles.artworkInfotdTitle}>캔버스 호수</td>
                                 <td>
                                 <div className={styles.customSelect}>
-                                    <select disabled={!isCanvasAvailable}>
-                                    <option value="1" >1호</option>
-                                    <option value="2" >2호</option>
-                                    <option value="3" >3호</option>
-                                    <option value="4" >4호</option>
-                                    <option value="5" >5호</option>
-                                    <option value="6" >6호</option>
-                                    <option value="8" >8호</option>
-                                    <option value="10" >10호</option>
-                                    <option value="12" >12호</option>
-                                    <option value="15" >15호</option>
-                                    <option value="20" >20호</option>
-                                    <option value="25" >25호</option>
-                                    <option value="30" >30호</option>
-                                    <option value="40" >40호</option>
-                                    <option value="50" >50호</option>
-                                    <option value="60" >60호</option>
-                                    <option value="80" >80호</option>
-                                    <option value="100" >100호</option>
-                                    <option value="120" >120호</option>
-                                    <option value="150" >150호</option>
-                                    <option value="200" >200호</option>
-                                    <option value="300" >300호</option>
-                                    <option value="500" >500호</option>
-
-                                </select>
+                                    <select disabled={!isCanvasAvailable} id='canvasId' name='canvasId'>
+                                        <option value="1" >1호</option>
+                                        <option value="2" >2호</option>
+                                        <option value="3" >3호</option>
+                                        <option value="4" >4호</option>
+                                        <option value="5" >5호</option>
+                                        <option value="6" >6호</option>
+                                        <option value="8" >8호</option>
+                                        <option value="10" >10호</option>
+                                        <option value="12" >12호</option>
+                                        <option value="15" >15호</option>
+                                        <option value="20" >20호</option>
+                                        <option value="25" >25호</option>
+                                        <option value="30" >30호</option>
+                                        <option value="40" >40호</option>
+                                        <option value="50" >50호</option>
+                                        <option value="60" >60호</option>
+                                        <option value="80" >80호</option>
+                                        <option value="100" >100호</option>
+                                        <option value="120" >120호</option>
+                                        <option value="150" >150호</option>
+                                        <option value="200" >200호</option>
+                                        <option value="300" >300호</option>
+                                        <option value="500" >500호</option>
+                                    </select>
                                 </div>
                                 </td>
                             </tr>
                             <tr><td className={styles.artworkInfotdTitle}>가로</td>
-                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable}/></td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='width' name='width'/></td>
                             <td className={styles.artworkInfotdTitle}>세로</td>
-                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable}/></td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='lenth' name='lenth'/></td>
                             </tr>
                             <tr><td className={styles.artworkInfotdTitle}>높이</td>
-                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable}/></td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='height' name='height'/></td>
                             <td></td><td></td>
                             </tr>  
-                            <tr><td className={styles.artworkInfotdTitle}>판매 여부</td>
+                            <tr><td className={styles.artworkInfotdTitle} >판매 여부</td>
                             <td>
                                 <div className={styles.customSelect}>
-                                <select>
+                                <select id='sale_status' name='saleStatus'>
                                     <option value="예" name="canvasAvailable" >예</option>
                                     <option value="아니오" name="canvasAvailable">아니요</option>                                                            
                                 </select>
                                 </div>
                             </td>
-                            <td></td><td></td>
+                          
                             </tr>  
                             <tr>
                                 <td className={styles.artworkInfotdTitle}>판매 금액</td>
-                                <td><input className={styles.artworkInfocontent} disabled={saleStatus}/></td>
+                                <td><input className={styles.artworkInfocontent} disabled={saleStatus} id='price' name='price'/></td>
                                 <td className={styles.artworkInfotdTitle}>수량</td>
-                                <td><input className={styles.artworkInfocontent} disabled={saleStatus}/></td>
+                                <td><input className={styles.artworkInfocontent} disabled={saleStatus} id='stock' name='stock'/></td>
                             </tr>
                         </table>
                     </div>
@@ -288,12 +290,13 @@ const Artwork = () => {
                         <div className={styles.imgInputBox}>
 
                             <input
-                                id="artworkAdd"
+                                id="imageUrl"
                                 type="file"
                                 onChange={handleImagePreview}
-                                className={styles.hiddenFileInput}
+                                className={styles.hiddenFileInput} 
+                                
                                 />
-                            <label htmlFor="artworkAdd" className={styles.fileInputLabel}>
+                            <label htmlFor="imageUrl" className={styles.fileInputLabel}>
                                 {imgPath ? (
                                     <img
                                         src={URL.createObjectURL(imgPath)}
@@ -309,10 +312,10 @@ const Artwork = () => {
                 </div>
                 <div className={styles.artworkInfoBox}>
                     <h4>작품 설명</h4>
-                    <textarea className={styles.artworkInfoInput}/>
+                    <textarea className={styles.artworkInfoInput} id='description' name='description'/>
                 </div>
                 <div className={styles.buttonDiv}>
-                    <button className={styles.goldbutton} type='submit'>등록하기</button>
+                    <button className={styles.goldbutton} onClick={submit}>등록하기</button>
                     
                 </div>
 
