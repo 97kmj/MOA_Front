@@ -1,9 +1,50 @@
-import React, { useState } from 'react';
-import styles from '../../css/shop/SaleOrder.module.css';
 import Header from '../Header';
+import styles from '../../css/shop/ShoppingCartOrder.module.css';
+import { Table, Button } from 'reactstrap';
+import { useState } from 'react';
 
-const SaleOrder = () => {
-    const [buyerInfo, setBuyerInfo] = useState({
+
+const ShoppingCartOrder = () =>{
+    const [cartItems, setCartItems] = useState([
+        
+        {
+          id: 1,
+          image: 'https://via.placeholder.com/150',
+          title: '바다와 산과 구름',
+          artist: '김민수',
+          category: '풍경',
+          subject: '자연',
+          price: 30000, // 기본 상품 가격
+          shipping: 3000, // 배송비
+          artworkquantity: 6,  // 작품당 수량, 여기서는 "1개의 작품"에 6개씩 묶여 있다고 가정
+          quantity: 5,  // 장바구니에 담긴 수량
+          options: [
+            { optionId: 'option1', option: '옵션1', contents: ['기본 액자'], optionPrice: 5000, quantity: 1 },
+            { optionId: 'option2', option: '옵션2', contents: ['고급 액자1'], optionPrice: 3000, quantity: 2 },
+            { optionId: 'option3', option: '옵션3', contents: ['고급 액자2'], optionPrice: 15000, quantity: 3 }
+          ],
+        },
+        {
+          id: 2,
+          image: 'https://via.placeholder.com/150',
+          title: '꽃과 나무',
+          artist: '박지훈',
+          category: '식물',
+          subject: '자연',
+          price: 50000, // 기본 상품 가격
+          shipping: 3000, // 배송비
+          artworkquantity: 1,  // 상품 당 1개 작품
+          quantity: 3,  // 장바구니에 담긴 수량
+          options: [
+            { optionId: 'option1', option: '옵션1', contents: ['고급액자2'], optionPrice: 4000, quantity: 1 },
+          ],
+        },
+        // 추가 상품들...
+      ]);
+
+
+
+      const [buyerInfo, setBuyerInfo] = useState({
         name: '',
         contact: '',
         email: '',
@@ -54,21 +95,71 @@ const SaleOrder = () => {
         return artworkDetails.price + artworkDetails.optionPrice;
     };
 
-    return (
+    return(
         <>
-            <Header />
-            <div className={styles.saleOrder}>
-                <p className={styles.title}>판매 결제</p>
-                <hr className={styles.titleLine} />
+            <Header/> 
+            <div className={styles.container}>
+                <p><b>장바구니 결제</b></p>
+                <div className={styles.bar}></div>
+                <Table bordered className={styles.cartTable}>
+                    <thead className={styles.tableHeader}>
+                        <tr>
+                        <th>이미지</th>
+                        <th>상품 정보</th>
+                        <th>옵션</th>
+                        <th>상품금액</th>
+                        <th>배송비</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cartItems.map((item) => (
+                        <tr key={item.id}>
 
+                            {/* 두 번째 열: 이미지 */}
+                            <td>
+                            <img src={item.image} alt={item.title} width="100" height="100" />
+                            </td>
+                            {/* 세 번째 열: 상품 정보 */}
+                            <td>
+                            <div><strong>{item.title}</strong></div> {/* 상품 제목 */}
+                            <div>작가: {item.artist} | 카테고리: {item.category} | 주제: {item.subject}</div>
+                            </td>
+                            {/* 옵션 정보 */}
+                            <td>
+                            {/* 옵션 첫 번째 항목: 상품 제목, 가격, 수량 */}
+                            <div>
+                                <strong>{item.title}</strong> &nbsp; {item.price.toLocaleString()}원  &nbsp;
+                                수량: {item.quantity}개
+                            </div>
+
+                            {/* 옵션 항목들 */}
+                            {item.options.map((option) => (
+                                <div key={option.optionId}>
+                                &nbsp; {option.contents.join(', ')}  &nbsp;
+                                <strong>{option.optionPrice.toLocaleString()}원</strong> &nbsp; 
+                                수량: {option.quantity}개
+                                </div>
+                            ))}
+                            </td>
+                            {/* 네 번째 열: 상품 금액 */}
+                            <td>
+                            <div><strong>{(item.price * item.quantity + item.options.reduce((sum, option) => sum + (option.optionPrice * option.quantity), 0)).toLocaleString()}원</strong></div>
+                            
+                            </td>
+                            {/* 다섯 번째 열: 배송비 */}
+                            <td>
+                            <div>{(item.shipping * item.quantity).toLocaleString()}원</div>
+                            </td>
+                        </tr>
+
+
+                        ))}
+                    </tbody>
+                </Table>
+                <div className={styles.bar}/>
                 <div className={styles.content}>
                     {/* Left Section */}
                     <div className={styles.leftSection}>
-                        <img
-                            src={`${process.env.PUBLIC_URL}/img/funding/image5.png`}
-                            alt="Artwork"
-                            className={styles.artworkImage}
-                        />
                         <div className={styles.buyerInfo}>
                             <h3>구매자 정보</h3>
                             <div className={styles.infoButtons}>
@@ -148,29 +239,6 @@ const SaleOrder = () => {
 
                     {/* Right Section */}
                     <div className={styles.rightSection}>
-                        <div className={styles.artworkDetails}>
-                            <h3 className={styles.titleName}>{artworkDetails.title}</h3>
-                            <p>
-                                <span className={styles.title}>ARTIST</span>
-                                <span className={styles.content}>{artworkDetails.artist}</span>
-                            </p>
-                            <p>
-                                <span className={styles.title}>SIZE</span>
-                                <span className={styles.content}>{artworkDetails.size}</span>
-                            </p>
-                            <p>
-                                <span className={styles.title}>PRICE</span>
-                                <span className={styles.content}>{artworkDetails.price.toLocaleString()}원</span> 
-                            </p>
-                            <p>
-                                <span className={styles.title}>STOCK</span>
-                                <span className={styles.content}>{artworkDetails.stock}개</span>
-                            </p>
-                            <p>
-                                <span className={styles.title}>Option</span>
-                                <span className={styles.content}>{artworkDetails.option}</span>
-                            </p>
-                        </div>
                         <div className={styles.summary}>
                             <p>
                                 {artworkDetails.title}{' '}
@@ -184,9 +252,9 @@ const SaleOrder = () => {
                         <button className={styles.payButton}>결제하기</button>
                     </div>
                 </div>
-            </div>
-        </>
-    );
-};
+            </div> 
 
-export default SaleOrder;
+        </>
+    )
+}
+export default ShoppingCartOrder;

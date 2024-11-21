@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Table, Button } from 'reactstrap';
-import styles from '../../css/shop/SaleList.module.css';  // 스타일 추가
+import styles from '../../css/shop/ShoppingCart.module.css';  // 스타일 추가
+import Header from '../Header';
 
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([
@@ -126,139 +127,143 @@ const ShoppingCart = () => {
   };
 
   return (
-    <div>
-      <h2 className={styles.titlename}>장바구니</h2>
-      <div className={styles.bar}></div>
+    <>
+      <Header/>
+      <div className={styles.container}>
+        
+        <h2 className={styles.titlename}>장바구니</h2>
+        <div className={styles.bar}></div>
 
-      <div className={styles.topBar}>
-        {/* 오른쪽 상단: 전체 선택 체크박스 */}
-        <div className={styles.selectAllCheckbox}>
-          <input
-            type="checkbox"
-            checked={selectAll}
-            onChange={handleSelectAll}
-            className="custom-checkbox-input"
-          />
-          <b>전체 선택</b>
-        </div>
-
-        {/* 왼쪽 상단: 선택 삭제 버튼 */}
-        <Button className={styles.topButton}
-          color="danger" 
-          onClick={handleDeleteSelected} 
-          className={styles.cartListTopButton}
-          disabled={selectedItems.length === 0}
-        >
-          선택 삭제
-        </Button>
-      </div>
-
-      <Table bordered className={styles.cartTable}>
-        <thead className={styles.tableHeader}>
-          <tr>
-            <th>선택</th>
-            <th>이미지</th>
-            <th>상품 정보</th>
-            <th>옵션</th>
-            <th>상품금액</th>
-            <th>배송비</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartItems.map((item) => (
-            <tr key={item.id}>
-              {/* 첫 번째 열: 상품 선택 체크박스 */}
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedItems.includes(item.id)}
-                  onChange={() => handleSelectItem(item.id)} // 상품 선택/해제
-                />
-              </td>
-              {/* 두 번째 열: 이미지 */}
-              <td>
-                <img src={item.image} alt={item.title} width="100" height="100" />
-              </td>
-              {/* 세 번째 열: 상품 정보 */}
-              <td>
-                <div><strong>{item.title}</strong></div> {/* 상품 제목 */}
-                <div>작가: {item.artist} | 카테고리: {item.category} | 주제: {item.subject}</div>
-              </td>
-              {/* 옵션 정보 */}
-              <td>
-                {/* 옵션 첫 번째 항목: 상품 제목, 가격, 수량 */}
-                <div>
-                  <strong>{item.title}</strong> &nbsp; {item.price.toLocaleString()}원  &nbsp;
-                  수량: {item.quantity}개
-                </div>
-
-                {/* 옵션 항목들 */}
-                {item.options.map((option) => (
-                  <div key={option.optionId}>
-                    &nbsp; {option.contents.join(', ')}  &nbsp;
-                    <strong>{option.optionPrice.toLocaleString()}원</strong> &nbsp; 
-                    수량: {option.quantity}개
-                    <Button
-                      color="danger"
-                      className={styles.cartListButton}
-                      onClick={() => handleDeleteOption(item.id, option.optionId)}
-                      style={{ marginLeft: '10px', marginTop:'10px', height:'25px', paddingTop:'2px' }}
-                    >
-                      삭제
-                    </Button>
-                  </div>
-                ))}
-              </td>
-              {/* 네 번째 열: 상품 금액 */}
-              <td>
-                <div><strong>{(item.price * item.quantity + item.options.reduce((sum, option) => sum + (option.optionPrice * option.quantity), 0)).toLocaleString()}원</strong></div>
-                
-                {/* 주문하기 버튼 */}
-                <Button 
-                  className={styles.cartListButton}
-                  color="primary"
-                  onClick={() => handleOrderItem(item.id)}
-                >
-                  주문하기
-                </Button>
-              </td>
-              {/* 다섯 번째 열: 배송비 */}
-              <td>
-                <div>{(item.shipping * item.quantity).toLocaleString()}원</div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      
-      {/* 선택된 상품들의 총합과 배송비 */}
-      <div className={styles.summarySection}>
-        <div className={styles.pricetile}>
-          <div className={styles.productPrice}>
-            <div><strong>상품 총합</strong></div>
-            <div>{totalPrice.toLocaleString()}원</div>
+        <div className={styles.topBar}>
+          {/* 오른쪽 상단: 전체 선택 체크박스 */}
+          <div className={styles.selectAllCheckbox}>
+            <input
+              type="checkbox"
+              checked={selectAll}
+              onChange={handleSelectAll}
+              className="custom-checkbox-input"
+            />
+            <b>전체 선택</b>
           </div>
-          <div className={styles.priceMiddle}>+</div>
-          <div className={styles.productPrice}>
-            <div><strong>배송비</strong></div>
-            <div>{totalShipping.toLocaleString()}원</div>
-          </div>
-          <div className={styles.priceMiddle}>=</div>
-          <div className={styles.priceMiddle}><strong>총 주문금액</strong></div>
-          <div className={styles.totalPriceMiddle}>{totalAmount.toLocaleString()}원</div>
 
-          {/* 주문하기 버튼 */}
-          <Button 
-            className={styles.priceMiddleButton}
-            color="primary" 
+          {/* 왼쪽 상단: 선택 삭제 버튼 */}
+          <Button className={styles.topButton}
+            color="danger" 
+            onClick={handleDeleteSelected} 
+            className={styles.cartListTopButton}
             disabled={selectedItems.length === 0}
-            onClick={() => alert('주문이 완료되었습니다!')}
           >
-            주문하기
+            선택 삭제
           </Button>
         </div>
+
+        <Table bordered className={styles.cartTable}>
+          <thead className={styles.tableHeader}>
+            <tr>
+              <th>선택</th>
+              <th>이미지</th>
+              <th>상품 정보</th>
+              <th>옵션</th>
+              <th>상품금액</th>
+              <th>배송비</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.map((item) => (
+              <tr key={item.id}>
+                {/* 첫 번째 열: 상품 선택 체크박스 */}
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(item.id)}
+                    onChange={() => handleSelectItem(item.id)} // 상품 선택/해제
+                  />
+                </td>
+                {/* 두 번째 열: 이미지 */}
+                <td>
+                  <img src={item.image} alt={item.title} width="100" height="100" />
+                </td>
+                {/* 세 번째 열: 상품 정보 */}
+                <td>
+                  <div><strong>{item.title}</strong></div> {/* 상품 제목 */}
+                  <div>작가: {item.artist} | 카테고리: {item.category} | 주제: {item.subject}</div>
+                </td>
+                {/* 옵션 정보 */}
+                <td>
+                  {/* 옵션 첫 번째 항목: 상품 제목, 가격, 수량 */}
+                  <div>
+                    <strong>{item.title}</strong> &nbsp; {item.price.toLocaleString()}원  &nbsp;
+                    수량: {item.quantity}개
+                  </div>
+
+                  {/* 옵션 항목들 */}
+                  {item.options.map((option) => (
+                    <div key={option.optionId}>
+                      &nbsp; {option.contents.join(', ')}  &nbsp;
+                      <strong>{option.optionPrice.toLocaleString()}원</strong> &nbsp; 
+                      수량: {option.quantity}개
+                      <Button
+                        color="danger"
+                        className={styles.cartListButton}
+                        onClick={() => handleDeleteOption(item.id, option.optionId)}
+                        style={{ marginLeft: '10px', marginTop:'10px', height:'25px', paddingTop:'2px' }}
+                      >
+                        삭제
+                      </Button>
+                    </div>
+                  ))}
+                </td>
+                {/* 네 번째 열: 상품 금액 */}
+                <td>
+                  <div><strong>{(item.price * item.quantity + item.options.reduce((sum, option) => sum + (option.optionPrice * option.quantity), 0)).toLocaleString()}원</strong></div>
+                  
+                  {/* 주문하기 버튼 */}
+                  <Button 
+                    className={styles.cartListButton}
+                    color="primary"
+                    onClick={() => handleOrderItem(item.id)}
+                  >
+                    주문하기
+                  </Button>
+                </td>
+                {/* 다섯 번째 열: 배송비 */}
+                <td>
+                  <div>{(item.shipping * item.quantity).toLocaleString()}원</div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        
+        {/* 선택된 상품들의 총합과 배송비 */}
+        <div className={styles.summarySection}>
+          <div className={styles.pricetile}>
+            <div className={styles.productPrice}>
+              <div><strong>상품 총합</strong></div>
+              <div>{totalPrice.toLocaleString()}원</div>
+            </div>
+            <div className={styles.priceMiddle}>+</div>
+            <div className={styles.productPrice}>
+              <div><strong>배송비</strong></div>
+              <div>{totalShipping.toLocaleString()}원</div>
+            </div>
+            <div className={styles.priceMiddle}>=</div>
+            <div className={styles.priceMiddle}><strong>총 주문금액</strong></div>
+            <div className={styles.totalPriceMiddle}>{totalAmount.toLocaleString()}원</div>
+
+            {/* 주문하기 버튼 */}
+            <Button 
+              className={styles.priceMiddleButton}
+              color="primary" 
+              disabled={selectedItems.length === 0}
+              onClick={() => alert('주문이 완료되었습니다!')}
+            >
+              주문하기
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

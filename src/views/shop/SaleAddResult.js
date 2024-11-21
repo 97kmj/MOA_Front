@@ -1,14 +1,16 @@
 import saleStyles from '../../css/shop/Result.module.css';
 import { Table, Label, Button , Input} from 'reactstrap';
+import Header from '../Header';
 
 const SaleOrderResult = () =>{
     return(
         <>
+             <Header/>
             <div className={saleStyles.resultImage}>
-                <img src="../img/ABOUT THE Payment.png" />
+                <img src="/img/ABOUT THE Payment.png" />
             </div>
             <div className={saleStyles.resultImage2}>
-                <img src="../img/unbrage.png" />
+                <img src="/img/unbrage.png" />
             </div>
             <div className={saleStyles.middleresult}>
                 <div className={saleStyles.middleresultFont}>판매 상품 등록</div>

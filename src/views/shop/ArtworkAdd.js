@@ -2,6 +2,8 @@ import styles from '../../css/shop/ArtworkAdd.module.css';
 import { Checkbox } from '../../views/shop/Checkbox';
 import React, { useState, useEffect, useRef } from 'react'
 import Header from '../Header';
+import axios from 'axios';
+import { Navigate } from 'react-router';
 
 
 
@@ -10,10 +12,51 @@ const Artwork = () => {
     const [category, setCategory] = useState('');
     const [type, setType] = useState('');
     const [theme, setTheme] = useState('');
-    const [canvasAvailable, setCanvasAvailable] = useState(''); 
-    const [imgPath, setImgPath] = useState('');
-   
+    const [imgPath, setImgPath] = useState(null);
+    const [isCanvasAvailable, setIsCanvasAvailable] = useState(false);
+    const [saleStatus, setSaleStatus] = useState(false);
+
+
+    const [artwork, setArtwork] = useState({adminCheck:'',canvasType:'',description:'',height:'',image_url:'',
+        isStandaedcanvas:'', lenth:'', price:'', stock:'', sale_status:'AVAILABLE',termsAccepted:'',title:'',
+        width:'', canvasId:'', categoryId:'',subjectId:'',typeId:''
+    });
     
+
+    const submit = (e) => {
+        const formData = new FormData();
+        formData.append("adminCheck",artwork.adminCheck);
+        formData.append("canvasType",artwork.canvasType);
+        formData.append("description",artwork.description);
+        formData.append("height",artwork.height);
+        formData.append("image_url",artwork.image_url);
+        formData.append("isStandaedcanvas",artwork.isStandaedcanvas);
+        formData.append("lenth",artwork.lenth);
+        formData.append("price",artwork.price);
+        formData.append("stock",artwork.stock);
+        formData.append("sale_status",artwork.sale_status);
+        formData.append("termsAccepted",artwork.termsAccepted);
+        formData.append("title",artwork.title);
+        formData.append("width",artwork.width);
+        formData.append("canvasId",artwork.canvasId);
+        formData.append("categoryId",artwork.categoryId);
+        formData.append("subjectId",artwork.subjectId);
+        formData.append("typeId",artwork.typeId);
+        // formData.append("typeId",user.id);
+        axios.post(`/sale/artworkAdd`, formData)
+            .then(res=>{
+                console.log(res.data);
+                Navigate(`/artworkDetail/${res.data}`)
+            })
+            .catch(err=>{
+                console.log(err);
+                alert(err.response.data);
+            })
+
+    }
+
+
+        
     const imgRef = useRef(null);
 
     const handleInputChange = (e) => {
@@ -29,9 +72,12 @@ const Artwork = () => {
                 setTheme(value);
                 break;
             case 'canvasAvailable':
-                setCanvasAvailable(value);
+                
+                setIsCanvasAvailable(value === '예'); 
                 break;
-            
+            case 'saleStatus':
+                setSaleStatus(value === '예');
+                break;
             default:
                 break;
         }
@@ -41,37 +87,30 @@ const Artwork = () => {
     const getTypeOptions = () => {
         switch (category) {
             case '그림':
-                return ['1', '2', '3'];
+                return ['전체보기','유화', '수체화', '아크릴화','수묵화','채석화','판화','기타'];
             case '조소':
-                return ['4', '5', '6'];
+                return ['전체보기', '석조', '목조', '아조', '점토상', '석고상', '청동상','테라코타','기타'];
             case '공예':
-                return ['7', '8', '9'];
+                return ['전체보기', '석공예', '목공예', '유리공예', '도자기예','기타'];
             default:
                 return [];
         }
     };
+
     const getThemeOptions = () => {
         switch (category) {
             case '그림':
-                return ['1-1', '1-2', '1-3'];
+                return ['전체보기','풍경화', '인물', '정물화', '크로키', '추상화', '초상화', '기타'];
             case '조소':
-                return ['4-1', '4-2', '4-3'];
+                return ['전체보기','마스크', '흉상', '반신상', '전신상', '토르소', '등신상', '기타'];
             case '공예':
-                return ['없음'];
+                return ['-'];
             default:
                 return [];
         }
     };
 
-    // const canvasTypeOption = () =>[
-    //     {value: "01", canvasName: "F"} ,
-    //     {value: "02", canvasName: "P"} ,
-    //     {value: "03", canvasName: "M"} ,
-    // ];
 
-    // const clickcanvas =(e)=>{
-    //     setCanvasType(e.target.value);
-    // }
 
 
     useEffect(() => {
@@ -80,10 +119,7 @@ const Artwork = () => {
     }, [category]);
 
 
-
-
-
-
+  
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -91,288 +127,199 @@ const Artwork = () => {
             category,
             type,
             theme,
-            canvasAvailable
+            isCanvasAvailable
         };
-        console.log(formData);  // Submit formData, or send it to your server
+        console.log(formData); 
     };
 
     const handleImagePreview = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImgPath(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
+
+        setImgPath(e.target.files[0]);
+    
     };
+    
     return(
         <>
-        <Header/>
-        <div className={styles.container}>
-            <h3>작품 등록</h3>
-            <hr className={styles.bar}></hr>
-            <div className={styles.TermsofUseInfo}>
-                <div><b>약관안내</b></div>
-                <div><b>판매금의 10%는 플랫폼의 수수료 입니다.</b> </div>
-                <div className={styles.TermsofUseInfoCheckbox}><Checkbox>&nbsp;개인정보 제 3자 제공 동의</Checkbox></div>
-                <div className={styles.TermsofUseInfoCheckbox}><Checkbox>&nbsp;판매 정책 동의</Checkbox></div>
-            </div>
-            <div className={styles.middleartwork}>
-                {/* <div className={styles.artworkAddInfo}>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}>작품명</div>
-                        <input className={styles.artworkInfocontent}></input>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}>카테고리</div>
-                        <div className={styles.customSelect}>
-                            <select
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}>
-                            <option value="">카테고리 선택</option>
-                            <option value="그림">그림</option>
-                            <option value="조소">조소</option>
-                            <option value="공예">공예</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}>타입</div>
-                        <div className={styles.customSelect}>
-                        <select
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
-                            disabled={!category}>
-                            <option value="">타입 선택</option>
-                            {getTypeOptions().map((option, index) => (
-                                <option key={index} value={option}>{option}</option>
-                            ))}
-                        </select>
-                        </div>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}>주제</div>
-                        <select
-                            value={theme}
-                            onChange={(e) => setTheme(e.target.value)}
-                            disabled={!category}
-                        >
-                            <option value="">주제 선택</option>
-                            {getThemeOptions().map((option, index) => (
-                                <option key={index} value={option}>{option}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}>국제 캔버스 여부</div>
-                        <div className={styles.artworkmiddle}>
-                        <input
-                                type="radio"
-                                id="canvasYes"
-                                name="canvasAvailable"
-                                value="예"
-                                checked={canvasAvailable === '예'}
-                                onChange={handleInputChange}
-                            />
-                            <label htmlFor="canvasYes">&nbsp; 예</label>
-                        </div>
-                        <div className={styles.artworkmiddle}>
-                        <input
-                                type="radio"
-                                id="canvasNo"
-                                name="canvasAvailable"
-                                value="아니요"
-                                checked={canvasAvailable === '아니요'}
-                                onChange={handleInputChange}
-                            />
-                            <label htmlFor="canvasNo">&nbsp; 아니요</label>
-                        </div>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}> 캔버스 타입</div>
-                        <select>
-                               
-                            <option value="01" >F</option>
-                            <option value="02" >S</option>
-                            <option value="03" >M</option>  
-                                                         
-                        </select>
-                        <div className={styles.arworkInfotdTitle}>캔버스 호수</div>
-                        <select>
-                               
-                               <option value="01" >1호</option>
-                               <option value="02" >2호</option>
-                               <option value="03" >3호</option>  
-                                                            
-                           </select>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}> 가로</div>
-                     
-                        <input className={styles.artworkmiddle} ></input>
-                        <div className={styles.arworkInfotdTitle}>세로</div>
-                        <input className={styles.artworkmiddle} ></input>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}> 높이</div>
-                        <input className={styles.artworkmiddle} ></input>
-                    </div>
-                    <div></div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}> 판매 여부</div>
-                        <select>
-                            <option value="01" >예</option>
-                            <option value="02" >아니요</option>                                                            
-                        </select>
-                    </div>
-                    <div className={styles.artworkname}>
-                        <div className={styles.arworkInfotdTitle}> 판매 금액</div>
-                        <input className={styles.artworkmiddle} ></input>
-                        <div className={styles.arworkInfotdTitle}>수량</div>
-                        <input className={styles.artworkmiddle} ></input>
-                    </div>
-                </div> */}
-                <div className={styles.artworkRegistDetail}>
-                <table>
-                    <tr><td  className={styles.artworkInfotdTitle}>작품명</td><td colSpan={3}><input className={styles.artworkInfocontent}></input></td></tr>
-                    <tr><td  className={styles.artworkInfotdTitle}>카테고리</td><td><div className={styles.customSelect}>
-                            <select
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}>
-                            <option value="">카테고리 선택</option>
-                            <option value="그림">그림</option>
-                            <option value="조소">조소</option>
-                            <option value="공예">공예</option>
-                        </select>
-                        </div></td><td></td><td></td></tr>
-                    <tr><td className={styles.artworkInfotdTitle}>타입</td><td><div className={styles.customSelect}>
-                        <select
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
-                            disabled={!category}>
-                            <option value="">타입 선택</option>
-                            {getTypeOptions().map((option, index) => (
-                                <option key={index} value={option}>{option}</option>
-                            ))}
-                        </select>
-                        </div></td>
-                        <td className={styles.artworkInfotdTitle}>주제</td><td><div className={styles.customSelect}>
-                            <select value={theme} onChange={(e) => setTheme(e.target.value)} disabled={!category}>
-                                <option value="">주제 선택</option>
-                                {getThemeOptions().map((option, index) => (
-                                    <option key={index} value={option}>{option}</option>
-                                ))}
-                            </select>
-                        </div></td>
-                    </tr>                       
-                    <tr><td className={styles.artworkInfotdTitle}>국제캔버스 여부</td>
-                        <td colSpan={3}>
-                            <div className={styles.canvasRadio}>
-                            <input
-                                    type="radio"
-                                    id="canvasYes"
-                                    name="canvasAvailable"
-                                    value="예"
-                                    checked={canvasAvailable === '예'}
-                                    onChange={handleInputChange}
-                                />
-                                <label htmlFor="canvasYes">&nbsp;예</label>
-                            </div>
-                            <div className={styles.canvasRadio}>
-                            <input
-                                    type="radio"
-                                id="canvasNo"
-                                name="canvasAvailable"
-                                value="아니요"
-                                checked={canvasAvailable === '아니요'}
-                                onChange={handleInputChange}
-                            />
-                            <label htmlFor="canvasNo">&nbsp;아니요</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className={styles.artworkInfotdTitle}>캔버스 타입</td>
-                        <td>
-                        <div className={styles.customSelect}>
-                            <select>
-                               <option value="01" >F</option>
-                               <option value="02" >S</option>
-                               <option value="03" >M</option>
-                           </select>
-                        </div>
-                        </td>
-                        <td className={styles.artworkInfotdTitle}>캔버스 호수</td>
-                        <td>
-                        <div className={styles.customSelect}>
-                            <select>
-                               <option value="01" >1호</option>
-                               <option value="02" >2호</option>
-                               <option value="03" >3호</option>
-                           </select>
-                        </div>
-                        </td>
-                    </tr>
-                    <tr><td className={styles.artworkInfotdTitle}>가로</td>
-                    <td><input className={styles.artworkInfocontent}/></td>
-                    <td className={styles.artworkInfotdTitle}>세로</td>
-                    <td><input className={styles.artworkInfocontent}/></td>
-                    </tr>
-                    <tr><td className={styles.artworkInfotdTitle}>높이</td>
-                    <td><input className={styles.artworkInfocontent}/></td>
-                    <td></td><td></td>
-                    </tr>  
-                    <tr><td className={styles.artworkInfotdTitle}>판매 여부</td>
-                    <td>
-                        <div className={styles.customSelect}>
-                        <select>
-                            <option value="01" >예</option>
-                            <option value="02" >아니요</option>                                                            
-                        </select>
-                        </div>
-                    </td>
-                    <td></td><td></td>
-                    </tr>  
-                    <tr>
-                        <td className={styles.artworkInfotdTitle}>판매 금액</td>
-                        <td><input className={styles.artworkInfocontent}/></td>
-                        <td className={styles.artworkInfotdTitle}>수량</td>
-                        <td><input className={styles.artworkInfocontent}/></td>
-                    </tr>
-                </table>
+            <Header/>
+            <div className={styles.container}>
+                <h3>작품 등록</h3>
+                <hr className={styles.bar}></hr>
+                <div className={styles.TermsofUseInfo}>
+                    <div><b>약관안내</b></div>
+                    <div><b>판매금의 10%는 플랫폼의 수수료 입니다.</b> </div>
+                    <div className={styles.TermsofUseInfoCheckbox}><Checkbox>&nbsp;개인정보 제 3자 제공 동의</Checkbox></div>
+                    <div className={styles.TermsofUseInfoCheckbox}><Checkbox>&nbsp;판매 정책 동의</Checkbox></div>
                 </div>
-                <div className={styles.imgInputBox}>
-                    <h4>작품 이미지</h4>
-                    <div className={styles.artworkimg}>
-                        <img src={imgPath ? imgPath : '/img/search.png'} alt='이미지 업로드' className={styles.artworksearch}/>
-                    </div>
-                    <input
-                        type="file"
-                        id="artworkAdd"
-                        name="artworkAdd"
-                        accept=".png, .jpeg, .jpg"
-                        onChange={handleImagePreview}
-                        ref={imgRef}
-                    />
-                </div>
-            </div>
-            <div className={styles.artworkInfoBox}>
-                <h4>작품 설명</h4>
-                <textarea className={styles.artworkInfoInput}/>
-            </div>
-            <div className={styles.buttonDiv}>
-                <button className={styles.goldbutton} type='submit'>등록하기</button>
-                
-            </div>
+                <div className={styles.middleartwork}>
+                    <div className={styles.artworkRegistDetail}>
+                        <table>
+                            <tr><td  className={styles.artworkInfotdTitle}>작품명</td><td colSpan={3}><input className={styles.artworkInfocontent}></input></td></tr>
+                            <tr><td  className={styles.artworkInfotdTitle}>카테고리</td><td><div className={styles.customSelect}>
+                                    <select
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}>
+                                    <option value="">카테고리 선택</option>
+                                    <option value="그림">그림</option>
+                                    <option value="조소">조소</option>
+                                    <option value="공예">공예</option>
+                                </select>
+                                </div></td><td></td><td></td></tr>
+                            <tr><td className={styles.artworkInfotdTitle}>타입</td><td><div className={styles.customSelect}>
+                                <select
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value)}
+                                    disabled={!category}>
+                                    <option value="">타입 선택</option>
+                                    {getTypeOptions().map((option, index) => (
+                                        <option key={index} value={option}>{option}</option>
+                                    ))}
+                                </select>
+                                </div></td>
+                                <td className={styles.artworkInfotdTitle}>주제</td><td><div className={styles.customSelect}>
+                                    <select value={theme} onChange={(e) => setTheme(e.target.value)} disabled={!category}>
+                                        <option value="">주제 선택</option>
+                                        {getThemeOptions().map((option, index) => (
+                                            <option key={index} value={option}>{option}</option>
+                                        ))}
+                                    </select>
+                                </div></td>
+                            </tr>                       
+                            <tr><td className={styles.artworkInfotdTitle}>국제캔버스 여부</td>
+                                <td colSpan={3}>
+                                    <div className={styles.canvasRadio}>
+                                    <input
+                                            type="radio"
+                                            id="canvasYes"
+                                            name="canvasAvailable"
+                                            value="예"
+                                            checked={isCanvasAvailable === true}
+                                            onChange={handleInputChange}
+                                            />
+                                        <label htmlFor="canvasYes">&nbsp;예</label>
+                                    </div>
+                                    <div className={styles.canvasRadio}>
+                                    <input
+                                            type="radio"
+                                            id="canvasNo"
+                                            name="canvasAvailable"
+                                        value="아니요"
+                                        checked={isCanvasAvailable === false}
+                                        onChange={handleInputChange}
+                                        />
+                                    <label htmlFor="canvasNo">&nbsp;아니요</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className={styles.artworkInfotdTitle}>캔버스 타입</td>
+                                <td>
+                                <div className={styles.customSelect}>
+                                    <select disabled={!isCanvasAvailable}>
+                                    <option value="F" >F</option>
+                                    <option value="P" >P</option>
+                                    <option value="M" >M</option>
+                                    <option value="S" >S</option>
+                                </select>
+                                </div>
+                                </td>
+                                <td className={styles.artworkInfotdTitle}>캔버스 호수</td>
+                                <td>
+                                <div className={styles.customSelect}>
+                                    <select disabled={!isCanvasAvailable}>
+                                    <option value="1" >1호</option>
+                                    <option value="2" >2호</option>
+                                    <option value="3" >3호</option>
+                                    <option value="4" >4호</option>
+                                    <option value="5" >5호</option>
+                                    <option value="6" >6호</option>
+                                    <option value="8" >8호</option>
+                                    <option value="10" >10호</option>
+                                    <option value="12" >12호</option>
+                                    <option value="15" >15호</option>
+                                    <option value="20" >20호</option>
+                                    <option value="25" >25호</option>
+                                    <option value="30" >30호</option>
+                                    <option value="40" >40호</option>
+                                    <option value="50" >50호</option>
+                                    <option value="60" >60호</option>
+                                    <option value="80" >80호</option>
+                                    <option value="100" >100호</option>
+                                    <option value="120" >120호</option>
+                                    <option value="150" >150호</option>
+                                    <option value="200" >200호</option>
+                                    <option value="300" >300호</option>
+                                    <option value="500" >500호</option>
 
-            {/* <div className={styles.artworkInfoButton}>
-                <button className={styles.artworkInfoButtonDetail} type="submit" >등록하기</button>
-            </div> */}
+                                </select>
+                                </div>
+                                </td>
+                            </tr>
+                            <tr><td className={styles.artworkInfotdTitle}>가로</td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable}/></td>
+                            <td className={styles.artworkInfotdTitle}>세로</td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable}/></td>
+                            </tr>
+                            <tr><td className={styles.artworkInfotdTitle}>높이</td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable}/></td>
+                            <td></td><td></td>
+                            </tr>  
+                            <tr><td className={styles.artworkInfotdTitle}>판매 여부</td>
+                            <td>
+                                <div className={styles.customSelect}>
+                                <select>
+                                    <option value="예" name="canvasAvailable" >예</option>
+                                    <option value="아니오" name="canvasAvailable">아니요</option>                                                            
+                                </select>
+                                </div>
+                            </td>
+                            <td></td><td></td>
+                            </tr>  
+                            <tr>
+                                <td className={styles.artworkInfotdTitle}>판매 금액</td>
+                                <td><input className={styles.artworkInfocontent} disabled={saleStatus}/></td>
+                                <td className={styles.artworkInfotdTitle}>수량</td>
+                                <td><input className={styles.artworkInfocontent} disabled={saleStatus}/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div className={styles.artworktitle}>
+                        <h3>작품등록</h3>
+
+                        <div className={styles.imgInputBox}>
+
+                            <input
+                                id="artworkAdd"
+                                type="file"
+                                onChange={handleImagePreview}
+                                className={styles.hiddenFileInput}
+                                />
+                            <label htmlFor="artworkAdd" className={styles.fileInputLabel}>
+                                {imgPath ? (
+                                    <img
+                                        src={URL.createObjectURL(imgPath)}
+                                        alt="작품 이미지 미리보기"
+                                        className={styles.previewImage}
+                                    />
+                                ) : (
+                                    <div className={styles.plusIcon}>+</div>
+                                )}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.artworkInfoBox}>
+                    <h4>작품 설명</h4>
+                    <textarea className={styles.artworkInfoInput}/>
+                </div>
+                <div className={styles.buttonDiv}>
+                    <button className={styles.goldbutton} type='submit'>등록하기</button>
+                    
+                </div>
+
+
             
             </div>
         </>
     )
-    
 } 
 export default Artwork;

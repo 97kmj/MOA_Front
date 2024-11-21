@@ -1,0 +1,344 @@
+/* 판매상세 */
+.bar {
+
+    margin-bottom: 20px;
+    text-align : "left"; 
+    width: 1200px;
+    height: 2px;
+    background-color: #b39c59;
+  }
+  .container {
+   
+    margin:20px auto;
+    padding:0;
+    width: 1200px;
+}
+.titlename{
+
+    margin: 68px 0px 18px 0px;
+}
+.detailTop{
+
+    margin: 0px auto;
+    width: 1200px;
+    height: 450px;
+    display: flex;
+
+}
+.detailTopLeft{
+
+    width: 550px;
+    height: 420px;
+    display: flex;
+    align-items: center;
+}
+.artistMoveButton{
+    margin-left: 30px;
+    width: 95px;
+    height: 20px;
+    font-size: 15px;
+    border: 1px solid #B39C59;
+    background-color: #B39C59;
+    color: white;
+    border-radius: 50px;
+    text-align: center;
+
+}
+.artistMoveButton:hover{
+
+    cursor: pointer;
+}
+
+.detailTopLeftImg{
+    margin-top: 30px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensures the image is resized to fit without distortion */
+    background-color: #f0f0f0; /* Set grey background */
+    display: block;
+
+    
+}
+
+.detailTopRight{
+    text-align: center;
+    width: 600px;
+    height: 350px;
+    
+}
+.detailTopRightTable{
+    display: inline-flex;
+    width: 600px;
+    height: 300px;
+}
+
+.detailTopRightArtworkName{
+   
+    font-size : 25px;
+    width: 600px;
+    height: 30px;
+    text-align: center;
+    color: #b39c59;
+
+    margin-top: 5px;
+    
+}
+.detailTopRightArtworkprice{
+   
+    font-size : 25px;
+    width: 700px;
+    height: 30px;
+    text-align: center;
+    margin-left : 60px;
+    margin-top: 5px;
+    color: #b39c59;
+    
+}
+
+.detailtitlearrayLeft{
+    width: 200px;
+    text-align: left;
+    margin-left: 50px;
+}
+.detailtitlearray{
+    display: inline;
+    width: 600px;
+    text-align: left;
+    margin-left: 50px;
+}
+
+
+.detailTopRightArray{
+    display: inline-flex;
+    margin-left: 100px;
+    width: 600px;
+    font-size : 15px;
+    height: 25px;
+    margin: 10px;
+    
+}
+.deltailOrderTr{
+    margin: 10px 0px;
+}
+.detailTopRightOption{
+    display: inline-flex;
+    margin-left: 100px;
+    width: 400px;
+    font-size : 15px;
+    height: 25px;
+    margin: 10px;
+    color: #b39c59;
+    
+}
+.deltailorderLeftContent{
+    border: 1px solid #b39c59;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.colorGold{
+    color: #b39c59;
+}
+
+.detailTopRightArrayFrame{
+    display: inline;
+    width: 500px;
+    font-size : 20px;
+    height: 25px;
+    margin: 10px;
+
+}
+    
+.detailtitlearraFrame{
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    width: 200px;
+    border: 1px solid #b39c59;
+    border-radius: 50px;
+    text-align: center;
+    height: 28px;
+}
+.alignCenter{
+    display: inline-block;;
+    justify-content: center;    
+  
+}
+.buttonArrary{
+    margin-top: 40px;
+    margin-left: 1000px;
+}
+.buttonDarkStyle{
+    margin-left: 250px;
+    width: 150px;
+    height: 30px;
+    size: 10px;
+    background-color: #333;
+    color: #b39c59;
+    border-radius: 50px;
+    margin-top: 15px;
+    text-align: center;
+    padding-top: 10px;
+}
+.buttonDarkStyle2{
+    margin-left: 15px;
+    width: 150px;
+    height: 30px;
+    size: 10px;
+    background-color: #333;
+    color: #b39c59;
+    border-radius: 50px;
+    margin-top: 15px;
+    text-align: center;
+    padding-top: 10px;
+  
+}
+.buttonDarkStyle:hover{
+    cursor: pointer;
+}
+.buttonDarkStyle2{
+    cursor: pointer;
+}
+.frameButton{
+    border-radius: 10px;
+    color: white;
+    background-color: #b39c59;
+    width: 100px;
+    border-color: #b39c59;
+    height: 25px;
+    border-radius: 50px;
+    text-align: center;
+    padding-top: 3px;
+}
+.frameButton:hover{
+    cursor: pointer;
+}
+.topmiddle{
+    margin: 0px auto;
+    width:  1200px;
+    display: flex;
+   
+  
+}
+.leftgoldheart{
+    width: 550px;
+    text-align: center;
+    margin: auto 0px;
+}
+
+.goldheart{
+    align-items: center;
+}
+
+.totalprice{
+    width: 600px;
+
+    border: 1px solid #b39c59;
+    display: inline-flex;
+    margin-left: 50px;
+}
+.totalpricetbody{
+    width: 350px;
+}
+.totalpricetbody2{
+    width: 250px;
+    margin-left: 200px;
+}
+.totalpriceleft{
+    display: inline-block;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 15px;
+    padding: 10px;
+    max-width: 350px;
+    width: 100%;
+}
+.totalpriceleft{
+    display: inline-block;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 15px;
+    padding: 10px;
+    max-width: 350px;
+    width: 100%;
+}
+.totalpriceleft2{
+    display: inline-block;
+    margin-left: 10px;
+    text-align: left;
+    font-size: 15px;
+    padding: 10px;
+    max-width: 350px;
+    width: 100%;
+}
+.totalpriceright{
+    display: inline-block;
+    margin-left: 50px;
+    font-size: 20px;
+    color: #b39c59;
+    padding: 10px;
+}
+.totalpriceright2{
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 20px;
+    color: #b39c59;
+    padding: 10px;
+}
+.detailmiddle{
+    margin: 20px auto;
+    width: 1200px;
+    height: 500px;
+    display: flex;
+    text-align: center;
+}
+.detailmiddleimg{
+    margin: 0px auto;
+    max-width: 1000px;
+    max-height:  600px;
+    object-fit: contain;
+    
+}
+.artworkInfo{
+    margin: 100px 150px 10px 150px;
+    width: 900px;
+    min-height: 100px;
+}
+.artworkInfo2{
+    margin: 50px 150px 0px 150px;
+    width: 900px;
+    min-height: 100px;
+}
+
+.artworkInfoTable{
+    width: 900px;
+    margin: 0 auto; 
+}
+.artworkInfotitle{
+    width: 300px;
+    height: 50px;
+    border: 1px solid lightgray;
+    text-align: center;
+
+}
+.artworkInfotitleNone{
+    width: 300px;
+    height: 50px;
+    text-align: center;
+}
+.artworkInfocontent{
+    width: 900px;
+    height: 400px;
+    border: 1px solid #c1c1c1;
+    text-align: center;
+    background-color: #F5F5F5;
+    padding: 10px;
+}
+.artistsearch{
+    text-align: center;
+    width: 100px;
+    height: 30px;
+    display: inline-flex;
+    border: 2px;
+    border-radius: 10px;
+}
