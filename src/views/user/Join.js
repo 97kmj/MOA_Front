@@ -5,77 +5,78 @@ function Join() {
     return (
         <div className={styles.joinContainer}>
             <h1 className={styles.joinTitle}>
-                We Need Information<br />For Create Account<br />Please Fill In The Blank
+                MOA에 오신 것을 환영합니다
+                {/* <br />회원가입을 위한 정보들을<br />빠짐없이 입력해 주세요 */}
             </h1>
             
             <form>
                 {/* ID */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="id">ID</label>
+                    <label htmlFor="id">아이디</label>
                     <div className={styles.inputGroup}>
-                        <input type="text" id="id" placeholder="Enter your ID" />
-                        <button type="button">Check</button>
+                        <input type="text" id="id" placeholder="아이디 입력" />
+                        <button type="button">확인</button>
                     </div>
                 </div>
 
                 {/* Password */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="password">PASSWORD</label>
-                    <input type="password" id="password" placeholder="Enter your password" />
+                    <label htmlFor="password">비밀번호</label>
+                    <input type="password" id="password" placeholder="비밀번호 입력" />
                 </div>
 
                 {/* Password Check */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="password-check">PASSWORD CHECK</label>
-                    <input type="password" id="password-check" placeholder="Re-enter your password" />
+                    <label htmlFor="password-check">비밀번호 확인</label>
+                    <input type="password" id="password-check" placeholder="비밀번호 확인" />
                 </div>
 
                 {/* Address */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="address">ADDRESS</label>
+                    <label htmlFor="address">주소</label>
                     <div className={styles.inputGroup}>
-                        <input type="text" id="postcode" placeholder="Postcode" />
-                        <button type="button">Find</button>
+                        <input type="text" id="postcode" placeholder="우편번호" />
+                        <button type="button">찾기</button>
                     </div>
-                    <input type="text" id="address" placeholder="Address" />
-                    <input type="text" id="detail-address" placeholder="Detail Address" />
-                    <input type="text" id="extra-address" placeholder="Extra Address" />
+                    <input type="text" id="address" placeholder="주소" />
+                    <input type="text" id="detail-address" placeholder="상세주소" />
+                    <input type="text" id="extra-address" placeholder="상세주소" />
                 </div>
 
                 {/* Phone */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="phone">PHONE</label>
+                    <label htmlFor="phone">전화번호</label>
                     <div className={styles.inputGroup}>
-                        <input type="text" id="phone" placeholder="Enter your phone number" />
-                        <button type="button">Send</button>
+                        <input type="text" id="phone" placeholder="전화번호 입력" />
+                        <button type="button">전송</button>
                     </div>
                     <div className={styles.inputGroup}>
-                        <input type="text" id="phone-code" placeholder="Enter code" />
-                        <button type="button">Verify</button>
+                        <input type="text" id="phone-code" placeholder="인증번호 확인" />
+                        <button type="button">확인</button>
                     </div>
                 </div>
 
                 {/* Name */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="name">NAME</label>
-                    <input type="text" id="name" placeholder="Enter your name" />
+                    <label htmlFor="name">이름</label>
+                    <input type="text" id="name" placeholder="사용할 이름 입력" />
                 </div>
 
                 {/* Email */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="email">EMAIL</label>
+                    <label htmlFor="email">이메일</label>
                     <div className={styles.inputGroup}>
-                        <input type="email" id="email" placeholder="Enter your email" />
-                        <button type="button">Send</button>
+                        <input type="email" id="email" placeholder="이메일 입력" />
+                        <button type="button">전송</button>
                     </div>
                     <div className={styles.inputGroup}>
-                        <input type="text" id="email-code" placeholder="Enter code" />
-                        <button type="button">Verify</button>
+                        <input type="text" id="email-code" placeholder="인증번호 확인" />
+                        <button type="button">확인</button>
                     </div>
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" className={styles.submitButton}>MAKE ACCOUNT</button>
+                <button type="submit" className={styles.submitButton}>회원가입</button>
             </form>
         </div>
     );
