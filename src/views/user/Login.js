@@ -27,11 +27,12 @@ const handleFindPwdClick = () => {
       </div>
       <div className={styles.loginBox}>
         <h1 className={styles.loginTitle}>WELCOME TO THE <br /> MOA</h1>
+        
         <label className={styles.inputLabel} htmlFor="id">ID</label>
         <input type="text" id="id" className={styles.inputBox} />
 
         <label className={styles.inputLabel} htmlFor="password">PASSWORD</label>
-        <input type="password" id="password" className={styles.inputBox} />
+        <input type="text" id="password" className={styles.inputBox} />
 
         <button className={styles.loginButton}>로그인</button>
         <button className={styles.signupButton} onClick={handleSignupClick}>회원가입</button>

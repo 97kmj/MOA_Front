@@ -20,7 +20,6 @@
 .loginBox {
   width: 350px;
   padding: 30px;
-  
   border: 3px solid #b39c59;
   border-radius: 0px;
   background-color: #ffffff;
@@ -49,8 +48,9 @@
   
 }
 
+
 .inputBox {
-  width: 95%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #b39c59;
@@ -71,7 +71,7 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 50px;
 }
 
 .findOptions {
@@ -88,7 +88,7 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 50px;
 }
 
 .socialLogin {
@@ -102,5 +102,5 @@
   width: 100%;
   padding: 10px;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 50px;
 }
