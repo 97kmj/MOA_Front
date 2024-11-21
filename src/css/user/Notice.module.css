@@ -1,10 +1,12 @@
 .container {
-    width: 1500px;
+    width: 1200px;
     margin:50px auto;
     padding:0;
 }
+
 .headerText {
-    width: 1500px;
+    margin-top: 50px;
+    width: 1200px;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
@@ -12,10 +14,10 @@
 }
 .faq {
     display: inline-block;
-    width: 1240px;
+    width: 940px;
     margin-left: 130px;
 }
-.noticeList {
+.noticeList, .faqList {
     align-items: center;
 }
 
@@ -26,23 +28,25 @@
     padding-inline-start: 0;
 }
 
-.noticeList ul li {
+.noticeList ul li, .faqList ul li {
     padding:20px;
     margin:10px auto;
     list-style: none;
 }
-.noticeList ul li:hover {
-    border:#B39C59 2px solid;
+.noticeList ul li:hover, .faqList ul li:hover {
+    border:#B39C59 1px solid;
     cursor: pointer;
 }
 
-.notice {
-    margin:10px;
-    background-color: #f0f0f0 ;
-    padding: 5px 20px 5px 20px;
+
+.noticeContent, .faqAnswer {
+    margin:10px 0 10px 0 ;
+    background-color: whitesmoke;
+    padding: 20px;
     border: #B39C59 2px solid;
-    display: none;
+ 
 }
+
 .notice:hover {
     cursor: none;
 }
@@ -51,20 +55,7 @@
     padding: 10px;
     text-align: left;
 }
-.more {
-    display: flex;
-    vertical-align: middle;
-    justify-content: center;
-    align-items: center;
-    width:44px;
-    height: 44px;
-    border: #B39C59 1px solid;
-    border-radius: 50%;
-    margin:0 auto;
-}
-.more:hover {
-    cursor: pointer;
-}
+
 
 .question {
     float: right;
@@ -165,4 +156,12 @@
     border:1px solid #B39C59;
     border-radius: 10px;
     padding:20px;
+}
+
+.noticeItem, .faqItem{
+    border: 1px solid whitesmoke;
+    transition: border-color 0.3s;
+}
+.selected {
+    border:1px solid #B39C59;
 }

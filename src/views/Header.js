@@ -22,7 +22,7 @@ const Header = () => {
                     {/* { user.role=='ARTIST' && */}
 
                     <li className={styles.regist}>REGIST&nbsp;
-                        <img src="/img/Sort Down.png"/>
+                        <img src="/img/Sort_Down.png"/>
                         <ul className={styles.submenu}>
                             <li><Link to="/shop/artworkAdd">Artwork</Link></li>
                             <li>

@@ -25,10 +25,7 @@
     overflow-y:auto;
     padding-inline-start:0;
 }
-.noticeList li {
-    height: 30px;
-    margin-bottom: 16px;
-}
+
 .title {
     margin-left: 8px;
     float: left;
@@ -165,4 +162,21 @@
 }
 .modalbutton:hover {
     cursor: pointer;
+}
+
+.noticeItem {
+    height: 26px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.noticeItem:hover {
+    border-color: #B39C59;
+}
+
+.selected {
+    border-color: #B39C59; /* 강조 색상 */
+    background-color: #fff8db; /* 선택된 배경 색상 */
 }

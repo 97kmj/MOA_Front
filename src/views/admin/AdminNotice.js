@@ -5,6 +5,7 @@ import axios from "axios"
 const AdminNotice = () => {
     const [noticeList, setNoticeList] = useState([]);
     const [notice,setNotice] = useState({});
+    const [selectedNoticeId, setSelectedNoticeId] = useState(null); // 선택된 공지사항 ID
     const [backupNotice, setBackupNotice] = useState({}); // 수정 전 데이터를 저장할 상태
     const [isModify, setIsModify] = useState(false);
     const [isRegist, setIsRegist] = useState(false);
@@ -18,8 +19,10 @@ const AdminNotice = () => {
         axios.get("http://localhost:8080/adminNotice")
             .then(res => {
                 if (res.data.length>0){
-                    setNoticeList(res.data);
-                    setNotice(res.data[0]);
+                    const newnoticeList = res.data;
+                    setNoticeList(newnoticeList);
+                    setNotice(newnoticeList[0]);
+                    setSelectedNoticeId(newnoticeList[0].noticeId)
                 } else {
                     setNoticeList([]);
                     setNotice({});
@@ -32,6 +35,7 @@ const AdminNotice = () => {
     
     const selectNotice =(index) => () => {
        setNotice(noticeList[index]);
+       setSelectedNoticeId(noticeList[index].noticeId); // 선택된 공지사항 ID 설정
        setIsRegist(false);
        setIsModify(false);
        console.log(notice);
@@ -81,8 +85,10 @@ const AdminNotice = () => {
     const registNotice = () => {
         axios.post("http://localhost:8080/writeNotice",notice)
             .then(res => {
-                setNotice(res.data);
-                setNoticeList([res.data,...noticeList]);
+                const newNotice = res.data; // 새로 등록된 공지사항 데이터
+                setNotice(newNotice);
+                setNoticeList([newNotice,...noticeList]);
+                setSelectedNoticeId(newNotice.noticeId)
                 alert("공지사항이 등록되었습니다.");
                 setIsModify(false);
                 setIsRegist(false);
@@ -125,7 +131,12 @@ const AdminNotice = () => {
                     {
                         noticeList.length > 0 ? (
                         noticeList.map((notice,index)=>(
-                            <li key={notice.noticeId} onClick={selectNotice(index)}>
+                            <li 
+                                key={notice.noticeId} 
+                                onClick={selectNotice(index)}
+                                className={`${styles.noticeItem} ${
+                                    notice.noticeId === selectedNoticeId ? styles.selected : ""
+                                }`}>
                                 <span className={styles.title}>{notice.title}</span>
                                 <span className={styles.date}>{new Date(notice.createdAt).toISOString().slice(0, 10)}</span>        
                             </li>
