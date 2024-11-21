@@ -93,7 +93,11 @@
     padding:20px;
 }
 
-
+.bar {
+    border: none;
+    height: 2px;
+    background-color: #B39C59;
+}
 .questionList table tbody::-webkit-scrollbar {
     width: 6px;
 }
