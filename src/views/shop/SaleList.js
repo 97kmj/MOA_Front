@@ -9,7 +9,6 @@ const SaleList = () => {
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
     };
-
     const saleData = [
         { id: 1, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화", image: "../logo192.png", },
         { id: 3, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화",image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
