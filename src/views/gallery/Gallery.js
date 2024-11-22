@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
 
 const Dropdown = ({ label, options }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} ref={dropdownRef}>
       <button className={`${styles.btn} ${styles.dropdownBtn}`} onClick={toggleDropdown}>
         {label}
       </button>
@@ -34,7 +49,7 @@ const Gallery = () => {
 
   const data = Array.from({ length: 40 }).map((_, index) => ({
     id: index + 1,
-    title: `작품 설명 ${index + 1}`,
+    title: `작품 제목 ${index + 1}`,
     image: `https://via.placeholder.com/300x200?text=작품+${index + 1}`,
   }));
 
@@ -64,8 +79,8 @@ const Gallery = () => {
   })();
 
   const handleCardClick = (id) => {
-    navigate(`/detail/${id}`);
-  };
+  navigate(`/gallery/gallerydetail/${id}`);
+};
 
   return (
     <>
@@ -73,7 +88,7 @@ const Gallery = () => {
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.headerTop}>
-            <h1 className={styles.title}>GALLERY</h1>
+            <h1 className={styles.title}>온라인 갤러리</h1>
             <div className={styles.viewButtons}>
               <button
                 className={`${styles.btn} ${viewMode === "gallery" ? styles.btnActive : ""}`}

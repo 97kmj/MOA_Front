@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
 
 const Dropdown = ({ label, options }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} ref={dropdownRef}>
       <button className={`${styles.btn} ${styles.dropdownBtn}`} onClick={toggleDropdown}>
         {label}
       </button>
@@ -25,7 +40,7 @@ const Dropdown = ({ label, options }) => {
   );
 };
 
-const MyGallery = () => {
+const Gallery = () => {
   const [viewMode, setViewMode] = useState("gallery");
   const [visibleCount, setVisibleCount] = useState(8); // 리스트 모드에서 더보기로 로드할 개수
   const [currentIndex, setCurrentIndex] = useState(0); // 갤러리 모드에서 중심 이미지 인덱스
@@ -34,7 +49,7 @@ const MyGallery = () => {
 
   const data = Array.from({ length: 40 }).map((_, index) => ({
     id: index + 1,
-    title: `작품 설명 ${index + 1}`,
+    title: `작품 제목 ${index + 1}`,
     image: `https://via.placeholder.com/300x200?text=작품+${index + 1}`,
   }));
 
@@ -64,8 +79,8 @@ const MyGallery = () => {
   })();
 
   const handleCardClick = (id) => {
-    navigate(`/detail/${id}`);
-  };
+  navigate(`/gallery/gallerydetail/${id}`);
+};
 
   return (
     <>
@@ -73,7 +88,7 @@ const MyGallery = () => {
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.headerTop}>
-            <h1 className={styles.title}>MY GALLERY</h1>
+            <h1 className={styles.title}>나만의 갤러리</h1>
             <div className={styles.viewButtons}>
               <button
                 className={`${styles.btn} ${viewMode === "gallery" ? styles.btnActive : ""}`}
@@ -162,4 +177,4 @@ const MyGallery = () => {
   );
 };
 
-export default MyGallery;
+export default Gallery;

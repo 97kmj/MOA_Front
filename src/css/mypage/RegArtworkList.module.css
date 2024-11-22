@@ -1,5 +1,6 @@
 /* 전체 컨테이너 */
 .regArtworkListContainer {
+  
   display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
 }
 
@@ -10,11 +11,16 @@
   background-color: #f9f9f9; /* 배경 색 */
   padding: 10px;
   border-radius: 8px;
+  min-width: 1000px; /* 최소 너비 고정 */
+
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* 메인 콘텐츠 */
 .regArtworkMainContent {
+  margin-top: 60px;
+  margin-left: 300px;
+  margin-right: 350px;
   flex: 1; /* SideNav 옆의 공간을 채움 */
   padding-left: 20px;
 }

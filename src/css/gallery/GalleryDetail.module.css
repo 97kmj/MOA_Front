@@ -1,9 +1,27 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* 헤더 너비 제한 */
+
+}
 .galleryDetailContainer {
   padding: 20px;
   font-family: Arial, sans-serif;
   text-align: center; /* 기본 중앙 정렬 */
-  margin-top: 50px;
-  width: 1500px;
+  margin: 50px auto;
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 콘텐츠 중앙 정렬 */
 }
 
 .pageTitle {
@@ -20,7 +38,7 @@
   height: 2px;
   background-color: #b39c59;
   margin: 10px auto 20px;
-  width: 80%; /* 줄 길이를 중앙 정렬 */
+  width: 850px; 
 }
 
 .galleryDisplayArea {
@@ -45,6 +63,7 @@
 }
 
 .imageDetails {
+  position: relative; /* 좋아요 버튼 위치 조정을 위해 부모를 상대 위치로 설정 */
   text-align: left; /* 텍스트 좌측 정렬 */
   font-size: 18px; /* 기본 텍스트 크기 증가 */
   line-height: 1.8; /* 줄 간격 조정 */
@@ -61,18 +80,19 @@
 }
 
 .likeButton {
-  background-color: #ff6b6b;
-  color: white;
+  position: absolute; /* 부모 요소를 기준으로 위치 설정 */
+  right: 50%;
+
+  background: none;
   border: none;
-  border-radius: 5px;
-  padding: 10px 15px; /* 버튼 크기 증가 */
   cursor: pointer;
-  font-size: 16px; /* 버튼 텍스트 크기 증가 */
-  margin-top: 20px; /* 여백 추가 */
+  padding: 0;
 }
 
-.likeButton:hover {
-  background-color: #ff3b3b;
+.likeIcon {
+  width: 32px; /* 아이콘 크기 */
+  height: 32px;
+  object-fit: contain;
 }
 
 .imageSeparator {
@@ -80,7 +100,7 @@
   height: 2px;
   background-color: #b39c59;
   margin: 20px auto;
-  width: 80%; /* 줄 길이를 중앙 정렬 */
+  width: 850px;
 }
 
 .largeImageArea {
@@ -96,16 +116,23 @@
 
 .artDescription {
   margin-top: 20px;
-  text-align: center; /* 기본 중앙 정렬 */
+  text-align: left; /* 기본 중앙 정렬 */
+  color: #b39c59;
 }
 
 .artDescription h3 {
-  width: 500px; /* 설명 박스와 동일한 너비 */
-  margin: 0 auto 10px; /* 설명 박스와 간격 조정 및 중앙 배치 */
-  text-align: left; /* 왼쪽 정렬 */
-  font-size: 18px; /* 폰트 크기 */
-  font-weight: bold; /* 강조 */
+  display: inline-block; /* 텍스트 크기에 맞는 테두리 */
+  margin: 0 0 0 0; /* 왼쪽 정렬을 유지하며 아래쪽 여백 추가 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
+  font-size: 18px; /* 텍스트 크기 */
+  font-weight: bold; /* 글씨 두께 */
+  padding: 10px 20px; /* 텍스트와 테두리 사이의 여백 */
+  border: 2px solid #000000; /* 테두리 추가 (금색) */
+  border-radius: 0px; /* 테두리 모서리 둥글게 */
+  line-height: 1; /* 줄 간격 조정 */
+  
 }
+
 
 .descriptionBox {
   width: 500px; /* 설명 박스 너비 */
