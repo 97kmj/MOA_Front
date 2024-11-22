@@ -3,13 +3,14 @@
     display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
     margin-top: 0;
     /* margin: 50px auto 0; 상단 여백을 50px로 설정 */
-    max-width: 1240px;
+    max-width: 1400px;
+
+    
   }
   
   /* Side Navigation */
   .sideNav {
     flex: 0 0 200px; /* 고정된 너비 */
-    margin-right: 20px; /* 메인 콘텐츠와 간격 */
     position: sticky; /* 헤더 바로 아래에 고정 */
     top: 0; /* 헤더와 붙이기 */
     height: 100vh; /* 전체 화면 높이 */
@@ -25,8 +26,9 @@
     background-color: #ffffff;
     border-radius: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0);
-    padding: 50px; /* 상하좌우 여백 추가 */
-    padding-top: 50px; /* 헤더와의 간격 추가 */
+    padding: 0px; /* 상하좌우 여백 추가 */
+    padding-left: 350px;
+    padding-top: 150px; /* 헤더와의 간격 추가 */
 
   }
   

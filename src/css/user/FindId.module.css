@@ -1,11 +1,13 @@
 .container {
     max-width: 24rem;
     margin: 0 auto;
-    padding: 10rem;
+    margin-top: 150px;
+    padding: 1rem;
     background-color: white;
     color: #4a4a4a;
     text-align: center; /* 중앙정렬 */
-    
+    border: 2px solid #B39C59;
+    box-sizing: border-box; 
   }
   
   .title {
@@ -13,6 +15,7 @@
     font-weight: bold;
     color: #b39c59;
     margin-bottom: 0.5rem;
+    margin-top: 1px;
   }
   
   .subtitle {
