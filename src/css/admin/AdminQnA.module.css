@@ -9,24 +9,62 @@
 .questionList {
     background-color: white;
     border: 1px solid #B39C59;
-    margin: 50px 30px 50px 30px;
+    margin: 50px 20px 50px 20px;
     text-align: center;
     width: 300px;
     padding:10px;
     height:837px;
 }
+
+.dateSelect input[type="date"] {
+    width: 95px;
+    padding: 4px;
+    border: 1px solid #B39C59;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #495057;
+    background-color: #fdfdfd;
+    box-sizing: border-box;
+    font-weight: normal;
+    transition: border-color 0.3s;
+}
+
+.dateSelect input[type="date"]::before {
+    content: attr(data-placeholder);
+    width: 100%;
+}
+.dateSelect input[type="date"]:focus
+{
+    border-color: #b39c59;
+    outline: none;
+}
+
+.dateSelect input[type='date']:focus::before,
+.dateSelect input[type='date']:valid::before {
+  display: none;
+}
+
+
 .questionList table{
     width:100%;
-    border-spacing: 10px 10px;
+    border-spacing: 5px 10px;
+    
 }
 .questionList table tbody{
-    display:block;
     width: 100%;
-    max-height: 600px;
+    max-height: 700px;
     overflow-y:auto;
 }
+.questionList tr {
+    display: block;
+    margin:4px 0;
+    border-radius: 10px;
+
+}
 .questionList td {
-    max-width: 130px;
+    width: 140px;
+    font-size: 14px;
+    max-width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -35,6 +73,9 @@
     text-align: left;
     margin-left: 10px;
     width: 50%;
+}
+.title:hover {
+    cursor: pointer;
 }
 .date {
     text-align: right;
@@ -79,10 +120,10 @@
 }
 
 .questionDetail input {
-    width : 740px;
+    width : 730px;
     border:1px solid #B39C59;
     border-radius: 10px;
-    padding:5px;
+    padding:10px;
 }
 .questionDetail textarea {
     width: 710px;
@@ -92,7 +133,14 @@
     border-radius: 10px;
     padding:20px;
 }
-
+.questionDetail input:read-only,
+.questionDetail textarea:read-only {
+    background-color: #f4f4f4;
+}
+.questionDetail input:focus,
+.questionDetail textarea:focus {
+    outline: none;
+}
 .bar {
     border: none;
     height: 2px;
@@ -117,4 +165,12 @@
 .questionList table tbody::-webkit-scrollbar-track,
 .questionList table tbody::-webkit-scrollbar-thumb {
     border-radius: 5px;
+}
+
+.noQuestion {
+    width:100%
+}
+.selected {
+    outline: 1px #B39C59 solid;
+    
 }

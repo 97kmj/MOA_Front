@@ -2,6 +2,7 @@ import AdminSidebar from "./AdminSidebar";
 import { useState,useEffect, useRef } from "react";
 import styles from "../../css/admin/AdminNotice.module.css";
 import axios from "axios"
+import {url} from "../../config.js"
 const AdminNotice = () => {
     const [noticeList, setNoticeList] = useState([]);
     const [notice,setNotice] = useState({});
@@ -16,7 +17,7 @@ const AdminNotice = () => {
     
 
     useEffect(()=>{
-        axios.get("http://localhost:8080/adminNotice")
+        axios.get(`${url}/adminNotice`)
             .then(res => {
                 if (res.data.length>0){
                     const newnoticeList = res.data;
@@ -38,7 +39,6 @@ const AdminNotice = () => {
        setSelectedNoticeId(noticeList[index].noticeId); // 선택된 공지사항 ID 설정
        setIsRegist(false);
        setIsModify(false);
-       console.log(notice);
     }
     const edit = (e) => {
         setNotice({...notice,[e.target.name]:e.target.value})
@@ -63,11 +63,10 @@ const AdminNotice = () => {
     
     const modifyNotice = () => {
         const modifiedNotice = {noticeId:notice.noticeId, title:notice.title, content:notice.content};
-        axios.post("http://localhost:8080/modifyNotice",modifiedNotice)
+        axios.post(`${url}/modifyNotice`,modifiedNotice)
             .then(res => {
                 // 1. 개별 공지사항 업데이트
                 setNotice(res.data);
-
                 // 2. noticeList에서 수정된 항목 업데이트
                 setNoticeList((prevList) =>
                     prevList.map((item) =>
@@ -83,7 +82,7 @@ const AdminNotice = () => {
     }
 
     const registNotice = () => {
-        axios.post("http://localhost:8080/writeNotice",notice)
+        axios.post(`${url}/writeNotice`,notice)
             .then(res => {
                 const newNotice = res.data; // 새로 등록된 공지사항 데이터
                 setNotice(newNotice);
@@ -99,12 +98,11 @@ const AdminNotice = () => {
     }
 
     const deleteNotice = () => {
-        axios.post(`http://localhost:8080/deleteNotice/${notice.noticeId}`)
+        axios.post(`${url}/deleteNotice/${notice.noticeId}`)
             .then(res => {
                 // 1. 삭제된 공지사항을 목록에서 제거
                 const updatedList = noticeList.filter(item => item.noticeId !== notice.noticeId);
                 setNoticeList(updatedList);
-
                 // 2. 삭제 후 첫 번째 공지사항 선택 또는 비우기
                 if (updatedList.length > 0) {
                     setNotice(updatedList[0]); // 첫 번째 공지사항으로 설정
