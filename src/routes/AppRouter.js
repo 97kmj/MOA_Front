@@ -126,7 +126,7 @@ function AppRouter() {
             {/* 공지사항 */}
             <Route path="/notice" element={<Notice/>}/>
             {/* 작가상세 */}
-            <Route path="/artistDetail/:id" element={<ArtistDetail/>}/>
+            <Route path="/artistDetail" element={<ArtistDetail/>}/>
             
             </Routes>
         </Router>

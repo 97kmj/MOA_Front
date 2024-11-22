@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react';
 import styles from '../../css/user/Notice.module.css';
 import Header from '../Header';
 import axios from 'axios';
+import {url} from "../../config.js"
 const Notice = () => {
     const [noticeList, setNoticeList] = useState([]);
     const [FAQList, setFAQList] = useState([]);
@@ -17,7 +18,7 @@ const Notice = () => {
     },[])
     const fetchInitialData = async () => {
         try {
-            const res = await axios.get(`http://localhost:8080/notice?page=${page}&size=4`);
+            const res = await axios.get(`${url}/notice?page=${page}&size=4`);
             const notices = res.data.noticeList;
             const faqList = res.data.faqList;
             const noticeCount = res.data.noticeTotalCount;
@@ -42,7 +43,7 @@ const Notice = () => {
 
     const loadMoreNotices = async () => {
         try {
-            const res = await axios.get(`http://localhost:8080/notice?page=${page + 1}&size=4`);
+            const res = await axios.get(`${url}/notice?page=${page + 1}&size=4`);
             setNoticeList([...noticeList,...res.data.noticeList]);
             setPage(page+1);
             if (res.data.noticeList.length + noticeList.length>= noticeCount) {
@@ -60,7 +61,7 @@ const Notice = () => {
     const sendQuestion = () => {
         setQuestion({...question, username:username});
         
-        axios.post("http://localhost:8080/sendQuestion",question)
+        axios.post(`${url}/sendQuestion`,question)
             .then(res => {
                 if(res.data === true) {
                     alert("문의 완료");

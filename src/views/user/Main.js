@@ -1,7 +1,8 @@
 import styles from '../../css/user/Main.module.css';
 import Header from '../Header';
-
+import { useNavigate } from 'react-router';
 const Main = () => {
+    const navigate = useNavigate();
     return(
         <>
         <Header/>
@@ -16,7 +17,7 @@ const Main = () => {
                     <span>펀딩으로 신진작가의 성장을 함께 지원하세요.</span>
                 </div>
             </div>
-            <h3>Artwork</h3>          
+            <h3>작품</h3>          
             <hr className={styles.bar}></hr>
             <br/>
             <div className = {styles.mainartwork}>
@@ -44,8 +45,8 @@ const Main = () => {
                 </div>
             </div>
             <div className={styles.buttonDiv}>
-                <button className={styles.goldbutton}>Gallery</button>
-                <button className={styles.goldbutton}>Shop</button>
+                <button className={styles.goldbutton} onClick={()=>navigate("/gallery/gallery")}>Gallery</button>
+                <button className={styles.goldbutton} onClick={()=>navigate("/shop/saleList")}>Shop</button>
             </div><br/>
 
             <h3>진행중인 펀딩</h3>
@@ -108,7 +109,7 @@ const Main = () => {
                 
             </div>
             <div className={styles.buttonDiv}>
-                <button className={styles.goldbutton}>전체보기</button>
+                <button className={styles.goldbutton} onClick={()=>navigate("/fundings")}>전체보기</button>
             </div><br/>
                 
         </div>

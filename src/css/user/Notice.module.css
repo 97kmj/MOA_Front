@@ -1,12 +1,12 @@
 .container {
-    width: 1200px;
+    width: 900px;
     margin:50px auto;
     padding:0;
 }
 
 .headerText {
     margin-top: 50px;
-    width: 1200px;
+    width: 900px;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
@@ -14,7 +14,7 @@
 }
 .faq {
     display: inline-block;
-    width: 940px;
+    width: 640px;
     margin-left: 130px;
 }
 .noticeList, .faqList {
@@ -44,7 +44,6 @@
     background-color: whitesmoke;
     padding: 20px;
     border: #B39C59 2px solid;
- 
 }
 
 .notice:hover {
@@ -159,9 +158,10 @@
 }
 
 .noticeItem, .faqItem{
-    border: 1px solid whitesmoke;
+    border-radius: 10px;
     transition: border-color 0.3s;
 }
 .selected {
-    border:1px solid #B39C59;
+    outline:1px solid #B39C59;
+    
 }
