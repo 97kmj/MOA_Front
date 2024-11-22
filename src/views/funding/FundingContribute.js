@@ -16,8 +16,8 @@ const FundingContribute = () => {
     ];
 
     useEffect(() => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+        const script = document.createElement("script");
+        script.src = "https://cdn.iamport.kr/v1/iamport.js";
         script.async = true;
         document.body.appendChild(script);
 
@@ -34,69 +34,102 @@ const FundingContribute = () => {
         }));
     };
 
-    const requestPayment = () => {
+    const requestPayment = async () => {
         if (!window.IMP) {
-            alert('아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.');
+            alert("아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.");
             return;
         }
 
-        const {IMP} = window;
-        IMP.init('imp55612646');
+        const merchantUid = `merchant_${new Date().getTime()}`; // 고유한 merchant_uid 생성
+        const paymentAmount = 100; // 결제 금액
 
-        const paymentData = {
-            pg: 'html5_inicis', //
-            pay_method: 'card', // 결제수단
-            merchant_uid: `merchant_${new Date().getTime()}`,
-            name: '테스트 결제', // 결제 이름
-            amount: 100, // 결제 금액
-            buyer_email: 'test@example.com', // 구매자 이메일
-            buyer_name: '테스트 사용자', // 구매자 이름
-            buyer_tel: '010-1234-5678', // 구매자 연락처
-            buyer_addr: '서울특별시 강남구 삼성동', // 구매자 주소
-            buyer_postcode: '123-456', // 구매자 우편번호
+        // 백엔드에 전달할 데이터
+        const requestData = {
+            impUid: null, // 이 값은 결제 성공 후 업데이트됨
+            totalAmount: paymentAmount,
+            paymentType: "CARD", // 카드 결제 고정 (예시)
+            fundingId: 1,
+            rewardList: selectedRewardInfo,
+            rewardPrice: 100,
+            rewardQuantity: 2,
+            userName: "user1",
+            address: shippingInfo.address,
+            phoneNumber: shippingInfo.phoneNumber,
+            name: shippingInfo.name,
+            merchantUid: merchantUid,
         };
 
-        IMP.request_pay(paymentData, (rsp) => {
-            if (rsp.success) {
-                console.log('결제 요청 성공, 백엔드 검증 시작:', rsp);
+        try {
+            // Step 1: 결제 금액 사전등록 요청
+            const prepareResponse = await axios.post("http://localhost:8080/api/funding/payment/prepare", {
+                merchant_uid: merchantUid,
+                amount: paymentAmount,
+            });
 
-                // 백엔드에 전달할 데이터
-                const requestData = {
-                    impUid: rsp.imp_uid,
-                    totalAmount: paymentData.amount,
-                    paymentType: rsp.pay_method.toUpperCase(),
-                    fundingId: 1,
-                    rewardList: selectedRewardInfo,
-                    rewardPrice: 100,
-                    rewardQuantity: 2,
-                    userName: 'user1',
-                    address:  shippingInfo.address,
-                    phoneNumber: shippingInfo.phoneNumber,
-                    name: shippingInfo.name,
+            if (prepareResponse.status === 200) {
+                console.log("사전 등록 성공:", prepareResponse.data);
+
+                // Step 2: 결제 요청
+                const { IMP } = window;
+                IMP.init('imp55612646'); // 가맹점 식별코드
+
+                const paymentData = {
+                    pg: "html5_inicis", // PG사 선택
+                    pay_method: "card", // 결제수단
+                    merchant_uid: merchantUid, // 주문번호
+                    name: "테스트 결제", // 결제 이름
+                    amount: paymentAmount, // 결제 금액
+                    buyer_email: "test@example.com", // 구매자 이메일
+                    buyer_name: "테스트 사용자", // 구매자 이름
+                    buyer_tel: "010-1234-5678", // 구매자 연락처
+                    buyer_addr: "서울특별시 강남구 삼성동", // 구매자 주소
+                    buyer_postcode: "123-456", // 구매자 우편번호
+                    custom_data: JSON.stringify({
+                        fundingId: 1,
+                        rewardList: selectedRewardInfo,
+                    }), // 사용자 정의 데이터
                 };
 
-                // 백엔드 검증 요청
-                axios
-                    .post('http://localhost:8080/api/funding/payment', requestData)
-                    .then((response) => {
-                        if (response.status === 200) {
-                            alert('결제가 성공');
-                            console.log('백엔드 검증 완료:', response.data);
-                        } else {
-                            alert('결제는 되었으나 서버오류문제가 있습니다 고객센터로 전화주세요.');
-                            console.error('백엔드 검증 실패:', response.data);
+                IMP.request_pay(paymentData, async (rsp) => {
+                    if (rsp.success) {
+                        console.log("결제 성공:", rsp);
+
+                        // 업데이트된 impUid를 requestData에 저장
+                        requestData.impUid = rsp.imp_uid;
+
+                        // Step 3: 백엔드 검증 요청
+                        try {
+                            const response = await axios.post("http://localhost:8080/api/funding/payment", requestData);
+
+                            if (response.status === 200) {
+                                alert("결제가 성공적으로 완료되었습니다!");
+                                console.log("백엔드 검증 완료:", response.data);
+                            } else {
+                                alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
+                                console.error("백엔드 검증 실패:", response.data);
+                            }
+                        } catch (error) {
+                            console.error("백엔드 검증 요청 중 오류:", error);
+                            alert("결제 검증 중 문제가 발생했습니다.");
                         }
-                    })
-                    .catch((error) => {
-                        alert('결제 검증 중 문제가 발생했습니다.');
-                        console.error('백엔드 검증 실패:', error);
-                    });
+                    } else {
+                        // 결제 실패 처리
+                        alert(`결제 요청에 실패했습니다. 에러 메시지: ${rsp.error_msg}`);
+                        console.error("결제 실패:", rsp);
+                    }
+                });
             } else {
-                alert(`결제 요청에 실패하였습니다. 에러 메시지: ${rsp.error_msg}`);
-                console.error('결제 요청 실패:', rsp);
+                alert("사전 등록에 실패했습니다. 다시 시도해주세요.");
+                console.error("사전 등록 실패:", prepareResponse);
             }
-        });
+        } catch (error) {
+            console.error("사전 등록 요청 중 오류:", error);
+            alert("결제 사전등록 중 문제가 발생했습니다.");
+        }
     };
+
+
+
 
     return (
         <>
