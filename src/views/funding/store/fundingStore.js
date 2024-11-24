@@ -24,11 +24,11 @@ const useFundingStore = create((set) => ({
             name: '리워드 없는 후원',
             description: '리워드 없이 후원',
             price: 1000,
-            quantity: 0,               // 수량 기본값
-            isQuantityLimited: false,  // 수량 제한 여부
-            isLimitPerPerson: false,   // 1인당 제한 여부
-            limitPerPerson: 0,         // 1인당 제한 기본값
-            rewardType: 'BASIC',       // 기본 리워드 타입
+            quantity: 0,
+            isQuantityLimited: false,
+            isLimitPerPerson: false,
+            limitPerPerson: 0,
+            rewardType: 'BASIC',
         },
     ],
 
