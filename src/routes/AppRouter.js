@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import TokenHandler from '../views/user/TokenHandler'; // 새로운 토큰 처리 컴포넌트
 import FindId from "../views/user/FindId";
 import FindIdResult from "../views/user/FindIdResult";
 import FindPwd from "../views/user/FindPwd";
@@ -65,6 +66,9 @@ function AppRouter() {
                 <Route path="/user/findIdResult" element={<FindIdResult/>} />
                 <Route path="/user/findPwd" element={<FindPwd/>} />
                 <Route path="/user/findPwdResult" element={<FindPwdResult/>} />
+                
+                <Route path="/login" element={<TokenHandler />} /> {/* 토큰 처리 */}
+
                 <Route path="/user/login" element={<Login/>} />
                 <Route path="/user/join" element={<Join/>} />
 

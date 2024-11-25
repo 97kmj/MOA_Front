@@ -1,23 +1,78 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
+import { useSetAtom } from 'jotai';
+import { tokenAtom, userAtom } from '../../atoms';
 import styles from '../../css/user/Login.module.css';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
+  
 
-  // 회원가입 버튼 클릭 시 호출되는 함수
-  const handleSignupClick = () => {
-    navigate('/user/join'); // /join 경로로 이동
+  const location = useLocation(); // 현재 URL 정보를 가져옴
+  const setToken = useSetAtom(tokenAtom);
+  const setUser = useSetAtom(userAtom);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  //일반 로그인 처리
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/user/login', {
+        username,
+        password,
+      });
+
+      const { access_token, user } = response.data;
+
+      // 토큰과 사용자 정보 저장
+      setToken(access_token);
+      setUser(user);
+
+      // 메인 페이지로 이동
+      navigate('/');
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('로그인에 실패했습니다. 사용자 이름과 비밀번호를 확인하세요.');
+    }
   };
-// 아이디 찾기 버튼 클릭 시 호출되는 함수
-const handleFindIdClick = () => {
-  navigate('/user/findid'); // /user/findid 경로로 이동
-};
 
-// 비밀번호 찾기 버튼 클릭 시 호출되는 함수
-const handleFindPwdClick = () => {
-  navigate('/user/findpwd'); // /user/findpwd 경로로 이동
-};
+// 소셜 로그인 토큰 처리
+useEffect(() => {
+  const query = new URLSearchParams(location.search);
+  const tokenString = query.get('token');
+
+  if (tokenString) {
+    try {
+      const parsedToken = JSON.parse(decodeURIComponent(tokenString));
+
+      const accessToken = parsedToken.access_token.replace('Bearer ', '');
+
+      // 토큰 저장
+      setToken(accessToken);
+
+      // 사용자 정보 요청 및 저장
+      axios
+        .get('http://localhost:8080/api/user/profile', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+        .then((response) => {
+          setUser(response.data); // 사용자 정보 저장
+          navigate('/'); // 메인 페이지로 이동
+        })
+        .catch((error) => {
+          console.error('Error fetching user info:', error);
+          alert('사용자 정보를 가져올 수 없습니다.');
+        });
+    } catch (error) {
+      console.error('Error parsing token:', error);
+      alert('잘못된 토큰 형식입니다.');
+    }
+  }
+}, [location.search, setToken, setUser, navigate]);
+
+
 
 
   return (
@@ -27,25 +82,41 @@ const handleFindPwdClick = () => {
       </div>
       <div className={styles.loginBox}>
         <h1 className={styles.loginTitle}>WELCOME TO THE <br /> MOA</h1>
-        
+
         <label className={styles.inputLabel} htmlFor="id">ID</label>
-        <input type="text" id="id" className={styles.inputBox} />
+        <input
+          type="text"
+          id="id"
+          className={styles.inputBox}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
         <label className={styles.inputLabel} htmlFor="password">PASSWORD</label>
-        <input type="text" id="password" className={styles.inputBox} />
+        <input
+          type="password"
+          id="password"
+          className={styles.inputBox}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        <button className={styles.loginButton}>로그인</button>
-        <button className={styles.signupButton} onClick={handleSignupClick}>회원가입</button>
+        <button className={styles.loginButton} onClick={handleLogin}>로그인</button>
+        <button className={styles.signupButton} onClick={() => navigate('/user/join')}>회원가입</button>
 
         <div className={styles.findOptions}>
-          <button className={styles.findButton} onClick={handleFindIdClick}>아이디 찾기</button>
-          <button className={styles.findButton} onClick={handleFindPwdClick}>비밀번호 찾기</button>
+          <button className={styles.findButton} onClick={() => navigate('/user/findid')}>아이디 찾기</button>
+          <button className={styles.findButton} onClick={() => navigate('/user/findpwd')}>비밀번호 찾기</button>
         </div>
 
         <div className={styles.socialLogin}>
           <button className={styles.socialButton}>네이버 소셜로그인</button>
-          <button className={styles.socialButton}>카카오 소셜로그인</button>
-          <button className={styles.socialButton}>구글 소셜로그인</button>
+          <button
+            className={styles.socialButton}
+            onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}
+          >
+            카카오 소셜로그인
+          </button>          <button className={styles.socialButton}>구글 소셜로그인</button>
         </div>
       </div>
     </div>
