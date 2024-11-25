@@ -1,3 +1,10 @@
+.rewardForm{
+    width: 1200px;
+    margin: auto;
+    padding: 50px;
+}
+
+
 .rewardCreationHeader {
     width: 86%;
     margin-left: 3%;
@@ -20,7 +27,7 @@
     flex-direction: column;
     /* width: 100%; */
     /* padding: 50px 19px 22px 15%; */
-    padding: 50px 9% 50px 10%;
+    /*padding: 50px 9% 50px 10%;*/
     border-radius: 10px;
     height: 800px;
     /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); */
@@ -105,15 +112,17 @@
 }
 
 .rewardCreationAddRewardButton {
-    padding: 12px 24px;
+    /* padding: 0px 8px; */
     background-color: #333;
     color: #b29c59;
     border: none;
-    border-radius: 20px;
+    font-size: 14px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-    width: 20%;
-    margin: 15px auto;
+    width: 19%;
+    height: 41px;
+    margin: 16px auto;
     display: block;
     text-align: center;
     transition: background-color 0.3s, transform 0.3s;
@@ -182,8 +191,8 @@
 }
 
 .rewardCreationNextStepButton {
-    width: 17%;
-    padding: 15px;
+    width: 12%;
+    /* padding: 15px; */
     font-size: 18px;
     color: #b29c59;
     background-color: #333;
@@ -191,7 +200,8 @@
     border-radius: 50px;
     cursor: pointer;
     text-align: center;
-    margin-left: 41%;
+    margin-left: 44%;
+    height: 52px;
     margin-top: 3%;
     font-weight: bold;
     display: block;
