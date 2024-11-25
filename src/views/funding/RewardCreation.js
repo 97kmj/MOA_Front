@@ -76,7 +76,7 @@ const RewardCreation = () => {
         <>
             <Header />
 
-            <div>
+            <div className={styles.rewardForm}>
                 <div className={styles.rewardCreationContainer}>
                     <StepNavigation currentStep="리워드 등록" />
                     <div className={styles.rewardCreationHeader}></div>

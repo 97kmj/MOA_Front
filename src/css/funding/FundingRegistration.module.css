@@ -1,6 +1,9 @@
 .fundingRegistrationOutForm {
-    padding: 50px 10%;
-    /*background-color: #f8f9fa;*/
+    /* padding: 50px 10%; */
+    /* background-color: #f8f9fa; */
+    width: 1200px;
+    margin: auto;
+    padding: 50px;
 }
 
 .fundingRegistration {
@@ -139,7 +142,8 @@
 }
 
 .fundingRegistrationSubmit {
-    width: 19%;
+    width: 12%;
+    height: 52px;
     padding: 15px;
     font-size: 18px;
     color: #b29c59;

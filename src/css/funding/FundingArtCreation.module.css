@@ -1,8 +1,9 @@
 .fundingArtCreation {
-    padding: 50px 10%;
-    /*background-color: #f5f5f5;*/
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        /* padding: 50px 10%; */
+        /* background-color: #f5f5f5; */
+        width: 1200px;
+        margin: auto;
+        padding: 50px;
 }
 
 .fundingArtCreation h2 {
@@ -175,11 +176,12 @@
 
 .FundingArtCreationSubmitButton {
     display: block;
-    width: 20%;
-    padding: 15px;
+    width: 12%;
+    /* padding: 15px; */
     background-color: #333;
     color: #b29c59;
     font-size: 18px;
+    height: 46px;
     border: none;
     cursor: pointer;
     font-weight: bold;
