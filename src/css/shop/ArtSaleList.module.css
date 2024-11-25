@@ -1,5 +1,6 @@
 .container {
-    padding: 50px 11%;
+    margin:50px auto;
+    width: 1200px;
 }
 
 .title {
@@ -12,7 +13,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /*margin-bottom: 20px;*/
     padding-top: 1%;
 }
 
@@ -35,7 +35,8 @@
 .searchGroup {
     align-items: center;
     gap: 1px;
-    margin-left: 57%;
+    margin-left: 47%;
+
 }
 
 .searchInput {
@@ -88,9 +89,9 @@
     transition: transform 0.3s ease;
 }
 
-.card:hover {
+/* .card:hover {
     transform: translateY(-5px);
-}
+} */
 
 .imageWrapper {
     width: 100%;
@@ -103,9 +104,10 @@
 }
 
 .image {
-    max-width: 100%; /* �대�吏�媛� 移대뱶�� �덈퉬瑜� �섏� �딅룄濡� */
+    max-width: 95%; /* �대�吏�媛� 移대뱶�� �덈퉬瑜� �섏� �딅룄濡� */
     max-height: 100%; /* �대�吏�媛� 移대뱶�� �믪씠瑜� �섏� �딅룄濡� */
     object-fit: contain; /* �대�吏� 鍮꾩쑉 �좎� */
+    box-shadow: 3px 3px 3px #666;
 }
 
 .info {

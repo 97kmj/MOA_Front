@@ -30,7 +30,6 @@ import FundingRegistrationThankYou from "../views/funding/FundingRegistrationTha
 import AdminNotice from "../views/admin/AdminNotice";
 
 import ArtworkAdd from "../views/shop/ArtworkAdd";
-import RecommendFrame from "../views/shop/RecommendFrame";
 import SaleAddResult from "../views/shop/SaleAddResult";
 import SaleDetail from "../views/shop/SaleDetail";
 
@@ -95,7 +94,6 @@ function AppRouter() {
             <Route path="/funding/new/thankYou" element={<FundingRegistrationThankYou />} />
             {/* 판매 */}
             <Route path="/shop/artworkAdd" element={<ArtworkAdd />} />
-            <Route path="/shop/recommendFrame/:frameId" element={<RecommendFrame />} />
             <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
             <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail />} />
             <Route path="/shop/saleList" element={<SaleList />} />

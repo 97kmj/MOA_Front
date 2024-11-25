@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"; // 스타일 파일 임포트
 import styles from '../../../css/mypage/MyPageSaleList.module.css';
 import SideNav from '../../../views/mypage/SideNav';
+import Header from '../../Header';
 
 function MyContributedFunding() {
     const itemsPerPage = 5; // Items per page
@@ -47,79 +48,81 @@ function MyContributedFunding() {
     };
 
     return (
-        <div className={styles.myPageSaleList}>
-
-            <div>
-                <SideNav/>
-            </div>
-            <div className='myPageSaleListRight'>
-                <h2>구매 목록 조회</h2>
-
-                {/* Date Filter: Start and End Date */}
-                <div className={styles.myPageSaleListTabs}>
-                    <div className={styles.orderDateFilterStart}>
-                        <label htmlFor="startDate"></label>
-                        <DatePicker
-                            selected={startDate}
-                            onChange={handleStartDateChange}
-                            dateFormat="yyyy-MM-dd"
-                            className={styles.dateInput}
-                            placeholderText="시작 날짜 선택"
-                        />
-                    </div>
-                    <div className={styles.orderDateFilterEnd}>
-                        <label htmlFor="endDate"></label>
-                        <DatePicker
-                            selected={endDate}
-                            onChange={handleEndDateChange}
-                            dateFormat="yyyy-MM-dd"
-                            className={styles.dateInput}
-                            placeholderText="종료 날짜 선택"
-                        />
-                    </div>
+        <>
+            <Header/>
+            <div className={styles.myPageSaleList}>
+                <div>
+                    <SideNav/>
                 </div>
+                <div className={styles.myPageSaleListRight}>
+                    <h2>구매 목록 조회</h2>
 
-                {/* Sale List */}
-                <div className={styles.myPageSaleListList}>
-                    {currentItems.length > 0 ? (
-                        currentItems.map((saleItem) => (
-                            <div key={saleItem.id} className={styles.myPageSaleListItem}>
-                                <img src="https://via.placeholder.com/60" alt="saleList" className={styles.myPageSaleListItemItemImg} />
-                                <div className={styles.myPageSaleListItemItemDetails}>
-                                    <h4>{saleItem.title}</h4>
-                                    <p>모집 희망금액: {saleItem.amount}</p>
-                                    <p>판매일: {saleItem.endDate}</p>
+                    {/* Date Filter: Start and End Date */}
+                    <div className={styles.myPageSaleListTabs}>
+                        <div className={styles.orderDateFilterStart}>
+                            <label htmlFor="startDate"></label>
+                            <DatePicker
+                                selected={startDate}
+                                onChange={handleStartDateChange}
+                                dateFormat="yyyy-MM-dd"
+                                className={styles.dateInput}
+                                placeholderText="시작 날짜 선택"
+                            />
+                        </div>
+                        <div className={styles.orderDateFilterEnd}>
+                            <label htmlFor="endDate"></label>
+                            <DatePicker
+                                selected={endDate}
+                                onChange={handleEndDateChange}
+                                dateFormat="yyyy-MM-dd"
+                                className={styles.dateInput}
+                                placeholderText="종료 날짜 선택"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Sale List */}
+                    <div className={styles.myPageSaleListList}>
+                        {currentItems.length > 0 ? (
+                            currentItems.map((saleItem) => (
+                                <div key={saleItem.id} className={styles.myPageSaleListItem}>
+                                    <img src="https://via.placeholder.com/60" alt="saleList" className={styles.myPageSaleListItemItemImg} />
+                                    <div className={styles.myPageSaleListItemItemDetails}>
+                                        <h4>{saleItem.title}</h4>
+                                        <p>모집 희망금액: {saleItem.amount}</p>
+                                        <p>판매일: {saleItem.endDate}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>선택된 날짜 범위에 해당하는 판매글이 없습니다.</p>
-                    )}
-                </div>
+                            ))
+                        ) : (
+                            <p>선택된 날짜 범위에 해당하는 판매글이 없습니다.</p>
+                        )}
+                    </div>
 
-                {/* Pagination */}
-                <div className={styles.myPageSaleListPagination}>
-                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                        &lt;
-                    </button>
-                    {[...Array(Math.ceil(filteredByDate.length / itemsPerPage))].map((_, index) => (
-                        <button
-                            key={index + 1}
-                            className={currentPage === index + 1 ? styles.active : ''}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            {index + 1}
+                    {/* Pagination */}
+                    <div className={styles.myPageSaleListPagination}>
+                        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                            &lt;
                         </button>
-                    ))}
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === Math.ceil(filteredByDate.length / itemsPerPage)}
-                    >
-                        &gt;
-                    </button>
+                        {[...Array(Math.ceil(filteredByDate.length / itemsPerPage))].map((_, index) => (
+                            <button
+                                key={index + 1}
+                                className={currentPage === index + 1 ? styles.active : ''}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === Math.ceil(filteredByDate.length / itemsPerPage)}
+                        >
+                            &gt;
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

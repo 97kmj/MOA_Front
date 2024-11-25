@@ -8,7 +8,7 @@ const ShoppingCart = () => {
     {
       id: 1,
       image: 'https://via.placeholder.com/150',
-      title: '바다와 산과 구름',
+      title: '바다와 산과 구름 알라딘의 밥의 동해',
       artist: '김민수',
       category: '풍경',
       subject: '자연',
@@ -18,8 +18,8 @@ const ShoppingCart = () => {
       quantity: 5,  // 장바구니에 담긴 수량
       options: [
         { optionId: 'option1', option: '옵션1', contents: ['기본 액자'], optionPrice: 5000, quantity: 1 },
-        { optionId: 'option2', option: '옵션2', contents: ['고급 액자1'], optionPrice: 3000, quantity: 2 },
-        { optionId: 'option3', option: '옵션3', contents: ['고급 액자2'], optionPrice: 15000, quantity: 3 }
+        { optionId: 'option2', option: '옵션2', contents: ['고급 액자'], optionPrice: 30000000, quantity: 2 },
+        { optionId: 'option3', option: '옵션3', contents: ['고급 액자'], optionPrice: 15000, quantity: 3 }
       ],
     },
     {
@@ -34,7 +34,7 @@ const ShoppingCart = () => {
       artworkquantity: 1,  // 상품 당 1개 작품
       quantity: 3,  // 장바구니에 담긴 수량
       options: [
-        { optionId: 'option1', option: '옵션1', contents: ['고급액자2'], optionPrice: 4000, quantity: 1 },
+        { optionId: 'option1', option: '옵션1', contents: ['고급액자'], optionPrice: 4000, quantity: 1 },
       ],
     },
     // 추가 상품들...
@@ -180,41 +180,49 @@ const ShoppingCart = () => {
                   />
                 </td>
                 {/* 두 번째 열: 이미지 */}
-                <td>
-                  <img src={item.image} alt={item.title} width="100" height="100" />
+                <td className={styles.titleColumn}>
+                  <img src={item.image} alt={item.title}/>
                 </td>
                 {/* 세 번째 열: 상품 정보 */}
-                <td>
+                <td className={styles.titleColumn}>
                   <div><strong>{item.title}</strong></div> {/* 상품 제목 */}
-                  <div>작가: {item.artist} | 카테고리: {item.category} | 주제: {item.subject}</div>
+                  <div>작가: {item.artist}</div> 
+                  <div> 카테고리: {item.category} | 주제: {item.subject}</div>
                 </td>
                 {/* 옵션 정보 */}
-                <td>
+                <td className={styles.optionAlign}>
                   {/* 옵션 첫 번째 항목: 상품 제목, 가격, 수량 */}
                   <div>
-                    <strong>{item.title}</strong> &nbsp; {item.price.toLocaleString()}원  &nbsp;
-                    수량: {item.quantity}개
-                  </div>
+                    <strong className={styles.itemTitle}>{item.title}</strong> &nbsp; 
+                    <spam className={styles.optionPriceStyle}><strong>{item.price.toLocaleString()}원</strong></spam>
+                    수량: {item.quantity}개 
 
+                  </div>
                   {/* 옵션 항목들 */}
-                  {item.options.map((option) => (
-                    <div key={option.optionId}>
-                      &nbsp; {option.contents.join(', ')}  &nbsp;
-                      <strong>{option.optionPrice.toLocaleString()}원</strong> &nbsp; 
-                      수량: {option.quantity}개
-                      <Button
-                        color="danger"
-                        className={styles.cartListButton}
-                        onClick={() => handleDeleteOption(item.id, option.optionId)}
-                        style={{ marginLeft: '10px', marginTop:'10px', height:'25px', paddingTop:'2px' }}
-                      >
-                        삭제
-                      </Button>
-                    </div>
-                  ))}
+                  {item.options.map((option, index) => (
+                      <div key={option.optionId} className={styles.optionItem}>
+                        <span
+                          className={styles.optionContent}
+                        >
+                          {option.contents.join(', ')}
+                        </span>
+                        <span className={styles.optionPriceStyle}>
+                          <strong >{option.optionPrice.toLocaleString()}원</strong> &nbsp;
+                        </span>
+                        수량: {option.quantity}개
+                        <Button
+                          color="danger"
+                          className={styles.cartListButton}
+                          onClick={() => handleDeleteOption(item.id, option.optionId)}
+                          style={{ marginLeft: '10px', marginTop: '10px', height: '25px', paddingTop: '2px' }}
+                        >
+                          삭제
+                        </Button>
+                      </div>
+                    ))}
                 </td>
                 {/* 네 번째 열: 상품 금액 */}
-                <td>
+                <td  className={styles.titleColumn}>
                   <div><strong>{(item.price * item.quantity + item.options.reduce((sum, option) => sum + (option.optionPrice * option.quantity), 0)).toLocaleString()}원</strong></div>
                   
                   {/* 주문하기 버튼 */}
@@ -227,7 +235,7 @@ const ShoppingCart = () => {
                   </Button>
                 </td>
                 {/* 다섯 번째 열: 배송비 */}
-                <td>
+                <td  className={styles.titleColumn}>
                   <div>{(item.shipping * item.quantity).toLocaleString()}원</div>
                 </td>
               </tr>
@@ -248,18 +256,26 @@ const ShoppingCart = () => {
               <div>{totalShipping.toLocaleString()}원</div>
             </div>
             <div className={styles.priceMiddle}>=</div>
-            <div className={styles.priceMiddle}><strong>총 주문금액</strong></div>
-            <div className={styles.totalPriceMiddle}>{totalAmount.toLocaleString()}원</div>
 
+            <div className={styles.priceMiddletotalpricetitle}>
+              <strong>총 주문금액</strong>
+            </div>
+
+            <div className={styles.priceMiddletotalprice}>
+              <span>{totalAmount.toLocaleString()}원</span>
+            </div>
+            
             {/* 주문하기 버튼 */}
-            <Button 
-              className={styles.priceMiddleButton}
-              color="primary" 
-              disabled={selectedItems.length === 0}
-              onClick={() => alert('주문이 완료되었습니다!')}
-            >
-              주문하기
-            </Button>
+            <div className={styles.priceMiddlewidth}> 
+              <Button 
+                className={styles.priceMiddleButton}
+                color="primary" 
+                disabled={selectedItems.length === 0}
+                onClick={() => alert('주문이 완료되었습니다!')}
+              >
+                주문하기
+              </Button>
+            </div>
           </div>
         </div>
       </div>
