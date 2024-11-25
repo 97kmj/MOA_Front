@@ -110,7 +110,7 @@ function AppRouter() {
 
             <Route path="/gallery" element={<Gallery/>} />
             <Route path="/gallerydetail" element={<GalleryDetail/>} />
-
+            
             {/* 마이페이지*/}
             <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
             <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
