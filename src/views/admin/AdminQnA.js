@@ -57,6 +57,40 @@ const AdminQnA = () => {
        setSelectedQuestion(question);
        const answered = answeredQuestions.some((q) => q.questionId === question.questionId);
        setIsAnswered(answered);
+       console.log(selectedQuestion);
+    }
+
+    const edit = (e) => {
+        setSelectedQuestion({...selectedQuestion,[e.target.name]:e.target.value})
+    }
+
+    const writeAnswer = () => {
+        const answer = {...selectedQuestion,answerStatus:true,answerAt:new Date()}
+        axios.post(`${url}/writeAnswer`,answer)
+            .then(res => {
+                if(res.data===true) {
+                    alert("답변이 완료되었습니다.")
+                    // 목록 새로 불러오기
+                    axios.get(`${url}/adminQnA`, {
+                        params: {
+                            startDate: searchPeriod.startDate,
+                            endDate: searchPeriod.endDate
+                        }
+                    })
+                    .then(response => {
+                        setNotAnswerQuestions(response.data.notAnswerQuestions);
+                        setAnsweredQuestions(response.data.answeredQuestions);
+                    })
+                    .catch(err => {
+                        console.error("목록 갱신 오류:", err);
+                    });
+                } else {
+                    alert("답변 오류")
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     return(
@@ -125,13 +159,14 @@ const AdminQnA = () => {
                 <div className={styles.detailContent}>내용</div>
                 <textarea readOnly value={selectedQuestion && selectedQuestion?.content}></textarea>
                 <h4>{!isAnswered ? "답변 작성" : "답변 내용"}</h4>
-                <div className={styles.detailTitle}>제목</div><input readOnly={isAnswered} value={isAnswered? selectedQuestion?.answerTitle:''} />
+
+                <div className={styles.detailTitle}>제목</div><input readOnly={isAnswered} name="answerTitle" onChange={edit} value={selectedQuestion?.answerTitle || ''} />
                 <div className={styles.detailContent}>내용</div>
-                <textarea readOnly={isAnswered} value={isAnswered? selectedQuestion?.answerContent:''}></textarea>
+                <textarea readOnly={isAnswered} name="answerContent" onChange={edit} value={selectedQuestion?.answerContent || ''}></textarea>
                 {
                     !isAnswered &&
                     <div className={styles.buttonDiv}>
-                        <button className={styles.goldbutton}>답변하기</button>
+                        <button className={styles.goldbutton} onClick={writeAnswer}>답변하기</button>
                     </div>
                 }
             </div>
