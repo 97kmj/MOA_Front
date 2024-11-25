@@ -1,7 +1,7 @@
 .container {
     margin:50px auto;
     padding:0;
-    width: 1500px;
+    width: 1200px;
 }
 .artistInfo {
     display: flex;
@@ -18,13 +18,13 @@
 .artistImgBox {
     margin:40px auto;
     border: #B39C59 2px solid;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
 }
 .artistImg {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -72,7 +72,7 @@
 
 .infoRightBox textarea {
     width:100%;
-    height:330px;
+    height:230px;
     resize: none;
     overflow-y: auto;
     border: #B39C59 1px solid;
@@ -87,7 +87,7 @@
     
 }
 .artworkList article {
-    width:480px;
+    width:380px;
     margin:10px;
     
 }
@@ -117,8 +117,8 @@
     align-items : center;
     justify-content: center;
     vertical-align: middle;
-    font-size: 20px;
-    height: 60px;
+    font-size: 16px;
+    height: 40px;
     margin-left: 10px;
     margin-right: 10px;
     padding:0 8px 0 8px;
@@ -136,15 +136,20 @@
 }
 
 .artwork {
-    width: 480px;
-    height: 480px;
+    width: 380px;
+    height: 380px;
     vertical-align:middle;
     background-color: #ececec;
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
 }
 .artImg {
-    width: 480px;
-    height: 480px;
+    max-width: 350px;
+    max-height: 350px;
     object-fit: contain;
+    box-shadow: 3px 3px 3px #666;
 }
 
 .bar {
