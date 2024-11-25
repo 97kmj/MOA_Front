@@ -14,7 +14,6 @@
 }
 .cartTable {
     width: 1200px;  /* 총 테이블 너비를 1520px로 설정 */
-   
     border-collapse: collapse;
   }
   
@@ -41,40 +40,43 @@
   .cartTable th, .cartTable td {
     padding: 10px;
     vertical-align: middle;
-    text-align: center;
+   
   }
   
   .cartTable th:nth-child(1), .cartTable td:nth-child(1) {
-    width: 4%; /* 선택 열 */
+    width: 5%; /* 선택 열 */
   }
   
   .cartTable th:nth-child(2), .cartTable td:nth-child(2) {
     width: 15%; /* 이미지 열 */
   }
   
-  .cartTable th:nth-child(3), .cartTable td:nth-child(3) {
+  .cartToptionable th:nth-child(3), .cartTable td:nth-child(3) {
     width: 25%; /* 상품 정보 열 */
   }
   
   .cartTable th:nth-child(4), .cartTable td:nth-child(4) {
-    width: 31%; /* 옵션 열 */
+    width: 35%; /* 옵션 열 */
   }
   
   .cartTable th:nth-child(5), .cartTable td:nth-child(5) {
-    width: 15%; /* 상품 금액 열 */
+    width: 12%; /* 상품 금액 열 */
   }
   
   .cartTable th:nth-child(6), .cartTable td:nth-child(6) {
-    width: 10%; /* 배송비 열 */
+    width: 8%; /* 배송비 열 */
   }
   
-  .cartTable th:nth-child(7), .cartTable td:nth-child(7) {
-    width: 0%; /* 주문하기 열 */
-  }
+
   
   /* 상품 이미지 스타일 */
-  .imageColumn {
+  .titleColumn {
     text-align: center;
+  }
+
+  .imageColumn img{
+    width: 120px;
+    height: 120px;
   }
   
   .summarySection {
@@ -145,19 +147,15 @@
     
   }
   .priceMiddle{
+    width: 50PX;
     text-align: center;
-    margin-left: 100px;
     margin-top: 20px;
     font-size: 20px;
-
+    display: inline-flex;
+    margin-left: 50PX;
 
   }
-  .priceMiddle{
-    text-align: center;
-    margin-left: 100px;
-    margin-top: 25px;
-    font-size: 20px;
-  }
+
   .totalPriceMiddle{
     text-align: center;
     margin-left: 100px;
@@ -168,7 +166,7 @@
 
   .priceMiddleButton{
     margin-top: 20px;
-    margin-left: 80px;
+    margin-left: 20px;
     height: 40px;
     border: none;
     border-radius: 20px;
@@ -178,6 +176,65 @@
     cursor: pointer;
     padding: 8px 15px;
     font-weight: bold;
+    justify-content: flex-end; /* 버튼을 오른쪽 끝으로 배치 */
+  }
+  .optionContent  {
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden;    /* 넘친 부분 숨기기 */
+    text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
+    display: inline-block;
+    width: 120px;
+    text-align: left;
   }
 
+.itemTitle{
+  width: 110px; 
+  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden;    /* 넘친 부분 숨기기 */
+  text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
+  display: inline-block;
+  text-align: left;
   
+  
+}
+.optionAlign{
+  text-align: left;
+}
+
+.optionPriceStyle{
+  width: 120px; 
+  text-align: left;
+  display: inline-block;
+}
+.falseButton{
+  
+  padding: 8px 15px;
+  background-color: white;
+  border: none;
+  color: white;
+  
+}
+
+.priceMiddlewidth{
+  width: 150px;
+  display: inline-flex;
+  margin-right: 10px;
+  justify-self: auto;
+  flex-direction: row-reverse;
+}
+.priceMiddletotalpricetitle{
+  width: 150px;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 25px;
+  color: #b39c59;
+}
+
+.priceMiddletotalprice{
+  width: 200px;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 25px;
+  color: #b39c59;
+  margin-left: 30px;
+}

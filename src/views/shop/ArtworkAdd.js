@@ -116,6 +116,7 @@ const Artwork = () => {
         const formData = new FormData();
         Object.keys(artwork).forEach((key) => {
             formData.append(key, artwork[key]);
+            console.log(formData);
         });
 
         if (imgPath) {

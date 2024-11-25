@@ -1,8 +1,4 @@
-.container {
-    margin:20px auto;
-    padding:0;
-    width: 1500px;
-}
+
 
 .myPageSaleList {
     font-family: Arial, sans-serif;
@@ -15,6 +11,9 @@
    display: inline;
    margin-top: 100px;
    margin-left: 500px;
+   width: 1000px;
+   margin:30px auto;
+   
 }
 .myPageSaleList h2 {
     font-size: 24px;
@@ -27,14 +26,15 @@
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
+   
 }
 
 .myPageSaleListTabs button {
     padding: 10px 20px;
-    border: 1px solid #e0d5b8;
+    border: 1px solid #B39C59;
     border-radius: 20px;
-    background-color: #ffffff;
-    color: #5d4a00;
+    background-color: #B39C59;
+    color: white;
     cursor: pointer;
 }
 

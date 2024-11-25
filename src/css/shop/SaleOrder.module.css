@@ -1,7 +1,8 @@
 .saleOrder {
-    padding: 50px;
-    padding-left: 11%;
-    padding-right: 11%;
+   
+    margin:50px auto;
+    width: 1200px;
+
 }
 
 
@@ -33,6 +34,7 @@
     width: 100%;
     height: auto;
     margin-bottom: 20px;
+    box-shadow: 3px 3px 3px #666;
 }
 
 .buyerInfo {

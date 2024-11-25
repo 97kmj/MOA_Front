@@ -96,7 +96,7 @@ const SaleList = () => {
             </div>
             <div className={styles.seemore}>
                 <button><img className={styles.seemore} src="/img/seemore.png"/></button>
-            </div>   
+            </div>  
 
         </>
     )

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../css/shop/SaleOrder.module.css';
 import Header from '../Header';
+import { Modal } from 'reactstrap';
 
 const SaleOrder = () => {
     const [buyerInfo, setBuyerInfo] = useState({
@@ -11,6 +12,8 @@ const SaleOrder = () => {
     });
 
     const [useMemberInfo, setUseMemberInfo] = useState(false);
+
+    
 
     const [artworkDetails] = useState({
         title: '투우',
