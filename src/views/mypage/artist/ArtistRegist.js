@@ -1,20 +1,29 @@
 import Header from "../../Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../../css/mypage/artist/ArtistRegist.module.css";
 import SideNav from "../SideNav";
 import axios from "axios";
-import { useAtomValue} from "jotai/react";
-import { userAtom } from "../../../atoms";
+import { useAtomValue,useAtom} from "jotai/react";
+import { userAtom,tokenAtom } from "../../../atoms";
+import { url } from "../../../config";
 const ArtistRegist = () => {
     const user = useAtomValue(userAtom);
+    const token = useAtomValue(tokenAtom);
     const [portfolioName, setPortfolioName] = useState('');
     const [profileImg, setProfileImg] = useState('');
     const [portfolioFile, setPortfolioFile] = useState('');
     const [registArtistInfo, setRegistArtistInfo] = useState({
-        username:user.username,
+        username:'',
         artistNote:'',
         artistCareer:''
     })
+    
+    useEffect(() => {
+        setRegistArtistInfo((prev) => ({
+            ...prev,
+            username: user.username || "", // user.username이 초기화되지 않았으면 빈 문자열로 설정
+        }));
+    }, [user]);
 
     const portfolioUpload =(e) => {
         const portfolio = e.target.files[0];
@@ -34,7 +43,42 @@ const ArtistRegist = () => {
         }
     }
 
-        
+    const artistSubmit =() => {
+        if (!registArtistInfo.username) {
+            alert("사용자 이름이 설정되지 않았습니다.");
+            return;
+        }
+        const formData = new FormData();
+
+        // 프로필 이미지 파일 추가
+        formData.append("profileImage", document.querySelector("#profileImage").files[0]);
+
+        // 포트폴리오 파일 추가
+        formData.append("portfolio", portfolioFile);
+
+        // JSON 문자열로 변환 후 추가
+        formData.append("registArtistDto", JSON.stringify(registArtistInfo));
+
+        axios.post(`${url}/artistSubmit`, formData, {
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "multipart/form-data", // 반드시 명시
+                },
+            })
+            .then((res) => {
+                if (res.data === true) {
+                    alert("등록완료");
+                } else {
+                    alert("등록실패");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    const edit = (e) => {
+        setRegistArtistInfo({...registArtistInfo,[e.target.name]:e.target.value})
+    }
     return(
         <>
         <Header/>
@@ -57,11 +101,11 @@ const ArtistRegist = () => {
                     <label for="profileImage">프로필 사진 선택</label><input type="file" id="profileImage" name="profileImage" accept='image/*' onChange={profileChange}/>
                     </div>
                     <h4 style={{textAlign:"left"}}>작가 이력</h4>
-                    <textarea name="artistCareer"></textarea>
+                    <textarea name="artistCareer" onChange={edit}></textarea>
                     <h4 style={{textAlign:"left"}}>작가 노트</h4>
-                    <textarea name="artistNote"></textarea>
+                    <textarea name="artistNote" onChange={edit}></textarea>
                 <div className={styles.buttonDiv}>
-                    <button className={styles.goldbutton}>신청하기</button>
+                    <button className={styles.goldbutton} onClick={artistSubmit}>신청하기</button>
                 </div>
                 </div>
             </div>
