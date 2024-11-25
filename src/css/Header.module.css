@@ -1,18 +1,28 @@
 .header {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+    vertical-align: middle;
     background-color: black;
     height: 125px;
 }
 .header a {
     text-decoration: none;
 }
+.navContainer {
+    display: flex;
+    width:1200px;
+    height: 125px;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .moa {
     font-size: xx-large;
     font-style: italic;
     color: #B39C59;
     font-weight: bold;
+    float:left
 }
 .login {
     display: block;
@@ -26,7 +36,7 @@
 .navmenu ul {
     margin: 0;
     padding: 0;
-    width: 500px;
+    /* width: 500px; */
 }
 .navmenu li {
     display: inline-block;
@@ -64,4 +74,18 @@
 .regist:hover .submenu {
     opacity: 1;
     display: block;
+}
+
+.naviIconBox {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+
+}
+
+.naviIconBox img {
+    width:30px;
+    height: 30px;
+    margin:0 10px;
 }
