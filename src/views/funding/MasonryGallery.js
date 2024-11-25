@@ -19,7 +19,7 @@ const MasonryGallery = ({ images }) => {
             >
                 {images.map((src, index) => (
                     <div className="masonry-item" key={index}>
-                        <img  src={`${process.env.PUBLIC_URL}/img/funding/` + src}  alt={`Gallery Image ${index + 1}`} />
+                        <img  src={src}  alt={`Gallery Image ${index + 1}`} />
                     </div>
                 ))}
             </Masonry>
