@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
 
+// Dropdown 컴포넌트
 const Dropdown = ({ label, options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -24,7 +25,10 @@ const Dropdown = ({ label, options }) => {
 
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
-      <button className={`${styles.btn} ${styles.dropdownBtn}`} onClick={toggleDropdown}>
+      <button
+        className={`${styles.btn} ${styles.dropdownBtn}`}
+        onClick={toggleDropdown}
+      >
         {label}
       </button>
       {isOpen && (
@@ -40,47 +44,64 @@ const Dropdown = ({ label, options }) => {
   );
 };
 
+// Gallery 컴포넌트
 const Gallery = () => {
-  const [viewMode, setViewMode] = useState("gallery");
-  const [visibleCount, setVisibleCount] = useState(8); // 리스트 모드에서 더보기로 로드할 개수
+  const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
+  const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
+  const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
   const [currentIndex, setCurrentIndex] = useState(0); // 갤러리 모드에서 중심 이미지 인덱스
-  const [slideDirection, setSlideDirection] = useState(""); // 슬라이드 방향 (left/right)
+  const [slideDirection, setSlideDirection] = useState(""); // 갤러리 모드 슬라이드 방향
   const navigate = useNavigate();
 
-  const data = Array.from({ length: 40 }).map((_, index) => ({
-    id: index + 1,
-    title: `작품 제목 ${index + 1}`,
-    image: `https://via.placeholder.com/300x200?text=작품+${index + 1}`,
-  }));
+  // 백엔드 API에서 데이터 가져오기
+  useEffect(() => {
+    const fetchArtworks = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/artworks?page=0&size=${visibleCount}`
+        );
+        const data = await response.json();
+        setArtworks(data); // 데이터를 상태로 저장
+      } catch (error) {
+        console.error("Failed to fetch artworks:", error);
+      }
+    };
 
+    fetchArtworks();
+  }, [visibleCount]); // visibleCount 변경 시 데이터 다시 가져오기
+
+  // 더보기 버튼 클릭 시
   const loadMore = () => setVisibleCount((prev) => prev + 8);
 
+  // 카드 클릭 핸들러
+  const handleCardClick = (id) => {
+    navigate(`/gallery/gallerydetail/${id}`);
+  };
+
+  // 갤러리 모드: 이전 버튼
   const handlePrev = () => {
-    setSlideDirection("left"); // 왼쪽 이동
+    setSlideDirection("left");
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
-    }, 300); // 애니메이션 시간과 동기화
+      setCurrentIndex((prev) => (prev - 1 + artworks.length) % artworks.length);
+    }, 300);
   };
 
+  // 갤러리 모드: 다음 버튼
   const handleNext = () => {
-    setSlideDirection("right"); // 오른쪽 이동
+    setSlideDirection("right");
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % data.length);
-    }, 300); // 애니메이션 시간과 동기화
+      setCurrentIndex((prev) => (prev + 1) % artworks.length);
+    }, 300);
   };
 
+  // 갤러리 모드에서 보이는 아이템 계산
   const visibleItems = (() => {
-    // 현재 인덱스를 기준으로 5개의 데이터를 계산
     const items = [];
     for (let i = 0; i < 5; i++) {
-      items.push(data[(currentIndex + i) % data.length]);
+      items.push(artworks[(currentIndex + i) % artworks.length]);
     }
     return items;
   })();
-
-  const handleCardClick = (id) => {
-  navigate(`/gallery/gallerydetail/${id}`);
-};
 
   return (
     <>
@@ -91,13 +112,17 @@ const Gallery = () => {
             <h1 className={styles.title}>온라인 갤러리</h1>
             <div className={styles.viewButtons}>
               <button
-                className={`${styles.btn} ${viewMode === "gallery" ? styles.btnActive : ""}`}
+                className={`${styles.btn} ${
+                  viewMode === "gallery" ? styles.btnActive : ""
+                }`}
                 onClick={() => setViewMode("gallery")}
               >
                 갤러리로 보기
               </button>
               <button
-                className={`${styles.btn} ${viewMode === "list" ? styles.btnActive : ""}`}
+                className={`${styles.btn} ${
+                  viewMode === "list" ? styles.btnActive : ""
+                }`}
                 onClick={() => setViewMode("list")}
               >
                 리스트로 보기
@@ -109,14 +134,14 @@ const Gallery = () => {
 
         <div className={styles.filters}>
           <div className={styles.filterButtons}>
-            <Dropdown label="주제" options={["주제 1", "주제 2", "주제 3"]} />
-            <Dropdown label="종류" options={["종류 1", "종류 2", "종류 3"]} />
-            <Dropdown label="타입" options={["타입 1", "타입 2", "타입 3"]} />
+            <Dropdown label="주제" options={["추상화", "풍경화", "초상화"]} />
+            <Dropdown label="종류" options={["유화", "수채화", "아크릴화"]} />
+            <Dropdown label="타입" options={["정물", "인물", "동물"]} />
           </div>
           <div className={styles.search}>
             <input
               type="text"
-              placeholder="검색"
+              placeholder="작가이름검색"
               className={styles.searchInput}
             />
             <button className={styles.searchBtn}>🔍</button>
@@ -131,13 +156,13 @@ const Gallery = () => {
             <div className={`${styles.galleryItems} ${styles[slideDirection]}`}>
               {visibleItems.map((item, index) => (
                 <div
-                  key={item.id}
+                  key={item.artworkId}
                   className={`${styles.galleryItem} ${
                     index === 2 ? styles.centerItem : ""
                   }`}
                 >
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.title}
                     className={styles.galleryImage}
                   />
@@ -153,17 +178,27 @@ const Gallery = () => {
 
         {viewMode === "list" && (
           <div className={styles.galleryGrid}>
-            {data.slice(0, visibleCount).map((item) => (
+            {artworks.map((artwork) => (
               <div
                 className={styles.card}
-                key={item.id}
-                onClick={() => handleCardClick(item.id)}
+                key={artwork.artworkId}
+                onClick={() => handleCardClick(artwork.artworkId)}
               >
-                <img src={item.image} alt={item.title} className={styles.cardImage} />
-                <h2 className={styles.cardTitle}>{item.title}</h2>
+                <img
+                  src={artwork.imageUrl}
+                  alt={artwork.title}
+                  className={styles.cardImage}
+                />
+                <h2 className={styles.cardTitle}>{artwork.title}</h2>
+                <p className={styles.cardDescription}>{artwork.description}</p>
+                <p className={styles.cardPrice}>{`₩${artwork.price.toLocaleString()}`}</p>
+                <p className={styles.cardArtist}>아티스트: {artwork.artist.name}</p>
+  <p className={styles.cardCategory}>카테고리: {artwork.category.categoryName}</p>
+  <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p>
+  <p className={styles.cardSaleStatus}>판매 상태: {artwork.saleStatus}</p>
               </div>
             ))}
-            {visibleCount < data.length && (
+            {artworks.length >= visibleCount && (
               <div className={styles.loadMore}>
                 <button className={styles.btn} onClick={loadMore}>
                   더보기
