@@ -4,8 +4,11 @@ import Header from "../Header";
 import StepNavigation from "./StepNavigation";
 import {useNavigate} from "react-router-dom";
 import useFundingStore from "./store/fundingStore";
+import {useAtom} from "jotai/react";
+import {userAtom} from "../../atoms";
 
 function FundingRegistration() {
+    const [user] = useAtom(userAtom);
     const setFundingInfo = useFundingStore((state) => state.setFundingInfo);
 
     // 로컬 상태 관리
@@ -44,6 +47,7 @@ function FundingRegistration() {
         // Zustand 스토어에 펀딩 정보를 저장
         setFundingInfo({
             goalAmount,
+            user,
             schedule: { startDate, endDate },
             registrant: {
                 name: registrantName,

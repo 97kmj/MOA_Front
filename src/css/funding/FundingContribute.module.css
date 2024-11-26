@@ -1,7 +1,13 @@
 .fundingContributeContainer {
+    /*font-family: Arial, sans-serif;*/
+    /*padding: 50px 11% 5% 10%;*/
+    /*!*background-color: #f8f9fa;*!*/
     font-family: Arial, sans-serif;
-    padding: 50px 11% 5% 10%;
-    /*background-color: #f8f9fa;*/
+    /* padding: 50px 11% 5% 10%; */
+    /* background-color: #f8f9fa; */
+    width: 1200px;
+    margin: auto;
+    padding: 50px;
 }
 
 .fundingContributeSectionDivider {

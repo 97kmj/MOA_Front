@@ -2,17 +2,20 @@ import React, {useEffect, useState} from 'react';
 import styles from '../../css/funding/FundingContribute.module.css';
 import Header from "../Header";
 import axios from "axios";
+import {userAtom} from "../../atoms";
+import {useAtom} from "jotai/react";
 
 const FundingContribute = () => {
+    const [user] = useAtom(userAtom);
     const [shippingInfo, setShippingInfo] = useState({
         name: "",
         phoneNumber: "",
         address: "",
     });
     const selectedRewardInfo = [
-        { rewardId: 1, rewardPrice: 100, rewardQuantity: 2 },
-        { rewardId: 2, rewardPrice: 200, rewardQuantity: 1 },
-        { rewardId: 3, rewardPrice: 300, rewardQuantity: 3 },
+        { rewardId: 28, rewardPrice: 100, rewardQuantity: 2 },
+        { rewardId: 29, rewardPrice: 200, rewardQuantity: 1 },
+        { rewardId: 30, rewardPrice: 300, rewardQuantity: 3 },
     ];
 
     useEffect(() => {
@@ -48,14 +51,14 @@ const FundingContribute = () => {
             impUid: null, // 이 값은 결제 성공 후 업데이트됨
             totalAmount: paymentAmount,
             paymentType: "CARD", // 카드 결제 고정 (예시)
-            fundingId: 1,
+            fundingId: 19,
             rewardList: selectedRewardInfo,
             rewardPrice: 100,
             rewardQuantity: 2,
-            userName: "user1",
+            userName: user.username,
             address: shippingInfo.address,
-            phoneNumber: shippingInfo.phoneNumber,
-            name: shippingInfo.name,
+            phoneNumber: shippingInfo.phoneNumber || user.phone,
+            name: shippingInfo.name || user.name,
             merchantUid: merchantUid,
         };
 
@@ -77,12 +80,12 @@ const FundingContribute = () => {
                     pg: "html5_inicis", // PG사 선택
                     pay_method: "card", // 결제수단
                     merchant_uid: merchantUid, // 주문번호
-                    name: "테스트 결제", // 결제 이름
+                    name: "테스트", // 상품명
                     amount: paymentAmount, // 결제 금액
-                    buyer_email: "test@example.com", // 구매자 이메일
-                    buyer_name: "테스트 사용자", // 구매자 이름
-                    buyer_tel: "010-1234-5678", // 구매자 연락처
-                    buyer_addr: "서울특별시 강남구 삼성동", // 구매자 주소
+                    buyer_email: user.email,
+                    buyer_name: user.name,
+                    buyer_tel: user.phone,
+                    buyer_addr: shippingInfo.address || user.address,
                     buyer_postcode: "123-456", // 구매자 우편번호
                     custom_data: JSON.stringify({
                         fundingId: 1,
@@ -198,8 +201,8 @@ const FundingContribute = () => {
                             <section className={styles.fundingContributeSupporterInfo}>
                                 <h4 className="section-title">👤 후원자 정보</h4>
                                 <div className={styles.supporterDetails}>
-                                    <p>ID: user1</p>
-                                    <p>연락처: 010-0000-0000</p>
+                                    <p>ID: {user.username}</p>
+                                    <p>연락처: {user.phone || "정보 없음"}</p>
                                 </div>
                             </section>
 
