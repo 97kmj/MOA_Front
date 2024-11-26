@@ -47,7 +47,7 @@ const SideNav = () => {
             <li className={styles.menuItem}><a href="/applyArtist" className={styles.menuLink}>작가 등록신청</a></li>
             <li className={styles.menuItem}><a href="/editArtistInfo" className={styles.menuLink}>작가 정보수정</a></li>
             <li className={styles.menuItem}><a href="/messages" className={styles.menuLink}>쪽지함</a></li>
-            <li className={styles.menuItem}><a href="/myGallery" className={styles.menuLink}>나만의 갤러리</a></li>
+            <li className={styles.menuItem}><a href="/gallery/myGallery" className={styles.menuLink}>나만의 갤러리</a></li>
           </ul>
         </div>
       </nav>

@@ -8,28 +8,72 @@ function GalleryDetail() {
   const [data, setData] = useState(null); // 작품 데이터를 저장
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
+  const token = sessionStorage.getItem("accessToken"); // JWT 토큰 가져오기
 
-  // 좋아요 버튼 클릭 핸들러
-  const handleLikeButtonClick = () => {
-    setIsLiked((prev) => !prev); // 좋아요 상태 토글
+  //좋아요버튼
+  const handleLikeButtonClick = async () => {
+    console.log("Token in handleLikeButtonClick:", token); // 디버깅용
+    if (!token) {
+      alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:8080/api/like/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // JWT 토큰 추가
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        const errorJson = JSON.parse(errorText); // JSON으로 파싱
+        alert(errorJson.message || "좋아요 처리 중 문제가 발생했습니다.");
+        return;
+      }
+  
+      const result = await response.json();
+      setIsLiked(result.isLiked);
+      console.log("Like toggled:", result.isLiked);
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
   };
 
   // 작품 데이터 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/artworks/${id}`);
-        const artworkData = await response.json();
+        //작품
+        const artworkResponse = await fetch(`http://localhost:8080/api/artworks/${id}`);
+        if (!artworkResponse.ok) throw new Error("Failed to fetch artwork data");
+        const artworkData = await artworkResponse.json();
+
         setData(artworkData); // 데이터 저장
-        setIsLoading(false); // 로딩 완료
+
+        //좋아요
+        if (token) {
+          const likeResponse = await fetch(`http://localhost:8080/api/like/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // JWT 토큰 추가
+            },
+          });
+          if (likeResponse.ok) {
+            const likeData = await likeResponse.json();
+            setIsLiked(likeData.isLiked); // 좋아요 상태 저장
+          }
+        }
       } catch (error) {
-        console.error("Failed to fetch artwork:", error);
+        console.error("Failed to fetch data:", error);
+      } finally {
         setIsLoading(false); // 로딩 완료
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, token]);
 
   // 로딩 상태 처리
   if (isLoading) {
@@ -71,7 +115,7 @@ function GalleryDetail() {
               <p><strong>Type:</strong> {data.type.typeName}</p>
               <p><strong>Size:</strong> {data.width} x {data.height} cm</p>
               {/* 좋아요 버튼 */}
-              <button className={styles.likeButton} onClick={handleLikeButtonClick}>
+              <button className={styles.likeButton} onClick={handleLikeButtonClick} >
                 <img
                   src={isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
                   alt="좋아요"
