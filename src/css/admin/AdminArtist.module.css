@@ -16,18 +16,33 @@
 }
 .regList table{
     width:100%;
-    border-collapse: collapse;
-    border-spacing:4px 4px;
-
+    border-collapse: separate;
+    border-spacing: 5px;
 }
 .regList table tbody{
     max-height: 600px;
     overflow-y:scroll;
+    
 }
 .regList table thead tr{
     border-bottom: 2px solid #B39C59;
     border-top: 2px solid #B39C59;
 }
+.registItem {
+    height: 40px;
+    margin-top:4px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: solid 1px transparent;
+    transition: outline-color 0.3s;
+}
+.registItem:hover {
+    outline-color: #B39C59;  
+}
+.selected {
+    outline: 1px #B39C59 solid;
+}
+ 
 
 .buttonDiv {
     margin:20px auto;
@@ -105,4 +120,11 @@
     border-radius: 10px;
     padding: 10px;
     overflow-y: auto;
+}
+
+
+.bar {
+    border: none;
+    height: 2px;
+    background-color: #B39C59;
 }
