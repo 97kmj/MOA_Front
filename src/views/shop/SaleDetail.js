@@ -1,11 +1,8 @@
 import styles from '../../css/shop/SaleDetail.module.css';
-import { Table, Label, Input, Modal} from 'reactstrap';
-import { useState } from 'react';
+import { Table, Label, Input} from 'reactstrap';
+import { useEffect, useState } from 'react';
 import Header from "../Header";
-import { useNavigate } from 'react-router';
-
-
-
+import { useNavigate, useParams } from 'react-router';
 
 const framePrices = {
     none: 0,
@@ -19,14 +16,42 @@ const framename={
     premium: "고급 프레임"
 }
 
-
-
 const SaleDetail = () => {
-
+    
     const navigate = useNavigate();
+    const {artworkId} = useParams(); // URL에서 id 가져오기
+    const [saleDetail, setSaleDetail] = useState(null); //작품 데이터 저장
+    
+    const [modalOpen,setModalOpen] = useState(false);
+    const [selectedFrame, setSelectedFrame] = useState('basic');
+    const [selectedFrameButton, setSelectedFrameButton] = useState(0);
+    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
+    const [isLiked, setIsLiked] = useState(false);
 
-    const goDecommendFrame = (artworkId) =>{
-        navigate(`/shop/recommendFrame/${artworkId}`);
+    const handleLikeButtonClick = () => {
+        setIsLiked((prev) => !prev); // 좋아요 상태 토글
+      };
+    
+    //작품 데이터 가져오기
+    useEffect(() =>{
+        const getSaleDetail = async () => {
+            try{
+                const response = await fetch(`http://localhost:8080/api/artworks/${artworkId}`)
+                const artworkData = await response.json(); 
+                setSaleDetail(artworkData);
+                console.log(saleDetail);
+                setIsLoading(false); // 로딩 완료
+            } catch(error){
+                console.error("Failed to fetch artwork:", error);
+                alert("판매 정보를 불러오는데 실패했습니다.");
+                setIsLoading(false); // 로딩 완료
+            }
+        };
+        getSaleDetail();
+    }, [artworkId]);
+    
+    if (!saleDetail) {
+        return <div>Loading...</div>; // You can customize this loading state as needed
     }
 
     const goShoppingCart = (artworkId) =>{
@@ -36,13 +61,12 @@ const SaleDetail = () => {
     const goOrder = (artworkId) => {
         navigate(`/shop/SaleOrder/${artworkId}`)
     }
-    const goArtist = (id) => {
-        navigate(`/artistDetail/${id}`)
+    const goArtist = (artistId) => {
+        navigate(`/artistDetail/${artistId}`)
     }
 
     // 모달 추천프레임
      
-    const [modalOpen,setModalOpen] = useState(false);
     const showModal = () => {
         
         setModalOpen(true);
@@ -54,19 +78,12 @@ const SaleDetail = () => {
 
     // 추천프레임
     // State to keep track of the selected frame index
-    const [selectedFrameButton, setSelectedFrameButton] = useState(0);
     
     // List of frame images
-    const frameImages = [
-        '/img/frame1.png',
-        '/img/frame2.png',
-    ];
+    const frameImages = ['/img/frame1.png','/img/frame2.png'];
 
 
-    const frameClasses=[
-        styles.frameArtwork1,
-        styles.frameArtwork2,
-    ];
+    const frameClasses=[styles.frameArtwork1, styles.frameArtwork2];
 
 
     // Function to handle left button click (move left)
@@ -82,16 +99,7 @@ const SaleDetail = () => {
 
 
 
-
-    const artworkData = [
-        { artworkId: 1, title: "투우", id: 3 ,artist: "피카소", price: 2200000,  description: "풍경화 수채화", image: "/img/logo192.png",
-            width:1800, height:1800, type:"수채화",subject:"수묵화", stock:"1",artistNote:"아침해가 떴다"},
-
-    ];
-
-
-    const [selectedFrame, setSelectedFrame] = useState('basic');
-    const basePrice = artworkData[0].price;
+    const basePrice = saleDetail?.price || 0;
 
     const totalPrice = basePrice + framePrices[selectedFrame];
 
@@ -101,17 +109,15 @@ const SaleDetail = () => {
         <>
             <Header/>
             <div className={styles.container}>
-                {artworkData && (
-                <>
                 <p className={styles.titlename}><b>판매상세</b></p>
                 <div className={styles.bar}></div>
                 <div className={styles.detailTop}>
                     <div className={styles.detailTopLeft}>
-                        <img src='/img/sample1.webp' alt="Artwork Image" className={styles.detailTopLeftImg}/>
+                        <img src={saleDetail.imageUrl} alt="Artwork Image" className={styles.detailTopLeftImg}/>
                     </div>
                     <div className={styles.detailTopRight}>
                         <div className={styles.detailTopRightArtworkName}>
-                            <b>{artworkData[0].title}</b>
+                            <b>{saleDetail.title}</b>
                         </div>
                         <br />
                         <Table borderless className={styles.detailTopRightTable}>
@@ -140,33 +146,33 @@ const SaleDetail = () => {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div className={styles.buttonDarkStyle} onClick={()=> goShoppingCart(artworkData[0].artworkId)}><b>ADD TO CART</b></div>
+                                        <div className={styles.buttonDarkStyle} onClick={()=> goShoppingCart(saleDetail.artworkId)}><b>ADD TO CART</b></div>
                                     </td>
                                     <td>
-                                        <div className={styles.buttonDarkStyle2} onClick={()=> goOrder(artworkData[0].artworkId)}><b>결제하기</b></div>
+                                        <div className={styles.buttonDarkStyle2} onClick={()=> goOrder(saleDetail.artworkId)}><b>결제하기</b></div>
                                     </td>
                                 </tr>
                             </tbody>
                             <tbody className={styles.detailtitlearray}>
                               
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{artworkData[0].artist}</Label></td> 
-                                    <td className={styles.artistMoveButton} onClick={()=> goArtist(artworkData[0].id)}>작가상세</td>
+                                    <td><Label>{saleDetail.artist?.name || 'Unknown Artist'}</Label></td> 
+                                    <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artistId)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{artworkData[0].width}X{artworkData[0].height}</Label></td>
+                                    <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{artworkData[0].type}</Label></td>
+                                    <td><Label>{saleDetail.type.typeName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{artworkData[0].subject}</Label></td>
+                                    <td><Label>{saleDetail.subject.subjectName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{new Intl.NumberFormat().format(basePrice)}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{artworkData[0].stock}</Label></td>
+                                    <td><Label>{saleDetail.stock}</Label></td>
                                 </tr>
                                 <tr>
                                     <Input
@@ -192,13 +198,17 @@ const SaleDetail = () => {
 
             
                 <div className={styles.topmiddle}>
-                    <div className={styles.leftgoldheart}>
-                        <img src='/img/goldheart.png'/>
+                    <div className={styles.leftgoldheart} onClick={handleLikeButtonClick}>
+                        <img
+                            src={isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
+                            alt="좋아요"
+                            className={styles.likeIcon}
+                        />
                     </div>
                     <Table className={styles.totalprice}>
                         <tbody className={styles.totalpricetbody}>
                             <tr>
-                                <td className={styles.totalpriceleft}><Label>{artworkData[0].title}</Label></td>
+                                <td className={styles.totalpriceleft}><Label>{saleDetail.title}</Label></td>
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceleft}> {framename[selectedFrame]} </td>
@@ -209,7 +219,7 @@ const SaleDetail = () => {
                         </tbody>
                         <tbody className={styles.totalpricetbody2}>
                             <tr>
-                                <td className={styles.totalpriceleft2}>{new Intl.NumberFormat().format(artworkData[0].price)}</td>
+                                <td className={styles.totalpriceleft2}>{new Intl.NumberFormat().format(basePrice)}</td>
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceleft2}>+{new Intl.NumberFormat().format(framePrices[selectedFrame])}</td>
@@ -226,7 +236,7 @@ const SaleDetail = () => {
  
                 <br/>
                 <div className={styles.detailmiddle}>
-                    <img src='/img/sample1.webp' className={styles.detailmiddleimg}/>
+                    <img src={saleDetail.imageUrl} className={styles.detailmiddleimg}/>
                 </div>
 
                 <div className={styles.artworkInfo}>
@@ -238,7 +248,7 @@ const SaleDetail = () => {
                                 <td className={styles.artworkInfotitleNone}></td>
                             </tr>
                             <tr>
-                                <td colSpan="3" className={styles.artworkInfocontent}>{artworkData.description} </td>
+                                <td colSpan="3" className={styles.artworkInfocontent}>{saleDetail.description} </td>
                             </tr>
                         </tbody>
                     </Table>
@@ -253,14 +263,13 @@ const SaleDetail = () => {
                             </tr>
                             <tr>
                                 <td colSpan="3" className={styles.artworkInfocontent}>
-                                    {artworkData.artistNote}
+                                    { saleDetail.artist.artistNote}
                                 </td>
                             </tr>
                         </tbody>
                     </Table>
                 </div>
-                </>
-            )}
+
             </div>
             {
             modalOpen && (
@@ -284,7 +293,7 @@ const SaleDetail = () => {
                         {/* Image frame selection */}
                             <div className={styles.recommendFrametile}>
                                 <img
-                                src='/img/sample1.webp'
+                                src={saleDetail.imageUrl} 
                                 className={frameClasses[selectedFrameButton]}
                                 alt="Artwork"
                                 />
