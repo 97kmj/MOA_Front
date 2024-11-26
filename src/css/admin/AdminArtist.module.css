@@ -70,6 +70,14 @@
     border: #B39C59 1px solid;
     border-radius: 10px;
 }
+
+.profileImage{
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
 .info {
     width: 60%;
     margin-left: 40px;
