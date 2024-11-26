@@ -3,27 +3,30 @@ import { Checkbox } from '../../views/shop/Checkbox';
 import { React, useState, useEffect, useRef } from 'react'
 import Header from '../Header';
 import axios from 'axios';
-import { Navigate } from 'react-router';
-
+import { useNavigate } from 'react-router-dom';
+import { tokenAtom } from '../../atoms';
+import { useAtomValue } from 'jotai/react';
 const Artwork = () => {
+    const token = useAtomValue(tokenAtom);
     const [category, setCategory] = useState([]);
     const [types, setTypes] = useState([]);
     const [themes, setThemes] = useState([]);
     const [imgPath, setImgPath] = useState(null);
     const [canvas, setCanvas] = useState([]);
-    const [saleStatus, setSaleStatus] = useState(false);
+    const [saleStatus, setSaleStatus] = useState(true);
     const [isCanvasAvailable, setIsCanvasAvailable] = useState(true);
 
     const [artwork, setArtwork] = useState({
-        adminCheck: '', canvasType: '', description: '', height: '', imageUrl: '',
-        isStandaedcanvas: '', length: '', price: '', stock: '', saleStatus: 'AVAILABLE',
-        termsAccepted: '', title: '', width: '', canvasId: '', categoryId: '', subjectId: '', typeId: '', artistId: 'user1'
+        canvasType: '', description: '', height: '',
+        isStandaedcanvas: '', length: '', price: '', stock: '', saleStatus: '',
+        termsAccepted: '', title: '', width: '', canvasId: 0, categoryId: 0, subjectId: 0, typeId: 0, artistId: 'user1'
     });
+
+    const navigate = useNavigate();
     
     const edit = (e) => {
         setArtwork({...artwork, [e.target.name]:e.target.value});
     }
-
 
     useEffect(() => {
         axios.get('http://localhost:8080/shop/artworkAdd')
@@ -45,9 +48,7 @@ const Artwork = () => {
                 console.error("캔버스 불러오기 오류", error);
             });
         
-    }, 
-
-    []);
+    },[]);
 
     useEffect(() => {
         if (artwork.categoryId) {
@@ -82,7 +83,7 @@ const Artwork = () => {
     const handleCanvasChange = (e) => {
         setArtwork(prev => ({
             ...prev,
-            canvasId: e.target.value,
+            canvasType: e.target.value,
 
         }));
     };
@@ -100,35 +101,62 @@ const Artwork = () => {
         }));
     };
 
-    
-
     const handleImagePreview = (e) => {
         setImgPath(e.target.files[0]);
     };
 
     const handleCanvasAvailabilityChange = (e) =>{
-        const value = e.target.value === "예";
+        const value = e.target.value === "ture";
         setIsCanvasAvailable(value);
-        setArtwork(perv =>({
-            ...perv,
-            isStandaedcanvas: value ? "예" : "아니요"
-        }));
+        if(!value){
+            setArtwork(perv =>({
+                ...perv,
+                canvasType: '',  
+                canvasId: '',   
+                width: '',       
+                length: '',      
+                height: '',      
+            }));
+        }else{
+            setArtwork(prev => ({
+                ...prev,
+                width: '',       
+                length: '',      
+                height: ''       
+            }));
+        }
     };
 
+
+    const handleSaleStatusChange  = (e) =>{
+        const value = e.target.value === "예";
+        setSaleStatus(value);
+        setArtwork(prev =>({
+            ...prev,
+            saleStatus: value ? "true" : "false",
+            price : value ? prev.price : '',
+            stock : value ? prev.price : '',
+        }))
+    }
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setArtwork(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
     const submit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('artworkDto', JSON.stringify({
-        adminCheck:artwork.adminCheck,
+        formData.append('artworkDto', new Blob([JSON.stringify({
         canvasType:artwork.canvasType,
         description:artwork.description,
         height:artwork.height,
         isStandardCanvas: artwork.isStandaedcanvas,
-        lenth:artwork.lenth,
-        likeCount:0,
+        length:artwork.length,
         price:artwork.price,
-        saleStatus:"AVAILABLE",
+        saleStatus: saleStatus === true ? "AVAILABLE" : "NOT_SALE",
         stock:artwork.stock,
         termsAccepted:artwork.termsAccepted,
         title:artwork.title,
@@ -137,17 +165,20 @@ const Artwork = () => {
         categoryId:artwork.categoryId,
         subjectId:artwork.subjectId,
         typeId:artwork.typeId,
-        artistId:"use1",
-        }));
+        artistId:"user1",
+        })], { type: "application/json" }));
+        formData.append('artworkImage',imgPath);
 
-        if (imgPath) {
-            formData.append('artworkImage', imgPath);
-        }
-
-        axios.post('http://localhost:8080/shop/artworkAdd', formData)
+        axios.post('http://localhost:8080/shop/artworkAdd', formData, {
+            headers: {
+                Authorization: token,
+                "Content-Type":"multipart/form-data",
+            }
+        })
             .then(res => {
+                
                 console.log(res.data);
-                Navigate(`/shop/artworkDetail/${res.data}`);
+                navigate(`/shop/saleDetail/${res.data}`);
             })
             .catch(err => {
                 console.log(err);
@@ -210,7 +241,7 @@ const Artwork = () => {
                                             disabled={!artwork.categoryId}>
                                             <option value="">타입 선택</option>
                                             {types.length > 0 && types.map((typeItem) => (
-                                                <option key={typeItem.typeId} value={typeItem.typeId} onChange={edit}>
+                                                <option key={typeItem.typeId} value={typeItem.typeId}>
                                                     {typeItem.typeName}
                                                 </option>
                                             ))}
@@ -228,9 +259,9 @@ const Artwork = () => {
                                             disabled={!artwork.categoryId}>
                                                 <option value="">주제 선택</option>
                                                 {themes.length > 0 && themes.map((subjectItem) => (
-                                                    <option key={subjectItem.subjectId} value={subjectItem.subjectId} onChange={edit}>
+                                                    <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
                                                         {subjectItem.subjectName}
-                                                </option>
+                                                    </option>
                                          ))}
                                     </select>
                                 </div>
@@ -243,20 +274,20 @@ const Artwork = () => {
                                             type="radio"
                                             id="isStandaedcanvas"
                                             name="canvasAvailable"
-                                            value="예"
+                                            value="ture"
                                             checked={isCanvasAvailable === true}
-                                            onChange={()=> setIsCanvasAvailable(true)}
+                                            onChange={handleCanvasAvailabilityChange}
                                             />
                                         <label htmlFor="isStandaedcanvas">&nbsp;예</label>
                                     </div>
                                     <div className={styles.canvasRadio}>
                                     <input
-                                            type="radio"
-                                            id="isStandaedcanvas"
-                                            name="canvasAvailable"
-                                        value="아니요"
+                                        type="radio"
+                                        id="isStandaedcanvas"
+                                        name="canvasAvailable"
+                                        value="false"
                                         checked={isCanvasAvailable === false}
-                                        onChange={()=> setIsCanvasAvailable(false)}
+                                        onChange={handleCanvasAvailabilityChange}
                                         />
                                     <label htmlFor="isStandaedcanvas">&nbsp;아니요</label>
                                     </div>
@@ -266,7 +297,7 @@ const Artwork = () => {
                                 <td className={styles.artworkInfotdTitle}>캔버스 타입</td>
                                 <td>
                                 <div className={styles.customSelect}>
-                                    <select disabled={!isCanvasAvailable} id='canvasType' name='canvasType' onChange={edit}>
+                                    <select disabled={!isCanvasAvailable} id='canvasType' name='canvasType' onChange={edit} value={artwork.canvasType}>
                                         <option value="F" >F</option>
                                         <option value="P" >P</option>
                                         <option value="M" >M</option>
@@ -284,7 +315,7 @@ const Artwork = () => {
                                         onChange={handleCanvasChange}>
                                             <option value="">호수선택</option>
                                             {canvas.map((canvasItem)=>(
-                                                <option key={canvasItem.canvasId} value={canvasItem.canvasId} onChange={edit}>
+                                                <option key={canvasItem.canvasId} value={canvasItem.canvasId} >
                                                     {canvasItem.canvasNum}
                                                 </option>
                                             ))}  
@@ -293,7 +324,7 @@ const Artwork = () => {
                                 </td>
                             </tr>
                             <tr><td className={styles.artworkInfotdTitle}>가로</td>
-                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='width' name='width' onChange={edit}/></td>
+                            <td><input className={styles.artworkInfocontent} checked={isCanvasAvailable === false}disabled={isCanvasAvailable} id='width' name='width' onChange={edit}/></td>
                             <td className={styles.artworkInfotdTitle}>세로</td>
                             <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='lenth' name='lenth' onChange={edit}/></td>
                             </tr>
@@ -304,9 +335,9 @@ const Artwork = () => {
                             <tr><td className={styles.artworkInfotdTitle} >판매 여부</td>
                             <td>
                                 <div className={styles.customSelect}>
-                                <select id='sale_status' name='saleStatus' onChange={edit}>
-                                    <option value="예" name="canvasAvailable" >예</option>
-                                    <option value="아니오" name="canvasAvailable">아니요</option>                                                            
+                                <select id='sale_status' name='saleStatus' onChange={handleSaleStatusChange}>
+                                    <option value='true' name="saleStatus"  >예</option>
+                                    <option value="false" name="saleStatus" >아니요</option>                                                            
                                 </select>
                                 </div>
                             </td>
@@ -314,9 +345,11 @@ const Artwork = () => {
                             </tr>  
                             <tr>
                                 <td className={styles.artworkInfotdTitle}>판매 금액</td>
-                                <td><input className={styles.artworkInfocontent} disabled={saleStatus} id='price' name='price' onChange={edit}/></td>
+                                <td>
+                                    <input className={styles.artworkInfocontent} disabled={!saleStatus} value={artwork.price} id='price' name='price' onChange={handleInputChange}/>
+                                </td>
                                 <td className={styles.artworkInfotdTitle}>수량</td>
-                                <td><input className={styles.artworkInfocontent} disabled={saleStatus} id='stock' name='stock' onChange={edit}/></td>
+                                <td><input className={styles.artworkInfocontent} disabled={!saleStatus} value={artwork.stock}  id='stock' name='stock' onChange={handleInputChange}/></td>
                             </tr>
                         </table>
                     </div>
