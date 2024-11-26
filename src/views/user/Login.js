@@ -29,6 +29,7 @@ const Login = () => {
       // 토큰과 사용자 정보 저장
       setToken(access_token);
       setUser(user);
+      sessionStorage.setItem('accessToken', access_token); // 토큰을 sessionStorage에 저장
 
       // 메인 페이지로 이동
       navigate('/');
@@ -46,11 +47,11 @@ useEffect(() => {
   if (tokenString) {
     try {
       const parsedToken = JSON.parse(decodeURIComponent(tokenString));
-
       const accessToken = parsedToken.access_token.replace('Bearer ', '');
 
       // 토큰 저장
       setToken(accessToken);
+      sessionStorage.setItem('accessToken', accessToken); // sessionStorage에 저장
 
       // 사용자 정보 요청 및 저장
       axios
