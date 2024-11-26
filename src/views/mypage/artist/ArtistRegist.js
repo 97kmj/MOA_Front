@@ -67,9 +67,9 @@ const ArtistRegist = () => {
             })
             .then((res) => {
                 if (res.data === true) {
-                    alert("등록완료");
+                    alert("신청 완료");
                 } else {
-                    alert("등록실패");
+                    alert("등록 실패");
                 }
             })
             .catch((err) => {

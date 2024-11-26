@@ -155,8 +155,8 @@ const AdminArtist = () => {
                         <img className={styles.profileImage} src={selectedArtistInfo.profileImage}/>
                     </div>
                     <table className={styles.info}>
-                        <tr><td>아이디</td><td>hong1234</td></tr>
-                        <tr><td>이름</td><td>홍길동</td></tr>
+                        <tr><td>아이디</td><td>{selectedArtistInfo.username}</td></tr>
+                        <tr><td>이름</td><td>{selectedArtistInfo.name}</td></tr>
                     </table>
                 <button className={styles.goldbutton} onClick={portfolioDownload}>포트폴리오 다운로드</button>
                 </div>

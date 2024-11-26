@@ -3,7 +3,10 @@ import styles from '../../css/user/Notice.module.css';
 import Header from '../Header';
 import axios from 'axios';
 import {url} from "../../config.js"
+import { userAtom,tokenAtom } from '../../atoms.js';
+import { useAtomValue } from 'jotai';
 const Notice = () => {
+    const user = useAtomValue(userAtom);
     const [noticeList, setNoticeList] = useState([]);
     const [FAQList, setFAQList] = useState([]);
     const [selectedNoticeId, setSelectedNoticeId] = useState(null); // 선택된 공지사항 ID
@@ -11,11 +14,13 @@ const Notice = () => {
     const [noticeCount, setNoticeCount] = useState(0);
     const [page,setPage] = useState(0);
     const [hasMore,setHasMore] = useState(true);
-    const [username,setUsername] = useState('hong');
     const [question,setQuestion] = useState({username:'',title:'',content:''});
     useEffect(()=>{
         fetchInitialData();
     },[])
+    useEffect(()=>{
+        setQuestion({...question, username:user.username}) //user 로드시 username 설정 
+    },[user])
     const fetchInitialData = async () => {
         try {
             const res = await axios.get(`${url}/notice?page=${page}&size=4`);
@@ -59,12 +64,10 @@ const Notice = () => {
     }
 
     const sendQuestion = () => {
-        setQuestion({...question, username:username});
-        
         axios.post(`${url}/sendQuestion`,question)
             .then(res => {
                 if(res.data === true) {
-                    alert("문의 완료");
+                    alert("문의가 완료되었습니다.");
                 } else {
                     alert("문의 실패");
                 }

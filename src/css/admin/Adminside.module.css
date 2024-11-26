@@ -28,6 +28,10 @@
 }
 
 .sidemenu:hover {
-    background-color: #b39C59;
+    background-color:#d4ba6b ;
     cursor: pointer;
+}
+
+.active {
+    background-color:#b39C59 ;
 }

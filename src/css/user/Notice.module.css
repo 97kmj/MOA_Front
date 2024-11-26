@@ -32,9 +32,10 @@
     padding:20px;
     margin:10px auto;
     list-style: none;
+    
 }
 .noticeList ul li:hover, .faqList ul li:hover {
-    border:#B39C59 1px solid;
+    outline:#B39C59 1px solid;
     cursor: pointer;
 }
 
@@ -43,6 +44,7 @@
     margin:10px 0 10px 0 ;
     background-color: whitesmoke;
     padding: 20px;
+    border-radius: 10px;
     border: #B39C59 2px solid;
 }
 
@@ -159,7 +161,7 @@
 
 .noticeItem, .faqItem{
     border-radius: 10px;
-    transition: border-color 0.3s;
+    
 }
 .selected {
     outline:1px solid #B39C59;

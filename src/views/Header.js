@@ -11,7 +11,7 @@ const Header = () => {
     const logout = () => {
         setUser({...initUser});
         setToken('');
-        navigate("/login");
+        navigate("/");
     }
     return(
         <>
