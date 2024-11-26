@@ -56,10 +56,9 @@
 }
 
 .smallImage {
-  width: 300px; /* 이미지 너비 증가 */
-  height: 300px; /* 이미지 높이 증가 */
+  max-width: 300px; /* 이미지 너비 증가 */
+  max-height: 300px; /* 이미지 높이 증가 */
   object-fit: cover;
-  border: 20px solid #ddd; /* 테두리 두께 증가 */
 }
 
 .imageDetails {
@@ -70,7 +69,7 @@
   max-width: 400px; /* 텍스트 최대 너비 제한 */
 }
 .imageDetails strong {
-  margin-right: 50px; /* ':' 뒤에 간격 추가 */
+  margin-right: 5px; /* ':' 뒤에 간격 추가 */
 }
 
 .imageTitle {
