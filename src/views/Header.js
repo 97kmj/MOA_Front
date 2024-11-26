@@ -21,7 +21,7 @@ const Header = () => {
             <Link to="/" className={styles.moa}>MOA</Link>
             <nav className={styles.navmenu}>
                 <ul>
-                    <li><Link to="/gallery">GALLERY</Link></li>
+                    <li><Link to="/gallery/gallery">GALLERY</Link></li>
                     <li><Link to="/shop/saleList">SHOP</Link></li>
                     <li>
                         <Link to="/fundings">FUNDING</Link>
@@ -55,11 +55,11 @@ const Header = () => {
                         {
                             user.role!=='ADMIN' &&<>
                             <Link to="/shop/shoppingCart/:artworkId"><img src="/img/cartIcon.png"/></Link>
-                            <Link to=""><img src="/img/messageIcon.png"/></Link>
+                            <Link to="/mypage/message"><img src="/img/messageIcon.png"/></Link>
                             <Link to=""><img src="/img/notificationIcon.png"/></Link>
                             </>
                         }
-                        <Link to="" className={styles.login}>{user.name}</Link>&nbsp;&nbsp;&nbsp;
+                        <Link to="/mypage/infoEdit" className={styles.login}>{user.name}</Link>&nbsp;&nbsp;&nbsp;
                         <Link to="#" className={styles.login} onClick={logout}>Logout</Link> 
                     </>:
                     <>

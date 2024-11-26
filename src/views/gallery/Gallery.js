@@ -3,8 +3,41 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
 
+// Type과 Category의 옵션 매핑
+const OPTIONS = {
+  그림: {
+    type: ["유화", "수채화", "아크릴화", "수묵화", "채색화", "판화", "기타"],
+    category: [
+      "풍경화",
+      "인물화",
+      "정물화",
+      "크로키",
+      "추상화",
+      "초상화",
+      "기타",
+    ],
+  },
+  조소: {
+    type: [
+      "석조",
+      "목조",
+      "아조",
+      "점토상",
+      "석고상",
+      "청동상",
+      "테라코타",
+      "기타",
+    ],
+    category: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
+  },
+  공예: {
+    type: ["석공예", "목공예", "유리공예", "도자공예", "기타"],
+    category: ["기타"],
+  },
+};
+
 // Dropdown 컴포넌트
-const Dropdown = ({ label, options }) => {
+const Dropdown = ({ label, options, onChange,selectedValue }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -14,6 +47,11 @@ const Dropdown = ({ label, options }) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
     }
+  };
+
+  const handleOptionClick = (option) => {
+    setIsOpen(false);
+    onChange(option === "전체" ? null : option); // 전체 선택 시 null 전달
   };
 
   useEffect(() => {
@@ -29,19 +67,29 @@ const Dropdown = ({ label, options }) => {
         className={`${styles.btn} ${styles.dropdownBtn}`}
         onClick={toggleDropdown}
       >
-        {label}
-      </button>
+        {label}: {selectedValue || "전체"}
+        </button>
       {isOpen && (
-        <div className={styles.dropdownMenu}>
-          {options.map((option, index) => (
-            <label key={index} className={styles.dropdownItem}>
-              <input type="checkbox" className={styles.dropdownCheckbox} /> {option}
-            </label>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+         <div className={styles.dropdownMenu}>
+           <div
+            className={styles.dropdownItem}
+            onClick={() => handleOptionClick("전체")}
+          >
+            전체
+          </div>
+         {options.map((option, index) => (
+           <div
+             key={index}
+             className={styles.dropdownItem}
+             onClick={() => handleOptionClick(option)}
+           >
+             {option}
+           </div>
+         ))}
+       </div>
+     )}
+   </div>
+ );
 };
 
 // Gallery 컴포넌트
@@ -51,14 +99,64 @@ const Gallery = () => {
   const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
   const [currentIndex, setCurrentIndex] = useState(0); // 갤러리 모드에서 중심 이미지 인덱스
   const [slideDirection, setSlideDirection] = useState(""); // 갤러리 모드 슬라이드 방향
+  
+  const [filters, setFilters] = useState({
+    subject: "",
+    type: "",
+    category: "",
+  }); // 필터 상태
+
   const navigate = useNavigate();
+
+  
+  // Type과 Category 옵션 상태
+  const [typeOptions, setTypeOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+// Subject 선택 시 Type과 Category 옵션 변경
+const handleSubjectChange = (subject) => {
+  setFilters((prev) => ({
+    ...prev,
+    subject,
+    type: null, // Subject 변경 시 Type 초기화
+    category: null, // Subject 변경 시 Category 초기화
+  }));
+  if (subject) {
+    setTypeOptions(OPTIONS[subject].type);
+    setCategoryOptions(OPTIONS[subject].category);
+  } else {
+    setTypeOptions([]);
+    setCategoryOptions([]);
+  }
+};
+
+// Type, Category 변경 핸들러
+const handleFilterChange = (key, value) => {
+  setFilters((prevFilters) => ({
+    ...prevFilters,
+    [key]: value,
+  }));
+};
+  const [search, setSearch] = useState(""); // 검색어 상태
+
+
 
   // 백엔드 API에서 데이터 가져오기
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
+
+        const { subject, type, category } = filters;
+        const queryParams = new URLSearchParams({
+          ...(subject && { subject }),
+          ...(type && { type }),
+          ...(category && { category }),
+          ...(search && { search }),
+          page: 0,
+          size: visibleCount,
+        }).toString();
+
         const response = await fetch(
-          `http://localhost:8080/api/artworks?page=0&size=${visibleCount}`
+          `http://localhost:8080/api/artworks?${queryParams}`
         );
         const data = await response.json();
         setArtworks(data); // 데이터를 상태로 저장
@@ -68,7 +166,13 @@ const Gallery = () => {
     };
 
     fetchArtworks();
-  }, [visibleCount]); // visibleCount 변경 시 데이터 다시 가져오기
+  }, [filters, search, visibleCount]); // 필터, 검색어, visibleCount 변경 시 데이터 가져오기
+
+  // 검색 입력 필드 핸들러
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value); // 검색어 상태 업데이트
+  };
+
 
   // 더보기 버튼 클릭 시
   const loadMore = () => setVisibleCount((prev) => prev + 8);
@@ -133,16 +237,33 @@ const Gallery = () => {
         </header>
 
         <div className={styles.filters}>
-          <div className={styles.filterButtons}>
-            <Dropdown label="주제" options={["추상화", "풍경화", "초상화"]} />
-            <Dropdown label="종류" options={["유화", "수채화", "아크릴화"]} />
-            <Dropdown label="타입" options={["정물", "인물", "동물"]} />
-          </div>
+          <div className={styles.filters}>
+          <Dropdown
+            label="주제"
+            options={Object.keys(OPTIONS)}
+            onChange={handleSubjectChange}
+            selectedValue={filters.subject}
+          />
+          <Dropdown
+            label="종류"
+            options={typeOptions}
+            onChange={(value) => handleFilterChange("type", value)}
+            selectedValue={filters.type}
+          />
+          <Dropdown
+            label="타입"
+            options={categoryOptions}
+            onChange={(value) => handleFilterChange("category", value)}
+            selectedValue={filters.category}
+          />
+        </div>
           <div className={styles.search}>
             <input
-              type="text"
-              placeholder="작가이름검색"
-              className={styles.searchInput}
+             type="text"
+             value={search}
+             onChange={handleSearchChange}
+             placeholder="작가 및 작품 검색"
+             className={styles.searchInput}
             />
             <button className={styles.searchBtn}>🔍</button>
           </div>
