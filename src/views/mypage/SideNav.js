@@ -44,10 +44,12 @@ const SideNav = () => {
           </strong>
           <ul className={styles.snbMenu}>
             <li className={styles.menuItem}><a href="/editInfo" className={styles.menuLink}>내 정보수정</a></li>
-            <li className={styles.menuItem}><a href="/applyArtist" className={styles.menuLink}>작가 등록신청</a></li>
-            <li className={styles.menuItem}><a href="/editArtistInfo" className={styles.menuLink}>작가 정보수정</a></li>
+            <li className={styles.menuItem}><a href="/mypage/artistRegist" className={styles.menuLink}>작가 등록신청</a></li>
+            <li className={styles.menuItem}><a href="/mypage/artistEdit" className={styles.menuLink}>작가 정보수정</a></li>
             <li className={styles.menuItem}><a href="/messages" className={styles.menuLink}>쪽지함</a></li>
             <li className={styles.menuItem}><a href="/gallery/myGallery" className={styles.menuLink}>나만의 갤러리</a></li>
+            <li className={styles.menuItem}><a href="/mypage/qna" className={styles.menuLink}>1대1 문의함</a></li>
+
           </ul>
         </div>
       </nav>

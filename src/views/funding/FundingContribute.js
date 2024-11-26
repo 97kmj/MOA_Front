@@ -4,19 +4,18 @@ import Header from "../Header";
 import axios from "axios";
 import {userAtom} from "../../atoms";
 import {useAtom} from "jotai/react";
+import {useLocation} from "react-router-dom";
 
 const FundingContribute = () => {
     const [user] = useAtom(userAtom);
+    const location = useLocation();
+    const { fundingId, selectedRewards, fundingDetail } = location.state || {};//fundingDetail에서 받아온 데이터
     const [shippingInfo, setShippingInfo] = useState({
         name: "",
         phoneNumber: "",
         address: "",
     });
-    const selectedRewardInfo = [
-        { rewardId: 28, rewardPrice: 100, rewardQuantity: 2 },
-        { rewardId: 29, rewardPrice: 200, rewardQuantity: 1 },
-        { rewardId: 30, rewardPrice: 300, rewardQuantity: 3 },
-    ];
+
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -29,13 +28,6 @@ const FundingContribute = () => {
         };
     }, []);
 
-    const inputValueShippingInfo = (e) => {
-        const { name, value } = e.target;
-        setShippingInfo((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
 
     const requestPayment = async () => {
         if (!window.IMP) {
@@ -44,17 +36,23 @@ const FundingContribute = () => {
         }
 
         const merchantUid = `merchant_${new Date().getTime()}`; // 고유한 merchant_uid 생성
-        const paymentAmount = 100; // 결제 금액
+        const paymentAmount = selectedRewards.reduce(
+            (sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity,
+            0
+        ); // 선택한 리워드의 총 금액 계산
+
+        console.log("Shipping Info before request:", shippingInfo);
 
         // 백엔드에 전달할 데이터
         const requestData = {
             impUid: null, // 이 값은 결제 성공 후 업데이트됨
-            totalAmount: paymentAmount,
+            totalAmount: selectedRewards.reduce(
+                (sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity,
+                0
+            ),
             paymentType: "CARD", // 카드 결제 고정 (예시)
-            fundingId: 19,
-            rewardList: selectedRewardInfo,
-            rewardPrice: 100,
-            rewardQuantity: 2,
+            fundingId: fundingId,
+            rewardList: selectedRewards,
             userName: user.username,
             address: shippingInfo.address,
             phoneNumber: shippingInfo.phoneNumber || user.phone,
@@ -80,7 +78,7 @@ const FundingContribute = () => {
                     pg: "html5_inicis", // PG사 선택
                     pay_method: "card", // 결제수단
                     merchant_uid: merchantUid, // 주문번호
-                    name: "테스트", // 상품명
+                    name: "펀딩 결제", // 결제명
                     amount: paymentAmount, // 결제 금액
                     buyer_email: user.email,
                     buyer_name: user.name,
@@ -89,7 +87,7 @@ const FundingContribute = () => {
                     buyer_postcode: "123-456", // 구매자 우편번호
                     custom_data: JSON.stringify({
                         fundingId: 1,
-                        rewardList: selectedRewardInfo,
+                        rewardList: selectedRewards,
                     }), // 사용자 정의 데이터
                 };
 
@@ -131,6 +129,13 @@ const FundingContribute = () => {
         }
     };
 
+    const inputValueShippingInfo = (e) => {
+        const { name, value } = e.target;
+        setShippingInfo((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
 
 
 
@@ -154,47 +159,67 @@ const FundingContribute = () => {
                     {/* 이미지 , 펀딩 */}
                     <div className={styles.fundingContributeMainInfo}>
                         <img
-                            src={`${process.env.PUBLIC_URL}/img/funding/image6.png`} // 메인 이미지 파일 경로
-                            alt="루브르 박물관"
+                            src={fundingDetail?.fundingMainImageUrl}
+                            alt={fundingDetail?.title || "펀딩 이미지"}
                             className={styles.fundingContributeMainImage}
                         />
                         <div className={styles.fundingContributeDetails}>
-                            <h3>[전시회] 루브르 박물관 전시회 - 개인전</h3>
-                            <p>조각 20점 정도 조건부 전시 루브르 박물관 전시 펀딩</p>
+                            <h3>{fundingDetail?.title}</h3>
+                            <span className={styles.fundingContributeAmount}></span>
                             <p className={styles.fundingContributeAmount}>
-                                236,000원 <span>47% 달성</span> 17일 남음
+                                후원금액:&nbsp;
+                                {selectedRewards
+                                    .reduce((sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity, 0)
+                                    .toLocaleString()}원
+
+                                <p>목표 금액: {fundingDetail?.goalAmount.toLocaleString()}원</p>
+                                <p>현재 펀딩 모인 금액: {fundingDetail?.totalAmount.toLocaleString()}원{" "}</p>
+
+                                <span>
+                                {((fundingDetail?.totalAmount / fundingDetail?.goalAmount) * 100).toFixed(2)}% 달성
+                            </span>{" "}
+                                {Math.ceil(
+                                    (new Date(fundingDetail?.endDate) - new Date()) / (1000 * 60 * 60 * 24)
+                                )}{" "}
+                                일 남음
                             </p>
                         </div>
                     </div>
+
 
                     <div className={styles.fundingContributeContent}>
                         <div className={styles.fundingContributeContentInfo}>
                             {/* 리워드 정보  */}
                             <section className={styles.fundingContributeRewardInfo}>
                                 <h4 className={styles.sectionTitle}>
-                                    <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
-                                         className={styles.sectionIcon}/>
+                                    <img
+                                        src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`}
+                                        alt="리워드 아이콘"
+                                        className={styles.sectionIcon}
+                                    />
                                     리워드 정보
                                 </h4>
-                                <div className={styles.fundingContributeRewardItem}>
-                                    <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
-                                         className={styles.rewardIcon}/>
-                                    <div className={styles.rewardText}>
-                                        <h5>리워드 없는 후원</h5>
-                                        <p>리워드 없는 후원</p>
-                                        <p className={styles.rewardPrice}>100,000원 / 1개</p>
-                                    </div>
-                                </div>
 
-                                <div className={styles.fundingContributeRewardItem}>
-                                    <img src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`} alt="리워드 아이콘"
-                                         className={styles.rewardIcon}/>
-                                    <div className={styles.rewardText}>
-                                        <h5>조각품 미니어처 5종세트</h5>
-                                        <p>전시된 작품의 미니어처</p>
-                                        <p className={styles.rewardPrice}>100,000원 / 1개</p>
-                                    </div>
-                                </div>
+                                {selectedRewards && selectedRewards.length > 0 ? (
+                                    selectedRewards.map((reward) => (
+                                        <div key={reward.rewardId} className={styles.fundingContributeRewardItem}>
+                                            <img
+                                                src={`${process.env.PUBLIC_URL}/img/funding/rewardIcon.png`}
+                                                alt="리워드 아이콘"
+                                                className={styles.rewardIcon}
+                                            />
+                                            <div className={styles.rewardText}>
+                                                <h5>{reward.rewardName}</h5>
+                                                <p>{reward.rewardDescription}</p>
+                                                <p className={styles.rewardPrice}>
+                                                    {reward.rewardPrice.toLocaleString()}원 / {reward.rewardQuantity}개
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>선택된 리워드가 없습니다.</p>
+                                )}
                             </section>
 
 
@@ -250,7 +275,11 @@ const FundingContribute = () => {
                         <aside className={styles.fundingContributeSummary}>
                             <div>
                                 <h4>최종 후원 금액</h4>
-                                <p className={styles.totalAmount}>200,000원</p>
+                                <p className={styles.totalAmount}>
+                                    {selectedRewards
+                                        .reduce((sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity, 0)
+                                        .toLocaleString()}원
+                                </p>
                                 <label>
                                     <input type="checkbox"/> 개인정보 제 3자 제공 동의
                                 </label>
@@ -260,7 +289,9 @@ const FundingContribute = () => {
                                 <p className={styles.noticeText}>
                                     ※ 후원 유의사항: 후원자가 만일 중도 취소할 경우 환불 절차가 필요할 수 있습니다.
                                 </p>
-                                <button onClick={requestPayment} className={styles.fundingContributeButton}>펀딩하기</button>
+                                <button onClick={requestPayment} className={styles.fundingContributeButton}>
+                                    펀딩하기
+                                </button>
                             </div>
                         </aside>
 
