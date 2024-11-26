@@ -24,6 +24,7 @@ const FundingDetail = () => {
             try {
                 const response = await axios.get(` http://localhost:8080/api/funding/${fundingId}`);
                 setFundingDetail(response.data);
+                console.log(response.data);
             } catch (error) {
                 console.error("Failed to fetch funding detail:", error);
                 alert("펀딩 정보를 불러오는데 실패했습니다.");
@@ -34,22 +35,31 @@ const FundingDetail = () => {
     }, [fundingId]);
 
     const addRewardToSelection = (reward) => {
-        const isSelected = selectedRewards.find(
-            (selectedReward) => selectedReward.rewardId === reward.rewardId
-        );
-        if (isSelected) return;
+        const existingReward = selectedRewards.find((r) => r.rewardId === reward.rewardId);
 
-        setSelectedRewards([...selectedRewards, { ...reward, quantity: 1 }]);
+        if (existingReward) {
+            setSelectedRewards((prevRewards) =>
+                prevRewards.map((r) =>
+                    r.rewardId === reward.rewardId
+                        ? { ...r, rewardQuantity: r.rewardQuantity + 1 } // rewardQuantity 증가
+                        : r
+                )
+            );
+        } else {
+            setSelectedRewards((prevRewards) => [
+                ...prevRewards,
+                { ...reward, rewardQuantity: 1 }, // 기본 수량 1 설정
+            ]);
+        }
     };
 
     const changeSelectedRewardQuantity = (selectedRewardId, quantityCount) => {
-        setSelectedRewards((prevSelectedRewards) =>
-            prevSelectedRewards.map((reward) => {
-                if (reward.rewardId === selectedRewardId) {
-                    return { ...reward, quantity: Math.max(1, reward.quantity + quantityCount) };
-                }
-                return reward;
-            })
+        setSelectedRewards((prevRewards) =>
+            prevRewards.map((reward) =>
+                reward.rewardId === selectedRewardId
+                    ? { ...reward, rewardQuantity: Math.max(1, reward.rewardQuantity + quantityCount) } // rewardQuantity 사용
+                    : reward
+            )
         );
     };
 
@@ -77,9 +87,12 @@ const FundingDetail = () => {
     }
 
 
-    const goToContribute = (id) => {
-        // 후원 경로로 이동
-        navigate(`/fundings/${id}/contributions`);
+    const goToContribute = (fundingId) => {
+        // 선택한 리워드와 펀딩 ID를 state로 전달
+        console.log("Selected Rewards:", selectedRewards);
+        navigate('/fundings/contributions', {
+            state: { fundingId, selectedRewards, fundingDetail }
+        });
     };
 
     //펀딩 버튼 누르면 리워드로 선택으로 이동
@@ -158,6 +171,7 @@ const FundingDetail = () => {
                         <div className={styles.rewardSelection} ref={rewardSectionRef}>
                             <h4>리워드 선택</h4>
 
+                            {/* 선택된 리워드 리스트 */}
                             {selectedRewards.map((reward, index) => (
                                 <div
                                     key={reward.rewardId}
@@ -178,27 +192,38 @@ const FundingDetail = () => {
                                         <button onClick={() => changeSelectedRewardQuantity(reward.rewardId, -1)}>
                                             -
                                         </button>
-                                        <input type="text" value={reward.quantity} readOnly/>
+                                        <input type="text" value={reward.rewardQuantity}
+                                               readOnly/> {/* rewardQuantity로 변경 */}
                                         <button onClick={() => changeSelectedRewardQuantity(reward.rewardId, 1)}>
                                             +
                                         </button>
                                     </div>
                                     <p className={styles.price}>
-                                        {(reward.rewardPrice * reward.quantity).toLocaleString()}원
+                                        {(reward.rewardPrice * reward.rewardQuantity).toLocaleString()}원
                                     </p>
                                 </div>
                             ))}
 
-                            {/* 총 금액 표시와 후원하기 버튼 start */}
+                            {/* 총 금액 표시와 후원하기 버튼 */}
                             {selectedRewards.length > 0 && (
                                 <div className={styles.totalSupport}>
-                                    <button className={styles.rewardButton}
-                                            onClick={()=>goToContribute(18)}
-                                    >총 {totalAmount.toLocaleString()}원 후원하기</button>
+                                    <button
+                                        className={styles.rewardButton}
+                                        onClick={() => goToContribute(fundingDetail.fundingId)}
+                                    >
+                                        총{" "}
+                                        {selectedRewards
+                                            .reduce(
+                                                (total, reward) => total + reward.rewardPrice * reward.rewardQuantity,
+                                                0
+                                            )
+                                            .toLocaleString()}
+                                        원 후원하기
+                                    </button>
                                 </div>
                             )}
-                            {/* 총 금액 표시와 후원하기 end */}
 
+                            {/* 리워드 목록 */}
                             <div className={styles.rewardList}>
                                 {fundingDetail.rewards.map((reward) => (
                                     <div
@@ -210,7 +235,7 @@ const FundingDetail = () => {
                                             <h5>{reward.rewardName}</h5>
                                             <span className={styles.rewardLeft}>
                         남음: {reward.stock}개
-                      </span>
+                    </span>
                                         </div>
                                         <p className={styles.rewardDescription}>{reward.rewardDescription}</p>
                                     </div>
