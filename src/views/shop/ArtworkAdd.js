@@ -83,7 +83,7 @@ const Artwork = () => {
     const handleCanvasChange = (e) => {
         setArtwork(prev => ({
             ...prev,
-            canvasType: e.target.value,
+            canvasId: e.target.value,
 
         }));
     };
@@ -311,7 +311,7 @@ const Artwork = () => {
                                     <select disabled={!isCanvasAvailable} 
                                         id='canvasId' 
                                         name='canvasId'
-                                        value={artwork.canvasType}
+                                        value={artwork.canvasId}
                                         onChange={handleCanvasChange}>
                                             <option value="">호수선택</option>
                                             {canvas.map((canvasItem)=>(
