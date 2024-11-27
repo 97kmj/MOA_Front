@@ -1,37 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styles from '../../css/shop/ArtSaleList.module.css';
 import Header from "../Header";
 import { useNavigate } from 'react-router';
 import { Button } from 'reactstrap';
+import { url } from "../../config";
+import axios from 'axios';
 
 const SaleList = () => {
-    const [selectedCategory, setSelectedCategory] = useState("종류");
-    const [searchKeyword, setSearchKeyword] = useState("");
-
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
-    };
-
-    //디테일 이동
-    const navigate = useNavigate();
-
-    const goDetailNavigation = (artworkId) => {
+    
+    const [searchKeyword, setSearchKeyword] = useState(""); //검색어
+    const [category, setCategory] = useState([]); 
+    const [categoryId, setCategoryId] = useState("");
+    const [types, setTypes] = useState([]);
+    const [typeId, setTypesId] = useState("");
+    const [themes, setThemes] = useState([]);
+    const [subjectId, setSubjectId] = useState("");
+    const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
+    const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
+    const navigate = useNavigate(); 
+    const goDetailNavigation = (artworkId) => {  //디테일 이동
         navigate(`/shop/saleDetail/${artworkId}`);
     }
 
-    const saleData = [
-        { artworkId: 1, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화", image: "../logo192.png", },
-        { artworkId: 3, title: "투우", artist: "피카소", price: "2,200,000₩",   description: "풍경화 수채화",image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
-        { artworkId: 4, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image5.png` },
-        { artworkId: 5, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image6.png` },
-        { artworkId: 6, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image3.png` },
-        { artworkId: 7, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image4.png` },
-        { artworkId: 2, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: "../logo192.png", },
-        { artworkId: 8, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image5.png` },
-        { artworkId: 9, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image6.png` },
-        { artworkId: 10, title: "투우", artist: "피카소", price: "2,200,000₩",  description: "풍경화 수채화", image: `${process.env.PUBLIC_URL}/img/funding/image3.png` },
+      // 더보기 버튼 클릭 시
+    const loadMore = () => setVisibleCount((prev) => prev + 8);
 
-    ];
+    useEffect(()=> {
+        const queryParams = new URLSearchParams({
+            categoryId,
+            typeId,
+            subjectId,
+            keyword: searchKeyword,
+            page: 0,
+            size: visibleCount,
+        })
+        const [page] = 0;
+    
+
+        const listUrl = `${url}/shop/saleList?$category=${categoryId}&type=${typeId}&subject=${subjectId}&keyword=${searchKeyword}&page=${page}&size=${visibleCount}`;
+        axios.get(listUrl)
+            .then(res =>{
+                console.log(res.data);
+                if(res.data && Array.isArray(res.data.artworks)){
+                    setArtworks(...res.data.artworks);
+                }else{
+                    console.error("배열오류");
+                    setArtworks([]);
+                }
+            })
+            .catch(err=>{
+                alert("상세페이지 가져오지 못하였습니다.", err);
+            });
+            
+    }, [])
+
+
+
+
+
+
+
+    // 카테고리 가져오기
+    useEffect(() => {
+        axios.get(`${url}/shop/artworkAdd`)
+            .then(res => {
+                console.log(res.data);
+                setCategory(res.data);  
+            })
+            .catch(error => {
+                console.error("카테고리 불러오기 오류", error);
+            });
+    },[]);
+    // 타입하고 주제 가져오기
+    useEffect(() => {
+        if (artworks.categoryId) {
+            axios.post(`${url}/shop/artworkAdd/type/${artworks.categoryId}`)
+                .then(res => {
+                    setTypes(res.data); // API에서 가져온 타입 데이터 저장
+                })
+                .catch(error => {
+                    console.error("타입 데이터 불러오기 오류", error);
+                });
+
+            axios.post(`${url}/shop/artworkAdd/subject/${artworks.categoryId}`)
+                .then(res => {
+                    setThemes(res.data); // API에서 가져온 주제 데이터 저장
+                })
+                .catch(error => {
+                    console.error("주제 데이터 불러오기 오류", error);
+                });
+        }
+    }, [artworks.categoryId]);
+
+    const handleCategoryChange = (e) => {
+        setArtworks(prev => ({
+            ...prev,
+            categoryId: e.target.value,
+            typeId: '',  // 타입과 주제 초기화
+            subjectId: ''
+        }));
+        console.log(e.target.value)
+    };
+    const handleTypeChange = (e) => {
+        setArtworks(prev => ({
+            ...prev,
+            typeId: e.target.value
+        }));
+    };
+
+    const handleSubjectChange = (e) => {
+        setArtworks(prev => ({
+            ...prev,
+            subjectId: e.target.value
+        }));
+    };
+
+
+
 
     return (
         <>
@@ -43,17 +128,45 @@ const SaleList = () => {
                 <div className={styles.filters}>
                     <div className={styles.selectGroup}>
                         <select
-                            value={selectedCategory}
+                            value={artworks.categoryId}
                             onChange={handleCategoryChange}
                             className={styles.filter}
+                            id='categoryId'
+                            name='categoryId'
+
                         >
-                            <option>종류</option>
+                        <option value="">종류</option>
+                        {category.map((categoryItem) => (
+                            <option key={categoryItem.categoryId} value={categoryItem.categoryId}>
+                                {categoryItem.categoryName}
+                            </option>
+                        ))}
                         </select>
-                        <select className={styles.filter}>
-                            <option>타입</option>
+                        <select className={styles.filter}
+                            value={artworks.typeId}
+                            onChange={handleTypeChange}
+                            id='typeId'
+                            name='typeId'
+                            disabled={!artworks.categoryId}>
+                            <option value="">타입 선택</option>
+                            {types.length > 0 && types.map((typeItem) => (
+                                <option key={typeItem.typeId} value={typeItem.typeId}>
+                                    {typeItem.typeName}
+                                </option>
+                            ))}
                         </select>
-                        <select className={styles.filter}>
-                            <option>주제</option>
+                        <select className={styles.filter}
+                            value={artworks.subjectId}
+                            onChange={handleSubjectChange}
+                            id='subjectId'
+                            name='subjectId'
+                            disabled={!artworks.categoryId}>
+                            <option value="">주제 선택</option>
+                            {themes.length > 0 && themes.map((subjectItem) => (
+                                <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
+                                    {subjectItem.subjectName}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className={styles.searchGroup}>
@@ -77,8 +190,8 @@ const SaleList = () => {
 
 
                 <div className={styles.grid}>
-                    {saleData.map((item) => (
-                        <div className={styles.card} key={item.id} onClick={()=> goDetailNavigation()}>
+                    {artworks.map((item) => (
+                        <div className={styles.card} key={item.id} onClick={()=> goDetailNavigation(item.artworkId)}>
                             <div className={styles.imageWrapper}>
                                 <img src={item.image} alt={item.title} className={styles.image}/>
                             </div>
@@ -94,8 +207,11 @@ const SaleList = () => {
                     ))}
                 </div>
             </div>
-            <div className={styles.seemore}>
-                <button><img className={styles.seemore} src="/img/seemore.png"/></button>
+            <div className={styles.seemore} onClick={loadMore}>
+                <button>
+                    더보기
+                    <img className={styles.seemore} src="/img/seemore.png"/>
+                </button>
             </div>  
 
         </>

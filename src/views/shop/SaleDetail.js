@@ -3,6 +3,7 @@ import { Table, Label, Input} from 'reactstrap';
 import { useEffect, useState } from 'react';
 import Header from "../Header";
 import { useNavigate, useParams } from 'react-router';
+import { url } from "../../config";
 
 const framePrices = {
     none: 0,
@@ -36,7 +37,7 @@ const SaleDetail = () => {
     useEffect(() =>{
         const getSaleDetail = async () => {
             try{
-                const response = await fetch(`http://localhost:8080/api/artworks/${artworkId}`)
+                const response = await fetch(`${url}/api/artworks/${artworkId}`)
                 const artworkData = await response.json(); 
                 setSaleDetail(artworkData);
                 console.log(saleDetail);
@@ -157,7 +158,7 @@ const SaleDetail = () => {
                               
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.artist?.name || 'Unknown Artist'}</Label></td> 
-                                    <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artistId)}>작가상세</td>
+                                    <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artist.username)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
@@ -257,7 +258,7 @@ const SaleDetail = () => {
                     <Table className={styles.artworkInfoTable}>
                         <tbody>
                             <tr >
-                                <td className={styles.artworkInfotitle}>Artist’s Information</td>
+                                <td className={styles.artworkInfotitle}>Anprtist’s Information</td>
                                 <td className={styles.artworkInfotitleNone}></td>
                                 <td className={styles.artworkInfotitleNone}></td>
                             </tr>
