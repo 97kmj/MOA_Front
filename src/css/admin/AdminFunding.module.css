@@ -11,12 +11,11 @@
     border: 1px solid #B39C59;
     margin: 50px 30px 50px 30px;
     text-align: center;
-    width: 500px;
+    width: 400px;
     padding:10px
 }
 .regList table{
     width:100%;
-    border-spacing:4px 4px;
     border-collapse: collapse;
 }
 .regList table tbody{
@@ -26,6 +25,13 @@
 .regList table thead tr{
     border-bottom: 2px solid #B39C59;
     border-top: 2px solid #B39C59;
+}
+.regList table tbody tr {
+    padding: 10px 5px; /* 셀 간에 간격을 추가 */
+}
+
+.fundingItem:hover {
+    cursor: pointer;
 }
 
 .buttonDiv {
@@ -55,10 +61,10 @@
     background-color: white;
     border: 1px solid #B39C59;
     margin: 50px auto;
-    width: 900px;
+    width: 1000px;
     padding: 20px;
 }
-.regDetail h3 {
+.regDetail h4 {
     text-align: center;
 }
 
@@ -87,48 +93,50 @@
 .questionDetail input {
     width : 100%;
 }
-.regDetail textarea {
-    width: 100%;
-    height: 150px;
-    resize: none;
-    border: #B39C59 1px solid;
-    border-radius: 10px;
-    padding: 10px;
-    overflow-y: auto;
-}
+
 
 .detailLeftBox {
-    width: 45%;
+    width: 40%;
     height: 600px;
-    
     padding:0;
 }
 
 .detailRightBox {
-    width: 45%;
+    width: 55%;
     height: 600px;
     
     padding:0;
 }
 .bar {
     border: none;
+    
     height: 2px;
     background-color: #B39C59;
 }
 .goalAmount {
     width: 100%;
-    font-size: 20px;
+    font-size: 16px;
     border: 0;
+    text-align: center;
     border-radius: 10px;
-    outline: none;
+    outline: 1px solid #B39C59;
     background-color: rgb(233, 233, 233);
+}
+.optionText {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top:10px;
+    margin-bottom: 10px;
+    
 }
 .fundingPeriod {
     width: 100%;
     text-align: center;
     
 }
-
+.fundingPeriod th {
+    font-weight:normal;
+}
 .fundingPeriod td {
     border: #B39C59 0.5px solid;
     border-radius: 10px;
@@ -142,24 +150,29 @@
 .rewardList {
     table-layout: fixed;
     width: 100%;
-    height: 300px;
-    word-break: break-all;
+    max-height: 300px;
+    overflow-y: auto;
+    
     border-collapse: separate;
     border-spacing:0px 10px;
     text-align: center;
 }
 
 .rewardList > tbody > tr {
-    
     background-color: rgb(233, 233, 233);
+    height: 30px;
+    font-size: 14px;
+}
+.rewardList th {
+    font-size: 14px;
 }
 
 .gold {
     color: #B39C59;
 }
-.detailRightBox textarea {
+.fundingDescription {
     width: 100%;
-    height: 300px;
+    height: 370px;
     resize: none;
     border: #B39C59 1px solid;
     border-radius: 10px;
@@ -169,5 +182,20 @@
 }
 .imglist {
     width:100%;
-    
+    height: 180px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.fundingImage {
+    margin:8px;
+    max-width:160px;
+    max-height: 160px;
+    object-fit: contain;
+}
+
+.regList table tbody tr.selectedFunding {
+    border: #B39C59 1px solid;
+    border-radius: 10px;
 }

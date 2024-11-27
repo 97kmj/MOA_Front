@@ -28,7 +28,7 @@ const ArtistEdit = () => {
             .catch(err=> {
                 console.log(err);
             })
-    },[user])
+    },[user,token])
 
     const edit = (e) => {
         setArtistInfo({...artistInfo,[e.target.name]:e.target.value})
