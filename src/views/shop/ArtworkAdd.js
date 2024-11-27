@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { tokenAtom } from '../../atoms';
 import { useAtomValue } from 'jotai/react';
+import { url } from "../../config";
 const Artwork = () => {
     const token = useAtomValue(tokenAtom);
     const [category, setCategory] = useState([]);
@@ -17,7 +18,7 @@ const Artwork = () => {
     const [isCanvasAvailable, setIsCanvasAvailable] = useState(true);
 
     const [artwork, setArtwork] = useState({
-        canvasType: '', description: '', height: '',
+        canvasType: 'A', description: '', height: '',
         isStandaedcanvas: '', length: '', price: '', stock: '', saleStatus: '',
         termsAccepted: '', title: '', width: '', canvasId: 0, categoryId: 0, subjectId: 0, typeId: 0, artistId: 'user1'
     });
@@ -25,11 +26,12 @@ const Artwork = () => {
     const navigate = useNavigate();
     
     const edit = (e) => {
+        console.log(e.target.value)
         setArtwork({...artwork, [e.target.name]:e.target.value});
     }
 
     useEffect(() => {
-        axios.get('http://localhost:8080/shop/artworkAdd')
+        axios.get(`${url}/shop/artworkAdd`)
             .then(res => {
                 console.log(res.data);
                 setCategory(res.data);  
@@ -38,7 +40,7 @@ const Artwork = () => {
                 console.error("카테고리 불러오기 오류", error);
             });
 
-        axios.get(`http://localhost:8080/shop/artworkAdd/canvas`)
+        axios.get(`${url}/shop/artworkAdd/canvas`)
             .then(canvas =>{
                 console.log(canvas.data);
                 setCanvas(canvas.data);
@@ -52,7 +54,7 @@ const Artwork = () => {
 
     useEffect(() => {
         if (artwork.categoryId) {
-            axios.post(`http://localhost:8080/shop/artworkAdd/type/${artwork.categoryId}`)
+            axios.post(`${url}/shop/artworkAdd/type/${artwork.categoryId}`)
                 .then(res => {
                     setTypes(res.data); // API에서 가져온 타입 데이터 저장
                 })
@@ -60,7 +62,7 @@ const Artwork = () => {
                     console.error("타입 데이터 불러오기 오류", error);
                 });
 
-            axios.post(`http://localhost:8080/shop/artworkAdd/subject/${artwork.categoryId}`)
+            axios.post(`${url}/shop/artworkAdd/subject/${artwork.categoryId}`)
                 .then(res => {
                     setThemes(res.data); // API에서 가져온 주제 데이터 저장
                 })
@@ -169,7 +171,7 @@ const Artwork = () => {
         })], { type: "application/json" }));
         formData.append('artworkImage',imgPath);
 
-        axios.post('http://localhost:8080/shop/artworkAdd', formData, {
+        axios.post(`${url}/shop/artworkAdd`, formData, {
             headers: {
                 Authorization: token,
                 "Content-Type":"multipart/form-data",
@@ -298,6 +300,7 @@ const Artwork = () => {
                                 <td>
                                 <div className={styles.customSelect}>
                                     <select disabled={!isCanvasAvailable} id='canvasType' name='canvasType' onChange={edit} value={artwork.canvasType}>
+                                        <option value="A" disabled selected>선택해주세요</option>
                                         <option value="F" >F</option>
                                         <option value="P" >P</option>
                                         <option value="M" >M</option>
