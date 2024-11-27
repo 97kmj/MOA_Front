@@ -5,6 +5,7 @@ import StepNavigation from "./StepNavigation";
 import { useNavigate } from "react-router-dom";
 import useFundingStore from "./store/fundingStore";
 import axios from "axios";
+import {url} from "../../config";
 
 function FundingArtCreation() {
     // Zustand 스토어에서 메서드 및 상태 가져오기
@@ -81,7 +82,7 @@ function FundingArtCreation() {
         });
 
         try {
-            const response = await axios.post("http://localhost:8080/api/funding", formData, {
+            const response = await axios.post(`${url}/api/funding`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
