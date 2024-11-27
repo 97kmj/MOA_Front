@@ -9,7 +9,7 @@ const FundingDetail = () => {
     // const fundingId = useParams();
     // const { fundingId } = useParams();
     const navigate = useNavigate();
-    const fundingId = 19;
+    const fundingId = 1;
     const [fundingDetail, setFundingDetail] = useState(null);
     const [selectedRewards, setSelectedRewards] = useState([]);
     const lastSelectedRewardRef = useRef(null);

@@ -3,7 +3,10 @@ import { useState,useEffect, useRef } from "react";
 import styles from "../../css/admin/AdminNotice.module.css";
 import axios from "axios"
 import {url} from "../../config.js"
+import { userAtom,tokenAtom } from "../../atoms.js";
+import { useAtomValue } from "jotai";
 const AdminNotice = () => {
+    const token = useAtomValue(tokenAtom);
     const [noticeList, setNoticeList] = useState([]);
     const [notice,setNotice] = useState({});
     const [selectedNoticeId, setSelectedNoticeId] = useState(null); // 선택된 공지사항 ID
@@ -17,7 +20,7 @@ const AdminNotice = () => {
     
 
     useEffect(()=>{
-        axios.get(`${url}/adminNotice`)
+        axios.get(`${url}/adminNotice`,{headers:{Authorization:token}})
             .then(res => {
                 if (res.data.length>0){
                     const newnoticeList = res.data;

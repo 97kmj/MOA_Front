@@ -6,7 +6,7 @@ const AdminItem = () => {
         <div className={styles.container}>
             <AdminSidebar/>
             <div className={styles.itemList}>
-                <h4>작가 신청 목록</h4>
+                <h4>상품 주문 목록</h4>
                 <div className={styles.tableBox}>
                 <table>
                     <thead>
