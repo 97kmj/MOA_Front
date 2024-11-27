@@ -86,7 +86,7 @@ function AppRouter() {
 
             {/*펀딩*/}
             <Route path="/fundings" element={<FundingList />} />
-            <Route path="/fundings/:id" element={<FundingDetail />} />
+            <Route path="/fundings/:fundingId" element={<FundingDetail />} />
             <Route path="/fundings/contributions" element={<FundingContribute />} />
 
 

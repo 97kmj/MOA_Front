@@ -7,9 +7,10 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
 
 const FundingDetail = () => {
+    const { fundingId } = useParams();
+    console.log("Funding ID:", fundingId);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-    const fundingId = 1;
     const [fundingDetail, setFundingDetail] = useState(null);
     const [selectedRewards, setSelectedRewards] = useState([]);
     const lastSelectedRewardRef = useRef(null);
