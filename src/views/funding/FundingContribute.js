@@ -5,6 +5,7 @@ import axios from "axios";
 import {userAtom} from "../../atoms";
 import {useAtom} from "jotai/react";
 import {useLocation} from "react-router-dom";
+import {url} from "../../config";
 
 const FundingContribute = () => {
     const [user] = useAtom(userAtom);
@@ -41,7 +42,6 @@ const FundingContribute = () => {
             0
         ); // 선택한 리워드의 총 금액 계산
 
-        console.log("Shipping Info before request:", shippingInfo);
 
         // 백엔드에 전달할 데이터
         const requestData = {
@@ -62,7 +62,7 @@ const FundingContribute = () => {
 
         try {
             // Step 1: 결제 금액 사전등록 요청
-            const prepareResponse = await axios.post("http://localhost:8080/api/funding/payment/prepare", {
+            const prepareResponse = await axios.post(`${url}/api/funding/payment/prepare`, {
                 merchant_uid: merchantUid,
                 amount: paymentAmount,
             });
@@ -76,7 +76,7 @@ const FundingContribute = () => {
 
                 const paymentData = {
                     pg: "html5_inicis", // PG사 선택
-                    pay_method: "card", // 결제수단
+                    pay_method: "", // 결제수단
                     merchant_uid: merchantUid, // 주문번호
                     name: "펀딩 결제", // 결제명
                     amount: paymentAmount, // 결제 금액
@@ -95,16 +95,16 @@ const FundingContribute = () => {
                     if (rsp.success) {
                         console.log("결제 성공:", rsp);
 
-                        // 업데이트된 impUid를 requestData에 저장
+                        // 업데이트된 impUid와 paymentType을 requestData에 저장
                         requestData.impUid = rsp.imp_uid;
+                        requestData.paymentType = rsp.pay_method.toUpperCase();
 
-                        // Step 3: 백엔드 검증 요청
+                        // Step 3: 백엔드 DB에 결제 정보 저장
                         try {
-                            const response = await axios.post("http://localhost:8080/api/funding/payment", requestData);
+                            const response = await axios.post(`${url}/api/funding/payment`, requestData);
 
                             if (response.status === 200) {
                                 alert("결제가 성공적으로 완료되었습니다!");
-                                console.log("백엔드 검증 완료:", response.data);
                             } else {
                                 alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
                                 console.error("백엔드 검증 실패:", response.data);

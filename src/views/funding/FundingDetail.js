@@ -4,10 +4,10 @@ import Header from "../Header";
 import MasonryGallery from "./MasonryGallery";
 import axios from "axios";
 import {useNavigate, useParams} from 'react-router-dom';
+import {url} from "../../config";
 
 const FundingDetail = () => {
-    // const fundingId = useParams();
-    // const { fundingId } = useParams();
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const fundingId = 1;
     const [fundingDetail, setFundingDetail] = useState(null);
@@ -19,20 +19,34 @@ const FundingDetail = () => {
         rewardSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    useEffect(() => {
-        const getFundingDetail = async () => {
-            try {
-                const response = await axios.get(` http://localhost:8080/api/funding/${fundingId}`);
-                setFundingDetail(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error("Failed to fetch funding detail:", error);
-                alert("펀딩 정보를 불러오는데 실패했습니다.");
-            }
-        };
+    const getFundingDetail = async () => {
+        try {
+            const response = await axios.get(`${url}/api/funding/${fundingId}`);
+            setFundingDetail(response.data);
+        } catch (error) {
+            console.error("Failed to fetch funding detail:", error);
+            alert("펀딩 정보를 불러오는데 실패했습니다.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         getFundingDetail();
-    }, [fundingId]);
+    }, []);
+
+
+
+    useEffect(() => {
+        if (lastSelectedRewardRef.current) {
+            lastSelectedRewardRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }
+    }, [selectedRewards]);
+
+
 
     const addRewardToSelection = (reward) => {
         const existingReward = selectedRewards.find((r) => r.rewardId === reward.rewardId);
@@ -73,18 +87,6 @@ const FundingDetail = () => {
         return sum + reward.rewardPrice * reward.quantity;
     }, 0);
 
-    useEffect(() => {
-        if (lastSelectedRewardRef.current) {
-            lastSelectedRewardRef.current.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-            });
-        }
-    }, [selectedRewards]);
-
-    if (!fundingDetail) {
-        return <div>Loading...</div>;
-    }
 
 
     const goToContribute = (fundingId) => {
@@ -95,13 +97,40 @@ const FundingDetail = () => {
         });
     };
 
-    //펀딩 버튼 누르면 리워드로 선택으로 이동
 
-    if (!fundingDetail) {
-        return <div>Loading...</div>; // 데이터 로딩 중인 상태
+
+
+
+    if (isLoading) {
+        return (
+            <>
+                <Header />
+                <div className={styles.fundingDetailOutForm}>
+                    <div className={styles.fundingDetail}>
+                        <div className={styles.fundingHeader}>
+                            <div className={styles.imageCard}>
+                                <div
+                                    style={{
+                                        width: "100%",
+                                        height: "300px",
+                                        backgroundColor: "#e0e0e0",
+                                    }}
+                                />
+                            </div>
+                            <div className={styles.fundingInfo}>
+                                <h3>Loading...</h3>
+                                <p>
+                                    <strong>작가:</strong> 로딩 중...
+                                </p>
+                                <h4>모인 금액</h4>
+                                <p>로딩 중...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
     }
-
-
 
     return (
         <>
@@ -118,7 +147,7 @@ const FundingDetail = () => {
                     <div className={styles.fundingHeader}>
                         <div className={styles.imageCard}>
                             <img
-                                src={fundingDetail.fundingMainImageUrl}
+                                src={fundingDetail.fundingMainImageUrl || "placeholder.jpg"}
                                 alt="펀딩 이미지"
                                 className={styles.mainImage}
                             />
@@ -134,8 +163,8 @@ const FundingDetail = () => {
                             <p>
                                 {fundingDetail.totalAmount.toLocaleString()}원{" "}
                                 <span className={styles.fundingDetailProgress}>
-                  {((fundingDetail.totalAmount / fundingDetail.goalAmount) * 100).toFixed(2)}% 달성
-                </span>{" "}
+                                    {((fundingDetail.totalAmount / fundingDetail.goalAmount) * 100).toFixed(2)}% 달성
+                                </span>{" "}
                                 {Math.ceil(
                                     (new Date(fundingDetail.endDate) - new Date()) / (1000 * 60 * 60 * 24)
                                 )}{" "}
@@ -161,17 +190,16 @@ const FundingDetail = () => {
                             <h4>프로젝트 계획</h4>
                             <button className={styles.showArtworks}>작품 모아보기</button>
                             <div className={styles.projectDetails}>
-                                {/* introduction 추가 */}
                                 <p>{fundingDetail.introduction}</p>
-                                <MasonryGallery images={fundingDetail.images.map((image) => image.imageUrl)}/>
+                                <MasonryGallery
+                                    images={fundingDetail.images.map((image) => image.imageUrl)}
+                                />
                             </div>
                         </div>
-
 
                         <div className={styles.rewardSelection} ref={rewardSectionRef}>
                             <h4>리워드 선택</h4>
 
-                            {/* 선택된 리워드 리스트 */}
                             {selectedRewards.map((reward, index) => (
                                 <div
                                     key={reward.rewardId}
@@ -192,8 +220,7 @@ const FundingDetail = () => {
                                         <button onClick={() => changeSelectedRewardQuantity(reward.rewardId, -1)}>
                                             -
                                         </button>
-                                        <input type="text" value={reward.rewardQuantity}
-                                               readOnly/> {/* rewardQuantity로 변경 */}
+                                        <input type="text" value={reward.rewardQuantity} readOnly />
                                         <button onClick={() => changeSelectedRewardQuantity(reward.rewardId, 1)}>
                                             +
                                         </button>
@@ -204,7 +231,6 @@ const FundingDetail = () => {
                                 </div>
                             ))}
 
-                            {/* 총 금액 표시와 후원하기 버튼 */}
                             {selectedRewards.length > 0 && (
                                 <div className={styles.totalSupport}>
                                     <button
@@ -223,7 +249,6 @@ const FundingDetail = () => {
                                 </div>
                             )}
 
-                            {/* 리워드 목록 */}
                             <div className={styles.rewardList}>
                                 {fundingDetail.rewards.map((reward) => (
                                     <div
@@ -233,9 +258,7 @@ const FundingDetail = () => {
                                     >
                                         <div className={styles.rewardHeader}>
                                             <h5>{reward.rewardName}</h5>
-                                            <span className={styles.rewardLeft}>
-                        남음: {reward.stock}개
-                    </span>
+                                            <span className={styles.rewardLeft}>남음: {reward.stock}개</span>
                                         </div>
                                         <p className={styles.rewardDescription}>{reward.rewardDescription}</p>
                                     </div>
