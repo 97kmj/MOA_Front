@@ -2,7 +2,6 @@ import React, { useState,useEffect } from 'react';
 import styles from '../../css/shop/ArtSaleList.module.css';
 import Header from "../Header";
 import { useNavigate } from 'react-router';
-import { Button } from 'reactstrap';
 import { url } from "../../config";
 import axios from 'axios';
 
@@ -17,6 +16,7 @@ const SaleList = () => {
     const [categoryName, setCategoryName] = useState(""); //카테고리 name
     const [typeId, setTypesId] = useState("");  // 타입 이름 넣어야함
     const [subjectId, setSubjectId] = useState(""); // 서브젝트 이름넣어야함
+    const [saleStatus, setSaleStatus] = useState(""); // 판매상태
   
 
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
@@ -30,29 +30,27 @@ const SaleList = () => {
       // 더보기 버튼 클릭 시
     const loadMore = () => setVisibleCount((prev) => prev + 8);
 
-    const artworkLists= ()=> {
+    useEffect(() => {
 
         const queryParams = new URLSearchParams({
             ...(categoryName && {categoryName: categoryName}),
             ...(subjectId && {subjectId : subjectId}),
             ...(typeId && {typeId : typeId}),
             ...(searchKeyword && {searchKeyword : searchKeyword}),
+            ...(saleStatus && {saleStatus : saleStatus}),
             page: 0,
             size: visibleCount,
         }).toString();
         
         const page = 0;
         
-        // const listUrl = `${url}/shop/saleList?category=${categoryName}&type=${typeId}&subject=${subjectId}&keyword=${searchKeyword}&page=${page}&size=${visibleCount}`;
-        const listUrl = `${url}/shop/saleList?${queryParams}`
-        
+         const listUrl = `${url}/shop/saleList?${queryParams}`
         axios.get(listUrl)
             .then(res =>{
               
                
                 if(res.data == 0){
-                    //  alert("찾으시는 검색조건이 없습니다.")
-                     setArtworks([]);
+                    setArtworks([]);
 
                 }else{
                     setArtworks(res.data);
@@ -64,10 +62,7 @@ const SaleList = () => {
     
             });
             
-    } 
-    useEffect(() => {
-        artworkLists();
-    }, [categoryName, typeId, subjectId, searchKeyword,visibleCount]); // 모든 필터값 변경시마다 호출
+    }, [categoryName, typeId, subjectId, searchKeyword, saleStatus, visibleCount]); // 모든 필터값 변경시마다 호출
 
 
 
@@ -127,7 +122,17 @@ const SaleList = () => {
 
     const handleSearchKeyword = (e) =>{
         setSearchKeyword(e.target.value);
+
     }
+    const handleSaleStatus =(e) =>{
+        if (e.target.value === "ALL"){
+            setSaleStatus("");
+        }else{
+            setSaleStatus(e.target.value);
+        }
+    }
+
+
 
     return (
         <>
@@ -188,15 +193,17 @@ const SaleList = () => {
                             className={styles.searchInput}
                         />
                        
-                        <button className={styles.searchButton} onChange={artworkLists} >
+                        <button className={styles.searchButton} >
                             <img src='/img/search.png' />
                             
 
                         </button>
                     </div>
 
-                    <select className={styles.filter}>
-                        <option>최신순</option>
+                    <select className={styles.filter} onChange={handleSaleStatus}>
+                        <option value="ALL">전체보기</option>
+                        <option value="AVAILABLE" >판매 작품</option>
+                        <option value="SOLD_OUT">판매된  작품</option>
                     </select>
                 </div>
 
@@ -221,7 +228,6 @@ const SaleList = () => {
             </div>
             <div className={styles.seemore} onClick={loadMore}>
                 <button>
-                    더보기
                     <img className={styles.seemore} src="/img/seemore.png"/>
                 </button>
             </div>  
