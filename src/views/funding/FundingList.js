@@ -184,7 +184,9 @@ const FundingList = () => {
                                             <div className={styles.progressBar}>
                                                 <div
                                                     className={styles.fundingListProgressBar}
-                                                    style={{width: calculateProgressStep(funding.achievementRate || 0)}}
+                                                    style={{
+                                                        width: `${Math.min(funding.achievementRate || 0, 100)}%`, // 달성률로 게이지바 설정
+                                                    }}
                                                 ></div>
                                             </div>
                                         </div>
