@@ -1,6 +1,96 @@
 import AdminSidebar from "./AdminSidebar";
 import styles from "../../css/admin/AdminFunding.module.css"
+import { tokenAtom } from "../../atoms";
+import { useAtomValue } from "jotai";
+import axios from "axios";
+import { url } from "../../config";
+import { useState, useEffect } from "react";
 const AdminFunding = () => {
+    const token = useAtomValue(tokenAtom);
+    const [applyList, setApplyList] = useState([]);
+    const [selectedFunding ,setSelectedFunding] = useState({});
+    useEffect(()=>{
+        axios.get(`${url}/adminFundings`,{
+            headers :{
+                Authorization : `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                console.log(res.data);
+                setApplyList(res.data);
+                setSelectedFunding(res.data[0]);
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+    },[])
+
+    const safeDate = (dateString) => {
+        const date = new Date(dateString);
+        return isNaN(date.getTime()) ? "  " : date.toISOString().slice(0, 10);
+    };
+
+    const selectFunding = (fundingItem) => () => {
+        setSelectedFunding(fundingItem);
+    }
+
+    const approve = () => {
+        axios.post(`${url}/approveFunding`,{fundingId:selectedFunding.fundingId}, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if(res.data===true) {
+                const updateList = applyList.filter(
+                    (funding) => funding.fundingId !== selectedFunding.fundingId
+                );
+                setApplyList(updateList);
+                //새로운 펀딩 설정 
+                if (updateList.length > 0) {
+                    setSelectedFunding(updateList[0]);
+                } else {
+                    setSelectedFunding({})
+                }
+                alert("승인되었습니다.")
+            } else {
+                alert("펀딩 승인 오류 발생")
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const reject = () => {
+        axios.post(`${url}/rejectFunding`,{fundingId:selectedFunding.fundingId}, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if(res.data===true) {
+                const updateList = applyList.filter(
+                    (funding) => funding.fundingId !== selectedFunding.fundingId
+                );
+                setApplyList(updateList);
+                //새로운 펀딩 설정 
+                if (updateList.length > 0) {
+                    setSelectedFunding(updateList[0]);
+                } else {
+                    setSelectedFunding({})
+                }
+                alert("반려되었습니다.")
+            } else {
+                alert("펀딩 반려 오류 발생")
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    }
+
     return(
         <>
         <div className={styles.container}>
@@ -12,70 +102,84 @@ const AdminFunding = () => {
                         <tr><th>이름</th><th>아이디</th><th>신청일</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>홍길동</td><td>hong1234</td><td>2024-10-10</td></tr>
+                        {   applyList.length>0 ? (
+                            applyList.map((fundingItem) => (
+                                <tr 
+                                key={fundingItem.fundingId} 
+                                className={`${styles.fundingItem} ${
+                                    selectedFunding?.fundingId === fundingItem.fundingId? styles.selectedFunding : ""
+                                }`}
+                                onClick={selectFunding(fundingItem)}>
+                                    <td>{fundingItem.fundingUserName}</td><td>{fundingItem.username}</td><td>{safeDate(fundingItem.applicationDate)}</td>
+                                </tr>
+                            ))
+                            ) : (
+                                <>
+                                <br></br>
+                                <tr><td colSpan={3}>펀딩 신청 목록이 없습니다.</td></tr>
+                                </>
+                            ) 
+                        }
+
                     </tbody>
                 </table>
             </div>
             <div className={styles.regDetail}>
-                <h3>펀딩 신청 정보</h3><br/>
-                <div style={{display:"flex",margin:"20px",justifyContent:"space-between"}}>
+                <h4>펀딩 신청 정보</h4><br/>
+                <div style={{display:"flex",marginBottom:"20px",justifyContent:"space-between"}}>
                     <div className={styles.detailLeftBox}>
-                    <h5>목표금액</h5>
-                    <input className={styles.goalAmount}></input>
-                    <h5>펀딩 기간</h5>
+                    <div className={styles.optionText}>목표금액</div>
+                    <span className={styles.gold}>{selectedFunding?.goalAmount ? selectedFunding.goalAmount.toLocaleString(): 0}</span>원
+                    
+                    <div className={styles.optionText}>펀딩 기간</div>
                     <table className={styles.fundingPeriod}>
                         <tr><th>시작일</th><th>종료일</th></tr>
-                        <tr><td>2024-10-20</td><td>2024-11-30</td></tr>
+                        <tr><td>{selectedFunding.startDate ? selectedFunding.startDate.toISOString().slice(0, 10) : " "}&nbsp;</td><td>{selectedFunding.endDate ? selectedFunding.endDate.toISOString().slice(0, 10) : " "}&nbsp;</td></tr>
                     </table>
-                    <h5>리워드 목록</h5>
-                    
-                    <div className={styles.rewardListContainer}>
-                        <table className={styles.rewardList}>
-                            <tbody>
-                            <tr>
-                                <td className={styles.gold}>리워드없는 후원</td>
-                                <td>리워드없는 후원</td>
-                                <td className={styles.gold}>0&#8361;</td>
-                                <td>1개</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.gold}>리워드없는 후원</td>
-                                <td>리워드없는 후원</td>
-                                <td className={styles.gold}>0&#8361;</td>
-                                <td>1개</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.gold}>리워드없는 후원</td>
-                                <td>리워드없는 후원</td>
-                                <td className={styles.gold}>0&#8361;</td>
-                                <td>1개</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.gold}>리워드없는 후원</td>
-                                <td>리워드없는 후원</td>
-                                <td className={styles.gold}>0&#8361;</td>
-                                <td>1개</td>
-                            </tr>
-                            
-                            </tbody>
-                        </table>
-                    </div>
+                    <div className={styles.optionText}>펀딩 소개</div>
+                        <textarea className={styles.fundingDescription} value={selectedFunding.introduction}></textarea>
+                   
                     
                     </div>
                     <div className={styles.detailRightBox}>
-                        <h5>펀딩 소개</h5>
-                        <textarea></textarea>
-                        <h5>작품 사진</h5>
+                        <div className={styles.optionText}>리워드 목록</div>
+                        <div className={styles.rewardListContainer}>
+                            <table className={styles.rewardList}>
+                                <tr><th>리워드 이름</th><th>설명</th><th>가격</th><th>수량</th><th>수량제한</th></tr>
+                                <tbody>
+                                    
+                                {   selectedFunding.rewardList && 
+                                    selectedFunding.rewardList.map((reward) => (
+                                        <tr>
+                                            <td className={styles.gold}>{reward.name}</td>
+                                            <td>{reward.description}</td>
+                                            <td className={styles.gold}>{reward.price ? reward.price.toLocaleString():0}&#8361;</td>
+                                            <td>{reward.quantity ? reward.quantity.toLocaleString(): 0 }</td>
+                                            <td>{reward.isQuantityLimited? reward.limitPerPerson:'X'}</td>
+                                        </tr>
+                                    )) 
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                        {/* <div className={styles.optionText}>펀딩 소개</div>
+                        <textarea className={styles.fundingDescription}></textarea> */}
+                        <div className={styles.optionText}>작품 사진</div>
                         <div className={styles.imglist}>
-
+                            {
+                                selectedFunding.imageUrlList && 
+                                selectedFunding.imageUrlList.map((image)=> (
+                                    <img className={styles.fundingImage} src={image} />
+                                ))
+                            }
                         </div>
                         
                     </div>
 
                 </div>
                 <div className={styles.buttonDiv}>
-                    <button className={styles.goldbutton}>펀딩 승인</button>
-                    <button className={styles.goldbutton}>펀딩 반려</button>
+                    <button className={styles.goldbutton} onClick={approve}>펀딩 승인</button>
+                    <button className={styles.goldbutton} onClick={reject}>펀딩 반려</button>
                 </div>
             </div>
         </div>

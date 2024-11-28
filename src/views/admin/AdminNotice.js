@@ -20,7 +20,12 @@ const AdminNotice = () => {
     
 
     useEffect(()=>{
-        axios.get(`${url}/adminNotice`,{headers:{Authorization:token}})
+        axios.get(`${url}/adminNotice`,{
+            headers:
+            {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => {
                 if (res.data.length>0){
                     const newnoticeList = res.data;
@@ -35,7 +40,7 @@ const AdminNotice = () => {
             .catch (err => {
                 console.log(err);
             })
-    },[])
+    },[token])
     
     const selectNotice =(index) => () => {
        setNotice(noticeList[index]);

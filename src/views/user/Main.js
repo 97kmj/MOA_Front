@@ -18,14 +18,7 @@ const Main = () => {
     }, [token, navigate]);
     return(
         <>
-        {/* 사용자 정보 표시 */}
-        <div className={styles.userInfo}>
-                    <h3>안녕하세요, {user.username || "회원"}님!</h3>
-                    <p>이름: {user.name}</p>
-                    <p>이메일: {user.email}</p>
-                    <p>주소: {user.address}</p>
-                    <p>ROLE: {user.role}</p>
-                </div>
+        
         <Header/>
         <div className={styles.container}>
             <div className={styles.banner}>
@@ -84,7 +77,7 @@ const Main = () => {
                         <div className={styles.fundingTitle}>암실 기획전</div>
                         <div className={styles.fundingAmount}><span className={styles.gold}>47% 달성</span>&nbsp;&nbsp;&nbsp;236,000원<span style={{float:"right"}}>17일 남음</span></div>
                         <div className={styles.progressbar}>
-                            <span style={{width:"47%"}}></span>
+                            <span style={{width:"25%"}}></span>
                         </div>
                     </div>
                 </article>

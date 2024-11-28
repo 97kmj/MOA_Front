@@ -11,7 +11,11 @@ const AdminArtist = () => {
     const [selectedArtistInfo, setSelectedArtistInfo] = useState({})
     const token = useAtomValue(tokenAtom);
     useEffect(()=>{
-        axios.get(`${url}/adminApplyArtists`)
+        axios.get(`${url}/adminApplyArtists`, {
+             headers : {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res=>{
                 if(res.data.length > 0) {
                     setRegistList(res.data);
@@ -54,7 +58,7 @@ const AdminArtist = () => {
         axios.post(`${url}/approveArtist`, {username:selectedArtistInfo.username},
             { headers : {
                 "Content-Type": "application/json",
-                Authorization: token
+                Authorization: `Bearer ${token}`
                 }
             }
         )
@@ -86,7 +90,7 @@ const AdminArtist = () => {
         axios.post(`${url}/rejectArtist`,{username:selectedArtistInfo.username}, {
             headers : {
                 "Content-Type": "application/json",
-                Authorization: token
+                Authorization: `Bearer ${token}`
             }
         })
         .then(res => {
@@ -141,7 +145,7 @@ const AdminArtist = () => {
 
                             ))
                             ) : (
-                                <div>신청한 회원이 없습니다.</div>
+                                <tr><td colSpan={3}>신청한 회원이 없습니다.</td></tr>
                             )
                             
                         }

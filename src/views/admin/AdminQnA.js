@@ -3,8 +3,10 @@ import styles from "../../css/admin/AdminQnA.module.css";
 import {useState, useEffect} from "react";
 import axios from "axios";
 import {url} from "../../config.js"
-
+import { tokenAtom } from "../../atoms.js";
+import { useAtomValue } from "jotai";
 const AdminQnA = () => {
+    const token = useAtomValue(tokenAtom);
     const [notAnswerQuestions,setNotAnswerQuestions] = useState([]);
     const [answeredQuestions, setAnsweredQuestions] = useState([]); 
     const [searchPeriod, setSearchPeriod] = useState({startDate:'',endDate:''}); // 답변완료질문 기간 범위 
@@ -30,11 +32,14 @@ const AdminQnA = () => {
         if (searchPeriod.startDate && searchPeriod.endDate) {
             console.log(searchPeriod); // 상태 업데이트 후 확인
             axios.get(`${url}/adminQnA`, {
-                    params: {
-                        startDate: searchPeriod.startDate,
-                        endDate: searchPeriod.endDate
-                    }
-                })
+                params: {
+                    startDate: searchPeriod.startDate,
+                    endDate: searchPeriod.endDate,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
                 .then(res => {
                     setNotAnswerQuestions(res.data.notAnswerQuestions);
                     setAnsweredQuestions(res.data.answeredQuestions);
