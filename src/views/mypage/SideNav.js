@@ -1,7 +1,11 @@
 import React from 'react';
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../atoms";
 import styles from '../../css/mypage/SideNav.module.css';
 
 const SideNav = () => {
+  const user = useAtomValue(userAtom); // 사용자 정보 가져오기
+  const isArtist = user.role === 'ARTIST'; // Role이 ARTIST인지 확인
   return (
     <div className={styles.snbArea}>
       <h2 className={styles.snbMainTitle}>마이 페이지</h2>
@@ -16,8 +20,10 @@ const SideNav = () => {
           <ul className={styles.snbMenu}>
             <li className={styles.menuItem}><a href="/mypage/fundings/contributed" className={styles.menuLink}>후원한 펀딩 조회</a></li>
             <li className={styles.menuItem}><a href="/mypage/fundings/uploaded" className={styles.menuLink}>올린 펀딩 조회</a></li>
-            <li className={styles.menuItem}><a href="/salesPosts" className={styles.menuLink}>판매글 조회</a></li>
-          </ul>
+            {isArtist && (
+              <li className={styles.menuItem}><a href="/salesPosts" className={styles.menuLink}>판매글 조회</a></li>
+            )}         
+            </ul>
         </div>
 
         <div className={styles.snbList}>
@@ -30,8 +36,10 @@ const SideNav = () => {
           <ul className={styles.snbMenu}>
             <li className={styles.menuItem}><a href="/purchaseList" className={styles.menuLink}>구매목록</a></li>
             <li className={styles.menuItem}><a href="/cartList" className={styles.menuLink}>장바구니 목록</a></li>
-            <li className={styles.menuItem}><a href="/myWorksList" className={styles.menuLink}>등록작품 목록</a></li>
-          </ul>
+            {isArtist && (
+              <li className={styles.menuItem}><a href="/myWorksList" className={styles.menuLink}>등록작품 목록</a></li>
+            )}         
+            </ul>
         </div>
 
         <div className={styles.snbList}>
@@ -45,7 +53,9 @@ const SideNav = () => {
           <ul className={styles.snbMenu}>
             <li className={styles.menuItem}><a href="/editInfo" className={styles.menuLink}>내 정보수정</a></li>
             <li className={styles.menuItem}><a href="/mypage/artistRegist" className={styles.menuLink}>작가 등록신청</a></li>
-            <li className={styles.menuItem}><a href="/mypage/artistEdit" className={styles.menuLink}>작가 정보수정</a></li>
+            {isArtist && (
+              <li className={styles.menuItem}><a href="/mypage/artistEdit" className={styles.menuLink}>작가 정보수정</a></li>
+            )}           
             <li className={styles.menuItem}><a href="/messages" className={styles.menuLink}>쪽지함</a></li>
             <li className={styles.menuItem}><a href="/gallery/myGallery" className={styles.menuLink}>나만의 갤러리</a></li>
             <li className={styles.menuItem}><a href="/mypage/qna" className={styles.menuLink}>1대1 문의함</a></li>
