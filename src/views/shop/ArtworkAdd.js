@@ -4,11 +4,18 @@ import { React, useState, useEffect, useRef } from 'react'
 import Header from '../Header';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { tokenAtom } from '../../atoms';
-import { useAtomValue } from 'jotai/react';
+import { tokenAtom, userAtom } from '../../atoms';
+import { useAtomValue, useAtom } from 'jotai/react';
 import { url } from "../../config";
+
+
+
+
+
 const Artwork = () => {
     const token = useAtomValue(tokenAtom);
+    // const [user,setUser] = useAtom(userAtom);
+    const user = useAtomValue(userAtom);
     const [category, setCategory] = useState([]);
     const [types, setTypes] = useState([]);
     const [themes, setThemes] = useState([]);
@@ -20,7 +27,7 @@ const Artwork = () => {
     const [artwork, setArtwork] = useState({
         canvasType: 'A', description: '', height: '',
         isStandaedcanvas: '', length: '', price: '', stock: '', saleStatus: '',
-        termsAccepted: '', title: '', width: '', canvasId: 0, categoryId: 0, subjectId: 0, typeId: 0, artistId: 'user1'
+        termsAccepted: '', title: '', width: '', canvasId: 0, categoryId: 0, subjectId: 0, typeId: 0, artistId: user.userName
     });
 
     const navigate = useNavigate();
@@ -33,22 +40,14 @@ const Artwork = () => {
     useEffect(() => {
         axios.get(`${url}/shop/artworkAdd`)
             .then(res => {
-                console.log(res.data);
+                
                 setCategory(res.data);  
             })
             .catch(error => {
                 console.error("카테고리 불러오기 오류", error);
             });
 
-        axios.get(`${url}/shop/artworkAdd/canvas`)
-            .then(canvas =>{
-                console.log(canvas.data);
-                setCanvas(canvas.data);
 
-            })
-            .catch(error=>{
-                console.error("캔버스 불러오기 오류", error);
-            });
         
     },[]);
 
@@ -70,7 +69,19 @@ const Artwork = () => {
                     console.error("주제 데이터 불러오기 오류", error);
                 });
         }
-    }, [artwork.categoryId]);
+        if(artwork.canvasType){
+            axios.get(`${url}/shop/artworkAdd/canvas/${artwork.canvasType}`)
+            .then(canvas =>{
+                setCanvas(canvas.data);
+            })
+            .catch(error=>{
+                console.error("캔버스 불러오기 오류", error);
+                setCanvas([]);
+            });
+        }
+
+        
+    }, [artwork.categoryId, artwork.canvasType]);
 
 
     const handleCategoryChange = (e) => {
@@ -83,10 +94,14 @@ const Artwork = () => {
         console.log(e.target.value)
     };
     const handleCanvasChange = (e) => {
+        
+        const selectCanvas = canvas.find(item => item.canvasId === Number(e.target.value));
+        console.log(selectCanvas);
         setArtwork(prev => ({
             ...prev,
-            canvasId: e.target.value,
-
+            canvasId: selectCanvas.canvasId,
+            height: selectCanvas.height,
+            width : selectCanvas.width
         }));
     };
     const handleTypeChange = (e) => {
@@ -113,7 +128,7 @@ const Artwork = () => {
         if(!value){
             setArtwork(perv =>({
                 ...perv,
-                canvasType: '',  
+                canvasType: 'A',  
                 canvasId: '',   
                 width: '',       
                 length: '',      
@@ -152,7 +167,7 @@ const Artwork = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('artworkDto', new Blob([JSON.stringify({
-        canvasType:artwork.canvasType,
+        canvasType:artwork.canvasType !== "A" ? artwork.canvasType : "NONE" ,
         description:artwork.description,
         height:artwork.height,
         isStandardCanvas: artwork.isStandaedcanvas,
@@ -167,7 +182,8 @@ const Artwork = () => {
         categoryId:artwork.categoryId,
         subjectId:artwork.subjectId,
         typeId:artwork.typeId,
-        artistId:"user1",
+        artistId:user.username,
+
         })], { type: "application/json" }));
         formData.append('artworkImage',imgPath);
 
@@ -314,7 +330,7 @@ const Artwork = () => {
                                     <select disabled={!isCanvasAvailable} 
                                         id='canvasId' 
                                         name='canvasId'
-                                        value={artwork.canvasId}
+                                        
                                         onChange={handleCanvasChange}>
                                             <option value="">호수선택</option>
                                             {canvas.map((canvasItem)=>(
@@ -327,12 +343,12 @@ const Artwork = () => {
                                 </td>
                             </tr>
                             <tr><td className={styles.artworkInfotdTitle}>가로</td>
-                            <td><input className={styles.artworkInfocontent} checked={isCanvasAvailable === false}disabled={isCanvasAvailable} id='width' name='width' onChange={edit}/></td>
+                            <td><input className={styles.artworkInfocontent} checked={isCanvasAvailable === false}disabled={isCanvasAvailable} id='width' name='width' onChange={edit} value={artwork.width}/></td>
                             <td className={styles.artworkInfotdTitle}>세로</td>
-                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='lenth' name='lenth' onChange={edit}/></td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='height' name='height' onChange={edit} value={artwork.height}/></td>
                             </tr>
                             <tr><td className={styles.artworkInfotdTitle}>높이</td>
-                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='height' name='height' onChange={edit}/></td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='length' name='length' onChange={edit}/></td>
                             <td></td><td></td>
                             </tr>  
                             <tr><td className={styles.artworkInfotdTitle} >판매 여부</td>
