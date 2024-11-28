@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
 
+import { Gallery as GridGallery } from "react-grid-gallery";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+
 // Type과 Category의 옵션 매핑
 const OPTIONS = {
   그림: {
@@ -96,23 +100,22 @@ const Dropdown = ({ label, options, onChange,selectedValue }) => {
 const Gallery = () => {
   const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
   const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
-  const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
-  const [currentIndex, setCurrentIndex] = useState(0); // 갤러리 모드에서 중심 이미지 인덱스
-  const [slideDirection, setSlideDirection] = useState(""); // 갤러리 모드 슬라이드 방향
-  
+  const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수  
   const [filters, setFilters] = useState({
     subject: "",
     type: "",
     category: "",
   }); // 필터 상태
 
+  const [search, setSearch] = useState(""); // 검색어 상태
+  const [lightboxIndex, setLightboxIndex] = useState(-1); // Lightbox 상태
+  
   const navigate = useNavigate();
 
   
   // Type과 Category 옵션 상태
   const [typeOptions, setTypeOptions] = useState([]);
   const [subjectOptions, setSubjectOptions] = useState([]);
-  const [search, setSearch] = useState(""); // 검색어 상태
 
 
   // 카테고리 변경 시 Subject와 Type 업데이트
@@ -190,30 +193,51 @@ const handleFilterChange = (key, value) => {
     navigate(`/gallery/gallerydetail/${id}`);
   };
 
-  // 갤러리 모드: 이전 버튼
-  const handlePrev = () => {
-    setSlideDirection("left");
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev - 1 + artworks.length) % artworks.length);
-    }, 300);
-  };
+  // 데이터 로드
+  useEffect(() => {
+    const fetchArtworks = async () => {
+      try {
+        const queryParams = new URLSearchParams({
+          ...(filters.category && { category: filters.category }),
+          ...(filters.subject && { subject: filters.subject }),
+          ...(filters.type && { type: filters.type }),
+          ...(search && { search }),
+          page: 0,
+          size: visibleCount,
+        }).toString();
 
-  // 갤러리 모드: 다음 버튼
-  const handleNext = () => {
-    setSlideDirection("right");
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % artworks.length);
-    }, 300);
-  };
+        const response = await fetch(
+          `http://localhost:8080/api/artworks?${queryParams}`
+        );
+        const data = await response.json();
+        setArtworks(data.content || data || []);
+      } catch (error) {
+        console.error("Failed to fetch artworks:", error);
+      }
+    };
 
-  // 갤러리 모드에서 보이는 아이템 계산
-  const visibleItems = (() => {
-    const items = [];
-    for (let i = 0; i < 5; i++) {
-      items.push(artworks[(currentIndex + i) % artworks.length]);
-    }
-    return items;
-  })();
+    fetchArtworks();
+  }, [filters, search, visibleCount]);
+
+  // 갤러리 모드 이미지 데이터 변환
+  const galleryImages = artworks.map((artwork) => ({
+  src: artwork.imageUrl,
+  thumbnail: artwork.imageUrl,
+  thumbnailWidth: 320,
+  thumbnailHeight: 213,
+  caption: artwork.title,
+  }));
+
+  console.log("Gallery Images:", galleryImages);
+  console.log("GridGallery Data:", galleryImages);
+  console.log("Rendering GridGallery:", viewMode === "gallery");
+
+
+  const lightboxSlides = artworks.map((artwork) => ({
+  src: artwork.imageUrl,
+  width: 1600,
+  height: 1200,
+  }));
 
   return (
     <>
@@ -278,36 +302,28 @@ const handleFilterChange = (key, value) => {
           </div>
         </div>
 
+        {/* 갤러리 모드 */}
         {viewMode === "gallery" && (
           <div className={styles.galleryView}>
-            <button className={styles.arrowLeft} onClick={handlePrev}>
-              ◀
-            </button>
-            <div className={`${styles.galleryItems} ${styles[slideDirection]}`}>
-              {visibleItems.map((item, index) => (
-                <div
-                  key={item.artworkId}
-                  className={`${styles.galleryItem} ${
-                    index === 2 ? styles.centerItem : ""
-                  }`}
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className={styles.galleryImage}
-                  />
-                  <h2 className={styles.galleryTitle}>{item.title}</h2>
-                </div>
-              ))}
-            </div>
-            <button className={styles.arrowRight} onClick={handleNext}>
-              ▶
-            </button>
+            <GridGallery
+              images={galleryImages}
+              onClick={(index) => {
+                console.log("Image Clicked at Index:", index);
+                setLightboxIndex(index);
+              }}
+              enableImageSelection={false}
+            />
+            <Lightbox
+              slides={lightboxSlides}
+              open={lightboxIndex >= 0}
+              index={lightboxIndex}
+              close={() => setLightboxIndex(-1)}
+            />
           </div>
         )}
 
         {viewMode === "list" && (
-          <div className={styles.galleryGrid}>
+          <div className={styles.listgalleryGrid}>
             {Array.isArray(artworks) && artworks.map((artwork) => (
               <div
                 className={styles.card}
