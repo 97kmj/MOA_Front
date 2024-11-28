@@ -22,8 +22,10 @@ const Artwork = () => {
     const [imgPath, setImgPath] = useState(null);
     const [canvas, setCanvas] = useState([]);
     const [saleStatus, setSaleStatus] = useState(true);
-    const [isCanvasAvailable, setIsCanvasAvailable] = useState(true);
+    const [isCanvasAvailable, setIsCanvasAvailable] = useState(false);
+    const [isCanvasAvailableYn, setIsCanvasAvailableYn] = useState(false);
 
+   
     const [artwork, setArtwork] = useState({
         canvasType: 'A', description: '', height: '',
         isStandaedcanvas: '', length: '', price: '', stock: '', saleStatus: '',
@@ -85,13 +87,31 @@ const Artwork = () => {
 
 
     const handleCategoryChange = (e) => {
+        const selectedCatrgory = e.target.value;
         setArtwork(prev => ({
             ...prev,
-            categoryId: e.target.value,
+            categoryId: selectedCatrgory,
             typeId: '',  // 타입과 주제 초기화
             subjectId: ''
         }));
-        console.log(e.target.value)
+        // 카테고리가 그림일때
+        
+        if(selectedCatrgory ==='1'){
+            setIsCanvasAvailableYn(true);
+            setIsCanvasAvailable(true);
+
+        }else {
+            setIsCanvasAvailableYn(false);
+            setIsCanvasAvailable(false);
+            setArtwork(prev => ({
+                ...prev,
+                canvasType: 'A',  
+                canvasId: '',     
+                height: '',      
+                width: '',       
+                length: '',      
+            }));
+        }
     };
     const handleCanvasChange = (e) => {
         
@@ -117,6 +137,13 @@ const Artwork = () => {
             subjectId: e.target.value
         }));
     };
+    const checkbokChange =(e) =>{
+        setArtwork(prev => ({
+            ...prev,
+            termsAccepted: e.target.checked ? "true" : "false"
+        }));
+    }
+
 
     const handleImagePreview = (e) => {
         setImgPath(e.target.files[0]);
@@ -124,31 +151,33 @@ const Artwork = () => {
 
     const handleCanvasAvailabilityChange = (e) =>{
         const value = e.target.value === "ture";
-        setIsCanvasAvailable(value);
-        if(!value){
-            setArtwork(perv =>({
-                ...perv,
-                canvasType: 'A',  
-                canvasId: '',   
-                width: '',       
-                length: '',      
-                height: '',      
-            }));
-        }else{
-            setArtwork(prev => ({
-                ...prev,
-                width: '',       
-                length: '',      
-                height: ''       
-            }));
-        }
+        
+            setIsCanvasAvailable(value);
+            if(!value){
+                setArtwork(perv =>({
+                    ...perv,
+                    canvasType: 'A',  
+                    canvasId: '',   
+                    width: '',       
+                    length: '',      
+                    height: '',      
+                }));
+            }else{
+                setArtwork(prev => ({
+                    ...prev,
+                    width: '',       
+                    length: '',      
+                    height: ''       
+                }));
+            }
+
     };
 
 
     const handleSaleStatusChange  = (e) =>{
         const value = e.target.value ==="true";
         setSaleStatus(value);
-        alert(value)
+
         setArtwork(prev =>({
             ...prev,
             saleStatus: value ? "true" : "false",
@@ -185,8 +214,36 @@ const Artwork = () => {
         typeId:artwork.typeId,
         artistId:user.username,
 
+        
+
+
         })], { type: "application/json" }));
         formData.append('artworkImage',imgPath);
+
+
+      
+        if (artwork.termsAccepted !== "true"){
+            alert("판매자 동의를 체크해주세요.")
+            return;
+        } else if  (!artwork.categoryId || !artwork.typeId || !artwork.subjectId ){
+            alert("카테고리, 타입, 주제를 선택해주세요.")
+            return;
+        } else if ( !imgPath){
+            alert("이미지를 선택해주세요.")
+            return;
+        } else if (!artwork.height || !artwork.width){
+
+            alert("가로,세로를 선택해주세요.")
+            return;
+        } else if (!artwork.title || !artwork.description){
+
+            alert("제목, 작품설명을 기입해주세요.")
+            return;
+        }
+        
+
+
+
 
         axios.post(`${url}/shop/artworkAdd`, formData, {
             headers: {
@@ -214,8 +271,7 @@ const Artwork = () => {
                 <div className={styles.TermsofUseInfo}>
                     <div><b>약관안내</b></div>
                     <div><b>판매금의 10%는 플랫폼의 수수료 입니다.</b> </div>
-                    <div className={styles.TermsofUseInfoCheckbox} id='adminCheck' name='adminCheck'><Checkbox>&nbsp;개인정보 제 3자 제공 동의</Checkbox></div>
-                    <div className={styles.TermsofUseInfoCheckbox} id='termsAccepted' name='termsAccepted'><Checkbox>&nbsp;판매 정책 동의</Checkbox></div>
+                    <div className={styles.TermsofUseInfoCheckbox} id='termsAccepted' name='termsAccepted' onChange={checkbokChange}><Checkbox>&nbsp;판매 정책 동의</Checkbox></div>
                 </div>
                 <div className={styles.middleartwork}>
                     <div className={styles.artworkRegistDetail}>
@@ -296,6 +352,7 @@ const Artwork = () => {
                                             value="ture"
                                             checked={isCanvasAvailable === true}
                                             onChange={handleCanvasAvailabilityChange}
+                                            disabled={!isCanvasAvailableYn}
                                             />
                                         <label htmlFor="isStandaedcanvas">&nbsp;예</label>
                                     </div>
@@ -307,6 +364,7 @@ const Artwork = () => {
                                         value="false"
                                         checked={isCanvasAvailable === false}
                                         onChange={handleCanvasAvailabilityChange}
+                                        disabled={!isCanvasAvailableYn}
                                         />
                                     <label htmlFor="isStandaedcanvas">&nbsp;아니요</label>
                                     </div>

@@ -28,9 +28,20 @@ const SaleDetail = () => {
     const [selectedFrameButton, setSelectedFrameButton] = useState(0);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
     const [isLiked, setIsLiked] = useState(false);
+    // 좋아요 처리 
 
     const handleLikeButtonClick = () => {
+        
+        // axios.get(`${url}/shop/LikeCount`)
+        // .then(res=>{
+        //     setIsLiked(res.data);
+        // })
+        // .catch(error => {
+
+        // })
+
         setIsLiked((prev) => !prev); // 좋아요 상태 토글
+
       };
     
     //작품 데이터 가져오기
@@ -200,11 +211,17 @@ const SaleDetail = () => {
             
                 <div className={styles.topmiddle}>
                     <div className={styles.leftgoldheart} onClick={handleLikeButtonClick}>
-                        <img
-                            src={isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
-                            alt="좋아요"
-                            className={styles.likeIcon}
-                        />
+                        <div className={styles.likedposition}>
+                            <img
+                                src={isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
+                                alt="좋아요"
+                                className={styles.likeIcon}
+                           
+                            />
+                            <div className={styles.likedcount}>
+                                {saleDetail.likeCount}
+                            </div>
+                        </div>
                     </div>
                     <Table className={styles.totalprice}>
                         <tbody className={styles.totalpricetbody}>
