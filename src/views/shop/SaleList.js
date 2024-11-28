@@ -18,6 +18,7 @@ const SaleList = () => {
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
     const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
     const navigate = useNavigate(); 
+    
     const goDetailNavigation = (artworkId) => {  //디테일 이동
         navigate(`/shop/saleDetail/${artworkId}`);
     }
@@ -33,26 +34,25 @@ const SaleList = () => {
             keyword: searchKeyword,
             page: 0,
             size: visibleCount,
-        })
-        const [page] = 0;
-    
+        }).toString()
+        const page =0;
 
         const listUrl = `${url}/shop/saleList?$category=${categoryId}&type=${typeId}&subject=${subjectId}&keyword=${searchKeyword}&page=${page}&size=${visibleCount}`;
         axios.get(listUrl)
             .then(res =>{
                 console.log(res.data);
-                if(res.data && Array.isArray(res.data.artworks)){
-                    setArtworks(...res.data.artworks);
+
+                if(res.data == 0){
+                    // alert("찾으시는 검색조건이 없습니다.")
                 }else{
-                    console.error("배열오류");
-                    setArtworks([]);
+                    setArtworks(res.data)
                 }
             })
             .catch(err=>{
                 alert("상세페이지 가져오지 못하였습니다.", err);
             });
             
-    }, [])
+    }, [categoryId, typeId, subjectId, searchKeyword, visibleCount])
 
 
 
@@ -73,8 +73,8 @@ const SaleList = () => {
     },[]);
     // 타입하고 주제 가져오기
     useEffect(() => {
-        if (artworks.categoryId) {
-            axios.post(`${url}/shop/artworkAdd/type/${artworks.categoryId}`)
+        if (categoryId) {
+            axios.post(`${url}/shop/artworkAdd/type/${categoryId}`)
                 .then(res => {
                     setTypes(res.data); // API에서 가져온 타입 데이터 저장
                 })
@@ -82,7 +82,7 @@ const SaleList = () => {
                     console.error("타입 데이터 불러오기 오류", error);
                 });
 
-            axios.post(`${url}/shop/artworkAdd/subject/${artworks.categoryId}`)
+            axios.post(`${url}/shop/artworkAdd/subject/${categoryId}`)
                 .then(res => {
                     setThemes(res.data); // API에서 가져온 주제 데이터 저장
                 })
@@ -90,29 +90,21 @@ const SaleList = () => {
                     console.error("주제 데이터 불러오기 오류", error);
                 });
         }
-    }, [artworks.categoryId]);
+    }, [categoryId]);
 
     const handleCategoryChange = (e) => {
-        setArtworks(prev => ({
-            ...prev,
-            categoryId: e.target.value,
-            typeId: '',  // 타입과 주제 초기화
-            subjectId: ''
-        }));
+        setCategoryId(e.target.value);
+        setTypes([]);  // 타입 초기화
+        setThemes([]);  // 주제 초기화
         console.log(e.target.value)
     };
     const handleTypeChange = (e) => {
-        setArtworks(prev => ({
-            ...prev,
-            typeId: e.target.value
-        }));
+ 
+        setTypesId(e.target.value);
     };
 
     const handleSubjectChange = (e) => {
-        setArtworks(prev => ({
-            ...prev,
-            subjectId: e.target.value
-        }));
+        setSubjectId(e.target.value);
     };
 
 
@@ -143,11 +135,11 @@ const SaleList = () => {
                         ))}
                         </select>
                         <select className={styles.filter}
-                            value={artworks.typeId}
+                            value={typeId}
                             onChange={handleTypeChange}
                             id='typeId'
                             name='typeId'
-                            disabled={!artworks.categoryId}>
+                            disabled={!categoryId}>
                             <option value="">타입 선택</option>
                             {types.length > 0 && types.map((typeItem) => (
                                 <option key={typeItem.typeId} value={typeItem.typeId}>
@@ -156,13 +148,13 @@ const SaleList = () => {
                             ))}
                         </select>
                         <select className={styles.filter}
-                            value={artworks.subjectId}
+                            value={subjectId}
                             onChange={handleSubjectChange}
                             id='subjectId'
                             name='subjectId'
-                            disabled={!artworks.categoryId}>
+                            disabled={!categoryId}>
                             <option value="">주제 선택</option>
-                            {themes.length > 0 && themes.map((subjectItem) => (
+                            {themes.map((subjectItem) => (
                                 <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
                                     {subjectItem.subjectName}
                                 </option>
@@ -191,16 +183,16 @@ const SaleList = () => {
 
                 <div className={styles.grid}>
                     {artworks.map((item) => (
-                        <div className={styles.card} key={item.id} onClick={()=> goDetailNavigation(item.artworkId)}>
+                        <div className={styles.card} key={item.artworkId} onClick={()=> goDetailNavigation(item.artworkId)}>
                             <div className={styles.imageWrapper}>
-                                <img src={item.image} alt={item.title} className={styles.image}/>
+                                <img src={item.imageUrl} alt={item.title} className={styles.image}/>
                             </div>
                             <div>
                                 <div className={styles.info}>
                                     <p className={styles.title}>{item.title}</p>
-                                    <p className={styles.artist}>{item.artist}</p>
+                                    <p className={styles.artistName}>{item.artistName}</p>
                                     <p className={styles.price}>{item.price}</p>
-                                    <p className={styles.category}>{item.description}</p>
+                                    <p className={styles.category}>{item.subjectName}{item.typeName}</p>
                                 </div>
                             </div>
                         </div>
