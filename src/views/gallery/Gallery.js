@@ -7,7 +7,7 @@ import Header from "../Header";
 const OPTIONS = {
   그림: {
     type: ["유화", "수채화", "아크릴화", "수묵화", "채색화", "판화", "기타"],
-    category: [
+    subject: [
       "풍경화",
       "인물화",
       "정물화",
@@ -28,11 +28,11 @@ const OPTIONS = {
       "테라코타",
       "기타",
     ],
-    category: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
+    subject: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
   },
   공예: {
     type: ["석공예", "목공예", "유리공예", "도자공예", "기타"],
-    category: ["기타"],
+    subject: ["기타"],
   },
 };
 
@@ -111,33 +111,34 @@ const Gallery = () => {
   
   // Type과 Category 옵션 상태
   const [typeOptions, setTypeOptions] = useState([]);
-  const [categoryOptions, setCategoryOptions] = useState([]);
-// Subject 선택 시 Type과 Category 옵션 변경
-const handleSubjectChange = (subject) => {
-  setFilters((prev) => ({
-    ...prev,
-    subject,
-    type: null, // Subject 변경 시 Type 초기화
-    category: null, // Subject 변경 시 Category 초기화
-  }));
-  if (subject) {
-    setTypeOptions(OPTIONS[subject].type);
-    setCategoryOptions(OPTIONS[subject].category);
-  } else {
-    setTypeOptions([]);
-    setCategoryOptions([]);
-  }
-};
+  const [subjectOptions, setSubjectOptions] = useState([]);
+  const [search, setSearch] = useState(""); // 검색어 상태
 
-// Type, Category 변경 핸들러
+
+  // 카테고리 변경 시 Subject와 Type 업데이트
+  const handleCategoryChange = (category) => {
+    setFilters((prev) => ({
+      ...prev,
+      category,
+      subject: "",
+      type: "",
+    }));
+    if (category) {
+      setSubjectOptions(OPTIONS[category].subject);
+      setTypeOptions(OPTIONS[category].type);
+    } else {
+      setSubjectOptions([]);
+      setTypeOptions([]);
+    }
+  };
+
+// 필터 변경 핸들러
 const handleFilterChange = (key, value) => {
   setFilters((prevFilters) => ({
     ...prevFilters,
     [key]: value,
   }));
 };
-  const [search, setSearch] = useState(""); // 검색어 상태
-
 
 
   // 백엔드 API에서 데이터 가져오기
@@ -145,11 +146,10 @@ const handleFilterChange = (key, value) => {
     const fetchArtworks = async () => {
       try {
 
-        const { subject, type, category } = filters;
         const queryParams = new URLSearchParams({
-          ...(subject && { subject }),
-          ...(type && { type }),
-          ...(category && { category }),
+          ...(filters.category && { category: filters.category }),
+          ...(filters.subject && { subject: filters.subject }),
+          ...(filters.type && { type: filters.type }),
           ...(search && { search }),
           page: 0,
           size: visibleCount,
@@ -159,11 +159,19 @@ const handleFilterChange = (key, value) => {
           `http://localhost:8080/api/artworks?${queryParams}`
         );
         const data = await response.json();
-        setArtworks(data); // 데이터를 상태로 저장
+
+        if (Array.isArray(data)) {
+          setArtworks(data); // 데이터가 배열인 경우 바로 설정
+        } else if (data.content) {
+          setArtworks(data.content); // content 키에서 배열 추출
+        } else {
+          console.error("Unexpected API response format:", data);
+        }
       } catch (error) {
         console.error("Failed to fetch artworks:", error);
       }
-    };
+};
+
 
     fetchArtworks();
   }, [filters, search, visibleCount]); // 필터, 검색어, visibleCount 변경 시 데이터 가져오기
@@ -239,10 +247,10 @@ const handleFilterChange = (key, value) => {
         <div className={styles.filters}>
           <div className={styles.filters}>
           <Dropdown
-            label="주제"
+            label="카테고리"
             options={Object.keys(OPTIONS)}
-            onChange={handleSubjectChange}
-            selectedValue={filters.subject}
+            onChange={handleCategoryChange}
+            selectedValue={filters.category}
           />
           <Dropdown
             label="종류"
@@ -251,11 +259,12 @@ const handleFilterChange = (key, value) => {
             selectedValue={filters.type}
           />
           <Dropdown
-            label="타입"
-            options={categoryOptions}
-            onChange={(value) => handleFilterChange("category", value)}
-            selectedValue={filters.category}
+            label="주제"
+            options={subjectOptions}
+            onChange={(value) => handleFilterChange("subject", value)}
+            selectedValue={filters.subject}
           />
+          
         </div>
           <div className={styles.search}>
             <input
@@ -299,7 +308,7 @@ const handleFilterChange = (key, value) => {
 
         {viewMode === "list" && (
           <div className={styles.galleryGrid}>
-            {artworks.map((artwork) => (
+            {Array.isArray(artworks) && artworks.map((artwork) => (
               <div
                 className={styles.card}
                 key={artwork.artworkId}
@@ -311,11 +320,11 @@ const handleFilterChange = (key, value) => {
                   className={styles.cardImage}
                 />
                 <h2 className={styles.cardTitle}>{artwork.title}</h2>
-                <p className={styles.cardDescription}>{artwork.description}</p>
-                {/* <p className={styles.cardPrice}>{`₩${artwork.price.toLocaleString()}`}</p>
-                <p className={styles.cardArtist}>아티스트: {artwork.artist.name}</p>
+                {/* <p className={styles.cardDescription}>{artwork.description}</p>
+                <p className={styles.cardPrice}>{`₩${artwork.price.toLocaleString()}`}</p>
+                <p className={styles.cardArtist}>아티스트: {artwork.artist.name}</p> */}
                 <p className={styles.cardCategory}>카테고리: {artwork.category.categoryName}</p>
-                <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p>
+                {/* <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p>
                 <p className={styles.cardSaleStatus}>판매 상태: {artwork.saleStatus}</p> */}
               </div>
             ))}

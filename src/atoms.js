@@ -9,6 +9,7 @@ export const initUser = {
   address: '',
   role: '',
   phone: '',
+  artistApprovalStatus:'',
 };
 
 // 사용자 정보를 세션 스토리지에 저장

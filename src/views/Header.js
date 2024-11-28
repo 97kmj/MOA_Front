@@ -11,6 +11,7 @@ const Header = () => {
     const logout = () => {
         setUser({...initUser});
         setToken('');
+        sessionStorage.removeItem('accessToken'); // 세션 스토리지의 토큰 삭제
         navigate("/");
     }
     return(
@@ -60,7 +61,7 @@ const Header = () => {
                             </>
                         }
                         <Link to="/mypage/infoEdit" className={styles.login}>{user.name}</Link>&nbsp;&nbsp;&nbsp;
-                        <Link to="#" className={styles.login} onClick={logout}>Logout</Link> 
+                        <Link to="/" className={styles.login} onClick={logout}>Logout</Link> 
                     </>:
                     <>
                     <Link to="/user/login" className={styles.login}>Login</Link>            

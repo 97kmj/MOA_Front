@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { tokenAtom } from "../../atoms";
+import { Link } from 'react-router-dom';
 import styles from "../../css/gallery/GalleryDetail.module.css";
 import Header from "../Header";
 
@@ -8,8 +11,9 @@ function GalleryDetail() {
   const [data, setData] = useState(null); // 작품 데이터를 저장
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
-  const token = sessionStorage.getItem("accessToken"); // JWT 토큰 가져오기
-
+  const token = useAtomValue(tokenAtom); // Jotai로 토큰 가져오기
+  // const token = sessionStorage.getItem("accessToken"); 
+  
   //좋아요버튼
   const handleLikeButtonClick = async () => {
     console.log("Token in handleLikeButtonClick:", token); // 디버깅용
@@ -42,7 +46,7 @@ function GalleryDetail() {
     }
   };
 
-  // 작품 데이터 가져오기
+  // 작품 데이터 및 좋아요 상태 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,6 +64,7 @@ function GalleryDetail() {
               Authorization: `Bearer ${token}`, // JWT 토큰 추가
             },
           });
+
           if (likeResponse.ok) {
             const likeData = await likeResponse.json();
             setIsLiked(likeData.isLiked); // 좋아요 상태 저장
@@ -110,7 +115,10 @@ function GalleryDetail() {
             <img src={data.imageUrl} alt={data.title} className={styles.smallImage} />
             <div className={styles.imageDetails}>
               <h2 className={styles.imageTitle}>{data.title}</h2>
-              <p><strong>Artist:</strong> {data.artist.name}</p>
+              <p>
+              <strong>Artist:</strong>{' '}
+              <Link to={`/artistDetail/${data.artist.id}`}>{data.artist.name}</Link>
+              </p>              
               <p><strong>Subject:</strong> {data.subject.subjectName}</p>
               <p><strong>Type:</strong> {data.type.typeName}</p>
               <p><strong>Size:</strong> {data.width} x {data.height} cm</p>
