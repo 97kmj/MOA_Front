@@ -1,6 +1,17 @@
 import AdminSidebar from "./AdminSidebar";
 import styles from "../../css/admin/AdminFrame.module.css";
+import { url } from "../../config";
+import axios from "axios";
+import { useState,useEffect } from "react";
+import { tokenAtom } from "../../atoms";
+import { useAtomValue } from "jotai";
 const AdminFrame = () => {
+
+    const token = useAtomValue(tokenAtom);
+    const [frameList,setFrameList] = useState([]);
+    
+
+
     return(
         <>
         <div className={styles.container}>
@@ -41,7 +52,7 @@ const AdminFrame = () => {
                 </table>
                 </div>
                 <div className={styles.buttonDiv}>
-                    <button className={styles.goldbutton}>상태 저장</button>
+                    <button className={styles.goldbutton}>등록</button>
                 </div>
             </div>
         </div>
