@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from "../../css/funding/FundingDetail.module.css";
 import Header from "../Header";
 import MasonryGallery from "./MasonryGallery";
@@ -7,16 +7,16 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
 
 const FundingDetail = () => {
+    const {fundingId} = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-    const fundingId = 1;
     const [fundingDetail, setFundingDetail] = useState(null);
     const [selectedRewards, setSelectedRewards] = useState([]);
     const lastSelectedRewardRef = useRef(null);
     const rewardSectionRef = useRef(null);
 
     const fundButtonToMoveRewardSection = () => {
-        rewardSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+        rewardSectionRef.current?.scrollIntoView({behavior: "smooth"});
     };
 
     const getFundingDetail = async () => {
@@ -36,7 +36,6 @@ const FundingDetail = () => {
     }, []);
 
 
-
     useEffect(() => {
         if (lastSelectedRewardRef.current) {
             lastSelectedRewardRef.current.scrollIntoView({
@@ -47,7 +46,6 @@ const FundingDetail = () => {
     }, [selectedRewards]);
 
 
-
     const addRewardToSelection = (reward) => {
         const existingReward = selectedRewards.find((r) => r.rewardId === reward.rewardId);
 
@@ -55,14 +53,14 @@ const FundingDetail = () => {
             setSelectedRewards((prevRewards) =>
                 prevRewards.map((r) =>
                     r.rewardId === reward.rewardId
-                        ? { ...r, rewardQuantity: r.rewardQuantity + 1 } // rewardQuantity 증가
+                        ? {...r, rewardQuantity: r.rewardQuantity + 1} // rewardQuantity 증가
                         : r
                 )
             );
         } else {
             setSelectedRewards((prevRewards) => [
                 ...prevRewards,
-                { ...reward, rewardQuantity: 1 }, // 기본 수량 1 설정
+                {...reward, rewardQuantity: 1}, // 기본 수량 1 설정
             ]);
         }
     };
@@ -71,7 +69,7 @@ const FundingDetail = () => {
         setSelectedRewards((prevRewards) =>
             prevRewards.map((reward) =>
                 reward.rewardId === selectedRewardId
-                    ? { ...reward, rewardQuantity: Math.max(1, reward.rewardQuantity + quantityCount) } // rewardQuantity 사용
+                    ? {...reward, rewardQuantity: Math.max(1, reward.rewardQuantity + quantityCount)} // rewardQuantity 사용
                     : reward
             )
         );
@@ -88,23 +86,19 @@ const FundingDetail = () => {
     }, 0);
 
 
-
     const goToContribute = (fundingId) => {
         // 선택한 리워드와 펀딩 ID를 state로 전달
         console.log("Selected Rewards:", selectedRewards);
         navigate('/fundings/contributions', {
-            state: { fundingId, selectedRewards, fundingDetail }
+            state: {fundingId, selectedRewards, fundingDetail}
         });
     };
-
-
-
 
 
     if (isLoading) {
         return (
             <>
-                <Header />
+                <Header/>
                 <div className={styles.fundingDetailOutForm}>
                     <div className={styles.fundingDetail}>
                         <div className={styles.fundingHeader}>
@@ -134,7 +128,7 @@ const FundingDetail = () => {
 
     return (
         <>
-            <Header />
+            <Header/>
 
             <div className={styles.fundingDetailOutForm}>
                 <div className={styles.fundingDetail}>
@@ -142,7 +136,7 @@ const FundingDetail = () => {
                         펀딩 &gt; 펀딩상세
                         <button className={styles.notifyButton}>알림받기</button>
                     </div>
-                    <hr className={styles.titleLine} />
+                    <hr className={styles.titleLine}/>
 
                     <div className={styles.fundingHeader}>
                         <div className={styles.imageCard}>
@@ -163,8 +157,8 @@ const FundingDetail = () => {
                             <p>
                                 {fundingDetail.totalAmount.toLocaleString()}원{" "}
                                 <span className={styles.fundingDetailProgress}>
-                                    {((fundingDetail.totalAmount / fundingDetail.goalAmount) * 100).toFixed(2)}% 달성
-                                </span>{" "}
+                                    {Math.floor((fundingDetail.totalAmount / fundingDetail.goalAmount) * 100)}% 달성
+                                </span>
                                 {Math.ceil(
                                     (new Date(fundingDetail.endDate) - new Date()) / (1000 * 60 * 60 * 24)
                                 )}{" "}
@@ -183,7 +177,7 @@ const FundingDetail = () => {
                         </div>
                     </div>
 
-                    <hr className={styles.sectionDivider} />
+                    <hr className={styles.sectionDivider}/>
 
                     <div className={styles.fundingDetailContentContainer}>
                         <div className={styles.projectPlan}>
@@ -220,7 +214,7 @@ const FundingDetail = () => {
                                         <button onClick={() => changeSelectedRewardQuantity(reward.rewardId, -1)}>
                                             -
                                         </button>
-                                        <input type="text" value={reward.rewardQuantity} readOnly />
+                                        <input type="text" value={reward.rewardQuantity} readOnly/>
                                         <button onClick={() => changeSelectedRewardQuantity(reward.rewardId, 1)}>
                                             +
                                         </button>

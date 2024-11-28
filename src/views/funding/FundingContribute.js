@@ -86,7 +86,7 @@ const FundingContribute = () => {
                     buyer_addr: shippingInfo.address || user.address,
                     buyer_postcode: "123-456", // 구매자 우편번호
                     custom_data: JSON.stringify({
-                        fundingId: 1,
+                        fundingId: fundingId,
                         rewardList: selectedRewards,
                     }), // 사용자 정의 데이터
                 };
