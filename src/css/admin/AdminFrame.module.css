@@ -80,3 +80,32 @@
     color: #fff;
     background: #272822;
   }
+
+
+
+.customSelect {
+    position: relative;
+    display: inline-block;
+}
+
+.customSelect select {
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    appearance: none; /* 기본 드롭다운 화살표 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 5px 30px 5px 10px;
+}
+
+.customSelect::after {
+    content: "▼";
+    font-size: 12px;
+    color: #939090;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
