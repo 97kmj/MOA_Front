@@ -1,7 +1,36 @@
+.react-grid-gallery {
+  display: grid;
+  gap: 10px; /* 이미지 간 간격 */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 최소 너비 200px, 자동 열 개수 */
+  max-width: 1200px; /* 총 그리드 넓이 제한 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+
+.react-grid-gallery img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0px; 
+}
+
+.react-grid-gallery img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease; 
+}
+
+.galleryView {
+  max-width: 500px;
+  max-height: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
 .container {
   width: 1200px;
   margin: 50px auto;
-  /* padding: 10px; */
+ 
 }
 
 .header {
@@ -143,7 +172,7 @@
 
 }
 
-.galleryGrid {
+.listgalleryGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
@@ -168,73 +197,6 @@
   box-shadow: 3px 3px 3px #666;
 }
 
-.galleryView {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  height: 400px;
-}
-
-.galleryCard {
-  width: 300px;
-  height: 400px;
-  text-align: center;
-  transition: transform 0.5s ease;
-}
-
-.galleryImage {
-  max-width: 100%;
-  max-height: 80%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.galleryTitle {
-  font-size: 1rem;
-  margin-top: 8px;
-  color: #b39c59;
-}
-
-.arrowLeft,
-.arrowRight {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.arrowLeft,
-.arrowRight {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 10; /* 다른 요소 위에 표시되도록 설정 */
-}
-
-.arrowLeft {
-  left: 10px;
-}
-
-.arrowRight {
-  right: 10px;
-}
 
 
 .loadMore {
@@ -258,43 +220,3 @@
 }
 
 
-.galleryItems {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-}
-
-.galleryItem {
-  flex: 1;
-  text-align: center;
-  opacity: 0.8;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.centerItem {
-  flex: 2;
-  opacity: 1;
-  position: relative; /* 자식 요소 위치 조정 가능 */
-}
-
-.centerItem .galleryImage {
-  transform: scale(1.2);
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-.centerItem .galleryTitle {
-  position: absolute; /* 이미지 위에 텍스트 배치 */
-  bottom: 8px; /* 하단 여백 */
-  left: 50%; /* 가운데 정렬 */
-  transform: translateX(-50%); /* 정확한 가운데 정렬 */
-  background-color: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
-  color: #fff; /* 텍스트 색상 */
-  padding: 8px 16px; /* 텍스트 패딩 */
-  border-radius: 4px; /* 약간 둥근 모서리 */
-  font-size: 1rem; /* 텍스트 크기 */
-  text-align: center; /* 텍스트 정렬 */
-  z-index: 2; /* 텍스트가 이미지 위에 위치하도록 설정 */
-}

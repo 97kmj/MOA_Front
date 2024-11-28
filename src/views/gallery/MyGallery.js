@@ -306,7 +306,7 @@ const handleSearchChange = (event) => {
         )}
 
         {viewMode === "list" && (
-          <div className={styles.galleryGrid}>
+          <div className={styles.listgalleryGrid}>
             {Array.isArray(artworks) && artworks.map((artwork) => (
               <div
                 className={styles.card}
