@@ -18,17 +18,16 @@ const AdminFunding = () => {
             .then(res => {
                 console.log(res.data);
                 setApplyList(res.data);
-                setSelectedFunding(res.data[0]);
+                if(res.data.length > 0) {
+                    setSelectedFunding(res.data[0]);
+                } else {
+                    setSelectedFunding({})
+                }
             })
             .catch(err=>{
                 console.log(err);
             })
     },[])
-
-    const safeDate = (dateString) => {
-        const date = new Date(dateString);
-        return isNaN(date.getTime()) ? "  " : date.toISOString().slice(0, 10);
-    };
 
     const selectFunding = (fundingItem) => () => {
         setSelectedFunding(fundingItem);
@@ -110,7 +109,7 @@ const AdminFunding = () => {
                                     selectedFunding?.fundingId === fundingItem.fundingId? styles.selectedFunding : ""
                                 }`}
                                 onClick={selectFunding(fundingItem)}>
-                                    <td>{fundingItem.fundingUserName}</td><td>{fundingItem.username}</td><td>{safeDate(fundingItem.applicationDate)}</td>
+                                    <td>{fundingItem.fundingUserName}</td><td>{fundingItem.username}</td><td>{new Date(fundingItem.applicationDate).toISOString().slice(0, 10)}</td>
                                 </tr>
                             ))
                             ) : (
@@ -134,10 +133,10 @@ const AdminFunding = () => {
                     <div className={styles.optionText}>펀딩 기간</div>
                     <table className={styles.fundingPeriod}>
                         <tr><th>시작일</th><th>종료일</th></tr>
-                        <tr><td>{selectedFunding.startDate ? selectedFunding.startDate.toISOString().slice(0, 10) : " "}&nbsp;</td><td>{selectedFunding.endDate ? selectedFunding.endDate.toISOString().slice(0, 10) : " "}&nbsp;</td></tr>
+                        <tr><td>{selectedFunding?.startDate ? new Date(selectedFunding.startDate).toISOString().slice(0, 10) : " "}&nbsp;</td><td>{selectedFunding?.endDate ? new Date(selectedFunding.endDate).toISOString().slice(0, 10) : " "}&nbsp;</td></tr>
                     </table>
                     <div className={styles.optionText}>펀딩 소개</div>
-                        <textarea className={styles.fundingDescription} value={selectedFunding.introduction}></textarea>
+                        <textarea className={styles.fundingDescription} value={selectedFunding?.introduction}></textarea>
                    
                     
                     </div>
@@ -147,18 +146,21 @@ const AdminFunding = () => {
                             <table className={styles.rewardList}>
                                 <tr><th>리워드 이름</th><th>설명</th><th>가격</th><th>수량</th><th>수량제한</th></tr>
                                 <tbody>
-                                    
-                                {   selectedFunding.rewardList && 
-                                    selectedFunding.rewardList.map((reward) => (
-                                        <tr>
-                                            <td className={styles.gold}>{reward.name}</td>
-                                            <td>{reward.description}</td>
-                                            <td className={styles.gold}>{reward.price ? reward.price.toLocaleString():0}&#8361;</td>
-                                            <td>{reward.quantity ? reward.quantity.toLocaleString(): 0 }</td>
-                                            <td>{reward.isQuantityLimited? reward.limitPerPerson:'X'}</td>
-                                        </tr>
-                                    )) 
-                                }
+                                {selectedFunding.rewardList?.length > 0 ? (
+                                    selectedFunding.rewardList?.map((reward, index) => (
+                                    <tr key={reward.id || index}>
+                                        <td className={styles.gold}>{reward.name}</td>
+                                        <td>{reward.description}</td>
+                                        <td className={styles.gold}>{reward.price ? reward.price.toLocaleString() : 0}&#8361;</td>
+                                        <td>{reward.quantity ? reward.quantity.toLocaleString() : 0}</td>
+                                        <td>{reward.isQuantityLimited ? reward.limitPerPerson : 'X'}</td>
+                                    </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                    <td colSpan={5}>리워드 목록이 없습니다.</td>
+                                    </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>
