@@ -9,12 +9,16 @@ import axios from 'axios';
 const SaleList = () => {
     
     const [searchKeyword, setSearchKeyword] = useState(""); //검색어
-    const [category, setCategory] = useState([]); 
-    const [categoryId, setCategoryId] = useState("");
-    const [types, setTypes] = useState([]);
-    const [typeId, setTypesId] = useState("");
-    const [themes, setThemes] = useState([]);
-    const [subjectId, setSubjectId] = useState("");
+    const [category, setCategory] = useState([]); // 카테고리 리스트 가져오기
+    const [types, setTypes] = useState([]); // 타입 리스트 가져오기
+    const [themes, setThemes] = useState([]); // 주제 리스트 가져오기
+
+    const [categoryId, setCategoryId] = useState(""); //카테고리 id 
+    const [categoryName, setCategoryName] = useState(""); //카테고리 name
+    const [typeId, setTypesId] = useState("");  // 타입 이름 넣어야함
+    const [subjectId, setSubjectId] = useState(""); // 서브젝트 이름넣어야함
+  
+
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
     const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
     const navigate = useNavigate(); 
@@ -26,36 +30,44 @@ const SaleList = () => {
       // 더보기 버튼 클릭 시
     const loadMore = () => setVisibleCount((prev) => prev + 8);
 
-    useEffect(()=> {
+    const artworkLists= ()=> {
+
         const queryParams = new URLSearchParams({
-            categoryId,
-            typeId,
-            subjectId,
-            keyword: searchKeyword,
+            ...(categoryName && {categoryName: categoryName}),
+            ...(subjectId && {subjectId : subjectId}),
+            ...(typeId && {typeId : typeId}),
+            ...(searchKeyword && {searchKeyword : searchKeyword}),
             page: 0,
             size: visibleCount,
-        }).toString()
-        const page =0;
-
-        const listUrl = `${url}/shop/saleList?$category=${categoryId}&type=${typeId}&subject=${subjectId}&keyword=${searchKeyword}&page=${page}&size=${visibleCount}`;
+        }).toString();
+        
+        const page = 0;
+        
+        // const listUrl = `${url}/shop/saleList?category=${categoryName}&type=${typeId}&subject=${subjectId}&keyword=${searchKeyword}&page=${page}&size=${visibleCount}`;
+        const listUrl = `${url}/shop/saleList?${queryParams}`
+        
         axios.get(listUrl)
             .then(res =>{
-                console.log(res.data);
-
+              
+               
                 if(res.data == 0){
-                    // alert("찾으시는 검색조건이 없습니다.")
+                    //  alert("찾으시는 검색조건이 없습니다.")
+                     setArtworks([]);
+
                 }else{
-                    setArtworks(res.data)
+                    setArtworks(res.data);
+     
                 }
             })
             .catch(err=>{
                 alert("상세페이지 가져오지 못하였습니다.", err);
+    
             });
             
-    }, [categoryId, typeId, subjectId, searchKeyword, visibleCount])
-
-
-
+    } 
+    useEffect(() => {
+        artworkLists();
+    }, [categoryName, typeId, subjectId, searchKeyword,visibleCount]); // 모든 필터값 변경시마다 호출
 
 
 
@@ -64,13 +76,14 @@ const SaleList = () => {
     useEffect(() => {
         axios.get(`${url}/shop/artworkAdd`)
             .then(res => {
-                console.log(res.data);
+             
                 setCategory(res.data);  
             })
             .catch(error => {
                 console.error("카테고리 불러오기 오류", error);
             });
     },[]);
+
     // 타입하고 주제 가져오기
     useEffect(() => {
         if (categoryId) {
@@ -94,9 +107,14 @@ const SaleList = () => {
 
     const handleCategoryChange = (e) => {
         setCategoryId(e.target.value);
+        if (e.target.value === "A"){
+            setCategoryName("");
+        }else{
+            setCategoryName(e.target.selectedOptions[0].text);
+        }
         setTypes([]);  // 타입 초기화
         setThemes([]);  // 주제 초기화
-        console.log(e.target.value)
+ 
     };
     const handleTypeChange = (e) => {
  
@@ -107,8 +125,9 @@ const SaleList = () => {
         setSubjectId(e.target.value);
     };
 
-
-
+    const handleSearchKeyword = (e) =>{
+        setSearchKeyword(e.target.value);
+    }
 
     return (
         <>
@@ -120,14 +139,12 @@ const SaleList = () => {
                 <div className={styles.filters}>
                     <div className={styles.selectGroup}>
                         <select
-                            value={artworks.categoryId}
+                            value={categoryId}
                             onChange={handleCategoryChange}
                             className={styles.filter}
                             id='categoryId'
-                            name='categoryId'
-
-                        >
-                        <option value="">종류</option>
+                            name='categoryId'>
+                        <option value="A" >전체보기</option>
                         {category.map((categoryItem) => (
                             <option key={categoryItem.categoryId} value={categoryItem.categoryId}>
                                 {categoryItem.categoryName}
@@ -140,10 +157,11 @@ const SaleList = () => {
                             id='typeId'
                             name='typeId'
                             disabled={!categoryId}>
-                            <option value="">타입 선택</option>
-                            {types.length > 0 && types.map((typeItem) => (
-                                <option key={typeItem.typeId} value={typeItem.typeId}>
-                                    {typeItem.typeName}
+
+                            <option value="">전체보기</option>
+                            {types.map((typeItem) => (
+                                <option key={typeItem.typeName} value={typeItem.typeName}>
+                                    {typeItem.typeName} 
                                 </option>
                             ))}
                         </select>
@@ -153,25 +171,27 @@ const SaleList = () => {
                             id='subjectId'
                             name='subjectId'
                             disabled={!categoryId}>
-                            <option value="">주제 선택</option>
+                            <option value="">전체보기</option>
                             {themes.map((subjectItem) => (
-                                <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
+                                <option key={subjectItem.subjectName} value={subjectItem.subjectName}>
                                     {subjectItem.subjectName}
                                 </option>
                             ))}
                         </select>
                     </div>
-                    <div className={styles.searchGroup}>
+                    <div className={styles.searchGroup} >
                         <input
                             type="text"
                             placeholder="검색"
                             value={searchKeyword}
-                            onChange={(e) => setSearchKeyword(e.target.value)}
+                            onChange={handleSearchKeyword}
                             className={styles.searchInput}
                         />
                        
-                        <button className={styles.searchButton}>
+                        <button className={styles.searchButton} onChange={artworkLists} >
                             <img src='/img/search.png' />
+                            
+
                         </button>
                     </div>
 

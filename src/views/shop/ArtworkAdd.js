@@ -146,8 +146,9 @@ const Artwork = () => {
 
 
     const handleSaleStatusChange  = (e) =>{
-        const value = e.target.value === "예";
+        const value = e.target.value ==="true";
         setSaleStatus(value);
+        alert(value)
         setArtwork(prev =>({
             ...prev,
             saleStatus: value ? "true" : "false",
@@ -167,7 +168,7 @@ const Artwork = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('artworkDto', new Blob([JSON.stringify({
-        canvasType:artwork.canvasType !== "A" ? artwork.canvasType : "NONE" ,
+        canvasType:artwork.canvasType !== "A" ? artwork.canvasType : null ,
         description:artwork.description,
         height:artwork.height,
         isStandardCanvas: artwork.isStandaedcanvas,
@@ -343,7 +344,7 @@ const Artwork = () => {
                                 </td>
                             </tr>
                             <tr><td className={styles.artworkInfotdTitle}>가로</td>
-                            <td><input className={styles.artworkInfocontent} checked={isCanvasAvailable === false}disabled={isCanvasAvailable} id='width' name='width' onChange={edit} value={artwork.width}/></td>
+                            <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='width' name='width' onChange={edit} value={artwork.width}/></td>
                             <td className={styles.artworkInfotdTitle}>세로</td>
                             <td><input className={styles.artworkInfocontent} disabled={isCanvasAvailable} id='height' name='height' onChange={edit} value={artwork.height}/></td>
                             </tr>
@@ -365,10 +366,10 @@ const Artwork = () => {
                             <tr>
                                 <td className={styles.artworkInfotdTitle}>판매 금액</td>
                                 <td>
-                                    <input className={styles.artworkInfocontent} disabled={!saleStatus} value={artwork.price} id='price' name='price' onChange={handleInputChange}/>
+                                    <input className={styles.artworkInfocontent} disabled={handleSaleStatusChange} value={artwork.price} id='price' name='price' onChange={handleInputChange}/>
                                 </td>
                                 <td className={styles.artworkInfotdTitle}>수량</td>
-                                <td><input className={styles.artworkInfocontent} disabled={!saleStatus} value={artwork.stock}  id='stock' name='stock' onChange={handleInputChange}/></td>
+                                <td><input className={styles.artworkInfocontent} disabled={handleSaleStatusChange} value={artwork.stock}  id='stock' name='stock' onChange={handleInputChange}/></td>
                             </tr>
                         </table>
                     </div>
