@@ -82,8 +82,11 @@
 .imgBox {
     width: 120px;
     height: 120px;
-    border: #B39C59 1px solid;
+    outline: #B39C59 1px solid;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+
 }
 
 .profileImage{

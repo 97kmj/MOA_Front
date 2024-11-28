@@ -36,14 +36,17 @@ const AdminArtist = () => {
             alert("포트폴리오 URL이 없습니다.");
             return;
         }
-        axios.get(selectedArtistInfo.portfolioUrl, {
+        const url = selectedArtistInfo.portfolioUrl;
+        const fileExtension = url.substring(url.lastIndexOf(".") + 1); // 확장자 추출
+        const filename = `${selectedArtistInfo.username}_portfolio.${fileExtension}`; // 파일명 설정
+        axios.get(url, {
             responseType: "blob", // 바이너리 데이터로 받아오기
         })
         .then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", selectedArtistInfo.username + "_portfolio"); // 파일 이름 설정
+            link.setAttribute("download", filename); // 파일 이름 설정
             document.body.appendChild(link);
             link.click();
             link.remove();
