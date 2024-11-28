@@ -7,7 +7,17 @@
 }
 .listBox {
     height: 500px;
+    overflow-y: auto;
 }
+.frameTable, .registTable {
+    table-layout: fixed;
+}
+.frameTable {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
 .tableBox {
     height: 100px;
 }
@@ -19,24 +29,41 @@
     width: 1530px;
     padding:10px
 }
-.frameList table{
+.frameTable {
     width:100%;
     max-height: 500px;
+    border-spacing:0;
+    border-collapse: separate;
+}
+.registTable {
+    width:100%;
     border-spacing:4px 4px;
     border-collapse: collapse;
 }
-.frameList table tbody{
+.frameTable tbody{
     max-height: 650px;
     overflow-y:scroll;
 }
-.frameList table thead tr {
+.frameTable thead th , .registTable thead th{
     border-bottom: #B39C59 2px solid;
     border-top: #B39C59 2px solid;
+    background-color: white;
+    position:sticky;
+    top:0
     
 }
-.frameList td {
+.frameList td, .registTable td {
     height: 40px;
+    
 }
+.editTd {
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    
+    word-break:break-all;
+}
+
 
 
 .tableBox input {
@@ -50,17 +77,26 @@
     align-items: center;
     text-align: center;
 }
+.editbuttonDiv {
+    margin:20px;
+    display: flex;
+    vertical-align: middle;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+}
+
 
 .goldbutton {
     height: 38px;
     padding:0 10px 0 10px;
     font-size: 14px;
-    border-radius: 50px;
+    border-radius: 30px;
     border: 1px solid #B39C59;
     background-color: #B39C59;
     color: white;
 }
-.goldbutton:hover {
+.goldbutton:hover, .editbutton:hover {
     background-color: white;
     color: #B39C59;
     cursor: pointer;
@@ -108,4 +144,10 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
+}
+
+.editInput {
+    width: 80px;
+    border-radius: 5px;
+    border: #B39C59 1px solid;
 }

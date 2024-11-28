@@ -21,7 +21,8 @@ const Login = () => {
         username,
         password,
       });
-
+      
+      console.log(response)
       const { access_token, user } = response.data;
 
       // 토큰과 사용자 정보 저장

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../atoms";
 import styles from '../../css/mypage/SideNav.module.css';
@@ -18,12 +19,12 @@ const SideNav = () => {
             조회
           </strong>
           <ul className={styles.snbMenu}>
-            <li className={styles.menuItem}><a href="/mypage/fundings/contributed" className={styles.menuLink}>후원한 펀딩 조회</a></li>
-            <li className={styles.menuItem}><a href="/mypage/fundings/uploaded" className={styles.menuLink}>올린 펀딩 조회</a></li>
+            <li className={styles.menuItem}><Link to="/mypage/fundings/contributed" className={styles.menuLink}>후원한 펀딩 조회</Link></li>
+            <li className={styles.menuItem}><Link to="/mypage/fundings/uploaded" className={styles.menuLink}>올린 펀딩 조회</Link></li>
             {isArtist && (
-              <li className={styles.menuItem}><a href="/salesPosts" className={styles.menuLink}>판매글 조회</a></li>
+              <li className={styles.menuItem}><Link to="/salesPosts" className={styles.menuLink}>판매글 조회</Link></li>
             )}         
-            </ul>
+          </ul>
         </div>
 
         <div className={styles.snbList}>
@@ -34,12 +35,12 @@ const SideNav = () => {
             목록
           </strong>
           <ul className={styles.snbMenu}>
-            <li className={styles.menuItem}><a href="/purchaseList" className={styles.menuLink}>구매목록</a></li>
-            <li className={styles.menuItem}><a href="/cartList" className={styles.menuLink}>장바구니 목록</a></li>
+            <li className={styles.menuItem}><Link to="/purchaseList" className={styles.menuLink}>구매목록</Link></li>
+            <li className={styles.menuItem}><Link to="/cartList" className={styles.menuLink}>장바구니 목록</Link></li>
             {isArtist && (
-              <li className={styles.menuItem}><a href="/myWorksList" className={styles.menuLink}>등록작품 목록</a></li>
+              <li className={styles.menuItem}><Link to="/myWorksList" className={styles.menuLink}>등록작품 목록</Link></li>
             )}         
-            </ul>
+          </ul>
         </div>
 
         <div className={styles.snbList}>
@@ -51,15 +52,16 @@ const SideNav = () => {
             내 정보
           </strong>
           <ul className={styles.snbMenu}>
-            <li className={styles.menuItem}><a href="/editInfo" className={styles.menuLink}>내 정보수정</a></li>
-            <li className={styles.menuItem}><a href="/mypage/artistRegist" className={styles.menuLink}>작가 등록신청</a></li>
+            <li className={styles.menuItem}><Link to="/mypage/infoEdit" className={styles.menuLink}>내 정보수정</Link></li>
+            {!isArtist && (
+              <li className={styles.menuItem}><Link to="/mypage/artistRegist" className={styles.menuLink}>작가 등록신청</Link></li>
+            )}            
             {isArtist && (
-              <li className={styles.menuItem}><a href="/mypage/artistEdit" className={styles.menuLink}>작가 정보수정</a></li>
+              <li className={styles.menuItem}><Link to="/mypage/artistEdit" className={styles.menuLink}>작가 정보수정</Link></li>
             )}           
-            <li className={styles.menuItem}><a href="/messages" className={styles.menuLink}>쪽지함</a></li>
-            <li className={styles.menuItem}><a href="/gallery/myGallery" className={styles.menuLink}>나만의 갤러리</a></li>
-            <li className={styles.menuItem}><a href="/mypage/qna" className={styles.menuLink}>1대1 문의함</a></li>
-
+            <li className={styles.menuItem}><Link to="/mypage/message" className={styles.menuLink}>쪽지함</Link></li>
+            <li className={styles.menuItem}><Link to="/gallery/myGallery" className={styles.menuLink}>나만의 갤러리</Link></li>
+            <li className={styles.menuItem}><Link to="/mypage/qna" className={styles.menuLink}>1대1 문의함</Link></li>
           </ul>
         </div>
       </nav>
