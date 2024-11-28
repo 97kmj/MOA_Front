@@ -7,8 +7,6 @@ import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
-  
-
   const location = useLocation(); // 현재 URL 정보를 가져옴
   const setToken = useSetAtom(tokenAtom);
   const setUser = useSetAtom(userAtom);
@@ -29,7 +27,7 @@ const Login = () => {
       // 토큰과 사용자 정보 저장
       setToken(access_token);
       setUser(user);
-      sessionStorage.setItem('accessToken', access_token); // 토큰을 sessionStorage에 저장
+      // sessionStorage.setItem('accessToken', access_token);
 
       // 메인 페이지로 이동
       navigate('/');
@@ -51,7 +49,7 @@ useEffect(() => {
 
       // 토큰 저장
       setToken(accessToken);
-      sessionStorage.setItem('accessToken', accessToken); // sessionStorage에 저장
+      // sessionStorage.setItem('accessToken', accessToken); 
 
       // 사용자 정보 요청 및 저장
       axios

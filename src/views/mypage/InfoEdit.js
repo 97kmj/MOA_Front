@@ -24,11 +24,11 @@ const InfoEdit = () => {
                 <span className={styles.value}>권익재</span>
                 <button className={styles.editButton}>수정하기</button>
               </div>
-              <div className={styles.row}>
+              {/* <div className={styles.row}>
                 <span className={styles.label}>닉네임</span>
                 <span className={styles.value}>JakeKwon</span>
                 <button className={styles.editButton}>수정하기</button>
-              </div>
+              </div> */}
               <div className={styles.row}>
                 <span className={styles.label}>아이디</span>
                 <span className={styles.value}>ijkk9801</span>
