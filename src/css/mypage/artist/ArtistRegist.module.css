@@ -1,0 +1,121 @@
+.container{
+    margin:0;
+    padding:0;
+    text-align: center;
+    display: flex;
+}
+.body{ 
+    width:1000px;
+    margin:50px auto;    
+}
+.body h3 {
+    text-align: left;
+}
+.registform {
+    border:1px #B39C59 solid;
+    padding:20px 150px 20px 150px;
+    margin:0 auto;
+}
+
+.imgBox {
+    width: 150px;
+    height: 150px;
+    border: #B39C59 1px solid;
+    border-radius: 10px;
+}
+.imgBox img {
+    width:150px;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.registform textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+    border: #B39C59 1px solid;
+    border-radius: 10px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.buttonDiv {
+    margin:20px auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+}
+
+.goldbutton {
+    height: 38px;
+    padding:0 10px 0 10px;
+    font-size: 14px;
+    border-radius: 50px;
+    border: 1px solid #B39C59;
+    background-color: #B39C59;
+    color: white;
+}
+.goldbutton:hover {
+    background-color: white;
+    color: #B39C59;
+    cursor: pointer;
+}
+.filebox , .imgUploadbox{
+    margin-top:10px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.filebox .uploadName {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 10px;
+    vertical-align: middle;
+    border: 1px solid #B39C59;
+    width:200px;
+    color: #999999;
+}
+.filebox label {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+
+.imgUploadbox  label {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    
+}
+.imgUploadbox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+
+
