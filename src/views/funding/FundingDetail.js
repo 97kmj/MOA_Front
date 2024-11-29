@@ -35,7 +35,6 @@ const FundingDetail = () => {
         getFundingDetail().then(r => console.log("Funding Detail Loaded"));
     }, []);
 
-
     useEffect(() => {
         if (lastSelectedRewardRef.current) {
             lastSelectedRewardRef.current.scrollIntoView({
@@ -93,8 +92,7 @@ const FundingDetail = () => {
             state: {fundingId, selectedRewards, fundingDetail}
         });
     };
-
-
+    
     if (isLoading) {
         return (
             <>
