@@ -158,22 +158,24 @@ const FundingContribute = () => {
                     <hr className={styles.fundingContributeSectionDivider}/>
                     {/* 이미지 , 펀딩 */}
                     <div className={styles.fundingContributeMainInfo}>
-                        <img
-                            src={fundingDetail?.fundingMainImageUrl}
-                            alt={fundingDetail?.title || "펀딩 이미지"}
-                            className={styles.fundingContributeMainImage}
-                        />
+                        <div className={styles.imageCard}>
+                            <img
+                                src={fundingDetail?.fundingMainImageUrl}
+                                alt={fundingDetail?.title || "펀딩 이미지"}
+                                className={styles.fundingContributeMainImage}
+                            />
+                        </div>
                         <div className={styles.fundingContributeDetails}>
-                            <h3>{fundingDetail?.title}</h3>
+                            <p className={styles.fundingContributeDetailsTitle}>펀딩 제목 &nbsp;{fundingDetail?.title}</p>
                             <span className={styles.fundingContributeAmount}></span>
                             <p className={styles.fundingContributeAmount}>
-                                후원금액:&nbsp;
+                                후원금액 &nbsp;
                                 {selectedRewards
                                     .reduce((sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity, 0)
                                     .toLocaleString()}원
 
-                                <p>목표 금액: {fundingDetail?.goalAmount.toLocaleString()}원</p>
-                                <p>현재 펀딩 모인 금액: {fundingDetail?.totalAmount.toLocaleString()}원{" "}</p>
+                                <p>목표 금액 {fundingDetail?.goalAmount.toLocaleString()}원</p>
+                                {/*<p>현재 달성금액 {fundingDetail?.totalAmount.toLocaleString()}원{" "}</p>*/}
 
                                 <span>
                                 {((fundingDetail?.totalAmount / fundingDetail?.goalAmount) * 100).toFixed(2)}% 달성

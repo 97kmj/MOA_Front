@@ -132,14 +132,8 @@ const FundingDetail = () => {
 
             <div className={styles.fundingDetailOutForm}>
                 <div className={styles.fundingDetail}>
-                    <div className={styles.breadcrumb}>
-                        펀딩 &gt; 펀딩상세
-                        <button className={styles.notifyButton}>알림받기</button>
-                    </div>
-                    <hr className={styles.titleLine}/>
-
                     <div className={styles.fundingHeader}>
-                        <div className={styles.imageCard}>
+                        <div className={styles.imageWrapper}>
                             <img
                                 src={fundingDetail.fundingMainImageUrl || "placeholder.jpg"}
                                 alt="펀딩 이미지"
@@ -147,31 +141,42 @@ const FundingDetail = () => {
                             />
                         </div>
 
-                        <div className={styles.fundingInfo}>
-                            <h3>{fundingDetail.title}</h3>
-                            <p>
-                                <strong>작가:</strong> {fundingDetail.fundingUserName}
-                                <button className={styles.artistInfoButton}>작가 정보</button>
-                            </p>
-                            <h4>모인 금액</h4>
-                            <p>
-                                {fundingDetail.totalAmount.toLocaleString()}원{" "}
-                                <span className={styles.fundingDetailProgress}>
-                                    {Math.floor((fundingDetail.totalAmount / fundingDetail.goalAmount) * 100)}% 달성
-                                </span>
-                                {Math.ceil(
-                                    (new Date(fundingDetail.endDate) - new Date()) / (1000 * 60 * 60 * 24)
-                                )}{" "}
-                                일 남음
-                            </p>
-                            <p>목표 금액: {fundingDetail.goalAmount.toLocaleString()}원</p>
-                            <p>
-                                펀딩 기간:{" "}
-                                {new Date(fundingDetail.startDate).toLocaleDateString()} -{" "}
-                                {new Date(fundingDetail.endDate).toLocaleDateString()}
-                            </p>
-
-                            <button className={styles.fundButton} onClick={fundButtonToMoveRewardSection}>
+                        <div className={styles.infoSection}>
+                            <h3 className={styles.fundingTitle}>{fundingDetail.title}</h3>
+                            <div className={styles.statsContainer}>
+                                <div className={styles.statItem}>
+                                    <p className={styles.statLabel}>모인금액</p>
+                                    <p className={styles.statValue}>
+                                        {fundingDetail.totalAmount.toLocaleString()}원
+                                    </p>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <p className={styles.statLabel}>남은시간</p>
+                                    <p className={styles.statValue}>
+                                        {fundingDetail.remainingDays}일
+                                    </p>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <p className={styles.statLabel}>달성률</p>
+                                    <p className={`${styles.statValue} ${styles.achievementRate}`}>
+                                        {fundingDetail.achievementRate}%
+                                    </p>
+                                </div>
+                            </div>
+                            <div className={styles.additionalInfo}>
+                                <p>
+                                    <strong>목표금액:</strong> {fundingDetail.goalAmount.toLocaleString()}₩
+                                </p>
+                                <p>
+                                    <strong>펀딩기간:</strong>{" "}
+                                    {new Date(fundingDetail.startDate).toLocaleDateString()} -{" "}
+                                    {new Date(fundingDetail.endDate).toLocaleDateString()}
+                                </p>
+                            </div>
+                            <button
+                                className={`${styles.fundButton} ${styles.primaryButton}`}
+                                onClick={fundButtonToMoveRewardSection}
+                            >
                                 펀딩하기
                             </button>
                         </div>
@@ -263,7 +268,8 @@ const FundingDetail = () => {
                 </div>
             </div>
         </>
-    );
+    )
+        ;
 };
 
 export default FundingDetail;
