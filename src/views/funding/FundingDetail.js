@@ -32,7 +32,7 @@ const FundingDetail = () => {
     };
 
     useEffect(() => {
-        getFundingDetail();
+        getFundingDetail().then(r => console.log("Funding Detail Loaded"));
     }, []);
 
 
@@ -132,7 +132,14 @@ const FundingDetail = () => {
 
             <div className={styles.fundingDetailOutForm}>
                 <div className={styles.fundingDetail}>
+                    <div className={styles.breadcrumb}>
+                        펀딩 &gt; 펀딩상세
+                        <button className={styles.notifyButton}>알림받기</button>
+                    </div>
+                    <hr className={styles.titleLine}/>
+
                     <div className={styles.fundingHeader}>
+                        {/* 이미지 섹션 */}
                         <div className={styles.imageWrapper}>
                             <img
                                 src={fundingDetail.fundingMainImageUrl || "placeholder.jpg"}
@@ -141,9 +148,29 @@ const FundingDetail = () => {
                             />
                         </div>
 
+
+
+
+                        {/* 정보 섹션 */}
                         <div className={styles.infoSection}>
+
+
                             <h3 className={styles.fundingTitle}>{fundingDetail.title}</h3>
+
+                            <br/>
+
                             <div className={styles.statsContainer}>
+
+
+                                <div className={styles.artistContainer}>
+                                <span className={styles.artistInfo}>
+                                    <strong>작가:</strong> {fundingDetail.fundingUserName}
+                                </span>
+                                    <button className={styles.artistInfoButton}>작가 정보</button>
+                                </div>
+
+                                <hr className={styles.separator}/>
+
                                 <div className={styles.statItem}>
                                     <p className={styles.statLabel}>모인금액</p>
                                     <p className={styles.statValue}>
@@ -163,16 +190,26 @@ const FundingDetail = () => {
                                     </p>
                                 </div>
                             </div>
+
+                            <hr className={styles.separator}/>
+
+
+                            {/* 추가 정보 */}
                             <div className={styles.additionalInfo}>
                                 <p>
-                                    <strong>목표금액:</strong> {fundingDetail.goalAmount.toLocaleString()}₩
+                                    <strong>목표금액:</strong> {fundingDetail.goalAmount.toLocaleString()}원
                                 </p>
                                 <p>
                                     <strong>펀딩기간:</strong>{" "}
                                     {new Date(fundingDetail.startDate).toLocaleDateString()} -{" "}
                                     {new Date(fundingDetail.endDate).toLocaleDateString()}
                                 </p>
+
+
                             </div>
+
+
+                            {/* 펀딩하기 버튼 */}
                             <button
                                 className={`${styles.fundButton} ${styles.primaryButton}`}
                                 onClick={fundButtonToMoveRewardSection}
