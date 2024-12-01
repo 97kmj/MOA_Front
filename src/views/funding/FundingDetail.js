@@ -92,7 +92,7 @@ const FundingDetail = () => {
             state: {fundingId, selectedRewards, fundingDetail}
         });
     };
-    
+
     if (isLoading) {
         return (
             <>
@@ -171,22 +171,25 @@ const FundingDetail = () => {
 
                                 <div className={styles.statItem}>
                                     <p className={styles.statLabel}>모인금액</p>
-                                    <p className={styles.statValue}>
-                                        {fundingDetail.totalAmount.toLocaleString()}원
+                                    <p className={styles.statValueTotalAmount}>
+                                        {fundingDetail.totalAmount.toLocaleString()}₩
                                     </p>
                                 </div>
-                                <div className={styles.statItem}>
-                                    <p className={styles.statLabel}>남은시간</p>
-                                    <p className={styles.statValue}>
-                                        {fundingDetail.remainingDays}일
-                                    </p>
-                                </div>
+
                                 <div className={styles.statItem}>
                                     <p className={styles.statLabel}>달성률</p>
-                                    <p className={`${styles.statValue} ${styles.achievementRate}`}>
+                                    <p className={`${styles.statValueAchievementRate} ${styles.achievementRate}`}>
                                         {fundingDetail.achievementRate}%
                                     </p>
                                 </div>
+
+                                <div className={styles.statItem}>
+                                    <p className={styles.statLabel}>남은시간</p>
+                                    <p className={styles.statValueRemainingDays}>
+                                        {fundingDetail.remainingDays}일
+                                    </p>
+                                </div>
+
                             </div>
 
                             <hr className={styles.separator}/>

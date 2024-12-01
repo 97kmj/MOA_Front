@@ -66,7 +66,8 @@
 
 .fundingHeader {
     display: flex;
-    gap: 250px;
+    /*gap: 250px;*/
+    gap: 134px;
     align-items: flex-start;
 }
 
@@ -81,7 +82,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2%;
+    margin-top: 5%;
 }
 
 .mainImage {
@@ -94,7 +95,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-right: 3%;
+    margin-right: 13%;
 }
 
 .fundingTitle {
@@ -104,10 +105,18 @@
 }
 
 .statsContainer {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     /*gap: 5px; !* 각 항목 간 간격을 줄임 *!*/
 }
+
+.statContainer {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 
 .statItem {
     display: flex;
@@ -117,15 +126,72 @@
     padding: 2px 0; /* 상하 간격 최소화 */
 }
 
-.statLabel {
-    font-size: 14px;
-    color: #555;
-}
+/*.statLabel {*/
+/*    font-size: 16px;*/
+/*    color: #555;*/
+/*    font-weight: bold;*/
+/*}*/
 
 .statValue {
     font-size: 18px;
     font-weight: bold;
     color: #333;
+}
+
+.statContainer {
+    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+.statLabel {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2c2c2c;
+    margin-bottom: 5px;
+}
+
+/*.statValue {*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*    color: #333;*/
+/*}*/
+
+
+.statValueTotalAmount {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px; /* 둥근 모서리 */
+    font-size: 17px; /* 적절한 크기 */
+    font-weight: bold;
+    margin-left: 5px; /* 라벨과 간격 */
+    text-align: center;
+    color: #b29c59;
+
+}.statValueRemainingDays {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #fdecea; /* 연한 빨간 배경 */
+    color: #e74c3c; /* 진한 빨간 글자 */
+    border-radius: 20px; /* 둥근 모서리 */
+    font-size: 16px; /* 적절한 크기 */
+    font-weight: bold;
+    margin-left: 5px; /* 라벨과 간격 */
+    text-align: center;
+     width: 12%;
+
+}
+
+.statValueAchievementRate {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px; /* 둥근 모서리 */
+    font-size: 17px; /* 적절한 크기 */
+    font-weight: bold;
+    margin-left: 5px; /* 라벨과 간격 */
+    text-align: center;
 }
 
 .achievementRate {
