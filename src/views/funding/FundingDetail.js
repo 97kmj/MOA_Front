@@ -5,6 +5,8 @@ import MasonryGallery from "./MasonryGallery";
 import axios from "axios";
 import {useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
+import {useAtom} from "jotai/react";
+import {userAtom} from "../../atoms";
 
 const FundingDetail = () => {
     const {fundingId} = useParams();
@@ -14,6 +16,8 @@ const FundingDetail = () => {
     const [selectedRewards, setSelectedRewards] = useState([]);
     const lastSelectedRewardRef = useRef(null);
     const rewardSectionRef = useRef(null);
+
+    const [user] = useAtom(userAtom);
 
     const fundButtonToMoveRewardSection = () => {
         rewardSectionRef.current?.scrollIntoView({behavior: "smooth"});
@@ -122,6 +126,8 @@ const FundingDetail = () => {
 
     const goToContribute = (fundingId) => {
         // 선택한 리워드와 펀딩 ID를 state로 전달
+
+
         console.log("Selected Rewards:", selectedRewards);
         navigate('/fundings/contributions', {
             state: {fundingId, selectedRewards, fundingDetail}
@@ -305,7 +311,14 @@ const FundingDetail = () => {
                                 <div className={styles.totalSupport}>
                                     <button
                                         className={styles.rewardButton}
-                                        onClick={() => goToContribute(fundingDetail.fundingId)}
+                                        onClick={() => {
+                                            if (!user || !user.username) {
+                                                alert("로그인이 필요합니다.");
+                                                return;
+                                            }
+                                            goToContribute(fundingDetail.fundingId)}
+                                        }
+
                                     >
                                         총{" "}
                                         {selectedRewards

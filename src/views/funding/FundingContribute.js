@@ -32,6 +32,28 @@ const FundingContribute = () => {
 
 
     const requestPayment = async () => {
+
+        if (!user || !user.username) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+
+        if (shippingInfo.name.trim() === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (shippingInfo.phoneNumber.trim() === "") {
+            alert("연락처를 입력해주세요.");
+            return;
+        }
+        if (shippingInfo.address.trim() === "") {
+            alert("주소를 입력해주세요.");
+            return;
+        }
+
+
+
         if (!window.IMP) {
             alert("아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.");
             return;
