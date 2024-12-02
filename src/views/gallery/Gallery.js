@@ -2,178 +2,181 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
-
+import { userAtom } from "../../atoms";
+import { useAtomValue } from "jotai";
 import { Gallery as GridGallery } from "react-grid-gallery";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 
 // Type과 Category의 옵션 매핑
-const OPTIONS = {
-  그림: {
-    type: ["유화", "수채화", "아크릴화", "수묵화", "채색화", "판화", "기타"],
-    subject: [
-      "풍경화",
-      "인물화",
-      "정물화",
-      "크로키",
-      "추상화",
-      "초상화",
-      "기타",
-    ],
-  },
-  조소: {
-    type: [
-      "석조",
-      "목조",
-      "아조",
-      "점토상",
-      "석고상",
-      "청동상",
-      "테라코타",
-      "기타",
-    ],
-    subject: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
-  },
-  공예: {
-    type: ["석공예", "목공예", "유리공예", "도자공예", "기타"],
-    subject: ["기타"],
-  },
-};
-
-// Dropdown 컴포넌트
-const Dropdown = ({ label, options, onChange,selectedValue }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
-
-  const handleOutsideClick = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
-    }
+  const OPTIONS = {
+    그림: {
+      type: ["유화", "수채화", "아크릴화", "수묵화", "채색화", "판화", "기타"],
+      subject: [
+        "풍경화",
+        "인물화",
+        "정물화",
+        "크로키",
+        "추상화",
+        "초상화",
+        "기타",
+      ],
+    },
+    조소: {
+      type: [
+        "석조",
+        "목조",
+        "아조",
+        "점토상",
+        "석고상",
+        "청동상",
+        "테라코타",
+        "기타",
+      ],
+      subject: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
+    },
+    공예: {
+      type: ["석공예", "목공예", "유리공예", "도자공예", "기타"],
+      subject: ["기타"],
+    },
   };
 
-  const handleOptionClick = (option) => {
-    setIsOpen(false);
-    onChange(option === "전체" ? null : option); // 전체 선택 시 null 전달
-  };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+  // Dropdown 컴포넌트
+  const Dropdown = ({ label, options, onChange,selectedValue }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const toggleDropdown = () => setIsOpen((prev) => !prev);
+
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
+      }
     };
-  }, []);
 
-  return (
-    <div className={styles.dropdown} ref={dropdownRef}>
-      <button
-        className={`${styles.btn} ${styles.dropdownBtn}`}
-        onClick={toggleDropdown}
-      >
-        {label}: {selectedValue || "전체"}
-        </button>
-      {isOpen && (
-         <div className={styles.dropdownMenu}>
-           <div
-            className={styles.dropdownItem}
-            onClick={() => handleOptionClick("전체")}
-          >
-            전체
-          </div>
-         {options.map((option, index) => (
-           <div
-             key={index}
-             className={styles.dropdownItem}
-             onClick={() => handleOptionClick(option)}
-           >
-             {option}
-           </div>
-         ))}
-       </div>
-     )}
-   </div>
- );
-};
+    const handleOptionClick = (option) => {
+      setIsOpen(false);
+      onChange(option === "전체" ? null : option); // 전체 선택 시 null 전달
+    };
 
-// Gallery 컴포넌트
-const Gallery = () => {
-  const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
-  const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
-  const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수  
-  const [filters, setFilters] = useState({
-    subject: "",
-    type: "",
-    category: "",
-  }); // 필터 상태
+    useEffect(() => {
+      document.addEventListener("mousedown", handleOutsideClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+    }, []);
 
-  const [search, setSearch] = useState(""); // 검색어 상태
-  const [lightboxIndex, setLightboxIndex] = useState(-1); // Lightbox 상태
-  
-  const navigate = useNavigate();
+    return (
+      <div className={styles.dropdown} ref={dropdownRef}>
+        <button
+          className={`${styles.btn} ${styles.dropdownBtn}`}
+          onClick={toggleDropdown}
+        >
+          {label}: {selectedValue || "전체"}
+          </button>
+        {isOpen && (
+          <div className={styles.dropdownMenu}>
+            <div
+              className={styles.dropdownItem}
+              onClick={() => handleOptionClick("전체")}
+            >
+              전체
+            </div>
+          {options.map((option, index) => (
+            <div
+              key={index}
+              className={styles.dropdownItem}
+              onClick={() => handleOptionClick(option)}
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+  };
 
-  
-  // Type과 Category 옵션 상태
-  const [typeOptions, setTypeOptions] = useState([]);
-  const [subjectOptions, setSubjectOptions] = useState([]);
-
-
-  // 카테고리 변경 시 Subject와 Type 업데이트
-  const handleCategoryChange = (category) => {
-    setFilters((prev) => ({
-      ...prev,
-      category,
+  // Gallery 컴포넌트
+  const Gallery = () => {
+    const user = useAtomValue(userAtom);
+    const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
+    const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
+    const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수  
+    const [filters, setFilters] = useState({
       subject: "",
       type: "",
+      category: "",
+    }); // 필터 상태
+
+    const [search, setSearch] = useState(""); // 검색어 상태
+    const [lightboxIndex, setLightboxIndex] = useState(-1); // Lightbox 상태
+    
+    const navigate = useNavigate();
+
+    
+    // Type과 Category 옵션 상태
+    const [typeOptions, setTypeOptions] = useState([]);
+    const [subjectOptions, setSubjectOptions] = useState([]);
+
+
+    // 카테고리 변경 시 Subject와 Type 업데이트
+    const handleCategoryChange = (category) => {
+      setFilters((prev) => ({
+        ...prev,
+        category,
+        subject: "",
+        type: "",
+      }));
+      if (category) {
+        setSubjectOptions(OPTIONS[category].subject);
+        setTypeOptions(OPTIONS[category].type);
+      } else {
+        setSubjectOptions([]);
+        setTypeOptions([]);
+      }
+    };
+
+  // 필터 변경 핸들러
+  const handleFilterChange = (key, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [key]: value,
     }));
-    if (category) {
-      setSubjectOptions(OPTIONS[category].subject);
-      setTypeOptions(OPTIONS[category].type);
-    } else {
-      setSubjectOptions([]);
-      setTypeOptions([]);
-    }
   };
 
-// 필터 변경 핸들러
-const handleFilterChange = (key, value) => {
-  setFilters((prevFilters) => ({
-    ...prevFilters,
-    [key]: value,
-  }));
-};
 
+    // 백엔드 API에서 데이터 가져오기
+    useEffect(() => {
+      const fetchArtworks = async () => {
+        try {
 
-  // 백엔드 API에서 데이터 가져오기
-  useEffect(() => {
-    const fetchArtworks = async () => {
-      try {
+          const queryParams = new URLSearchParams({
+            ...(filters.category && { category: filters.category }),
+            ...(filters.subject && { subject: filters.subject }),
+            ...(filters.type && { type: filters.type }),
+            ...(search && { search }),
+            page: 0,
+            size: visibleCount,
+          }).toString();
 
-        const queryParams = new URLSearchParams({
-          ...(filters.category && { category: filters.category }),
-          ...(filters.subject && { subject: filters.subject }),
-          ...(filters.type && { type: filters.type }),
-          ...(search && { search }),
-          page: 0,
-          size: visibleCount,
-        }).toString();
+          const response = await fetch(
+            `http://localhost:8080/api/artworks?${queryParams}`
+          );
+          const data = await response.json();
 
-        const response = await fetch(
-          `http://localhost:8080/api/artworks?${queryParams}`
-        );
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          setArtworks(data); // 데이터가 배열인 경우 바로 설정
-        } else if (data.content) {
-          setArtworks(data.content); // content 키에서 배열 추출
-        } else {
-          console.error("Unexpected API response format:", data);
+          if (Array.isArray(data)) {
+            setArtworks(data); // 데이터가 배열인 경우 바로 설정
+          } else if (data.content) {
+            setArtworks(data.content); // content 키에서 배열 추출
+          } else {
+            console.error("Unexpected API response format:", data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch artworks:", error);
         }
-      } catch (error) {
-        console.error("Failed to fetch artworks:", error);
-      }
-};
+  };
 
 
     fetchArtworks();
@@ -183,7 +186,6 @@ const handleFilterChange = (key, value) => {
   const handleSearchChange = (event) => {
     setSearch(event.target.value); // 검색어 상태 업데이트
   };
-
 
   // 더보기 버튼 클릭 시
   const loadMore = () => setVisibleCount((prev) => prev + 8);
@@ -232,12 +234,22 @@ const handleFilterChange = (key, value) => {
   console.log("GridGallery Data:", galleryImages);
   console.log("Rendering GridGallery:", viewMode === "gallery");
 
-
   const lightboxSlides = artworks.map((artwork) => ({
   src: artwork.imageUrl,
   width: 1600,
   height: 1200,
   }));
+
+
+  const [selectedArtworks,setSelectedArtworks] = useState([])
+    //관리자 작품 블랙리스트 체크박스
+    const handleCheckboxChange = (artworkId, isChecked) => {
+        if (isChecked) {
+            setSelectedArtworks((prev) => [...prev, artworkId]); // 체크된 경우 추가
+        } else {
+            setSelectedArtworks((prev) => prev.filter((id) => id !== artworkId)); // 체크 해제된 경우 제거
+        }
+    };
 
   return (
     <>
@@ -328,12 +340,12 @@ const handleFilterChange = (key, value) => {
               <div
                 className={styles.card}
                 key={artwork.artworkId}
-                onClick={() => handleCardClick(artwork.artworkId)}
-              >
+                >
                 <img
                   src={artwork.imageUrl}
                   alt={artwork.title}
                   className={styles.cardImage}
+                  onClick={() => handleCardClick(artwork.artworkId)}
                 />
                 <h2 className={styles.cardTitle}>{artwork.title}</h2>
                 {/* <p className={styles.cardDescription}>{artwork.description}</p>
@@ -342,6 +354,17 @@ const handleFilterChange = (key, value) => {
                 <p className={styles.cardCategory}>카테고리: {artwork.category.categoryName}</p>
                 {/* <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p>
                 <p className={styles.cardSaleStatus}>판매 상태: {artwork.saleStatus}</p> */}
+                {
+                  user.role === 'ADMIN' && (
+                      <label>
+                      <input
+                          type="checkbox"
+                          onChange={(e) => handleCheckboxChange(artwork.artworkId, e.target.checked)}
+                          />
+                          의심작품 선택
+                      </label>   
+                  )
+                }
               </div>
             ))}
             {artworks.length >= visibleCount && (

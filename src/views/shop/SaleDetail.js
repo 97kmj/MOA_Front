@@ -198,7 +198,9 @@ const SaleDetail = () => {
                             <tbody className={styles.detailtitlearray}>
                               
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail?.artistName || 'Unknown Artist'}</Label></td> 
+
+                                    <td><Label>{saleDetail.artistName || 'Unknown Artist'}</Label></td> 
+
                                     <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artist.username)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
