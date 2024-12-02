@@ -4,7 +4,6 @@ import 'react-datepicker/dist/react-datepicker.css'; // Datepicker 기본 스타
 import Header from "../Header";
 import SideNav from "./SideNav"; // SideNav 컴포넌트 추가
 import styles from '../../css/mypage/RegArtworkList.module.css';
-
 import { useAtomValue } from "jotai";
 import { tokenAtom } from "../../atoms";
 
@@ -15,65 +14,70 @@ function RegArtworkList() {
     const [artworkList, setArtworkList] = useState([]); // 서버에서 가져온 작품 목록
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
-    
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+    const [error, setError] = useState(null); // 에러 상태 관리
+    const token = useAtomValue(tokenAtom);
 
-    // 날짜 검색 핸들러
-    const handleSearch = () => {
-        if (startDate && endDate) {
-            console.log(`기간 검색: ${startDate.toISOString()} - ${endDate.toISOString()}`);
-            fetchArtworks(currentPage, startDate.toISOString(), endDate.toISOString());
-        }
-    };
+   
 
-    const token = useAtomValue(tokenAtom); // Jotai로 토큰 가져오기
     console.log("JWT Token:", token); // 콘솔로 토큰 출력
 
     // 작품 목록 가져오기 함수
     const fetchArtworks = async (page, start = null, end = null) => {
+        setIsLoading(true);
+        setError(null);
         try {
-            // 쿼리 파라미터 구성
-            const params = new URLSearchParams();
-            params.append("page", page);
+            const params = new URLSearchParams({ page });
             if (start) params.append("startDate", start);
             if (end) params.append("endDate", end);
-    
-            // Fetch 요청
-            const response = await fetch(`http://localhost:8080/api/artworks/list?${params.toString()}`, {
+
+            const response = await fetch(`http://localhost:8080/api/artworks/list?${params}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // JWT 토큰 추가
+                    Authorization: `Bearer ${token}`,
                 },
             });
-    
-            // 응답 상태 확인
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-    
-            // JSON 응답 처리
+
             const data = await response.json();
             setArtworkList(data.artworks || []);
             setTotalPages(data.totalPages || 1);
         } catch (error) {
-            console.error("Error fetching artworks:", error);
-            setArtworkList([]); // 오류 발생 시 빈 배열로 설정
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    // 페이지 변경 핸들러
+    useEffect(() => {
+        if (!token) return;
+        fetchArtworks(1);
+    }, [token]);
+
+    const handleSearch = () => {
+        if (!startDate || !endDate) {
+            alert("시작 날짜와 종료 날짜를 모두 선택해주세요.");
+            return;
+        }
+        fetchArtworks(currentPage, startDate.toISOString(), endDate.toISOString());
+    };
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
         fetchArtworks(page, startDate?.toISOString(), endDate?.toISOString());
     };
 
-    // 컴포넌트가 마운트되었을 때 초기 데이터 가져오기
-    useEffect(() => {
-        fetchArtworks(1); // 첫 페이지 데이터 로드
-    }, []);
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
+
+    
+    
+    
 
 
     return (
@@ -133,27 +137,32 @@ function RegArtworkList() {
                     </div>
 
                     {/* Artwork List */}
-                    <div className={styles.regArtworkListItems}>
-                        {Array.isArray(artworkList) && artworkList.length > 0 ? (
-                            artworkList.map((artwork) => (
-                                <div key={artwork.artworkId} className={styles.regArtworkItem}>
-                                    <img
-                                        src={artwork.imageUrl || 'https://via.placeholder.com/60'}
-                                        alt="artwork"
-                                        className={styles.regArtworkItemImg}
-                                    />
-                                    <div className={styles.regArtworkItemDetails}>
-                                        <h4>{artwork.title}</h4>
-                                        <p>작품설명: {artwork.description}</p>
-                                        <p>등록일: {new Date(artwork.createAt).toLocaleDateString()}</p>
+                    {isLoading ? (
+                        <p>데이터를 불러오는 중입니다...</p>
+                    ) : error ? (
+                        <p>에러 발생: {error}</p>
+                    ) : (
+                        <div className={styles.regArtworkListItems}>
+                            {artworkList.length > 0 ? (
+                                artworkList.map((artwork) => (
+                                    <div key={artwork.artworkId} className={styles.regArtworkItem}>
+                                        <img
+                                            src={artwork.imageUrl || 'https://via.placeholder.com/60'}
+                                            alt="artwork"
+                                            className={styles.regArtworkItemImg}
+                                        />
+                                        <div className={styles.regArtworkItemDetails}>
+                                            <h4>{artwork.title}</h4>
+                                            <p>작품설명: {artwork.description}</p>
+                                            <p>등록일: {new Date(artwork.createAt).toLocaleDateString()}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))
-                        ) : (
-                            <p>작품이 없습니다.</p>
-                        )}
-                    </div>
-
+                                ))
+                            ) : (
+                                <p>작품이 없습니다.</p>
+                            )}
+                        </div>
+                    )}
                     {/* Pagination */}
                     <div className={styles.regArtworkPagination}>
                         <button
