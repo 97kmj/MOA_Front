@@ -18,6 +18,7 @@ const FundingContribute = () => {
     });
 
 
+
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://cdn.iamport.kr/v1/iamport.js";
@@ -31,6 +32,28 @@ const FundingContribute = () => {
 
 
     const requestPayment = async () => {
+
+        if (!user || !user.username) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+
+        if (shippingInfo.name.trim() === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (shippingInfo.phoneNumber.trim() === "") {
+            alert("연락처를 입력해주세요.");
+            return;
+        }
+        if (shippingInfo.address.trim() === "") {
+            alert("주소를 입력해주세요.");
+            return;
+        }
+
+
+
         if (!window.IMP) {
             alert("아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.");
             return;
@@ -67,7 +90,6 @@ const FundingContribute = () => {
               //아임포트
                 merchant_uid: merchantUid,
                 amount: paymentAmount,
-
 
                 ...requestData,
             });
@@ -133,7 +155,11 @@ const FundingContribute = () => {
                     alert(`리워드 재고 부족: ${message}`);
                 } else if (errorCode === "FUNDING_PERIOD_ERROR") {
                     alert(`펀딩 기간 오류: ${message}`);
-                } else {
+                } else if(errorCode === "REWARD_LIMIT_ERROR"){
+                    alert(`리워드 한도 초과: ${message}`);
+                }
+
+                else {
                     alert(`알 수 없는 오류: ${message}`);
                 }
             } else {

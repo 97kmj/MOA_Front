@@ -5,6 +5,8 @@ import MasonryGallery from "./MasonryGallery";
 import axios from "axios";
 import {useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
+import {useAtom} from "jotai/react";
+import {userAtom} from "../../atoms";
 
 const FundingDetail = () => {
     const {fundingId} = useParams();
@@ -15,6 +17,8 @@ const FundingDetail = () => {
     const lastSelectedRewardRef = useRef(null);
     const rewardSectionRef = useRef(null);
 
+    const [user] = useAtom(userAtom);
+
     const fundButtonToMoveRewardSection = () => {
         rewardSectionRef.current?.scrollIntoView({behavior: "smooth"});
     };
@@ -22,6 +26,7 @@ const FundingDetail = () => {
     const getFundingDetail = async () => {
         try {
             const response = await axios.get(`${url}/api/funding/${fundingId}`);
+            console.log("Funding Detail:", response.data);
             setFundingDetail(response.data);
         } catch (error) {
             console.error("Failed to fetch funding detail:", error);
@@ -49,6 +54,14 @@ const FundingDetail = () => {
         const existingReward = selectedRewards.find((r) => r.rewardId === reward.rewardId);
 
         if (existingReward) {
+
+            // 제한 검증
+            if (reward.isLimit && existingReward.rewardQuantity + 1 > reward.limitQuantity) {
+                alert(`이 리워드는 1인당 최대 ${reward.limitQuantity}개까지 구매 가능합니다.`);
+                return;
+            }
+
+
             setSelectedRewards((prevRewards) =>
                 prevRewards.map((r) =>
                     r.rewardId === reward.rewardId
@@ -57,6 +70,12 @@ const FundingDetail = () => {
                 )
             );
         } else {
+            // 제한 검증
+            if (reward.isLimit && 1 > reward.limitQuantity) {
+                alert(`이 리워드는 1인당 최대 ${reward.limitQuantity}개까지 구매 가능합니다.`);
+                return;
+            }
+
             setSelectedRewards((prevRewards) => [
                 ...prevRewards,
                 {...reward, rewardQuantity: 1}, // 기본 수량 1 설정
@@ -64,15 +83,35 @@ const FundingDetail = () => {
         }
     };
 
+    // const changeSelectedRewardQuantity = (selectedRewardId, quantityCount) => {
+    //     setSelectedRewards((prevRewards) =>
+    //         prevRewards.map((reward) =>
+    //             reward.rewardId === selectedRewardId
+    //                 ? {...reward, rewardQuantity: Math.max(1, reward.rewardQuantity + quantityCount)} // rewardQuantity 사용
+    //                 : reward
+    //         )
+    //     );
+    // };
+
     const changeSelectedRewardQuantity = (selectedRewardId, quantityCount) => {
         setSelectedRewards((prevRewards) =>
-            prevRewards.map((reward) =>
-                reward.rewardId === selectedRewardId
-                    ? {...reward, rewardQuantity: Math.max(1, reward.rewardQuantity + quantityCount)} // rewardQuantity 사용
-                    : reward
-            )
+            prevRewards.map((reward) => {
+                if (reward.rewardId === selectedRewardId) {
+                    const newQuantity = reward.rewardQuantity + quantityCount;
+
+                    // 제한 검증
+                    if (reward.isLimit && newQuantity > reward.limitQuantity) {
+                        alert(`이 리워드는 1인당 최대 ${reward.limitQuantity}개까지 구매 가능합니다.`);
+                        return reward; // 변경하지 않고 그대로 반환
+                    }
+
+                    return {...reward, rewardQuantity: Math.max(1, newQuantity)};
+                }
+                return reward;
+            })
         );
     };
+
 
     const removeSelectedReward = (selectedRewardId) => {
         setSelectedRewards(
@@ -87,6 +126,8 @@ const FundingDetail = () => {
 
     const goToContribute = (fundingId) => {
         // 선택한 리워드와 펀딩 ID를 state로 전달
+
+
         console.log("Selected Rewards:", selectedRewards);
         navigate('/fundings/contributions', {
             state: {fundingId, selectedRewards, fundingDetail}
@@ -145,8 +186,6 @@ const FundingDetail = () => {
                                 className={styles.mainImage}
                             />
                         </div>
-
-
 
 
                         {/* 정보 섹션 */}
@@ -272,7 +311,14 @@ const FundingDetail = () => {
                                 <div className={styles.totalSupport}>
                                     <button
                                         className={styles.rewardButton}
-                                        onClick={() => goToContribute(fundingDetail.fundingId)}
+                                        onClick={() => {
+                                            if (!user || !user.username) {
+                                                alert("로그인이 필요합니다.");
+                                                return;
+                                            }
+                                            goToContribute(fundingDetail.fundingId)}
+                                        }
+
                                     >
                                         총{" "}
                                         {selectedRewards
@@ -286,21 +332,65 @@ const FundingDetail = () => {
                                 </div>
                             )}
 
+                            {/*<div className={styles.rewardList}>*/}
+                            {/*    {fundingDetail.rewards.map((reward) => (*/}
+                            {/*        <div*/}
+                            {/*            key={reward.rewardId}*/}
+                            {/*            className={styles.rewardItem}*/}
+                            {/*            onClick={() => addRewardToSelection(reward)}*/}
+                            {/*        >*/}
+                            {/*            <div className={styles.rewardHeader}>*/}
+                            {/*                <h5>{reward.rewardName}</h5>*/}
+                            {/*                <span className={styles.rewardLeft}>남음: {reward.stock}개</span>*/}
+                            {/*            </div>*/}
+                            {/*            <p className={styles.rewardDescription}>{reward.rewardDescription}</p>*/}
+                            {/*        </div>*/}
+                            {/*    ))}*/}
+                            {/*</div>*/}
+
+                            {/*<div className={styles.rewardList}>*/}
+                            {/*    {fundingDetail.rewards.map((reward) => (*/}
+                            {/*        <div*/}
+                            {/*            key={reward.rewardId}*/}
+                            {/*            className={styles.rewardItem}*/}
+                            {/*            onClick={() => addRewardToSelection(reward)}*/}
+                            {/*        >*/}
+                            {/*            <div className={styles.rewardHeader}>*/}
+                            {/*                <h5>{reward.rewardName}</h5>*/}
+                            {/*                <span className={styles.rewardLeft}>*/}
+                            {/*                    남음: {reward.stock}개 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}*/}
+                            {/*                </span>*/}
+                            {/*            </div>*/}
+                            {/*            <p className={styles.rewardDescription}>{reward.rewardDescription}</p>*/}
+                            {/*        </div>*/}
+                            {/*    ))}*/}
+                            {/*</div>*/}
+
                             <div className={styles.rewardList}>
                                 {fundingDetail.rewards.map((reward) => (
                                     <div
                                         key={reward.rewardId}
-                                        className={styles.rewardItem}
-                                        onClick={() => addRewardToSelection(reward)}
+                                        className={`${styles.rewardItem} ${reward.stock <= 0 && reward.rewardType !== "BASIC" ? styles.disabled : ""}`}
+                                        onClick={() => {
+                                            if (reward.stock > 0 || reward.rewardType === "BASIC") {
+                                                addRewardToSelection(reward);
+                                            } else {
+                                                alert("재고가 부족하여 선택할 수 없습니다.");
+                                            }
+                                        }}
                                     >
                                         <div className={styles.rewardHeader}>
                                             <h5>{reward.rewardName}</h5>
-                                            <span className={styles.rewardLeft}>남음: {reward.stock}개</span>
+                                            <span className={styles.rewardLeft}>
+                                                남음: {reward.stock}개 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}
+                                            </span>
                                         </div>
                                         <p className={styles.rewardDescription}>{reward.rewardDescription}</p>
                                     </div>
                                 ))}
                             </div>
+
+
                         </div>
                     </div>
                 </div>
