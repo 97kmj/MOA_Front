@@ -26,14 +26,14 @@ function GalleryDetail() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // JWT 토큰 추가
+          Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Error response:", errorText);
-        const errorJson = JSON.parse(errorText); // JSON으로 파싱
+        const errorJson = JSON.parse(errorText);
         alert(errorJson.message || "좋아요 처리 중 문제가 발생했습니다.");
         return;
       }
@@ -45,40 +45,42 @@ function GalleryDetail() {
       console.error("Error toggling like:", error);
     }
   };
+  
 
   // 작품 데이터 및 좋아요 상태 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //작품
-        const artworkResponse = await fetch(`http://localhost:8080/api/artworks/${id}`);
+        // Fetch artwork details
+        const artworkResponse = await fetch(`http://localhost:8080/api/artworks/${id}`, {
+          headers: token
+            ? { Authorization: `Bearer ${token}` }
+            : {}, // 헤더를 추가
+        });
         if (!artworkResponse.ok) throw new Error("Failed to fetch artwork data");
         const artworkData = await artworkResponse.json();
-
-        setData(artworkData); // 데이터 저장
-
-        //좋아요
+        setData(artworkData);
+  
+        // Fetch like status if token is available
         if (token) {
           const likeResponse = await fetch(`http://localhost:8080/api/like/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`, // JWT 토큰 추가
-            },
+            headers: { Authorization: `Bearer ${token}` },
           });
-
           if (likeResponse.ok) {
             const likeData = await likeResponse.json();
-            setIsLiked(likeData.isLiked); // 좋아요 상태 저장
+            setIsLiked(likeData.isLiked);
           }
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
-        setIsLoading(false); // 로딩 완료
+        setIsLoading(false);
       }
     };
-
+  
     fetchData();
   }, [id, token]);
+  
 
   // 로딩 상태 처리
   if (isLoading) {
