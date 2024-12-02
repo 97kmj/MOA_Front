@@ -58,7 +58,7 @@ const SaleDetail = () => {
     useEffect(() =>{
         const getSaleDetail = async () => {
             try{
-                const response = await fetch(`${url}/api/artworks/${artworkId}`)
+                const response = await fetch(`${url}/shop/artworkDetail/${artworkId}`)
                 const artworkData = await response.json(); 
                 setSaleDetail(artworkData);
                 console.log(artworkData)
@@ -70,8 +70,8 @@ const SaleDetail = () => {
             }
         };
         getSaleDetail();
-        
-    }, [artworkId] ,  );
+        console.log(saleDetail)
+    }, [artworkId]);
 
     useEffect(() =>{
         const getIsLikeArtwork = async () => {
@@ -98,8 +98,6 @@ const SaleDetail = () => {
     const goShoppingCart = (artistId) =>{
 
         
-        // const response = await fetch(`${url}/api/artworks/${artworkId}`)
-
         navigate(`/shop/shoppingCart/${artistId}`)
 
     }
@@ -200,17 +198,17 @@ const SaleDetail = () => {
                             <tbody className={styles.detailtitlearray}>
                               
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.artist?.name || 'Unknown Artist'}</Label></td> 
+                                    <td><Label>{saleDetail?.artistName || 'Unknown Artist'}</Label></td> 
                                     <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artist.username)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.type.typeName}</Label></td>
+                                   <td><Label>{saleDetail.typeName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.subject.subjectName}</Label></td>
+                                    <td><Label>{saleDetail.subjectName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{new Intl.NumberFormat().format(basePrice)}</Label></td>
@@ -245,7 +243,6 @@ const SaleDetail = () => {
                     <div className={styles.leftgoldheart} >
                         <div className={styles.likedposition}>
                             <img
-                                // src={isLiked ? "/img/heart.svg" : isLiked === false ? "/img/heart.svg" : "/img/goldheart.png"}
                                 src={isLiked==true? "/img/heart.svg"  : "/img/goldheart.png"}
                                 alt="좋아요"
                                 className={styles.likeIcon}
@@ -253,9 +250,9 @@ const SaleDetail = () => {
                             />
                             <div className={styles.likedcount}
                             >
-                                {/* {saleDetail.likeCount} */}
+
                                 {isCount}
-                                {/* {isCount != null ? isCount : saleDetail.likeCount} */}
+
                             </div>
                         </div>
                     </div>
@@ -317,7 +314,7 @@ const SaleDetail = () => {
                             </tr>
                             <tr>
                                 <td colSpan="3" className={styles.artworkInfocontent}>
-                                    { saleDetail.artist.artistNote}
+                                    { saleDetail.artistNote}
                                 </td>
                             </tr>
                         </tbody>
@@ -343,8 +340,7 @@ const SaleDetail = () => {
                                 alt="Move Left"
                                 />
                             </div>
-                
-                        {/* Image frame selection */}
+
                             <div className={styles.recommendFrametile}>
                                 <img
                                 src={saleDetail.imageUrl} 
