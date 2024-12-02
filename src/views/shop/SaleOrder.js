@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../css/shop/SaleOrder.module.css';
 import Header from '../Header';
 import { Modal } from 'reactstrap';
+import { url } from "../../config";
+import { useParams } from 'react-router';
 
 const SaleOrder = () => {
+    const{artworkId} = useParams();
+    const{paymentData, setPaymentData} = useState(); 
+
+
     const [buyerInfo, setBuyerInfo] = useState({
         name: '',
         contact: '',
@@ -13,7 +19,18 @@ const SaleOrder = () => {
 
     const [useMemberInfo, setUseMemberInfo] = useState(false);
 
-    
+    useEffect(()=>{
+        const getSalePayment = async () =>{
+            try{
+                const response = await fetch(`${url}/shop/payment/${artworkId}`)
+                const artworkData = await response.json();
+                setPaymentData(artworkData);
+
+            }catch(error){
+                console.error("판매데이터 가져오기 실패");
+            }
+        };
+    },[artworkId])
 
     const [artworkDetails] = useState({
         title: '투우',

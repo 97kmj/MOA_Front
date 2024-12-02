@@ -70,8 +70,8 @@ const SaleDetail = () => {
             }
         };
         getSaleDetail();
-        
-    }, [artworkId] ,  );
+        console.log(saleDetail)
+    }, [artworkId]);
 
     useEffect(() =>{
         const getIsLikeArtwork = async () => {
@@ -98,8 +98,6 @@ const SaleDetail = () => {
     const goShoppingCart = (artistId) =>{
 
         
-        // const response = await fetch(`${url}/api/artworks/${artworkId}`)
-
         navigate(`/shop/shoppingCart/${artistId}`)
 
     }
@@ -200,14 +198,16 @@ const SaleDetail = () => {
                             <tbody className={styles.detailtitlearray}>
                               
                                 <tr className={styles.detailTopRightArray}>
+
                                     <td><Label>{saleDetail.artistName || 'Unknown Artist'}</Label></td> 
+
                                     <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artist.username)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.typeName}</Label></td>
+                                   <td><Label>{saleDetail.typeName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.subjectName}</Label></td>
@@ -245,7 +245,6 @@ const SaleDetail = () => {
                     <div className={styles.leftgoldheart} >
                         <div className={styles.likedposition}>
                             <img
-                                // src={isLiked ? "/img/heart.svg" : isLiked === false ? "/img/heart.svg" : "/img/goldheart.png"}
                                 src={isLiked==true? "/img/heart.svg"  : "/img/goldheart.png"}
                                 alt="좋아요"
                                 className={styles.likeIcon}
@@ -253,9 +252,9 @@ const SaleDetail = () => {
                             />
                             <div className={styles.likedcount}
                             >
-                                {/* {saleDetail.likeCount} */}
+
                                 {isCount}
-                                {/* {isCount != null ? isCount : saleDetail.likeCount} */}
+
                             </div>
                         </div>
                     </div>
@@ -343,8 +342,7 @@ const SaleDetail = () => {
                                 alt="Move Left"
                                 />
                             </div>
-                
-                        {/* Image frame selection */}
+
                             <div className={styles.recommendFrametile}>
                                 <img
                                 src={saleDetail.imageUrl} 
