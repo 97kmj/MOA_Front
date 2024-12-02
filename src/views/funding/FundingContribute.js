@@ -45,11 +45,12 @@ const FundingContribute = () => {
 
         // 백엔드에 전달할 데이터
         const requestData = {
-            impUid: null, // 이 값은 결제 성공 후 업데이트됨
-            totalAmount: selectedRewards.reduce(
-                (sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity,
-                0
-            ),
+            impUid: merchantUid, // 이 값은 결제 성공 후 업데이트됨
+            // totalAmount: selectedRewards.reduce(
+            //     (sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity,
+            //     0
+            // ),
+            totalAmount: paymentAmount,
             paymentType: "CARD", // 카드 결제 고정 (예시)
             fundingId: fundingId,
             rewardList: selectedRewards,
@@ -63,8 +64,12 @@ const FundingContribute = () => {
         try {
             // Step 1: 결제 금액 사전등록 요청
             const prepareResponse = await axios.post(`${url}/api/funding/payment/prepare`, {
+              //아임포트
                 merchant_uid: merchantUid,
                 amount: paymentAmount,
+
+
+                ...requestData,
             });
 
             if (prepareResponse.status === 200) {
@@ -85,10 +90,7 @@ const FundingContribute = () => {
                     buyer_tel: user.phone,
                     buyer_addr: shippingInfo.address || user.address,
                     buyer_postcode: "123-456", // 구매자 우편번호
-                    custom_data: JSON.stringify({
-                        fundingId: fundingId,
-                        rewardList: selectedRewards,
-                    }), // 사용자 정의 데이터
+
                 };
 
                 IMP.request_pay(paymentData, async (rsp) => {
@@ -124,8 +126,21 @@ const FundingContribute = () => {
                 console.error("사전 등록 실패:", prepareResponse);
             }
         } catch (error) {
-            console.error("사전 등록 요청 중 오류:", error);
-            alert("결제 사전등록 중 문제가 발생했습니다.");
+            if (error.response) {
+                // 서버에서 반환한 오류를 기반으로 적절한 메시지 표시
+                const { error: errorCode, message } = error.response.data;
+                if (errorCode === "REWARD_STOCK_ERROR") {
+                    alert(`리워드 재고 부족: ${message}`);
+                } else if (errorCode === "FUNDING_PERIOD_ERROR") {
+                    alert(`펀딩 기간 오류: ${message}`);
+                } else {
+                    alert(`알 수 없는 오류: ${message}`);
+                }
+            } else {
+                // 네트워크 오류 등 일반적인 오류 처리
+                console.error("사전 등록 요청 중 오류:", error);
+                alert("결제 사전등록 중 문제가 발생했습니다.");
+            }
         }
     };
 
@@ -158,22 +173,24 @@ const FundingContribute = () => {
                     <hr className={styles.fundingContributeSectionDivider}/>
                     {/* 이미지 , 펀딩 */}
                     <div className={styles.fundingContributeMainInfo}>
-                        <img
-                            src={fundingDetail?.fundingMainImageUrl}
-                            alt={fundingDetail?.title || "펀딩 이미지"}
-                            className={styles.fundingContributeMainImage}
-                        />
+                        <div className={styles.imageCard}>
+                            <img
+                                src={fundingDetail?.fundingMainImageUrl}
+                                alt={fundingDetail?.title || "펀딩 이미지"}
+                                className={styles.fundingContributeMainImage}
+                            />
+                        </div>
                         <div className={styles.fundingContributeDetails}>
-                            <h3>{fundingDetail?.title}</h3>
+                            <p className={styles.fundingContributeDetailsTitle}>펀딩 제목 &nbsp;{fundingDetail?.title}</p>
                             <span className={styles.fundingContributeAmount}></span>
                             <p className={styles.fundingContributeAmount}>
-                                후원금액:&nbsp;
+                                후원금액 &nbsp;
                                 {selectedRewards
                                     .reduce((sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity, 0)
                                     .toLocaleString()}원
 
-                                <p>목표 금액: {fundingDetail?.goalAmount.toLocaleString()}원</p>
-                                <p>현재 펀딩 모인 금액: {fundingDetail?.totalAmount.toLocaleString()}원{" "}</p>
+                                <p>목표 금액 {fundingDetail?.goalAmount.toLocaleString()}원</p>
+                                {/*<p>현재 달성금액 {fundingDetail?.totalAmount.toLocaleString()}원{" "}</p>*/}
 
                                 <span>
                                 {((fundingDetail?.totalAmount / fundingDetail?.goalAmount) * 100).toFixed(2)}% 달성
