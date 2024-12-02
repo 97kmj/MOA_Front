@@ -152,8 +152,8 @@ const AdminFunding = () => {
                                         <td className={styles.gold}>{reward.name}</td>
                                         <td>{reward.description}</td>
                                         <td className={styles.gold}>{reward.price ? reward.price.toLocaleString() : 0}&#8361;</td>
-                                        <td>{reward.quantity ? reward.quantity.toLocaleString() : 0}</td>
-                                        <td>{reward.isQuantityLimited ? reward.limitPerPerson : 'X'}</td>
+                                        <td>{reward.quantity ? reward.quantity.toLocaleString() : '제한없음'}</td>
+                                        <td>{reward.limitPerPerson ? reward.limitPerPerson : 'X'}</td>
                                     </tr>
                                     ))
                                 ) : (

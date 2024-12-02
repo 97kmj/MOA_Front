@@ -106,7 +106,7 @@ const SaleDetail = () => {
         navigate(`/shop/SaleOrder/${artworkId}`)
     }
     const goArtist = (artistId) => {
-        navigate(`/artistDetail/${artistId}`)
+        navigate('/artistDetail', {state : {artistId : artistId}})
     }
 
     // 모달 추천프레임
@@ -201,7 +201,7 @@ const SaleDetail = () => {
 
                                     <td><Label>{saleDetail.artistName || 'Unknown Artist'}</Label></td> 
 
-                                    <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artist.username)}>작가상세</td>
+                                    <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artistId)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
