@@ -44,7 +44,7 @@ const SaleList = () => {
         
         const page = 0;
         
-         const listUrl = `${url}/shop/saleList?${queryParams}`
+        const listUrl = `${url}/shop/saleList?${queryParams}`
         axios.get(listUrl)
             .then(res =>{
               
