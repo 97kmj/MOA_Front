@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../css/shop/SaleOrder.module.css';
 import Header from '../Header';
 import { Modal } from 'reactstrap';
+import { useAtomValue, useAtom } from 'jotai/react';
+import { tokenAtom, userAtom } from "../../atoms";
 import { url } from "../../config";
+import axios from 'axios';
 import { useParams } from 'react-router';
 
 const SaleOrder = () => {
     const{artworkId} = useParams();
-    const{paymentData, setPaymentData} = useState(); 
+    const[orderData, setOrderData] = useState(); 
+    const user = useAtomValue(userAtom);
+    const [useMemberInfo, setUseMemberInfo] = useState(false);
 
 
     const [buyerInfo, setBuyerInfo] = useState({
@@ -17,30 +22,34 @@ const SaleOrder = () => {
         address: '',
     });
 
-    const [useMemberInfo, setUseMemberInfo] = useState(false);
 
     useEffect(()=>{
         const getSalePayment = async () =>{
+            if (!user.username) {
+                // user.username이 비어 있으면 리턴하여 요청을 지연
+                console.log("username is not ready yet");
+                return;
+            }
             try{
-                const response = await fetch(`${url}/shop/payment/${artworkId}`)
-                const artworkData = await response.json();
-                setPaymentData(artworkData);
-
+                const res = await axios.get(`${url}/shop/orderData?artworkId=${artworkId}&username=${user.username}`)
+                .then(res=>{
+                    let artworkData = res.data.artworkList;
+                    let userInfo = res.data.userList ;
+                    console.log(res.data);
+                    setOrderData(artworkData);
+                    setUseMemberInfo(userInfo);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
             }catch(error){
                 console.error("판매데이터 가져오기 실패");
             }
-        };
-    },[artworkId])
+        }
+        getSalePayment();
+    },[user.username,artworkId])
 
-    const [artworkDetails] = useState({
-        title: '투우',
-        price: 2200000,
-        artist: '피카소',
-        size: '72.7 X 90.9CM',
-        stock: 1,
-        option: '기본 프레임 +100,000₩',
-        optionPrice: 100000,
-    });
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -52,10 +61,10 @@ const SaleOrder = () => {
 
     const handleUseMemberInfo = () => {
         setBuyerInfo({
-            name: '회원 이름',
-            contact: '010-1234-5678',
-            email: 'member@example.com',
-            address: '서울특별시 강남구',
+            name: useMemberInfo.name,
+            contact: useMemberInfo.phone,
+            email: useMemberInfo.email,
+            address: useMemberInfo.address ,
         });
         setUseMemberInfo(true);
     };
@@ -71,7 +80,7 @@ const SaleOrder = () => {
     };
 
     const calculateTotalPrice = () => {
-        return artworkDetails.price + artworkDetails.optionPrice;
+        return orderData.price + orderData.optionPrice;
     };
 
     return (
@@ -85,7 +94,7 @@ const SaleOrder = () => {
                     {/* Left Section */}
                     <div className={styles.leftSection}>
                         <img
-                            src={`${process.env.PUBLIC_URL}/img/funding/image5.png`}
+                            // src={orderData.imageUrl }
                             alt="Artwork"
                             className={styles.artworkImage}
                         />
@@ -167,42 +176,42 @@ const SaleOrder = () => {
                     </div>
 
                     {/* Right Section */}
-                    <div className={styles.rightSection}>
+                    {/* <div className={styles.rightSection}>
                         <div className={styles.artworkDetails}>
-                            <h3 className={styles.titleName}>{artworkDetails.title}</h3>
+                            <h3 className={styles.titleName}>{orderData.title}</h3>
                             <p>
                                 <span className={styles.title}>ARTIST</span>
-                                <span className={styles.content}>{artworkDetails.artist}</span>
+                                <span className={styles.content}>{orderData.artist}</span>
                             </p>
                             <p>
                                 <span className={styles.title}>SIZE</span>
-                                <span className={styles.content}>{artworkDetails.size}</span>
+                                <span className={styles.content}>{orderData.size}</span>
                             </p>
                             <p>
                                 <span className={styles.title}>PRICE</span>
-                                <span className={styles.content}>{artworkDetails.price.toLocaleString()}원</span> 
+                                <span className={styles.content}>{orderData.price.toLocaleString()}원</span> 
                             </p>
                             <p>
                                 <span className={styles.title}>STOCK</span>
-                                <span className={styles.content}>{artworkDetails.stock}개</span>
+                                <span className={styles.content}>{orderData.stock}개</span>
                             </p>
                             <p>
                                 <span className={styles.title}>Option</span>
-                                <span className={styles.content}>{artworkDetails.option}</span>
+                                <span className={styles.content}>{orderData.option}</span>
                             </p>
                         </div>
                         <div className={styles.summary}>
                             <p>
-                                {artworkDetails.title}{' '}
-                                {artworkDetails.price.toLocaleString()}₩
+                                {orderData.title}{' '}
+                                {orderData.price.toLocaleString()}₩
                             </p>
-                            <p>{artworkDetails.option}</p>
+                            <p>{orderData.option}</p>
                             <p className={styles.total}>
                                 총 금액: {calculateTotalPrice().toLocaleString()}₩
                             </p>
                         </div>
                         <button className={styles.payButton}>결제하기</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
