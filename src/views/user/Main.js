@@ -1,21 +1,11 @@
 import styles from '../../css/user/Main.module.css';
 import Header from '../Header';
 import { useNavigate } from 'react-router';
-
-import { useAtomValue } from 'jotai'; // jotai에서 상태 읽기
-import { tokenAtom, userAtom } from '../../atoms'; // 토큰과 사용자 정보 가져오기
 import { useEffect } from 'react';
 
 const Main = () => {
     const navigate = useNavigate();
-    const token = useAtomValue(tokenAtom); // 토큰 읽기
-    const user = useAtomValue(userAtom); // 사용자 정보 읽기
-    useEffect(() => {
-        // 토큰이 없는 경우 "/" 페이지로 리디렉션
-        if (!token) {
-            navigate('/');
-        }
-    }, [token, navigate]);
+    
     return(
         <>
         

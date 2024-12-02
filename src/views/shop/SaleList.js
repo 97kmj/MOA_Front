@@ -235,7 +235,6 @@ const SaleList = () => {
                                     <p className={styles.price}>{item.price}</p>
                                     <p className={styles.category}>{item.subjectName}&nbsp;&nbsp;{item.typeName}</p>
                                 </div>
-                            </div>
                             {
                                 user.role === 'ADMIN' && (
                                     <label>
@@ -247,6 +246,7 @@ const SaleList = () => {
                                     </label>   
                                 )
                             }
+                            </div>
                         </div>
                         
                         </>
