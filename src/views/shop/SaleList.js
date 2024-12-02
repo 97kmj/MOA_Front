@@ -4,9 +4,11 @@ import Header from "../Header";
 import { useNavigate } from 'react-router';
 import { url } from "../../config";
 import axios from 'axios';
+import { userAtom } from '../../atoms';
+import { useAtomValue } from 'jotai';
 
 const SaleList = () => {
-    
+    const user = useAtomValue(userAtom);
     const [searchKeyword, setSearchKeyword] = useState(""); //검색어
     const [category, setCategory] = useState([]); // 카테고리 리스트 가져오기
     const [types, setTypes] = useState([]); // 타입 리스트 가져오기
@@ -133,6 +135,17 @@ const SaleList = () => {
     }
 
 
+    const [selectedArtworks,setSelectedArtworks] = useState([])
+    //관리자 작품 블랙리스트 체크박스
+    const handleCheckboxChange = (artworkId, isChecked) => {
+        if (isChecked) {
+            setSelectedArtworks((prev) => [...prev, artworkId]); // 체크된 경우 추가
+        } else {
+            setSelectedArtworks((prev) => prev.filter((id) => id !== artworkId)); // 체크 해제된 경우 제거
+        }
+    };
+
+
 
     return (
         <>
@@ -210,8 +223,9 @@ const SaleList = () => {
 
                 <div className={styles.grid}>
                     {artworks.map((item) => (
-                        <div className={styles.card} key={item.artworkId} onClick={()=> goDetailNavigation(item.artworkId)}>
-                            <div className={styles.imageWrapper}>
+                        <>
+                        <div className={styles.card} key={item.artworkId}>
+                            <div className={styles.imageWrapper} onClick={()=> goDetailNavigation(item.artworkId)}>
                                 <img src={item.imageUrl} alt={item.title} className={styles.image}/>
                             </div>
                             <div>
@@ -219,10 +233,23 @@ const SaleList = () => {
                                     <p className={styles.title}>{item.title}</p>
                                     <p className={styles.artistName}>{item.artistName}</p>
                                     <p className={styles.price}>{item.price}</p>
-                                    <p className={styles.category}>{item.subjectName}{item.typeName}</p>
+                                    <p className={styles.category}>{item.subjectName}&nbsp;&nbsp;{item.typeName}</p>
                                 </div>
                             </div>
+                            {
+                                user.role === 'ADMIN' && (
+                                    <label>
+                                    <input
+                                        type="checkbox"
+                                        onChange={(e) => handleCheckboxChange(item.artworkId, e.target.checked)}
+                                        />
+                                        의심작품 선택
+                                    </label>   
+                                )
+                            }
                         </div>
+                        
+                        </>
                     ))}
                 </div>
             </div>

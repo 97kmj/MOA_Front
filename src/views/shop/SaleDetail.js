@@ -58,7 +58,7 @@ const SaleDetail = () => {
     useEffect(() =>{
         const getSaleDetail = async () => {
             try{
-                const response = await fetch(`${url}/api/artworks/${artworkId}`)
+                const response = await fetch(`${url}/shop/artworkDetail/${artworkId}`)
                 const artworkData = await response.json(); 
                 setSaleDetail(artworkData);
                 console.log(artworkData)
@@ -200,17 +200,17 @@ const SaleDetail = () => {
                             <tbody className={styles.detailtitlearray}>
                               
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.artist?.name || 'Unknown Artist'}</Label></td> 
+                                    <td><Label>{saleDetail.artistName || 'Unknown Artist'}</Label></td> 
                                     <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artist.username)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.type.typeName}</Label></td>
+                                    <td><Label>{saleDetail.typeName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.subject.subjectName}</Label></td>
+                                    <td><Label>{saleDetail.subjectName}</Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{new Intl.NumberFormat().format(basePrice)}</Label></td>
@@ -317,7 +317,7 @@ const SaleDetail = () => {
                             </tr>
                             <tr>
                                 <td colSpan="3" className={styles.artworkInfocontent}>
-                                    { saleDetail.artist.artistNote}
+                                    { saleDetail.artistNote}
                                 </td>
                             </tr>
                         </tbody>
