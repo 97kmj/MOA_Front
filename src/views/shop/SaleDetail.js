@@ -1,9 +1,12 @@
 import styles from '../../css/shop/SaleDetail.module.css';
 import { Table, Label, Input} from 'reactstrap';
 import { useEffect, useState } from 'react';
+import { useAtomValue, useAtom } from 'jotai/react';
+import { tokenAtom, userAtom } from "../../atoms";
 import Header from "../Header";
 import { useNavigate, useParams } from 'react-router';
 import { url } from "../../config";
+import axios from 'axios';
 
 const framePrices = {
     none: 0,
@@ -22,27 +25,34 @@ const SaleDetail = () => {
     const navigate = useNavigate();
     const {artworkId} = useParams(); // URL에서 id 가져오기
     const [saleDetail, setSaleDetail] = useState(null); //작품 데이터 저장
-    
+    const user = useAtomValue(userAtom);
     const [modalOpen,setModalOpen] = useState(false);
     const [selectedFrame, setSelectedFrame] = useState('basic');
     const [selectedFrameButton, setSelectedFrameButton] = useState(0);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
     const [isLiked, setIsLiked] = useState(false);
-    // 좋아요 처리 
+    const [isCount, setIsCount] = useState(0);
 
-    const handleLikeButtonClick = () => {
+    //좋아요 처리 
+
+    const handleLikeButtonClick = async() => {
+        if (!user.username) {
+          alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+          return;
+        }
+        try{
+            const response = await axios.post(`${url}/shop/likeArtwork`, {artworkId:artworkId,username:user.username});
+            setIsLiked(response.data)
+
+            setIsCount(prevCount => response.data ? prevCount + 1 : prevCount - 1); 
+    
         
-        // axios.get(`${url}/shop/LikeCount`)
-        // .then(res=>{
-        //     setIsLiked(res.data);
-        // })
-        // .catch(error => {
-
-        // })
-
-        setIsLiked((prev) => !prev); // 좋아요 상태 토글
-
-      };
+            
+        } catch (error) {
+            console.error("Error toggling like:", error);
+        }
+    };
+    
     
     //작품 데이터 가져오기
     useEffect(() =>{
@@ -51,23 +61,47 @@ const SaleDetail = () => {
                 const response = await fetch(`${url}/api/artworks/${artworkId}`)
                 const artworkData = await response.json(); 
                 setSaleDetail(artworkData);
-                console.log(saleDetail);
-                setIsLoading(false); // 로딩 완료
+                console.log(artworkData)
+                setIsCount(artworkData.likeCount); 
+  
             } catch(error){
                 console.error("Failed to fetch artwork:", error);
                 alert("판매 정보를 불러오는데 실패했습니다.");
-                setIsLoading(false); // 로딩 완료
             }
         };
         getSaleDetail();
-    }, [artworkId]);
-    
+        
+    }, [artworkId] ,  );
+
+    useEffect(() =>{
+        const getIsLikeArtwork = async () => {
+            try{
+                const likeResponse = await axios.post(`${url}/shop/isLikeArtwork/${artworkId}`, {username:user.username});
+                    console.log(likeResponse.data);
+                    setIsLiked(likeResponse.data);
+                    
+            } catch(error){
+                console.error("Failed to fetch artwork:", error);
+            }
+        };
+        console.log("username:"+user.username)
+        if(user!==null && user.username!==null && user.username!=='') {
+            getIsLikeArtwork();
+        }
+        
+    }, [user]);
+
     if (!saleDetail) {
-        return <div>Loading...</div>; // You can customize this loading state as needed
+        return <div>Loading...</div>; 
     }
 
-    const goShoppingCart = (artworkId) =>{
-        navigate(`/shop/shoppingCart/${artworkId}`)
+    const goShoppingCart = (artistId) =>{
+
+        
+        // const response = await fetch(`${url}/api/artworks/${artworkId}`)
+
+        navigate(`/shop/shoppingCart/${artistId}`)
+
     }
 
     const goOrder = (artworkId) => {
@@ -89,9 +123,7 @@ const SaleDetail = () => {
     }
 
     // 추천프레임
-    // State to keep track of the selected frame index
-    
-    // List of frame images
+
     const frameImages = ['/img/frame1.png','/img/frame2.png'];
 
 
@@ -210,16 +242,20 @@ const SaleDetail = () => {
 
             
                 <div className={styles.topmiddle}>
-                    <div className={styles.leftgoldheart} onClick={handleLikeButtonClick}>
+                    <div className={styles.leftgoldheart} >
                         <div className={styles.likedposition}>
                             <img
-                                src={isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
+                                // src={isLiked ? "/img/heart.svg" : isLiked === false ? "/img/heart.svg" : "/img/goldheart.png"}
+                                src={isLiked==true? "/img/heart.svg"  : "/img/goldheart.png"}
                                 alt="좋아요"
                                 className={styles.likeIcon}
-                           
+                                onClick={handleLikeButtonClick}
                             />
-                            <div className={styles.likedcount}>
-                                {saleDetail.likeCount}
+                            <div className={styles.likedcount}
+                            >
+                                {/* {saleDetail.likeCount} */}
+                                {isCount}
+                                {/* {isCount != null ? isCount : saleDetail.likeCount} */}
                             </div>
                         </div>
                     </div>
