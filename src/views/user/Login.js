@@ -21,15 +21,21 @@ const Login = () => {
         username,
         password,
       });
-      
-      console.log(response)
-      const { access_token, user } = response.data;
-
+  
+      // 헤더에서 JWT 토큰 읽기
+      const accessToken = response.headers['authorization']?.replace('Bearer ', '');
+      const refreshToken = response.headers['refresh-token']?.replace('Bearer ', '');
+  
+      if (!accessToken) {
+        throw new Error('Access Token is missing in response headers.');
+      }
+  
       // 토큰과 사용자 정보 저장
-      setToken(access_token);
-      setUser(user);
-      // sessionStorage.setItem('accessToken', access_token);
+      setToken(accessToken); // Jotai를 통해 관리
+      setUser(response.data); // 본문에서 사용자 정보 저장
 
+      console.log('Access Token:', accessToken);
+  
       // 메인 페이지로 이동
       navigate('/');
     } catch (error) {
@@ -37,6 +43,7 @@ const Login = () => {
       alert('로그인에 실패했습니다. 사용자 이름과 비밀번호를 확인하세요.');
     }
   };
+  
 
 // 소셜 로그인 토큰 처리
 useEffect(() => {
