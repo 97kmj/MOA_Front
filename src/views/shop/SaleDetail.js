@@ -17,7 +17,7 @@ const SaleDetail = () => {
     const [saleDetail, setSaleDetail] = useState(null); //작품 데이터 저장
     const user = useAtomValue(userAtom);
     const [modalOpen,setModalOpen] = useState(false);
-    const [selectedFrame, setSelectedFrame] = useState('basic');
+    const [selectedFrame, setSelectedFrame] = useState(0);
     const [selectedFrameButton, setSelectedFrameButton] = useState(0);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
     const [isLiked, setIsLiked] = useState(false);
@@ -25,6 +25,7 @@ const SaleDetail = () => {
     const [getFrame, setGetFrame] = useState([]);
     const [getCanvasId, setGetCanvasId] = useState();
     const [frameList ,setFrameList] = useState();
+    
 
 
     //좋아요 처리 
@@ -55,9 +56,10 @@ const SaleDetail = () => {
                 const response = await fetch(`${url}/shop/artworkDetail/${artworkId}`)
                 const artworkData = await response.json(); 
                 setSaleDetail(artworkData);
-                console.log(artworkData)
                 setIsCount(artworkData.likeCount); 
                 setGetCanvasId(artworkData.canvasId);
+               
+                
   
             } catch(error){
                 console.error("Failed to fetch artwork:", error);
@@ -72,7 +74,6 @@ const SaleDetail = () => {
         const getIsLikeArtwork = async () => {
             try{
                 const likeResponse = await axios.post(`${url}/shop/isLikeArtwork/${artworkId}`, {username:user.username});
-                    console.log(likeResponse.data);
                     setIsLiked(likeResponse.data);
                     
             } catch(error){
@@ -90,7 +91,9 @@ const SaleDetail = () => {
         const getFrameList = async () => {
             try{
                 const response = await axios.post(`${url}/shop/getFrame/${getCanvasId}`);
-                setGetFrame(response.data);
+                setGetFrame([...response.data])
+        
+  
 
             }catch(error){
                 console.error("프레임 가져오기 실패:", error);
@@ -101,8 +104,14 @@ const SaleDetail = () => {
         }
     },[getCanvasId])
 
+
+
+    //프레임
     const handleFrameChange = (e) => {
+     
+        const selFrame = getFrame.find(f=>+f.frameId===+e.target.value);
         setSelectedFrame(e.target.value);
+
     };
 
 
@@ -119,8 +128,10 @@ const SaleDetail = () => {
     }
 
     const goOrder = (artworkId) => {
-        navigate(`/shop/SaleOrder/${artworkId}`)
+  
+        navigate(`/shop/SaleOrder/${artworkId}`, { state : { frameId : selectedFrame}})
     }
+
     const goArtist = (artistId) => {
         navigate('/artistDetail', {state : {artistId : artistId}})
     }
@@ -162,8 +173,9 @@ const SaleDetail = () => {
 
     const basePrice = saleDetail?.price || 0;
 
+    const framePrice = (selectedFrame.framePrice || 0);
 
-    const totalPrice = basePrice + (frameList?.find(frame => frame.canvasId === selectedFrame)?.framePrice || 0);    // + framePrices[selectedFrame];
+    const totalPrice = basePrice + framePrice;    // + framePrices[selectedFrame];
 
 
 
@@ -239,16 +251,17 @@ const SaleDetail = () => {
                                     <td><Label>{saleDetail.stock}</Label></td>
                                 </tr>
                                 <tr>
+                                    
                                     <Input
                                         className={styles.detailtitlearraFrame}
                                         type="select"
-                                        value={selectedFrame}
+                                        // value={selectedFrame}
                                         onChange={handleFrameChange}
                                     >
-                                        <option value="none">선택없음 +0</option>
+                                        <option value="">선택없음</option>
                                         {getFrame && getFrame.map((frame) => (
-                                            <option key={frame.canvasId} value={frame.canvasId}>
-                                                {frame.frametype} {frame.framePrice}
+                                            <option value={frame.frameId}>
+                                                {frame.frameType} + {frame.framePrice}
                                             </option>
                                         ))}
                                     </Input> &nbsp;&nbsp;&nbsp;
@@ -287,7 +300,7 @@ const SaleDetail = () => {
                                 <td className={styles.totalpriceleft}><Label>{saleDetail.title}</Label></td>
                             </tr>
                             <tr>
-                                {/* <td className={styles.totalpriceleft}> {framename[selectedFrame]} </td> */}
+                                <td className={styles.totalpriceleft}> {selectedFrame.frameType} </td>
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceright} >총 금액 </td>
@@ -298,7 +311,7 @@ const SaleDetail = () => {
                                 <td className={styles.totalpriceleft2}>{new Intl.NumberFormat().format(basePrice)}</td>
                             </tr>
                             <tr>
-                                {/* <td className={styles.totalpriceleft2}>+{new Intl.NumberFormat().format(framePrices[selectedFrame])}</td> */}
+                                <td className={styles.totalpriceleft2}>+{new Intl.NumberFormat().format(selectedFrame.framePrice)}</td>
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceright2}>{new Intl.NumberFormat().format(totalPrice)}</td> &nbsp;&nbsp;&nbsp;

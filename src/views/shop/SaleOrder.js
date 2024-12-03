@@ -5,9 +5,13 @@ import { useAtomValue, useAtom } from 'jotai/react';
 import { tokenAtom, userAtom } from "../../atoms";
 import { url } from "../../config";
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { useParams,useLocation } from 'react-router';
+
 
 const SaleOrder = () => {
+    const location = useLocation();
+    const frameId = location.state?.frameId;
+
     const{artworkId} = useParams();
     const[orderData, setOrderData] = useState(); 
     const user = useAtomValue(userAtom);
@@ -24,7 +28,9 @@ const SaleOrder = () => {
                 return;
             }
             try{
-                const res = await axios.get(`${url}/shop/orderData?artworkId=${artworkId}&username=${user.username}`)
+                console.log("frameId :")
+                console.log(frameId)
+                const res = await axios.post(`${url}/shop/orderData?artworkId=${artworkId}&username=${user.username}`, {frameId:frameId})
                 .then(res=>{
                     const artworkData = res.data.artworkList;
                     const userInfo = res.data.userList;
