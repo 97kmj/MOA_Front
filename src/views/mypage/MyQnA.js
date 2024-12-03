@@ -1,12 +1,51 @@
 import Header from "../Header";
 import SideNav from "./SideNav";
 import styles from "../../css/mypage/MyQnA.module.css";
+import { userAtom } from "../../atoms";
+import { useAtomValue } from "jotai";
+import axios from "axios";
+import { url } from "../../config";
+import { useState,useEffect } from "react";
 const MyQnA = () => {
-    const questionList = [
-        { id: 1, sender: "르브론", content: "안녕하세요, 좋은 하루 되세요!", date: "24/08/07" },
-        { id: 2, sender: "제임스", content: "다음 주 미팅 준비 부탁드립니다.", date: "24/08/07" },
-        // ... 추가 항목
-    ];
+
+    const user = useAtomValue(userAtom);
+    const [questionList,setQuestionList] = useState([]);
+    const [isAnswered, setIsAnswered] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(0);
+
+    useEffect(()=>{
+        axios.get(`${url}/myQnA`,{ params: 
+            { username:user.username,
+                isAnswered,
+                page : currentPage,
+                size : pageSize 
+            }})
+        .then(res=> {
+            console.log(res.data);
+            setQuestionList(res.data.content)
+            setTotalPages(res.data.totalPages);
+        })
+        .catch(err=> {
+            console.error(err);
+            alert("데이터를 가져오는 데 실패했습니다.");
+        })
+    },[user,isAnswered,currentPage,pageSize])
+    const answered = () => {
+        setIsAnswered(true);
+    }
+
+    const notAnswered = () => {
+        setIsAnswered(false)
+    }
+    const handlePageChange = (newPage) => {
+        if (newPage >= 0 && newPage < totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
+
+
     return(
         <>
         <Header/>
@@ -15,31 +54,55 @@ const MyQnA = () => {
             <div className={styles.qnabody}>
                 <h3>1대1 문의내역</h3>
                 <div className={styles.buttonTabs}>
-                    <button className={styles.goldbutton}>답변 대기중</button>
-                    <button className={styles.whitebutton}>답변 완료</button>
+                    <button className={`${!isAnswered ? styles.goldbutton : styles.whitebutton}`} onClick={notAnswered}>답변 대기중</button>
+                    <button className={`${isAnswered ? styles.goldbutton : styles.whitebutton}`} onClick={answered}>답변 완료</button>
                 </div>  
                 <hr className={styles.bar}></hr>
 
                 <div className={styles.questionList}>
-                        {questionList.map((message) => (
-                            <div key={message.id} className={styles.question}>
-                                <div className={styles.messageItemDetails}>
-                                    <span>{message.content}</span>
-                                    <span className={styles.messageDate}>{message.date}</span>
-                                </div>
-                            </div>
-                        ))}
-                </div>
+                        {
+                            questionList.length > 0 ? (
 
-                
+                            questionList.map((question) => (
+                                <div key={question.id} className={styles.question}>
+                                    <div className={styles.messageItemDetails}>
+                                        <span>{question.title}</span>
+                                        <span className={styles.messageDate}>{new Date(question.questionAt).toISOString().slice(0,10)}</span>
+                                    </div>
+                                </div>
+                            ))
+                            ) : (
+                                <>
+                                <br/>
+                                <div style={{textAlign:"center"}}>문의가 없습니다.</div>
+                                </>
+                                
+                            )
+                        }
+                </div>
+                <div className={styles.pagenationBox}>
                     {/* Pagination */}
                     <div className={styles.messagePagination}>
-                        <button>&lt;</button>
-                        <button className="active">1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>&gt;</button>
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 0}
+                        >&lt;</button>
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => handlePageChange(idx)}
+                                className={currentPage === idx ? styles.active : ""}
+                            >
+                                {idx + 1}
+                            </button>
+                        ))}
+                        
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages - 1}
+                        >&gt;</button>
                     </div>  
+                </div>
             </div>
         </div>
         </>

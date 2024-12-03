@@ -135,14 +135,29 @@ const SaleList = () => {
     }
 
 
-    const [selectedArtworks,setSelectedArtworks] = useState([])
+    
     //관리자 작품 블랙리스트 체크박스
     const handleCheckboxChange = (artworkId, isChecked) => {
-        if (isChecked) {
-            setSelectedArtworks((prev) => [...prev, artworkId]); // 체크된 경우 추가
-        } else {
-            setSelectedArtworks((prev) => prev.filter((id) => id !== artworkId)); // 체크 해제된 경우 제거
-        }
+        axios.post(`${url}/updateArtworkStatus`,{
+            artworkId,
+            isSuspicious : isChecked //의심체크 여부 
+        })
+        .then(res=>{
+            console.log(res.data);
+            if (res.status === 200) {
+                setArtworks((prevArtworks) =>
+                    prevArtworks.map((artwork) =>
+                        artwork.artworkId === artworkId
+                            ? { ...artwork, adminCheck: isChecked }
+                            : artwork
+                    )
+                );
+            };
+        })
+        .catch(err=>{
+            console.error("아트워크 상태 업데이트 실패:", err);
+            alert("작품 상태를 업데이트하는 중 오류가 발생했습니다.");
+        })
     };
 
 
@@ -240,6 +255,7 @@ const SaleList = () => {
                                     <label>
                                     <input
                                         type="checkbox"
+                                        checked={item.adminCheck}
                                         onChange={(e) => handleCheckboxChange(item.artworkId, e.target.checked)}
                                         />
                                         의심작품 선택
