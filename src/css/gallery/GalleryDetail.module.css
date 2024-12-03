@@ -137,14 +137,13 @@
   width: 500px; /* 설명 박스 너비 */
   height: 500px;
   border: 1px solid #ddd;
-  padding: 10px; /* 박스 자체에 기본 패딩 */
+  padding: 30px; /* 박스 자체에 기본 패딩 */
   background-color: #f9f9f9;
   overflow-y: auto;
   margin: 0 auto; /* 박스를 중앙에 위치 */
   
   display: flex; /* 자식 요소를 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
   box-sizing: border-box;
 }
 .descriptionBoxContent {

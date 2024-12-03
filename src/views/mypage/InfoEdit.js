@@ -140,11 +140,10 @@ const handleAddressSearch = () => {
         <div className={styles.content}>
           <h1 className={styles.pageTitle}>회원정보 수정</h1>
           <div className={styles.container}>
-            <div className={styles.imageSection}>
+            {/* <div className={styles.imageSection}>
               <div className={styles.imagePlaceholder}>이미지사진</div>
               <span className={styles.role}>[{userData.role || '일반회원'}]</span>
-              {/* DB의 유저 role에 따라 일반회원/바뀌어야함 */}
-            </div>
+            </div> */}
             <div className={styles.infoSection}>
               <div className={styles.row}>
                 <span className={styles.label}>이름</span>
