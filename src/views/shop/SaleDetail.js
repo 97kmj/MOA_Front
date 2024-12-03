@@ -8,17 +8,7 @@ import { useNavigate, useParams } from 'react-router';
 import { url } from "../../config";
 import axios from 'axios';
 
-const framePrices = {
-    none: 0,
-    basic: 100000,
-    premium: 200000
-};
 
-const framename={
-    none: "프레임 없음",
-    basic: "기본 프레임",
-    premium: "고급 프레임"
-}
 
 const SaleDetail = () => {
     
@@ -32,6 +22,10 @@ const SaleDetail = () => {
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
     const [isLiked, setIsLiked] = useState(false);
     const [isCount, setIsCount] = useState(0);
+    const [getFrame, setGetFrame] = useState([]);
+    const [getCanvasId, setGetCanvasId] = useState();
+    const [frameList ,setFrameList] = useState();
+
 
     //좋아요 처리 
 
@@ -63,6 +57,7 @@ const SaleDetail = () => {
                 setSaleDetail(artworkData);
                 console.log(artworkData)
                 setIsCount(artworkData.likeCount); 
+                setGetCanvasId(artworkData.canvasId);
   
             } catch(error){
                 console.error("Failed to fetch artwork:", error);
@@ -91,6 +86,27 @@ const SaleDetail = () => {
         
     }, [user]);
 
+    useEffect(()=>{
+        const getFrameList = async () => {
+            try{
+                const response = await axios.post(`${url}/shop/getFrame/${getCanvasId}`);
+                setGetFrame(response.data);
+
+            }catch(error){
+                console.error("프레임 가져오기 실패:", error);
+            }
+        };
+        if (getCanvasId) {
+            getFrameList();
+        }
+    },[getCanvasId])
+
+    const handleFrameChange = (e) => {
+        setSelectedFrame(e.target.value);
+    };
+
+
+
     if (!saleDetail) {
         return <div>Loading...</div>; 
     }
@@ -108,6 +124,9 @@ const SaleDetail = () => {
     const goArtist = (artistId) => {
         navigate('/artistDetail', {state : {artistId : artistId}})
     }
+  
+
+
 
     // 모달 추천프레임
      
@@ -126,7 +145,7 @@ const SaleDetail = () => {
 
 
     const frameClasses=[styles.frameArtwork1, styles.frameArtwork2];
-
+    
 
     // Function to handle left button click (move left)
     const handleLeftClick = () => {
@@ -143,7 +162,8 @@ const SaleDetail = () => {
 
     const basePrice = saleDetail?.price || 0;
 
-    const totalPrice = basePrice + framePrices[selectedFrame];
+
+    const totalPrice = basePrice + (frameList?.find(frame => frame.canvasId === selectedFrame)?.framePrice || 0);    // + framePrices[selectedFrame];
 
 
 
@@ -223,11 +243,14 @@ const SaleDetail = () => {
                                         className={styles.detailtitlearraFrame}
                                         type="select"
                                         value={selectedFrame}
-                                        onChange={(e) => setSelectedFrame(e.target.value)}>
-                                    
+                                        onChange={handleFrameChange}
+                                    >
                                         <option value="none">선택없음 +0</option>
-                                        <option value="basic">기본 프레임 +100000</option>
-                                        <option value="premium">고급 프레임 +200000</option>
+                                        {getFrame && getFrame.map((frame) => (
+                                            <option key={frame.canvasId} value={frame.canvasId}>
+                                                {frame.frametype} {frame.framePrice}
+                                            </option>
+                                        ))}
                                     </Input> &nbsp;&nbsp;&nbsp;
                                     <td className={styles.alignCenter}>
                                         <button className={styles.frameButton} onClick={showModal}>추천프레임</button>
@@ -264,7 +287,7 @@ const SaleDetail = () => {
                                 <td className={styles.totalpriceleft}><Label>{saleDetail.title}</Label></td>
                             </tr>
                             <tr>
-                                <td className={styles.totalpriceleft}> {framename[selectedFrame]} </td>
+                                {/* <td className={styles.totalpriceleft}> {framename[selectedFrame]} </td> */}
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceright} >총 금액 </td>
@@ -275,7 +298,7 @@ const SaleDetail = () => {
                                 <td className={styles.totalpriceleft2}>{new Intl.NumberFormat().format(basePrice)}</td>
                             </tr>
                             <tr>
-                                <td className={styles.totalpriceleft2}>+{new Intl.NumberFormat().format(framePrices[selectedFrame])}</td>
+                                {/* <td className={styles.totalpriceleft2}>+{new Intl.NumberFormat().format(framePrices[selectedFrame])}</td> */}
                             </tr>
                             <tr>
                                 <td className={styles.totalpriceright2}>{new Intl.NumberFormat().format(totalPrice)}</td> &nbsp;&nbsp;&nbsp;
