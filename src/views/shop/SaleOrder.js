@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../css/shop/SaleOrder.module.css';
 import Header from '../Header';
-import { Modal } from 'reactstrap';
 import { useAtomValue, useAtom } from 'jotai/react';
 import { tokenAtom, userAtom } from "../../atoms";
 import { url } from "../../config";
@@ -13,31 +12,30 @@ const SaleOrder = () => {
     const[orderData, setOrderData] = useState(); 
     const user = useAtomValue(userAtom);
     const [useMemberInfo, setUseMemberInfo] = useState(false);
+    const [userInfo, setUserInfo] = useState();
 
 
-    const [buyerInfo, setBuyerInfo] = useState({
-        name: '',
-        contact: '',
-        email: '',
-        address: '',
-    });
 
 
     useEffect(()=>{
         const getSalePayment = async () =>{
             if (!user.username) {
-                // user.username이 비어 있으면 리턴하여 요청을 지연
                 console.log("username is not ready yet");
                 return;
             }
             try{
                 const res = await axios.get(`${url}/shop/orderData?artworkId=${artworkId}&username=${user.username}`)
                 .then(res=>{
-                    let artworkData = res.data.artworkList;
-                    let userInfo = res.data.userList ;
+                    const artworkData = res.data.artworkList;
+                    const userInfo = res.data.userList;
                     console.log(res.data);
-                    setOrderData(artworkData);
-                    setUseMemberInfo(userInfo);
+                    setOrderData(artworkData); // artworkList 정보 설정
+                    setUserInfo({
+                        name: userInfo.name,
+                        contact: userInfo.phone,
+                        email: userInfo.email,
+                        address: userInfo.address + userInfo.detailAddress +userInfo.extraAddress ,
+                    });
                 })
                 .catch(err => {
                     console.log(err);
@@ -47,9 +45,15 @@ const SaleOrder = () => {
             }
         }
         getSalePayment();
+
     },[user.username,artworkId])
 
-
+    const [buyerInfo, setBuyerInfo] = useState({
+        name: '',
+        contact: '',
+        email: '',
+        address: '',
+    });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,10 +65,10 @@ const SaleOrder = () => {
 
     const handleUseMemberInfo = () => {
         setBuyerInfo({
-            name: useMemberInfo.name,
-            contact: useMemberInfo.phone,
-            email: useMemberInfo.email,
-            address: useMemberInfo.address ,
+            name: userInfo.name, 
+            contact: userInfo.contact,
+            email: userInfo.email,
+            address: userInfo.address,
         });
         setUseMemberInfo(true);
     };
@@ -80,7 +84,7 @@ const SaleOrder = () => {
     };
 
     const calculateTotalPrice = () => {
-        return orderData.price + orderData.optionPrice;
+        return parseInt(orderData.price) + orderData.optionPrice==null ? orderData.optionPrice : 0 ;
     };
 
     return (
@@ -93,17 +97,21 @@ const SaleOrder = () => {
                 <div className={styles.content}>
                     {/* Left Section */}
                     <div className={styles.leftSection}>
-                        <img
-                            // src={orderData.imageUrl }
-                            alt="Artwork"
-                            className={styles.artworkImage}
-                        />
+                        {orderData?.imageUrl ? (
+                            <img
+                                src={orderData.imageUrl}
+                                alt="Artwork"
+                                className={styles.artworkImage}
+                            />
+                        ) : (
+                            <div>이미지를 불러오는 중입니다...</div>
+                        )}
                         <div className={styles.buyerInfo}>
                             <h3>구매자 정보</h3>
                             <div className={styles.infoButtons}>
                                 <button
                                     className={`${styles.memberButton} ${
-                                        useMemberInfo ? styles.activeButton : ''
+                                        useMemberInfo == true ? styles.activeButton : ''
                                     }`}
                                     onClick={handleUseMemberInfo}
                                 >
@@ -111,7 +119,7 @@ const SaleOrder = () => {
                                 </button>
                                 <button
                                     className={`${styles.inputButton} ${
-                                        !useMemberInfo ? styles.activeButton : ''
+                                        !useMemberInfo != true ? styles.activeButton : ''
                                     }`}
                                     onClick={handleDirectInput}
                                 >
@@ -176,16 +184,18 @@ const SaleOrder = () => {
                     </div>
 
                     {/* Right Section */}
-                    {/* <div className={styles.rightSection}>
+                    {orderData ? (
+                    <div className={styles.rightSection}>
                         <div className={styles.artworkDetails}>
                             <h3 className={styles.titleName}>{orderData.title}</h3>
                             <p>
                                 <span className={styles.title}>ARTIST</span>
-                                <span className={styles.content}>{orderData.artist}</span>
+                                <span className={styles.content}>{orderData.artistName}</span>
                             </p>
                             <p>
                                 <span className={styles.title}>SIZE</span>
-                                <span className={styles.content}>{orderData.size}</span>
+                                <span className={styles.content}>{orderData.width} X {orderData.height
+                                }</span>
                             </p>
                             <p>
                                 <span className={styles.title}>PRICE</span>
@@ -210,8 +220,13 @@ const SaleOrder = () => {
                                 총 금액: {calculateTotalPrice().toLocaleString()}₩
                             </p>
                         </div>
-                        <button className={styles.payButton}>결제하기</button>
-                    </div> */}
+                        <button className={styles.payButton}>
+                            결제하기
+                        </button>
+                    </div>
+                     ) : (
+                        <p>상품 정보를 불러오는 중입니다...</p> // orderData가 null일 경우 로딩 메시지
+                    )}
                 </div>
             </div>
         </>
