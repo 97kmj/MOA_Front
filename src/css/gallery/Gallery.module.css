@@ -110,6 +110,7 @@
   font-size: 0.875rem; /* 글씨 크기 */
   position: relative; /* 화살표 배치를 위해 설정 */
   cursor: pointer;
+  margin: 0 8px; /* 버튼 사이 가로 방향으로 8px 간격 */
 }
 .dropdownBtn::after {
   content: "▼"; /* 아래 화살표 추가 */

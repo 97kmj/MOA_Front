@@ -108,7 +108,8 @@ import "yet-another-react-lightbox/styles.css";
       subject: "",
       type: "",
       category: "",
-    }); // 필터 상태
+      sale_status: "NOT_SALE", // 기본값으로 설정
+    });
 
     const [search, setSearch] = useState(""); // 검색어 상태
     const [lightboxIndex, setLightboxIndex] = useState(-1); // Lightbox 상태
@@ -156,6 +157,7 @@ import "yet-another-react-lightbox/styles.css";
             ...(filters.category && { category: filters.category }),
             ...(filters.subject && { subject: filters.subject }),
             ...(filters.type && { type: filters.type }),
+            ...(filters.sale_status && { sale_status: filters.sale_status }), // Enum 값과 일치하도록 설정
             ...(search && { search }),
             page: 0,
             size: visibleCount,
@@ -172,15 +174,19 @@ import "yet-another-react-lightbox/styles.css";
             setArtworks(data.content); // content 키에서 배열 추출
           } else {
             console.error("Unexpected API response format:", data);
+            setArtworks([]);
           }
         } catch (error) {
           console.error("Failed to fetch artworks:", error);
+          setArtworks([]);
+
         }
   };
 
 
     fetchArtworks();
   }, [filters, search, visibleCount]); // 필터, 검색어, visibleCount 변경 시 데이터 가져오기
+
 
   // 검색 입력 필드 핸들러
   const handleSearchChange = (event) => {
@@ -194,32 +200,6 @@ import "yet-another-react-lightbox/styles.css";
   const handleCardClick = (id) => {
     navigate(`/gallery/gallerydetail/${id}`);
   };
-
-  // 데이터 로드
-  useEffect(() => {
-    const fetchArtworks = async () => {
-      try {
-        const queryParams = new URLSearchParams({
-          ...(filters.category && { category: filters.category }),
-          ...(filters.subject && { subject: filters.subject }),
-          ...(filters.type && { type: filters.type }),
-          ...(search && { search }),
-          page: 0,
-          size: visibleCount,
-        }).toString();
-
-        const response = await fetch(
-          `http://localhost:8080/api/artworks?${queryParams}`
-        );
-        const data = await response.json();
-        setArtworks(data.content || data || []);
-      } catch (error) {
-        console.error("Failed to fetch artworks:", error);
-      }
-    };
-
-    fetchArtworks();
-  }, [filters, search, visibleCount]);
 
   // 갤러리 모드 이미지 데이터 변환
   const galleryImages = artworks.map((artwork) => ({
@@ -348,12 +328,14 @@ import "yet-another-react-lightbox/styles.css";
                   onClick={() => handleCardClick(artwork.artworkId)}
                 />
                 <h2 className={styles.cardTitle}>{artwork.title}</h2>
-                {/* <p className={styles.cardDescription}>{artwork.description}</p>
-                <p className={styles.cardPrice}>{`₩${artwork.price.toLocaleString()}`}</p>
-                <p className={styles.cardArtist}>아티스트: {artwork.artist.name}</p> */}
-                <p className={styles.cardCategory}>카테고리: {artwork.category.categoryName}</p>
-                {/* <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p>
-                <p className={styles.cardSaleStatus}>판매 상태: {artwork.saleStatus}</p> */}
+                <p className={styles.cardArtist}>아티스트: {artwork.artist.name}</p>
+                <p className={styles.cardCategory}>{artwork.category.categoryName}</p>
+                <p className={styles.cardCategory}>{artwork.type.typeName}</p>
+                <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
+                {/* <p className={styles.cardDescription}>{artwork.description}</p> */}
+                {/* <p className={styles.cardPrice}>{`₩${artwork.price.toLocaleString()}`}</p> */}
+                {/* <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p> */}
+                {/* <p className={styles.cardSaleStatus}>판매 상태: {artwork.saleStatus}</p> */}
                 {
                   user.role === 'ADMIN' && (
                       <label>

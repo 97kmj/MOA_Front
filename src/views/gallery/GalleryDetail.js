@@ -53,9 +53,7 @@ function GalleryDetail() {
       try {
         // Fetch artwork details
         const artworkResponse = await fetch(`http://localhost:8080/api/artworks/${id}`, {
-          headers: token
-            ? { Authorization: `Bearer ${token}` }
-            : {}, // 헤더를 추가
+          headers: token ? { Authorization: `Bearer ${token}` } : {}, // 비로그인 상태에서도 요청 가능
         });
         if (!artworkResponse.ok) throw new Error("Failed to fetch artwork data");
         const artworkData = await artworkResponse.json();
@@ -69,7 +67,10 @@ function GalleryDetail() {
           if (likeResponse.ok) {
             const likeData = await likeResponse.json();
             setIsLiked(likeData.isLiked);
-          }
+        } else {
+            setIsLiked(false); // 비로그인 상태로 기본값 설정
+        }
+        
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
