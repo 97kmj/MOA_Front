@@ -17,13 +17,13 @@ function MyContributedFunding() {
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수 상태
 
     // 탭 클릭 핸들러
-    const handleTabClick = (tab) => {
+    const changeTabClick = (tab) => {
         setActiveTab(tab);
         setCurrentPage(0);
     };
 
     // 페이지 변경 핸들러
-    const handlePageChange = (page) => {
+    const changePageChange = (page) => {
         if (page >= 0 && page < totalPages) {
             setCurrentPage(page);
         }
@@ -95,19 +95,19 @@ function MyContributedFunding() {
                     <div className={styles.myContributedFundingTabs}>
                         <button
                             className={activeTab === 'SUCCESSFUL' ? 'active' : ''}
-                            onClick={() => handleTabClick('SUCCESSFUL')}
+                            onClick={() => changeTabClick('SUCCESSFUL')}
                         >
                             성공 펀딩
                         </button>
                         <button
                             className={activeTab === 'FAILED' ? 'active' : ''}
-                            onClick={() => handleTabClick('FAILED')}
+                            onClick={() => changeTabClick('FAILED')}
                         >
                             실패 펀딩
                         </button>
                         <button
                             className={activeTab === 'ONGOING' ? 'active' : ''}
-                            onClick={() => handleTabClick('ONGOING')}
+                            onClick={() => changeTabClick('ONGOING')}
                         >
                             진행 펀딩
                         </button>
@@ -142,7 +142,7 @@ function MyContributedFunding() {
 
                     <div className={styles.myContributedFundingPagination}>
                         {currentPage > 0 && (
-                            <button onClick={() => handlePageChange(currentPage - 1)}>
+                            <button onClick={() => changePageChange(currentPage - 1)}>
                                 &lt;
                             </button>
                         )}
@@ -150,13 +150,13 @@ function MyContributedFunding() {
                             <button
                                 key={index}
                                 className={currentPage === index ? 'active' : ''}
-                                onClick={() => handlePageChange(index)}
+                                onClick={() => changePageChange(index)}
                             >
                                 {index + 1}
                             </button>
                         ))}
                         {currentPage < totalPages - 1 && (
-                            <button onClick={() => handlePageChange(currentPage + 1)}>
+                            <button onClick={() => changePageChange(currentPage + 1)}>
                                 &gt;
                             </button>
                         )}
