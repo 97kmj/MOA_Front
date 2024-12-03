@@ -56,7 +56,9 @@ const Main = () => {
             <br/>
             <div className = {styles.mainartwork}>
                     <img className={styles.mainArtImg} src={mainArtwork?.imageUrl} id={mainArtwork?.artworkId} onClick={()=>toDetail(mainArtwork?.saleStatus,mainArtwork?.artworkId)}/>
-         s   </div><br/>
+
+            </div><br/>
+
 
             <div className={styles.artworkbox}>
                 {
