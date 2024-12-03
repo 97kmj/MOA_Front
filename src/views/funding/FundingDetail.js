@@ -370,9 +370,13 @@ const FundingDetail = () => {
                                 {fundingDetail.rewards.map((reward) => (
                                     <div
                                         key={reward.rewardId}
-                                        className={`${styles.rewardItem} ${reward.stock <= 0 && reward.rewardType !== "BASIC" ? styles.disabled : ""}`}
+                                        className={`${styles.rewardItem} ${
+                                            reward.stock === 0 && reward.rewardType !== "BASIC"
+                                                ? styles.disabled
+                                                : ""
+                                        }`}
                                         onClick={() => {
-                                            if (reward.stock > 0 || reward.rewardType === "BASIC") {
+                                            if (reward.stock !== 0 || reward.rewardType === "BASIC") {
                                                 addRewardToSelection(reward);
                                             } else {
                                                 alert("재고가 부족하여 선택할 수 없습니다.");
@@ -382,8 +386,8 @@ const FundingDetail = () => {
                                         <div className={styles.rewardHeader}>
                                             <h5>{reward.rewardName}</h5>
                                             <span className={styles.rewardLeft}>
-                                                남음: {reward.stock}개 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}
-                                            </span>
+            {reward.stock ?? "999"} 개 남음 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}
+        </span>
                                         </div>
                                         <p className={styles.rewardDescription}>{reward.rewardDescription}</p>
                                     </div>

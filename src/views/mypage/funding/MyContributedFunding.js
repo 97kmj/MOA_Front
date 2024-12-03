@@ -1,19 +1,87 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../../css/mypage/funding/MyContributedFunding.module.css';
 import Header from "../../Header";
 import SideNav from "../SideNav";
+import axios from "axios";
+import { useAtom } from "jotai/react";
+import { userAtom } from "../../../atoms";
+import { url } from "../../../config";
 
 function MyContributedFunding() {
-    const [activeTab, setActiveTab] = useState('success'); // Default to "성공 펀딩"
+    const [activeTab, setActiveTab] = useState('SUCCESSFUL'); // Default to "성공 펀딩"
+    const [fundingList, setFundingList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [user] = useAtom(userAtom);
+    const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
+    const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수 상태
 
+    // 탭 클릭 핸들러
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+        setCurrentPage(0);
     };
 
-    const fundingList = [
-        { id: 1, title: "르브론", amount: "50,000 원", completed: "O", endDate: "24/08/07" },
-        { id: 2, title: "제임스", amount: "50,000 원", completed: "O", endDate: "24/08/07" },
-    ];
+    // 페이지 변경 핸들러
+    const handlePageChange = (page) => {
+        if (page >= 0 && page < totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+
+
+    // API 호출
+    useEffect(() => {
+
+        if (!user || !user.username) {
+            setError('사용자 정보가 없습니다. 로그인 후 다시 시도해주세요.');
+            return;
+        }
+
+
+        const fetchFundingData = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await axios.get(`${url}/api/myPage/funding/contributedFunding`, {
+                    params: {
+                        username: user.username,
+                        status: activeTab.toUpperCase(),
+                        page: currentPage, // 현재 페이지 번호
+                        size: 5 // 페이지 크기
+                    }
+                });
+                setFundingList(response.data.content); // API 응답의 content 부분을 fundingList로 설정
+                setTotalPages(response.data.totalPages); // 전체 페이지 수 설정
+                console.log(response.data);
+
+            } catch (err) {
+                setError('데이터를 가져오는 중 문제가 발생했습니다.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFundingData();
+    }, [user, activeTab, currentPage]);
+
+    const translateStatus = (status) => {
+        switch (status) {
+            case "ONGOING":
+                return "진행중";
+            case "SUCCESSFUL":
+                return "성공";
+            case "FAILED":
+                return "실패";
+            case "CANCELLED":
+                return "취소됨";
+            default:
+                return "알 수 없음";
+        }
+    };
+
+
 
     return (
         <>
@@ -26,57 +94,76 @@ function MyContributedFunding() {
                     {/* Tabs */}
                     <div className={styles.myContributedFundingTabs}>
                         <button
-                            className={activeTab === 'success' ? 'active' : ''}
-                            onClick={() => handleTabClick('success')}
+                            className={activeTab === 'SUCCESSFUL' ? 'active' : ''}
+                            onClick={() => handleTabClick('SUCCESSFUL')}
                         >
                             성공 펀딩
                         </button>
                         <button
-                            className={activeTab === 'failed' ? 'active' : ''}
-                            onClick={() => handleTabClick('failed')}
+                            className={activeTab === 'FAILED' ? 'active' : ''}
+                            onClick={() => handleTabClick('FAILED')}
                         >
                             실패 펀딩
                         </button>
                         <button
-                            className={activeTab === 'ongoing' ? 'active' : ''}
-                            onClick={() => handleTabClick('ongoing')}
+                            className={activeTab === 'ONGOING' ? 'active' : ''}
+                            onClick={() => handleTabClick('ONGOING')}
                         >
                             진행 펀딩
                         </button>
                     </div>
 
-                    {/* Funding List */}
-                    <div className={styles.myContributedFundingList}>
-                        {fundingList.map((funding) => (
-                            <div key={funding.id} className={styles.myContributedFundingItem}>
-                                <img
-                                    src="https://via.placeholder.com/60"
-                                    alt="funding"
-                                    className={styles.myContributedFundingItemImg}
-                                />
-                                <div className={styles.myContributedFundingItemDetails}>
-                                    <h4>{funding.title}</h4>
-                                    <p>모집 희망금액: {funding.amount}</p>
-                                    <p>완료 여부: {funding.completed}</p>
-                                    <p>마감일: {funding.endDate}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    {/* Loading Indicator */}
+                    {loading && <p>데이터를 불러오는 중...</p>}
 
-                    {/* Pagination */}
+                    {/* Error Message */}
+                    {error && <p className={styles.error}>{error}</p>}
+
+                    {/* Funding List */}
+                    {!loading && !error && (
+                        <div className={styles.myContributedFundingList}>
+                            {fundingList.map((funding) => (
+                                <div key={funding.fundingOrderId} className={styles.myContributedFundingItem}>
+                                    <img
+                                        src={funding.fundingImage || "https://via.placeholder.com/60"} // 이미지가 없을 경우 기본 이미지 사용
+                                        alt="funding"
+                                        className={styles.myContributedFundingItemImg}
+                                    />
+                                    <div className={styles.myContributedFundingItemDetails}>
+                                        <h4>{funding.fundingTitle}</h4>
+                                        <p>모집 희망금액: {funding.goalAmount.toLocaleString()} 원</p>
+                                        <p>상태: {translateStatus(funding.fundingStatus)}</p>
+                                        <p>마감일: {new Date(funding.endDate).toLocaleDateString()}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
                     <div className={styles.myContributedFundingPagination}>
-                        <button>&lt;</button>
-                        <button className="active">1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>&gt;</button>
+                        {currentPage > 0 && (
+                            <button onClick={() => handlePageChange(currentPage - 1)}>
+                                &lt;
+                            </button>
+                        )}
+                        {Array.from({length: totalPages}, (_, index) => (
+                            <button
+                                key={index}
+                                className={currentPage === index ? 'active' : ''}
+                                onClick={() => handlePageChange(index)}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        {currentPage < totalPages - 1 && (
+                            <button onClick={() => handlePageChange(currentPage + 1)}>
+                                &gt;
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
         </>
-
-
     );
 }
 
