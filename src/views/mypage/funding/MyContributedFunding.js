@@ -8,7 +8,7 @@ import { userAtom } from "../../../atoms";
 import { url } from "../../../config";
 
 function MyContributedFunding() {
-    const [activeTab, setActiveTab] = useState('SUCCESSFUL'); // Default to "성공 펀딩"
+    const [activeTab, setActiveTab] = useState('ONGOING'); // Default to "성공 펀딩"
     const [fundingList, setFundingList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -52,8 +52,8 @@ function MyContributedFunding() {
                         size: 5 // 페이지 크기
                     }
                 });
-                setFundingList(response.data.content); // API 응답의 content 부분을 fundingList로 설정
-                setTotalPages(response.data.totalPages); // 전체 페이지 수 설정
+                setFundingList(response.data.content);
+                setTotalPages(response.data.totalPages);
                 console.log(response.data);
 
             } catch (err) {
