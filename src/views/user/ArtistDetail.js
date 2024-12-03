@@ -13,6 +13,8 @@ const ArtistDetail = () => {
     const [artworks, setArtworks] = useState([]); // 작품 리스트
     const [artworkType, setArtworkType] = useState("NOT_SALE"); // 현재 작품 타입 (온라인 갤러리)
     const [modalOpen,setModalOpen] = useState(false);
+    const [isArtistLiked,setIsArtistLiked] = useState(false);
+    const [message,setMessage] = useState({title:'',content:'',artistId:'',username:''})
     const location = useLocation();
     const artistId = location.state?.artistId;
     
@@ -26,30 +28,80 @@ const ArtistDetail = () => {
     useEffect(()=> {
         axios.post(`${url}/artistDetail/${artistId}`)
         .then(res => {
-            console.log(res.data)
             setArtist(res.data)
         })
         .catch(err => {
             console.log(err)
         })
     },[])
+    useEffect(()=>{
+        if(!artistId) return;
+        axios.get(`${url}/existsLikeArtist`,{params:{artistId:artistId,username:user.username}})
+        .then(res=> {
+            console.log(res.data);
+            setIsArtistLiked(res.data)
+        })
+        .catch(err=> {
+            console.log(err);
+        })
+    },[artistId,user])
 
     const handleArtworkTypeChange = (e) => {
         setArtworkType(e.target.dataset.name); // 클릭한 버튼의 `data-name` 값으로 상태 변경
     };
-
+    //작가 좋아요
+    const handleLikeArtistButton = () => {
+        if(!user.username) {
+            alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+            return;
+        } 
+        axios.get(`${url}/likeArtist`,{params:{artistId:artistId,username:user.username}})
+            .then(res=>{
+                setIsArtistLiked(res.data);
+                // 좋아요 상태에 따라 likeCount 업데이트
+                setArtist((prevArtist) => ({
+                    ...prevArtist,
+                    likeCount: res.data 
+                        ? prevArtist.likeCount + 1 // 좋아요 추가
+                        : prevArtist.likeCount - 1 // 좋아요 취소
+                }));
+            })
+            .catch(err=> {
+                console.log(err);
+            })
+    }
+    //작품 목록 가져오기 
     useEffect(()=> {
-        if(!artistId) return;
-        axios.get(`${url}/artistArtworks`,{params : {artistId,artworkType}})
+        if (!artistId || !user.username) return; // artistId와 username이 있어야 요청 가능
+        axios.get(`${url}/artistArtworks`,{params : {artistId,artworkType, username:user.username}})
             .then(res=> {
                 setArtworks(res.data);
-                console.log(res.data)
             })
             .catch(err=>{
                 console.log(err);
             });
     },[artistId,artworkType])
+    //작품 좋아요
+    const handleLikeArtworkButton = (artworkId) => {
+        if (!user.username) {
+            alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+            return;
+        }
 
+        axios.get(`${url}/likeArtwork`, { params: { artworkId, username: user.username } })
+            .then((res) => {
+                const updatedArtworks = artworks.map((artwork) =>
+                    artwork.artworkId === artworkId
+                        ? { ...artwork, isLiked: res.data } // 서버 응답에 따라 isLiked 업데이트
+                        : artwork
+                );
+                setArtworks(updatedArtworks); // 상태 업데이트
+               
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
     const showModal = () => {
         setModalOpen(true);
         
@@ -57,7 +109,31 @@ const ArtistDetail = () => {
     const closeModal = () => {
         setModalOpen(false);
     }
-    
+    const editMessage = (e) => {
+        setMessage({...message,[e.target.name]:e.target.value})
+    }
+
+    //작가에게 쪽지 보내기
+    const sendMessage = () => {
+        if(!message.title || !message.content) {
+            alert("제목과 내용을 모두 입력하세요.");
+            return;
+        } 
+        setMessage({...message, artistId:artistId, username:user.username });
+        axios.post(`${url}/sendMessage`,message)
+            .then(res=>{
+                if(res.data===true) {
+                    alert("작가님께 쪽지를 보냈습니다.")
+                    closeModal();
+                } else {
+                    alert("쪽지를 보내는 중 오류가 발생했습니다.")
+                }
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
+
     return(        
         <>
         <Header/>
@@ -71,7 +147,14 @@ const ArtistDetail = () => {
                     </div>
                     <div><b>홍길동</b> &nbsp;<button className={styles.messagebutton} onClick={showModal}>쪽지 보내기</button></div>
                     <div className={styles.likecount}>
-                        <img src="/img/heart.svg" />&nbsp;&nbsp;&nbsp;{artist?.likeCount}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/?size=40&id=5215&format=png&color=B39C59"/>&nbsp;&nbsp;&nbsp;{artist?.totalArtworkCount}
+                        {/* 좋아요 버튼 */}
+                        <img
+                        src={isArtistLiked ? "/img/heart.svg" : "/img/goldheart.png"}
+                        alt="좋아요"
+                        className={styles.likeIcon}
+                        onClick={handleLikeArtistButton}
+                        />&nbsp;&nbsp;&nbsp;{artist?.likeCount}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/?size=40&id=5215&format=png&color=B39C59"/>&nbsp;&nbsp;&nbsp;{artist?.totalArtworkCount}
                     </div>
                 </div>
                 <div className={styles.infoRightBox}>
@@ -96,7 +179,13 @@ const ArtistDetail = () => {
                                     <img className={styles.artImg} src={artwork.imageUrl} alt=''/>
                                 </div>
                                 <div className={styles.artworkInfo}>        
-                                    <span className={styles.artworkTitle}>{artwork.title}</span><img src="/img/heart.svg" />
+                                    <span className={styles.artworkTitle}>{artwork.title}</span>
+                                    <img
+                                        src={artwork.isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
+                                        alt="작품 좋아요"
+                                        className={styles.likeIcon}
+                                        onClick={() => handleLikeArtworkButton(artwork.artworkId)}
+                                        />
                                 </div>
                             </article>
                         ))
@@ -118,13 +207,13 @@ const ArtistDetail = () => {
                     <button className={styles.close} onClick={closeModal}><img src='https://img.icons8.com/?size=15&id=71200&format=png&color=B39C49'/></button>
                     <h3>작가에게 쪽지보내기</h3>
                     <div>제목</div>
-                    <input></input>
+                    <input name="title" value={message.title} onChange={editMessage}></input>
                     <br/>
                     <div>내용 </div>
                     <br/>
-                    <textarea></textarea>
+                    <textarea name="content" value={message.content} onChange={editMessage}></textarea>
                     <div className={styles.buttonDiv}>
-                        <button className={styles.sendbutton}>쪽지보내기</button>
+                        <button className={styles.sendbutton} onClick={sendMessage}>쪽지보내기</button>
                     </div>
                 </div>
             </div>

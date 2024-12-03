@@ -153,14 +153,17 @@
     margin-right: 10px;
     padding:0 8px 0 8px;
 }
-
+.likeIcon {
+    width:40px;
+    height: 40px;
+}
 .gallery {
     background-color: #B39C59;
     color: white;
     font-weight: bold;
 }
 
-.typeNotSelected:hover{
+.typeNotSelected:hover, .artworkInfo img:hover, .likecount img:hover{
     cursor: pointer;
 }
 
