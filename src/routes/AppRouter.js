@@ -53,6 +53,8 @@ import ArtistEdit from "../views/mypage/artist/ArtistEdit";
 import Message from "../views/mypage/Message";
 import MyQnA from "../views/mypage/MyQnA";
 import ShoppingCartOrder from "../views/shop/ShoppingCartOrder";
+import MySaleList from "../views/mypage/shop/MySaleList";
+import MyOrderList from "../views/mypage/shop/MyOrderList";
 
 
 function AppRouter() {
@@ -119,6 +121,8 @@ function AppRouter() {
             <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
             <Route path="/mypage/message" element={<Message/>}/>
             <Route path="/mypage/qna" element={<MyQnA/>}/>
+            <Route path="mypage/shop/myOrderList" element={<MyOrderList/>}/>
+            <Route path="mypage/shop/mySaleList" element={<MySaleList/>}/>
             {/* 관리자 */}
             <Route path="/admin/notice" element={<AdminNotice/>} />
             <Route path="/admin/qna" element={<AdminQnA/>} />
