@@ -386,8 +386,8 @@ const FundingDetail = () => {
                                         <div className={styles.rewardHeader}>
                                             <h5>{reward.rewardName}</h5>
                                             <span className={styles.rewardLeft}>
-            {reward.stock ?? "999"} 개 남음 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}
-        </span>
+                                                {reward.stock ?? "999"} 개 남음 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}
+                                            </span>
                                         </div>
                                         <p className={styles.rewardDescription}>{reward.rewardDescription}</p>
                                     </div>
