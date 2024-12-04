@@ -25,6 +25,13 @@ const InfoEdit = () => {
     address: false,
     email: false,
   });
+
+  const [buttonState, setButtonState] = useState({
+    phone: '수정하기',
+    address: '수정하기',
+    email: '수정하기',
+  });
+  
   const token = useAtomValue(tokenAtom); // Jotai로 토큰 가져오기
 
   useEffect(() => {
@@ -84,49 +91,54 @@ const handleAddressSearch = () => {
 };
 
 
-  const handleEditClick = (field) => {
-    setEditMode((prev) => ({
-      ...prev,
-      [field]: !prev[field], // Toggle edit mode for the specific field
-    }));
-  };
-
+const handleEditClick = (field) => {
+  setEditMode((prev) => ({
+    ...prev,
+    [field]: !prev[field],
+  }));
+  setButtonState((prev) => ({
+    ...prev,
+    [field]: prev[field] === '수정하기' ? '확인' : '수정하기',
+  }));
+};
   const handleUpdate = (field) => {
-    
     const addressFields = ['postcode', 'address', 'detailAddress', 'extraAddress'];
-    // body 생성: 주소 필드인 경우 여러 필드를 포함, 그 외에는 단일 필드만 포함
     const body = field === 'address'
       ? addressFields.reduce((acc, key) => ({ ...acc, [key]: userData[key] }), { username: userData.username })
       : { [field]: userData[field], username: userData.username };
-      console.log('Generated Body:', body); // 생성된 body 확인
-
+  
     fetch(`http://localhost:8080/api/mypage/userinfoupdate`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 포함
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body), // 필요한 데이터만 전송
+      body: JSON.stringify(body),
       credentials: 'include',
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('업데이트에 실패했습니다.');
-      }
-      return response.json();
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(`${field}가 성공적으로 수정되었습니다.`);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('업데이트에 실패했습니다.');
+        }
+        return response.json();
+      })
+      .then(() => {
+        alert('수정이 완료되었습니다.');
         setEditMode((prev) => ({
           ...prev,
-          [field]: false, // Exit edit mode after successful update
+          [field]: false, // 수정 모드 종료
+        }));
+        setButtonState((prev) => ({
+          ...prev,
+          [field]: '수정하기', // 버튼 텍스트 초기화
         }));
       })
+      
       .catch((error) => {
         console.error('Error updating data:', error);
       });
   };
+  
 
 
   
@@ -156,29 +168,7 @@ const handleAddressSearch = () => {
                 <span className={`${styles.value} ${styles.adjustedValue}`}>{userData.username}</span>
                 {/* DB에서 username(=id) 가져와야함 */}
               </div>
-              <div className={styles.row}>
-                <span className={styles.label}>비밀번호</span>
-                {editMode.password ? (
-                  <input
-                    type="password"
-                    className={styles.value}
-                    value={userData.password || ''}
-                    onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-                  />
-                ) : (
-                  <span className={styles.value}>****************</span>
-                )}
-                <button
-                  className={styles.editButton}
-                  onClick={() =>
-                    editMode.password ? handleUpdate('password') : handleEditClick('password')
-                  }
-                >
-                  {editMode.password ? '확인' : '수정하기'}
-                </button>
               
-                {/* 암호화 되어있는 password이기 때문에 즉시 update */}
-              </div>
               <div className={styles.row}>
                 <span className={styles.label}>휴대폰 번호</span>
                 {editMode.phone ? (
@@ -197,7 +187,7 @@ const handleAddressSearch = () => {
                     editMode.phone ? handleUpdate('phone') : handleEditClick('phone')
                   }
                 >
-                  {editMode.phone ? '확인' : '수정하기'}
+                    {buttonState.phone}
                 </button>
               </div>
 
