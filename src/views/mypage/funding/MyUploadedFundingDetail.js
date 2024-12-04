@@ -1,16 +1,45 @@
-import React from 'react';
-import  styles from '../../../css/mypage/funding/MyUploadedFundingDetail.module.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import styles from '../../../css/mypage/funding/MyUploadedFundingDetail.module.css';
 import Header from "../../Header";
 import SideNav from "../SideNav";
+import { Modal, Box, Typography, Button } from "@mui/material";
+import {url} from "../../../config";
+import {useNavigate, useParams} from "react-router-dom";
 
 function MyUploadedFundingDetail() {
-    const contributors = [
-        { id: 1, name: "USER1", rewards: "리워드1,리워드2", amount: "800,000원", date: "24/04/04" },
-        { id: 2, name: "USER1", rewards: "리워드1", amount: "880,000원", date: "24/04/04" },
-        { id: 3, name: "USER1", rewards: "리워드1", amount: "900,000원", date: "24/04/05" },
-        { id: 4, name: "USER1", rewards: "리워드1", amount: "700,000원", date: "24/04/04" },
-        // 추가 항목
-    ];
+    const [contributors, setContributors] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedReward, setSelectedReward] = useState([]);
+    const { fundingId } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get(`${url}/api/myPage/funding/registeredFunding/${fundingId}`)
+            .then((response) => {
+                setContributors(response.data.content);
+            })
+            .catch((error) => {
+                console.error("Error fetching funding details:", error);
+            });
+    }, [fundingId]);
+
+    // 리워드 모달 열기
+    const handleOpenModal = (rewards) => {
+        setSelectedReward(rewards);
+        setOpenModal(true);
+    };
+
+    // 리워드 모달 닫기
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+
+    // 펀딩 상세 페이지로 이동
+    const navigateToFundingDetail = () => {
+        navigate(`/fundings/${fundingId}`);
+    };
 
     return (
         <>
@@ -18,34 +47,22 @@ function MyUploadedFundingDetail() {
             <div className={styles.container}>
                 <SideNav />
                 <div className={styles.myUploadedFundingDetail}>
-                    {/*<h2>내가 올린 펀딩 조회 상세</h2>*/}
+                    {/* 펀딩 상세 보기 버튼 */}
+                    <div className={styles.fundingDetailButton}>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={navigateToFundingDetail}  // 클릭 시 상세 페이지로 이동
+                            sx={{
+                                color: '#b29c59', // 텍스트 색상
+                                borderColor: '#b29c59', // 테두리 색상
 
-                    {/* Funding Information */}
-                    <div className={styles.fundingInfo}>
-                        <img
-                            src="https://via.placeholder.com/300x200"
-                            alt="funding item"
-                            className={styles.fundingImage}
-                        />
-                        <div className={styles.fundingDetails}>
-                            <h5>펀딩 아이템 제목</h5>
-                            <p>모집 희망 금액: 3000만원</p>
-                            <p>최종 모집 금액: 4500만원</p>
-                            <p>달성률: <span className={styles.fundingDetailsGoal}>150%</span>
-
-                            </p>
-                        </div>
-                        <div className={styles.fundingDates}>
-                            <p>펀딩 시작 일자: <span className={styles.startDate}>24/10/24</span>
-
-                            </p>
-                            <p>
-                            펀딩 마감 일자: <span className={styles.endDate}>24/10/24</span>
-                            </p>
-                        </div>
+                            }}
+                        >
+                            펀딩 상세 보기
+                        </Button>
                     </div>
 
-                    {/* Contributors List */}
                     <div className={styles.contributorsList}>
                         <table>
                             <thead>
@@ -60,22 +77,66 @@ function MyUploadedFundingDetail() {
                             </thead>
                             <tbody>
                             {contributors.map((contributor) => (
-                                <tr key={contributor.id}>
+                                <tr key={contributor.fundingOrderId}>
                                     <td>{contributor.name}</td>
-                                    <td>[전화번호]</td>
-                                    <td>[주소]</td>
-                                    <td>{contributor.rewards}</td>
-                                    <td>{contributor.amount}</td>
-                                    <td>{contributor.date}</td>
+                                    <td>{contributor.phoneNumber}</td>
+                                    <td>{contributor.address}</td>
+                                    <td>
+                                        <Button
+                                            variant="contained"
+                                            onClick={() => handleOpenModal(contributor.rewards)}
+                                            sx={{
+                                                backgroundColor: '#333', // 버튼 배경색
+                                                color: '#b29c59', // 텍스트 색상
+                                            }}
+                                        >
+                                            구매한 리워드 보기
+                                        </Button>
+                                    </td>
+                                    <td>{contributor.totalAmount}원</td>
+                                    <td>{new Date(contributor.paymentDate).toLocaleDateString()}</td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
                     </div>
+
+                    {/* 리워드 모달 */}
+                    <Modal
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        aria-labelledby="reward-modal-title"
+                        aria-describedby="reward-modal-description"
+                    >
+                        <Box sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#333',
+                            color: '#b29c59',
+                            padding: '20px',
+                            boxShadow: 24,
+                            width: 400,
+                        }}>
+                            <Typography id="reward-modal-title" variant="h6" component="h2">
+                                구매한 리워드
+                            </Typography>
+                            <ul id="reward-modal-description">
+                                {selectedReward.map((reward) => (
+                                    <li key={reward.contributionId}>
+                                        {reward.rewardName} - {reward.rewardQuantity}개
+                                    </li>
+                                ))}
+                            </ul>
+                            <Button onClick={handleCloseModal} variant="outlined" color="primary">
+                                닫기
+                            </Button>
+                        </Box>
+                    </Modal>
                 </div>
             </div>
         </>
-
     );
 }
 
