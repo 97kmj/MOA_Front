@@ -91,24 +91,17 @@ const SaleOrder = () => {
         // saleFrameInfo가 존재하고, 배열이 비어있지 않다면
         return +orderData.price + (saleFrameInfo && saleFrameInfo.length > 0 ? saleFrameInfo[0].framePrice : 0);
     };
-    
-    const loadIMP = () => {
-        if (typeof window.IMP === 'undefined') {
-            const script = document.createElement('script');
-            script.src = 'https://code.iamport.kr/imp.min.js'; // Iamport 결제 시스템 스크립트
-            script.onload = () => {
-                console.log("IMP 스크립트가 로드되었습니다.");
-                initiatePayment();  // 스크립트 로드 완료 후 결제 초기화
-            };
-            script.onerror = () => {
-                console.error("IMP 스크립트 로드 실패");
-            };
-            document.head.appendChild(script);  // 스크립트 DOM에 추가
-        } else {
-            initiatePayment();  // 이미 로드된 경우 결제 초기화
-        }
-    };
+   
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.iamport.kr/v1/iamport.js";
+        script.async = true;
+        document.body.appendChild(script);
 
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
 
     // 결제 
 
@@ -129,99 +122,52 @@ const SaleOrder = () => {
             pay_method: "card", // 결제 방식
             merchant_uid: `order_${new Date().getTime()}`, // 주문 고유 ID
             name: orderData.title, // 상품명
-            amount: calculateTotalPrice(), // 결제 금액  calculateTotalPrice()
+            amount: 100, // 결제 금액  calculateTotalPrice()
             buyer_name: buyerInfo.name, // 구매자 이름
             buyer_email: buyerInfo.email, // 구매자 이메일
             buyer_tel: buyerInfo.contact, // 구매자 연락처
             buyer_addr: buyerInfo.address, // 구매자 주소
+            
+            
         };
+
+        const saleData={
+            artworkId: artworkId,
+            artworkQuantity : 1,
+            frameId : frameId,
+            frameQuantity : 1,
+        }
         //결제
         IMP.request_pay(paymentData, (response) => {
             if (response.success) {
                 // 결제 성공 시 서버로 결제 정보를 전달하여 처리
                 console.log("결제 성공:", response);
 
-                const merchant_uid = response.imp_uid; //주문번호
-                const imp_uid = response.imp_uid; //고유번호
+                paymentData.impUid= response.imp_uid; //주문번호
+                paymentData.paymentType = response.pay_method.toUpperCase(); //고유번호
                 
-                //백엔드 검증
-                // PriceCheck(imp_uid, merchant_uid);
+    
+                try{
+                    const response = axios.post(`${url}/shop/payment`, {paymentData, username:user.username, saleData});
 
-                // //DB 저장
-                // PriceSubmit(response.imp_uid);
+                    if (response.status === 200) {
+                        alert("결제가 성공적으로 완료되었습니다!");
+                    } else {
+                        alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
+                        console.error("백엔드 검증 실패:", response.data);
+                    }
+                } catch (error){
+                    console.error("백엔드 검증 요청 중 오류:", error);
+                    alert("결제 검증 중 문제가 발생했습니다.");
+                }
 
-                // axios.post(`${url}/shop/payment`, paymentData)
-                // .then(res => {
-                //     console.log("결제 완료 처리", res.data);
-                //     alert("결제가 완료되었습니다.");
-                // })
-                // .catch(err => {
-                //     console.error("결제 완료 처리 실패", err);
-                //     alert("결제에 실패했습니다.");
-                // });
             } else {
                 alert(`결제 실패: ${response.error_msg}`);
             }
         });
     };
-    useEffect(() => {
-        loadIMP();  // 컴포넌트가 마운트될 때 IMP 스크립트 로드
-    }, []);
-    
 
-    // const PriceCheck = async (imp_uid, merchant_uid) => {
-    //     try {
-    //         const response = await axios.post(`${url}/shop/verify` + imp_uid);
-    //         PriceSubmit(merchant_uid);
-    //     }catch(error){
-    //         console.error("결제검증실패",error);
-    //     }
-    // };
-
-    // const PriceSubmit = async (merchant_uid) =>{
-    //     try {
-    //         const response = await axios.post(`${url}/shop/order`,{
-    //             PriceCertify: merchant_uid.toString(),
-    //             user: user.username,
-    //             artworkId : artworkId,
-    //             // userEmail: userEmail,
-    //             totalPrice: calculateTotalPrice(),
-    //         });
-    //         console.log(response.data);
-    //     } catch(err){
-    //         console.error('결제 테이블 저장 실패', err);
-    //     }
-    // };
-
-
-
-   // if (typeof window.IMP === "undefined") {
-    //     loadIMP(); 
-    //     console.error("IMP 객체가 로드되지 않았습니다.");
-    //     return;
-    // }
-
-    // const loadIMP = () => {
-    //     if (typeof window.IMP === "undefined") {
-    //         const script = document.createElement('script');
-    //         script.src = 'https://code.iamport.kr/imp.min.js'; // 결제 시스템 스크립트
-    //         script.onload = () => {
-    //             console.log("IMP 스크립트가 로드되었습니다.");
-    //         };
-    //         script.onerror = () => {
-    //             console.error("IMP 스크립트 로드 실패");
-    //         };
-    //         document.head.appendChild(script);
-    //     }
-    // };
-    
-    // useEffect(() => {
-    //     loadIMP(); 
-    // }, []);
-
-
-
-    
+   
 
 
     return (
