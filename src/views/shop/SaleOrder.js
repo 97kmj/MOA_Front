@@ -19,7 +19,7 @@ const SaleOrder = () => {
     const [userInfo, setUserInfo] = useState();
     const [saleFrameInfo,setSaleFrameInfo] = useState([]);
 
-
+    
 
 
     useEffect(()=>{
@@ -168,29 +168,30 @@ const SaleOrder = () => {
         loadIMP();  // 컴포넌트가 마운트될 때 IMP 스크립트 로드
     }, []);
     
-    const PriceCheck = async (imp_uid, merchant_uid) => {
-        try {
-            const response = await axios.post(`${url}/shop/verify` + imp_uid);
-            PriceSubmit(merchant_uid);
-        }catch(error){
-            console.error("결제검증실패",error);
-        }
-    };
 
-    const PriceSubmit = async (merchant_uid) =>{
-        try {
-            const response = await axios.post(`${url}/shop/order`,{
-                PriceCertify: merchant_uid.toString(),
-                user: user.username,
-                artworkId : artworkId,
-                // userEmail: userEmail,
-                totalPrice: calculateTotalPrice(),
-            });
-            console.log(response.data);
-        } catch(err){
-            console.error('결제 테이블 저장 실패', err);
-        }
-    };
+    // const PriceCheck = async (imp_uid, merchant_uid) => {
+    //     try {
+    //         const response = await axios.post(`${url}/shop/verify` + imp_uid);
+    //         PriceSubmit(merchant_uid);
+    //     }catch(error){
+    //         console.error("결제검증실패",error);
+    //     }
+    // };
+
+    // const PriceSubmit = async (merchant_uid) =>{
+    //     try {
+    //         const response = await axios.post(`${url}/shop/order`,{
+    //             PriceCertify: merchant_uid.toString(),
+    //             user: user.username,
+    //             artworkId : artworkId,
+    //             // userEmail: userEmail,
+    //             totalPrice: calculateTotalPrice(),
+    //         });
+    //         console.log(response.data);
+    //     } catch(err){
+    //         console.error('결제 테이블 저장 실패', err);
+    //     }
+    // };
 
 
 

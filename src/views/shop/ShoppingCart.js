@@ -147,7 +147,7 @@ const ShoppingCart = () => {
           </div>
 
           {/* 왼쪽 상단: 선택 삭제 버튼 */}
-          <Button className={styles.topButton}
+          <Button 
             color="danger" 
             onClick={handleDeleteSelected} 
             className={styles.cartListTopButton}
