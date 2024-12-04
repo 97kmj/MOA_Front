@@ -54,9 +54,17 @@
     background-color: #B39C59;
     color: white;
 }
+.goldbutton:disabled {
+    border:none;
+    background-color: #bbbbbb;
+    color: white;
+    
+}
+
+.goldbutton:disabled:hover {
+    cursor: default;
+}
 .goldbutton:hover {
-    background-color: white;
-    color: #B39C59;
     cursor: pointer;
 }
 

@@ -9,6 +9,9 @@ function Message() {
     const user = useAtomValue(userAtom);
     const [activeTab, setActiveTab] = useState('received'); // Default to "받은 메시지"
 
+    
+
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
