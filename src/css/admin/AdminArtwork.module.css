@@ -16,18 +16,54 @@
 }
 .regList table{
     width:100%;
-    border-collapse: collapse;
-    border-spacing:4px 4px;
+    border-collapse: separate;
+    border-spacing:0px 15px;
 }
 .regList table tbody{
     max-height: 600px;
     overflow-y:scroll;
 }
-.regList table thead tr{
+.regList thead tr {
     border-bottom: 2px solid #B39C59;
     border-top: 2px solid #B39C59;
 }
 
+.regList thead {
+    position: relative; /* 의사 요소를 사용하려면 position 필요 */
+}
+
+.regList thead:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #B39C59; /* 상단 경계선 */
+}
+
+.regList thead:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #B39C59; /* 하단 경계선 */
+}
+
+
+.regList table tbody tr td {
+    height: 35px;    
+}
+.regList table tbody tr:hover {
+    cursor: pointer;
+}
+
+.selectedTr {
+    outline: 1px #B39C59 solid;
+    border-radius: 10px;
+}
 .buttonDiv {
     margin:20px auto;
     display: flex;
@@ -65,13 +101,16 @@
     width: 400px;
     height: 400px;
     vertical-align:middle;
-    background-color: #ececec;
+    display: flex;
+    justify-content: center;
+
     margin:0 auto;
 }
 .artImg {
-    width: 400px;
-    height: 400px;
+    max-width: 400px;
+    max-height: 400px;
     object-fit: contain;
+    
 }
 
 .artDetail textarea {

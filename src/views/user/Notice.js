@@ -68,6 +68,7 @@ const Notice = () => {
             .then(res => {
                 if(res.data === true) {
                     alert("문의가 완료되었습니다.");
+                    setQuestion({...question, title:'', content:''});
                 } else {
                     alert("문의 실패");
                 }
@@ -82,6 +83,10 @@ const Notice = () => {
 
     const [modalOpen,setModalOpen] = useState(false);
     const showModal = () => {
+        if(!user.username) {
+            alert("로그인 후 이용가능합니다.")
+            return;
+        }
         setModalOpen(true);
     }
     const closeModal = () => {

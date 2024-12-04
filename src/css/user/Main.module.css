@@ -31,8 +31,8 @@
     align-items: center;
 }
 .mainArtImg {
-    max-width:800px;
-    max-height: 600px;
+    /* width:800px; */
+    height: 600px;
     object-fit: contain;
     box-shadow: 3px 3px 3px #666;
 }
@@ -59,6 +59,7 @@
     box-shadow: 3px 3px 3px #666;
 }
 
+
 .buttonDiv {
     margin:20px auto;
     display: flex;
@@ -80,17 +81,22 @@
     cursor: pointer;
 }
 .fundingImg {
-    width: 300px;
+    width: 290px;
     height: 400px;
     display: flex;
+    border-bottom:#ececec 1px solid;
     justify-content: center;
     vertical-align: middle;
+    align-items: center;
 }
 
 .fundingBox {
     display: flex;
+    justify-content: space-between;
 }
-
+.fundingBox article {
+    outline: 1px solid #ececec;
+}
 .fundingImg img {
     max-width: 290px;
     max-height: 390px;
@@ -99,6 +105,10 @@
 .fundingInfo {
     margin:0 auto;
     padding:10px;
+}
+
+.fundingImg:hover , .artImg:hover, .mainArtImg:hover {
+    cursor: pointer;
 }
 
 .progressbar {

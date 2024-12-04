@@ -7,6 +7,8 @@ import { useAtomValue } from "jotai";
 import { Gallery as GridGallery } from "react-grid-gallery";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import axios from "axios";
+import { url } from "../../config";
 
 // Type과 Category의 옵션 매핑
   const OPTIONS = {
@@ -164,7 +166,7 @@ import "yet-another-react-lightbox/styles.css";
           }).toString();
 
           const response = await fetch(
-            `http://localhost:8080/api/artworks?${queryParams}`
+            `${url}/api/artworks?${queryParams}`
           );
           const data = await response.json();
 
@@ -221,14 +223,29 @@ import "yet-another-react-lightbox/styles.css";
   }));
 
 
-  const [selectedArtworks,setSelectedArtworks] = useState([])
-    //관리자 작품 블랙리스트 체크박스
-    const handleCheckboxChange = (artworkId, isChecked) => {
-        if (isChecked) {
-            setSelectedArtworks((prev) => [...prev, artworkId]); // 체크된 경우 추가
-        } else {
-            setSelectedArtworks((prev) => prev.filter((id) => id !== artworkId)); // 체크 해제된 경우 제거
-        }
+  
+   //관리자 작품 블랙리스트 체크박스
+   const handleCheckboxChange = (artworkId, isChecked) => {
+      axios.post(`${url}/updateArtworkStatus`,{
+          artworkId,
+          isSuspicious : isChecked //의심체크 여부 
+      })
+      .then(res=>{
+          console.log(res.data);
+          if (res.status === 200) {
+              setArtworks((prevArtworks) =>
+                  prevArtworks.map((artwork) =>
+                      artwork.artworkId === artworkId
+                          ? { ...artwork, adminCheck: isChecked }
+                          : artwork
+                  )
+              );
+          };
+      })
+      .catch(err=>{
+          console.error("아트워크 상태 업데이트 실패:", err);
+          alert("작품 상태를 업데이트하는 중 오류가 발생했습니다.");
+      })
     };
 
   return (
@@ -341,6 +358,7 @@ import "yet-another-react-lightbox/styles.css";
                       <label>
                       <input
                           type="checkbox"
+                          checked={artwork.adminCheck}
                           onChange={(e) => handleCheckboxChange(artwork.artworkId, e.target.checked)}
                           />
                           의심작품 선택
