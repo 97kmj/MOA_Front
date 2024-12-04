@@ -113,7 +113,7 @@ function AppRouter() {
             
             {/* 마이페이지*/}
             <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
-            <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
+            <Route path="/mypage/fundings/uploaded/:fundingId" element={<MyUploadedFundingDetail />} />
             <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
             <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
             <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>

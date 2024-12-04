@@ -1,26 +1,56 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../../css/mypage/funding/MyUploadedFunding.module.css';
 import Header from "../../Header";
 import SideNav from "../SideNav";
 import {useNavigate} from "react-router-dom";
+import {url} from "../../../config";
+
+import axios from "axios";
+import {useAtom} from "jotai/react";
+import {userAtom} from "../../../atoms";
 function MyUploadedFunding() {
-    const [activeTab, setActiveTab] = useState('success'); // Default to "성공 펀딩"
+    const [activeTab, setActiveTab] = useState('ONGOING'); // Default to "성공 펀딩"
+    const [fundingList, setFundingList] = useState([]);
+    const navigate = useNavigate();
+    const [user] = useAtom(userAtom);
+    const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
+    const [totalPages, setTotalPages] = useState(1); // 총 페이지 수
+
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    const fundingList = [
-        { id: 1, title: "르브론", amount: "50,000 원", completed: "O", endDate: "24/08/07" },
-        { id: 2, title: "제임스", amount: "50,000 원", completed: "O", endDate: "24/08/07" },
-        // ... 추가 항목
-    ];
 
-     const navigate = useNavigate();
-
-     const goToDetail = (id) => {
-            navigate(`/mypage/fundings/uploaded/${id}`);
+     const goToDetail = (fundingId) => {
+            navigate(`/mypage/fundings/uploaded/${fundingId}`);
      }
+
+
+    useEffect(() => {
+        axios.get(`${url}/api/myPage/funding/registeredFunding`, {
+            params: {
+                username: user.username,
+                status: activeTab,
+                page: 0,
+                size: 10
+            }
+        })
+            .then((response) => {
+                setFundingList(response.data.content);
+            })
+            .catch((error) => {
+                console.error('Error fetching funding data', error);
+            });
+    }, [activeTab]);
+
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber >= 0 && pageNumber < totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
+
 
 
     return (
@@ -36,41 +66,39 @@ function MyUploadedFunding() {
                         {/* Tabs */}
                         <div className={styles.myUploadedFundingTabs}>
                             <button
-                                className={activeTab === 'success' ? 'active' : ''}
-                                onClick={() => handleTabClick('success')}
+                                className={activeTab === 'SUCCESSFUL' ? 'active' : ''}
+                                onClick={() => handleTabClick('SUCCESSFUL')}
                             >
                                 성공 펀딩
                             </button>
                             <button
-                                className={activeTab === 'failed' ? 'active' : ''}
-                                onClick={() => handleTabClick('failed')}
+                                className={activeTab === 'FAILED' ? 'active' : ''}
+                                onClick={() => handleTabClick('FAILED')}
                             >
                                 실패 펀딩
                             </button>
                             <button
-                                className={activeTab === 'ongoing' ? 'active' : ''}
-                                onClick={() => handleTabClick('ongoing')}
+                                className={activeTab === 'ONGOING' ? 'active' : ''}
+                                onClick={() => handleTabClick('ONGOING')}
                             >
                                 진행 펀딩
                             </button>
                         </div>
 
                         {/* Funding List */}
-                        <div className={styles.myUploadedFundingList}
-                                onClick={() => goToDetail(fundingList.id)}
-                            >
+                        <div className={styles.myUploadedFundingList}>
                             {fundingList.map((funding) => (
-                                <div key={funding.id} className={styles.myUploadedFundingItem}>
+                                <div key={funding.fundingId} className={styles.myUploadedFundingItem} onClick={() => goToDetail(funding.fundingId)}>
                                     <img
-                                        src="https://via.placeholder.com/60"
+                                        src={funding.fundingImage}
                                         alt="funding"
                                         className={styles.myUploadedFundingItemImg}
                                     />
                                     <div className={styles.myUploadedFundingItemDetails}>
-                                        <h4>{funding.title}</h4>
-                                        <p>모집 희망금액: {funding.amount}</p>
-                                        <p>완료 여부: {funding.completed}</p>
-                                        <p>마감일: {funding.endDate}</p>
+                                        <h4>{funding.fundingTitle}</h4>
+                                        <p>모집 희망금액: {funding.goalAmount} 원</p>
+                                        <p>상태: {funding.fundingStatus}</p>
+                                        <p>마감일: {new Date(funding.endDate).toLocaleDateString()}</p>
                                     </div>
                                 </div>
                             ))}
@@ -78,17 +106,31 @@ function MyUploadedFunding() {
 
                         {/* Pagination */}
                         <div className={styles.myUploadedFundingPagination}>
-                            <button>&lt;</button>
-                            <button className="active">1</button>
-                            <button>2</button>
-                            <button>3</button>
-                            <button>&gt;</button>
+                            {/* 이전 페이지 버튼 (첫 페이지일 때 숨김) */}
+                            {currentPage > 0 && (
+                                <button onClick={() => handlePageChange(currentPage - 1)}>&lt;</button>
+                            )}
+
+                            {/* 페이지 번호 버튼들 */}
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={currentPage === index ? 'active' : ''}
+                                    onClick={() => handlePageChange(index)}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+
+                            {/* 다음 페이지 버튼 (끝 페이지일 때 숨김) */}
+                            {currentPage < totalPages - 1 && (
+                                <button onClick={() => handlePageChange(currentPage + 1)}>&gt;</button>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
         </>
-
     );
 }
 
