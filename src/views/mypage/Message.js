@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import styles from '../../css/mypage/Message.module.css';
 import Header from "../Header";
 import SideNav from "./SideNav"; // SideNav 컴포넌트 추가
+import { userAtom } from '../../atoms';
+import { useAtomValue } from 'jotai';
 
 function Message() {
+    const user = useAtomValue(userAtom);
     const [activeTab, setActiveTab] = useState('received'); // Default to "받은 메시지"
 
     const handleTabClick = (tab) => {
@@ -25,8 +28,7 @@ function Message() {
 
                 {/* Main Content */}
                 <div className={styles.messageContent}>
-                    <h2>쪽지함</h2>
-
+                    <h3>쪽지함</h3>
                     {/* Tabs */}
                     <div className={styles.messageTabs}>
                         <button
@@ -53,7 +55,7 @@ function Message() {
                     <div className={styles.messageList}>
                         {messageList.map((message) => (
                             <div key={message.id} className={styles.messageItem}>
-                                <img src="https://via.placeholder.com/60" alt="sender" className={styles.messageItemImg} />
+                                
                                 <div className={styles.messageItemDetails}>
                                     <h4>보낸 사람: {message.sender}</h4>
                                     <p>내용: {message.content}</p>

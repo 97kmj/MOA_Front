@@ -92,10 +92,6 @@ const Notice = () => {
     const closeModal = () => {
         setModalOpen(false);
     }
-    // const showNotice = (e) => {
-    //     console.log(e.target.nextElementSibling)
-    //     e.target.nextElementSibling.style.display='block';
-    // }
 
     return(
         <>

@@ -107,7 +107,7 @@
 }
 
 .largeImage {
-  width: 500px;
+  max-width: 500px;
   height: 500px;
   object-fit: cover;
   border: 1px solid #ddd;

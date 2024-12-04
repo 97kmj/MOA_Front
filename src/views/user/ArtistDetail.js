@@ -29,6 +29,7 @@ const ArtistDetail = () => {
         axios.post(`${url}/artistDetail/${artistId}`)
         .then(res => {
             setArtist(res.data)
+            console.log(res.data)
         })
         .catch(err => {
             console.log(err)
@@ -124,6 +125,7 @@ const ArtistDetail = () => {
             .then(res=>{
                 if(res.data===true) {
                     alert("작가님께 쪽지를 보냈습니다.")
+                    setMessage({...message,title:'',content:''})
                     closeModal();
                 } else {
                     alert("쪽지를 보내는 중 오류가 발생했습니다.")
@@ -145,7 +147,7 @@ const ArtistDetail = () => {
                     <div className={styles.artistImgBox}>
                         <img className={styles.artistImg} src={artist?.profileImage}/>
                     </div>
-                    <div><b>홍길동</b> &nbsp;<button className={styles.messagebutton} onClick={showModal}>쪽지 보내기</button></div>
+                    <div><b>{artist.name}</b> &nbsp;<button className={styles.messagebutton} onClick={showModal}>쪽지 보내기</button></div>
                     <div className={styles.likecount}>
                         {/* 좋아요 버튼 */}
                         <img

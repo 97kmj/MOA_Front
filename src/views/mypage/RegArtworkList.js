@@ -20,8 +20,6 @@ function RegArtworkList() {
 
    
 
-    console.log("JWT Token:", token); // 콘솔로 토큰 출력
-
     // 작품 목록 가져오기 함수
     const fetchArtworks = async (page, start = null, end = null) => {
         setIsLoading(true);
@@ -31,28 +29,43 @@ function RegArtworkList() {
             if (start) params.append("startDate", start);
             if (end) params.append("endDate", end);
 
+            console.log(`Request URL: http://localhost:8080/api/artworks/list?${params}`);
+            console.log("JWT Token:", token);
+
+
             const response = await fetch(`http://localhost:8080/api/artworks/list?${params}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
+                credentials: "include", // 이 부분 추가
             });
+
+            console.log("Response status:", response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            setArtworkList(data.artworks || []);
+            console.log("Response data:", data);
+
+            setArtworkList(data.artworks || data || []);
             setTotalPages(data.totalPages || 1);
         } catch (error) {
+            console.error("Error fetching artworks:", error);
             setError(error.message);
         } finally {
             setIsLoading(false);
         }
     };
 
+    useEffect(() => {
+        console.log("Updated artwork list:", artworkList);
+    }, [artworkList]);
+
+    
     useEffect(() => {
         if (!token) return;
         fetchArtworks(1);
@@ -63,7 +76,7 @@ function RegArtworkList() {
             alert("시작 날짜와 종료 날짜를 모두 선택해주세요.");
             return;
         }
-        fetchArtworks(currentPage, startDate.toISOString(), endDate.toISOString());
+        fetchArtworks(currentPage, startDate?.toISOString(), endDate?.toISOString());
     };
 
     const handlePageChange = (page) => {

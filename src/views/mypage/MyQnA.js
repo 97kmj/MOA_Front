@@ -14,7 +14,7 @@ const MyQnA = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize, setPageSize] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
-
+    const [question,setQuestion] = useState({});
     useEffect(()=>{
         axios.get(`${url}/myQnA`,{ params: 
             { username:user.username,
@@ -45,6 +45,19 @@ const MyQnA = () => {
         }
     };
 
+    const selectQuestion = (question) => {
+        setQuestion(question);
+        showModal();
+    }
+
+    const [modalOpen,setModalOpen] = useState(false);
+    const showModal = () => {
+        setModalOpen(true);
+    }
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
 
     return(
         <>
@@ -66,7 +79,7 @@ const MyQnA = () => {
                             questionList.map((question) => (
                                 <div key={question.id} className={styles.question}>
                                     <div className={styles.messageItemDetails}>
-                                        <span>{question.title}</span>
+                                        <span className={styles.questionTitle} onClick={()=>selectQuestion(question)}>{question.title}</span>
                                         <span className={styles.messageDate}>{new Date(question.questionAt).toISOString().slice(0,10)}</span>
                                     </div>
                                 </div>
@@ -105,6 +118,32 @@ const MyQnA = () => {
                 </div>
             </div>
         </div>
+        {
+            modalOpen &&
+            <div className={styles.modalBackground}>
+                <div className={`${question.answerStatus ? styles.answered : styles.notAnswered } `}>
+                    <button className={styles.close} onClick={closeModal}><img src='https://img.icons8.com/?size=15&id=71200&format=png&color=B39C49'/></button>
+                    <h3>문의 내역</h3>
+                    <div>문의 제목</div>
+                    <input name="title" value={question.title} readOnly></input>
+                    <br/>
+                    <div>내용</div>
+                    <textarea name="content" value={question.content} readOnly> </textarea>
+                    {
+                        question.answerStatus && 
+                        <>
+                        
+                        <div className={styles.answerTitle}>답변 제목</div>
+                        <input name="answerTitle" value={question.answerTitle} readOnly></input>
+                        <br/>
+                        <div>답변 내용</div>
+                        <textarea name="answerContent" value={question.answerContent} readOnly> </textarea>
+                        </>
+                        
+                    }
+                </div>
+            </div>
+        }
         </>
     )
 }

@@ -86,9 +86,8 @@
 .filters {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
-  
-  
+  margin-bottom: 10px;
+  margin-top: -10px;
 }
 
 .filterButtons {
@@ -151,6 +150,7 @@
 }
 
 .search {
+  margin-top: -10px;
   display: flex;
 }
 
@@ -182,23 +182,62 @@
 .card {
   max-width: 100%;
   max-height: 500px;
-  background-color: white;
+  background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  justify-content: space-between; /* 상단 이미지와 하단 텍스트를 구분 */
+  margin: 5px; /* 카드 간의 외부 여백 설정 */
 }
+/* 이미지 컨테이너 */
+.cardImageContainer {
+  height: 55%; 
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
 
+  background-color: #f9f9f9;
+  padding: 10px;
+}
 .cardImage {
   max-width: 100%;
   max-height: 200px;
   object-fit: cover;
   border-radius: 0px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   box-shadow: 3px 3px 3px #666;
 }
+/* 텍스트 설명 컨테이너 */
+.cardContent {
+  width: calc(100% + 40px); /* 부모 너비보다 더 넓게 설정 */
+  margin-left: -20px; /* 좌우 여백 제거 */
+  margin-right: -20px; /* 좌우 여백 제거 */
+  box-sizing: border-box; /* 패딩 포함하여 너비 계산 */
+  background-color: white; /* 텍스트 영역 배경 */
+  padding: 20px 30px; /* 좌우 패딩을 늘림 */
+  text-align: left;
+}
 
+/* 텍스트 스타일 */
+.cardTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
 
+.cardCategory {
+  font-size: 0.875rem;
+  color: #555;
+  margin: 4px 0;
+}
+.cardCategories {
+  display: flex; /* 일렬로 정렬 */
+  justify-content: left; /* 중앙 정렬 */
+  gap: 10px; /* 요소 간 간격 */
+  margin-top: 8px; /* 위쪽 여백 */
+  color: lightgray;
+}
 
 .loadMore {
   display: flex;
