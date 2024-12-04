@@ -94,3 +94,122 @@
     font-weight: bold;
     color: #b84700;
 }
+
+
+
+
+/* 모달 */
+.modalOverlay {
+    position: fixed; /* 화면에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    overflow: hidden; /* 화면 넘침 방지 */
+}
+
+.modalWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5); /* 모달 배경 */
+}
+
+.modalContent {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%; /* 반응형 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+.modalInner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modalTitle {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.modalBody {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: #555;
+}
+
+.modalBody p {
+    margin: 5px 0;
+}
+
+.modalBody ul {
+    margin: 10px 0;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #444;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.refundButton {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.refundButton:hover {
+    background: #e43a3c;
+}
+
+.closeButton {
+    background: #d9d9d9;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.closeButton:hover {
+    background: #bfbfbf;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

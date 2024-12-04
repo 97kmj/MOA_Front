@@ -4,8 +4,11 @@ import Header from "../../Header";
 import SideNav from "../SideNav";
 import axios from "axios";
 import { useAtom } from "jotai/react";
-import { userAtom } from "../../../atoms";
+import {tokenAtom, userAtom} from "../../../atoms";
 import { url } from "../../../config";
+
+import { Modal, Box, Typography, Button } from "@mui/material";
+import {useAtomValue} from "jotai/index";
 
 function MyContributedFunding() {
     const [activeTab, setActiveTab] = useState('ONGOING'); // Default to "성공 펀딩"
@@ -13,8 +16,14 @@ function MyContributedFunding() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [user] = useAtom(userAtom);
+    const token = useAtomValue(tokenAtom);
+
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수 상태
+
+    const [selectedFunding, setSelectedFunding] = useState(null); // 선택한 펀딩 데이터
+    const [isModalOpen, setModalOpen] = useState(false); // 모달 열기/닫기 상태
+
 
     // 탭 클릭 핸들러
     const changeTabClick = (tab) => {
@@ -30,6 +39,56 @@ function MyContributedFunding() {
     };
 
 
+    const openFundingDetail = async (fundingOrderId) => {
+        console.log(fundingOrderId);
+        try {
+            setLoading(true);
+            const response = await axios.get(
+                `${url}/api/myPage/funding/contributedFunding/${fundingOrderId}`
+            );
+            setSelectedFunding(response.data); // 상세 데이터 저장
+            setModalOpen(true); // 모달 열기
+        } catch (err) {
+            setError("상세 데이터를 가져오는 중 문제가 발생했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setSelectedFunding(null);
+    };
+
+
+
+    function refundIndividualFunding(fundingOrderId) {
+        axios
+            .post(
+                `${url}/api/funding/refund/individual/${fundingOrderId}`, // 백엔드 API
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            .then((response) => {
+                console.log("환불 요청 성공:", response.data);
+                alert("환불 요청이 처리되었습니다.");
+
+                setSelectedFunding((prev) => ({
+                    ...prev,
+                    refundable: false,
+                }));
+
+            })
+            .catch((error) => {
+                console.error("환불 요청 실패:", error.response?.data || error.message);
+                alert("환불 요청 중 문제가 발생했습니다.");
+            });
+    }
+
 
     // API 호출
     useEffect(() => {
@@ -40,7 +99,7 @@ function MyContributedFunding() {
         }
 
 
-        const fetchFundingData = async () => {
+        const getFundingData = async () => {
             setLoading(true);
             setError(null);
             try {
@@ -63,7 +122,7 @@ function MyContributedFunding() {
             }
         };
 
-        fetchFundingData();
+        getFundingData();
     }, [user, activeTab, currentPage]);
 
     const translateStatus = (status) => {
@@ -85,9 +144,9 @@ function MyContributedFunding() {
 
     return (
         <>
-            <Header />
+            <Header/>
             <div className={styles.container}>
-                <SideNav />
+                <SideNav/>
                 <div className={styles.myContributedFunding}>
                     <h3>내가 후원한 펀딩 조회</h3>
 
@@ -113,7 +172,7 @@ function MyContributedFunding() {
                         </button>
                     </div>
 
-                    {/* Loading Indicator */}
+
                     {loading && <p>데이터를 불러오는 중...</p>}
 
                     {/* Error Message */}
@@ -123,7 +182,10 @@ function MyContributedFunding() {
                     {!loading && !error && (
                         <div className={styles.myContributedFundingList}>
                             {fundingList.map((funding) => (
-                                <div key={funding.fundingOrderId} className={styles.myContributedFundingItem}>
+                                <div key={funding.fundingOrderId}
+                                     className={styles.myContributedFundingItem}
+                                     onClick={() => openFundingDetail(funding.fundingOrderId)}
+                                >
                                     <img
                                         src={funding.fundingImage || "https://via.placeholder.com/60"} // 이미지가 없을 경우 기본 이미지 사용
                                         alt="funding"
@@ -163,6 +225,110 @@ function MyContributedFunding() {
                     </div>
                 </div>
             </div>
+
+            {/* Material UI Modal */}
+            <Modal
+                open={isModalOpen}
+                onClose={closeModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+            >
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 500,
+                        bgcolor: "#fefefe",
+                        boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.3)",
+                        borderRadius: 4,
+                        p: 4,
+                        border: "1px solid #ddd",
+                        overflowY: "auto",
+                        maxHeight: "80vh",
+                    }}
+                >
+                    {selectedFunding && (
+                        <>
+                            <Typography
+                                id="modal-title"
+                                variant="h6"
+                                component="h2"
+                                sx={{
+                                    mb: 2,
+                                    fontWeight: "bold",
+                                    color: "#333",
+                                    textAlign: "center",
+                                    borderBottom: "1px solid #ddd",
+                                    pb: 1,
+                                }}
+                            >
+                                펀딩 상세 정보
+                            </Typography>
+                            <Typography id="modal-description" sx={{ mb: 2, lineHeight: 1.6, color: "#555" }}>
+                                <strong>후원자:</strong> {selectedFunding.name}
+                                <br />
+                                <strong>후원 금액:</strong> {selectedFunding.totalAmount.toLocaleString()} 원
+                                <br />
+                                <strong>결제 방식:</strong> {selectedFunding.paymentType}
+                                <br />
+                                <strong>환불 상태:</strong> {selectedFunding.refundStatus}
+                                <br />
+                                <strong>주소:</strong> {selectedFunding.address}
+                                <br />
+                                <strong>전화번호:</strong> {selectedFunding.phoneNumber}
+                            </Typography>
+                            <Typography variant="subtitle1" sx={{ mt: 2, mb: 1, fontWeight: "bold", color: "#333" }}>
+                                리워드 내역:
+                            </Typography>
+                            <ul style={{ paddingLeft: "20px", marginBottom: "16px", color: "#555" }}>
+                                {selectedFunding.contributions.map((contribution) => (
+                                    <li key={contribution.contributionId}>
+                                        {contribution.rewardName} - {contribution.rewardPrice.toLocaleString()} 원 x{" "}
+                                        {contribution.rewardQuantity}
+                                    </li>
+                                ))}
+                            </ul>
+                            {selectedFunding.refundable && (
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        mt: 2,
+                                        display: "block",
+                                        width: "100%",
+                                        backgroundColor: "#333",
+                                        color: "#b29c59",
+                                        fontWeight: "bold",
+                                        "&:hover": { backgroundColor: "#555" }, // 호버 시 더 밝은 색상
+                                    }}
+                                    onClick={() => {
+                                        refundIndividualFunding(selectedFunding.fundingOrderId);
+                                        console.log("환불 요청:", selectedFunding.fundingOrderId);
+                                    }}
+                                >
+                                    환불 요청
+                                </Button>
+                            )}
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                sx={{
+                                    mt: 2,
+                                    display: "block",
+                                    width: "100%",
+                                    backgroundColor: "#757575"
+                                }}
+                                onClick={closeModal}
+                            >
+                                닫기
+                            </Button>
+                        </>
+                    )}
+                </Box>
+            </Modal>
+
+
         </>
     );
 }

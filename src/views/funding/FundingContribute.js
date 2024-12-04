@@ -2,22 +2,22 @@ import React, {useEffect, useState} from 'react';
 import styles from '../../css/funding/FundingContribute.module.css';
 import Header from "../Header";
 import axios from "axios";
-import {userAtom} from "../../atoms";
+import {tokenAtom, userAtom} from "../../atoms";
 import {useAtom} from "jotai/react";
 import {useLocation} from "react-router-dom";
 import {url} from "../../config";
+import {useAtomValue} from "jotai/index";
 
 const FundingContribute = () => {
+    const token = useAtomValue(tokenAtom);
     const [user] = useAtom(userAtom);
     const location = useLocation();
-    const { fundingId, selectedRewards, fundingDetail } = location.state || {};//fundingDetail에서 받아온 데이터
+    const {fundingId, selectedRewards, fundingDetail} = location.state || {};//fundingDetail에서 받아온 데이터
     const [shippingInfo, setShippingInfo] = useState({
         name: "",
         phoneNumber: "",
         address: "",
     });
-
-
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -30,14 +30,12 @@ const FundingContribute = () => {
         };
     }, []);
 
-
     const requestPayment = async () => {
 
         if (!user || !user.username) {
             alert("로그인이 필요합니다.");
             return;
         }
-
 
         if (shippingInfo.name.trim() === "") {
             alert("이름을 입력해주세요.");
@@ -53,13 +51,13 @@ const FundingContribute = () => {
         }
 
 
-
         if (!window.IMP) {
             alert("아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.");
             return;
         }
 
         const merchantUid = `merchant_${new Date().getTime()}`; // 고유한 merchant_uid 생성
+
         const paymentAmount = selectedRewards.reduce(
             (sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity,
             0
@@ -69,15 +67,11 @@ const FundingContribute = () => {
         // 백엔드에 전달할 데이터
         const requestData = {
             impUid: merchantUid, // 이 값은 결제 성공 후 업데이트됨
-            // totalAmount: selectedRewards.reduce(
-            //     (sum, reward) => sum + reward.rewardPrice * reward.rewardQuantity,
-            //     0
-            // ),
             totalAmount: paymentAmount,
-            paymentType: "CARD", // 카드 결제 고정 (예시)
+            paymentType: "", // 이 값은 결제 성공 후 업데이트됨
             fundingId: fundingId,
             rewardList: selectedRewards,
-            userName: user.username,
+            // userName: user.username,
             address: shippingInfo.address,
             phoneNumber: shippingInfo.phoneNumber || user.phone,
             name: shippingInfo.name || user.name,
@@ -87,23 +81,29 @@ const FundingContribute = () => {
         try {
             // Step 1: 결제 금액 사전등록 요청
             const prepareResponse = await axios.post(`${url}/api/funding/payment/prepare`, {
-              //아임포트
-                merchant_uid: merchantUid,
-                amount: paymentAmount,
+                    //아임포트
+                    merchant_uid: merchantUid,
+                    amount: paymentAmount,
 
-                ...requestData,
-            });
+                    //백엔드 사전 등록할 데이터(일부 사용 귀찮아서 그냥 한번에 보냄)
+                    ...requestData,
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             if (prepareResponse.status === 200) {
                 console.log("사전 등록 성공:", prepareResponse.data);
 
                 // Step 2: 결제 요청
-                const { IMP } = window;
+                const {IMP} = window;
                 IMP.init('imp55612646'); // 가맹점 식별코드
 
                 const paymentData = {
                     pg: "html5_inicis", // PG사 선택
-                    pay_method: "", // 결제수단
+                    pay_method: "CARD", // 결제수단
                     merchant_uid: merchantUid, // 주문번호
                     name: "펀딩 결제", // 결제명
                     amount: paymentAmount, // 결제 금액
@@ -125,7 +125,10 @@ const FundingContribute = () => {
 
                         // Step 3: 백엔드 DB에 결제 정보 저장
                         try {
-                            const response = await axios.post(`${url}/api/funding/payment`, requestData);
+                            const response = await axios.post(`${url}/api/funding/payment/complete`, requestData,
+                                {
+                                    headers: {Authorization: `Bearer ${token}`}
+                                });
 
                             if (response.status === 200) {
                                 alert("결제가 성공적으로 완료되었습니다!");
@@ -150,16 +153,14 @@ const FundingContribute = () => {
         } catch (error) {
             if (error.response) {
                 // 서버에서 반환한 오류를 기반으로 적절한 메시지 표시
-                const { error: errorCode, message } = error.response.data;
+                const {error: errorCode, message} = error.response.data;
                 if (errorCode === "REWARD_STOCK_ERROR") {
                     alert(`리워드 재고 부족: ${message}`);
                 } else if (errorCode === "FUNDING_PERIOD_ERROR") {
                     alert(`펀딩 기간 오류: ${message}`);
-                } else if(errorCode === "REWARD_LIMIT_ERROR"){
+                } else if (errorCode === "REWARD_LIMIT_ERROR") {
                     alert(`리워드 한도 초과: ${message}`);
-                }
-
-                else {
+                } else {
                     alert(`알 수 없는 오류: ${message}`);
                 }
             } else {
@@ -171,13 +172,12 @@ const FundingContribute = () => {
     };
 
     const inputValueShippingInfo = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setShippingInfo((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
-
 
 
     return (
