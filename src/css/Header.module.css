@@ -12,6 +12,7 @@
 .navContainer {
     display: flex;
     width:1200px;
+    min-width: 1200px;
     height: 125px;
     justify-content: space-between;
     align-items: center;

@@ -47,7 +47,7 @@
 .messageDate {
     float: right;
 }
-.queestionList {
+.questionList {
     display: block;
     margin-top:10px;
     height: 500px;
@@ -59,6 +59,10 @@
     padding: 10px;
     margin-top: 10px;
 }
+.questionTitle:hover {
+    cursor: pointer;
+}
+
 .pagenationBox {
     display: flex;
     width: 100%;
@@ -90,3 +94,83 @@
     font-weight: bold;
     color: #b84700;
   }
+
+
+
+.notAnswered {
+    width:600px;
+    height:300px;
+    padding:30px;
+    position:relative;
+
+    /* 모달창 디자인 */
+    background-color: white;
+    border: 1px solid #B39C59;
+    border-radius: 10px;
+}
+
+.answered {
+    width:600px;
+    height:600px;
+    padding:30px;
+    position:relative;
+
+    /* 모달창 디자인 */
+    background-color: white;
+    border: 1px solid #B39C59;
+    border-radius: 10px;
+}
+.notAnswered h3, .answered h3 {
+    text-align: center;
+    color: #B39C59;   
+}
+.close {
+    display: inline;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: none;
+}
+.close:hover {cursor: pointer;}
+
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.15);
+    backdrop-filter: blur(5px);
+}
+
+.notAnswered input, .answered input {
+    width:579px;
+    border:1px solid #B39C59;
+    border-radius: 10px;
+    margin:10px auto;
+    padding:5px 10px 5px 10px;
+}
+.notAnswered textarea, .answered textarea {
+    margin-top:10px;
+    width:559px;
+    height:100px;
+    resize: none;
+    border:1px solid #B39C59;
+    border-radius: 10px;
+    padding:20px;
+    overflow-y: auto;
+}
+.notAnswered input:focus, .answered textarea:focus {
+    outline: none;
+}
+
+.answerTitle {
+    margin-top:50px
+}
+
