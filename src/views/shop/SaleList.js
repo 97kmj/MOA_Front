@@ -253,12 +253,13 @@ const SaleList = () => {
                     ))}
                 </div>
             </div>
-            <div className={styles.seemore} onClick={loadMore}>
-                <button>
-                    <img className={styles.seemore} src="/img/seemore.png"/>
-                </button>
-            </div>  
-
+            {artworks.length >= visibleCount && (
+                <div className={styles.seemore} onClick={loadMore}>
+                    <button>
+                        <img className={styles.seemore} src="/img/seemore.png"/>
+                    </button>
+                </div>  
+            )}
         </>
     )
         ;
