@@ -2,22 +2,25 @@
 .bar {
 
     margin-bottom: 20px;
-    text-align : "left"; 
+    text-align: "left";
     width: 1200px;
     height: 2px;
     background-color: #b39c59;
-  }
-  .container {
-   
-    margin:20px auto;
-    padding:0;
+}
+
+.container {
+
+    margin: 20px auto;
+    padding: 0;
     width: 1200px;
 }
-.titlename{
+
+.titlename {
     margin: 50px 0px 10px 0px;
     text-align: left;
 }
-.detailTop{
+
+.detailTop {
 
     margin: 0px auto;
     width: 1200px;
@@ -26,7 +29,7 @@
 
 }
 
-.artistMoveButton{
+.artistMoveButton {
     margin-left: 30px;
     width: 95px;
     height: 20px;
@@ -38,12 +41,13 @@
     text-align: center;
 
 }
-.artistMoveButton:hover{
+
+.artistMoveButton:hover {
 
     cursor: pointer;
 }
 
-.detailTopLeft{
+.detailTopLeft {
 
     width: 550px;
     height: 420px;
@@ -52,7 +56,7 @@
 }
 
 
-.detailTopLeft img{
+.detailTopLeft img {
     margin-top: 30px;
     width: 90%;
     height: 100%;
@@ -61,24 +65,25 @@
     display: block;
     box-shadow: 3px 3px 3px #666;
 
-    
+
 }
 
-.detailTopRight{
+.detailTopRight {
     text-align: center;
     width: 600px;
     height: 350px;
-    
+
 }
-.detailTopRightTable{
+
+.detailTopRightTable {
     display: inline-flex;
     width: 600px;
     height: 300px;
 }
 
-.detailTopRightArtworkName{
-   
-    font-size : 25px;
+.detailTopRightArtworkName {
+
+    font-size: 25px;
     width: 600px;
     height: 30px;
     text-align: center;
@@ -86,26 +91,28 @@
     margin-left: 50px;
 
     margin-top: 5px;
-    
+
 }
-.detailTopRightArtworkprice{
-   
-    font-size : 25px;
+
+.detailTopRightArtworkprice {
+
+    font-size: 25px;
     width: 700px;
     height: 30px;
     text-align: center;
-    margin-left : 60px;
+    margin-left: 60px;
     margin-top: 5px;
     color: #b39c59;
-    
+
 }
 
-.detailtitlearrayLeft{
+.detailtitlearrayLeft {
     width: 200px;
     text-align: left;
     margin-left: 50px;
 }
-.detailtitlearray{
+
+.detailtitlearray {
     display: inline;
     width: 600px;
     text-align: left;
@@ -113,48 +120,51 @@
 }
 
 
-.detailTopRightArray{
+.detailTopRightArray {
     display: inline-flex;
     margin-left: 100px;
     width: 600px;
-    font-size : 15px;
+    font-size: 15px;
     height: 25px;
     margin: 10px;
-    
+
 }
-.deltailOrderTr{
+
+.deltailOrderTr {
     margin: 10px 0px;
 }
-.detailTopRightOption{
+
+.detailTopRightOption {
     display: inline-flex;
     margin-left: 100px;
     width: 400px;
-    font-size : 15px;
+    font-size: 15px;
     height: 25px;
     margin: 10px;
     color: #b39c59;
-    
+
 }
-.deltailorderLeftContent{
+
+.deltailorderLeftContent {
     border: 1px solid #b39c59;
     border-radius: 20px;
     padding: 5px 10px;
 }
 
-.colorGold{
+.colorGold {
     color: #b39c59;
 }
 
-.detailTopRightArrayFrame{
+.detailTopRightArrayFrame {
     display: inline;
     width: 500px;
-    font-size : 20px;
+    font-size: 20px;
     height: 25px;
     margin: 10px;
 
 }
-    
-.detailtitlearraFrame{
+
+.detailtitlearraFrame {
     color: black;
     text-align: center;
     margin-top: 10px;
@@ -164,16 +174,19 @@
     text-align: center;
     height: 28px;
 }
-.alignCenter{
+
+.alignCenter {
     display: inline-block;;
-    justify-content: center;    
-  
+    justify-content: center;
+
 }
-.buttonArrary{
+
+.buttonArrary {
     margin-top: 40px;
     margin-left: 1000px;
 }
-.buttonDarkStyle{
+
+.buttonDarkStyle {
     margin-left: 150px;
     width: 150px;
     height: 30px;
@@ -185,7 +198,8 @@
     text-align: center;
     padding-top: 10px;
 }
-.buttonDarkStyle2{
+
+.buttonDarkStyle2 {
     margin-left: 15px;
     width: 150px;
     height: 30px;
@@ -196,15 +210,18 @@
     margin-top: 15px;
     text-align: center;
     padding-top: 10px;
-  
+
 }
-.buttonDarkStyle:hover{
+
+.buttonDarkStyle:hover {
     cursor: pointer;
 }
-.buttonDarkStyle2{
+
+.buttonDarkStyle2 {
     cursor: pointer;
 }
-.frameButton{
+
+.frameButton {
     border-radius: 10px;
     color: white;
     background-color: #b39c59;
@@ -215,51 +232,58 @@
     text-align: center;
     padding-top: 3px;
 }
-.frameButton:hover{
+
+.frameButton:hover {
     cursor: pointer;
 }
-.topmiddle{
+
+.topmiddle {
     margin: 0px auto;
-    width:  1200px;
+    width: 1200px;
     display: flex;
-   
-  
+    gap: 9%;
+
 }
-.leftgoldheart{
+
+.leftgoldheart {
     width: 500px;
     text-align: center;
     margin: auto 0px;
 }
 
-.likedposition{
+.likedposition {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.likedcount{
+
+.likedcount {
     margin-left: 10px;
     font-size: 20px;
 }
 
 
-.goldheart{
+.goldheart {
     align-items: center;
 }
 
-.totalprice{
+.totalprice {
     width: 600px;
     border: 1px solid #b39c59;
     display: inline-flex;
     margin-left: 100px;
 }
-.totalpricetbody{
+
+.totalpricetbody {
     width: 350px;
 }
-.totalpricetbody2{
+
+.totalpricetbody2 {
     width: 250px;
     margin-left: 200px;
 }
-.totalpriceleft{
+
+.totalpriceleft {
     display: inline-block;
     margin-left: 50px;
     text-align: left;
@@ -268,7 +292,8 @@
     max-width: 350px;
     width: 100%;
 }
-.totalpriceleft{
+
+.totalpriceleft {
     display: inline-block;
     margin-left: 50px;
     text-align: left;
@@ -277,7 +302,8 @@
     max-width: 350px;
     width: 100%;
 }
-.totalpriceleft2{
+
+.totalpriceleft2 {
     display: inline-block;
     margin-left: 10px;
     text-align: left;
@@ -286,62 +312,71 @@
     max-width: 350px;
     width: 100%;
 }
-.totalpriceright{
+
+.totalpriceright {
     display: inline-block;
     margin-left: 50px;
     font-size: 20px;
     color: #b39c59;
     padding: 10px;
 }
-.totalpriceright2{
+
+.totalpriceright2 {
     display: inline-block;
     margin-left: 10px;
     font-size: 20px;
     color: #b39c59;
     padding: 10px;
 }
-.detailmiddle{
+
+.detailmiddle {
     margin: 20px auto;
     width: 1200px;
     height: 500px;
     display: flex;
     text-align: center;
 }
-.detailmiddleimg{
+
+.detailmiddleimg {
     margin: 0px auto;
     max-width: 1000px;
-    max-height:  600px;
+    max-height: 600px;
     object-fit: contain;
     box-shadow: 3px 3px 3px #666;
 }
-.artworkInfo{
+
+.artworkInfo {
     margin: 100px 150px 10px 150px;
     width: 900px;
     min-height: 100px;
 }
-.artworkInfo2{
+
+.artworkInfo2 {
     margin: 50px 150px 0px 150px;
     width: 900px;
     min-height: 100px;
 }
 
-.artworkInfoTable{
+.artworkInfoTable {
     width: 900px;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
-.artworkInfotitle{
+
+.artworkInfotitle {
     width: 300px;
     height: 50px;
     border: 1px solid lightgray;
     text-align: center;
 
 }
-.artworkInfotitleNone{
+
+.artworkInfotitleNone {
     width: 300px;
     height: 50px;
     text-align: center;
 }
-.artworkInfocontent{
+
+.artworkInfocontent {
     width: 900px;
     min-height: 200px;
     max-height: 400px;
@@ -350,7 +385,8 @@
     background-color: #F5F5F5;
     padding: 10px;
 }
-.artistsearch{
+
+.artistsearch {
     text-align: center;
     width: 100px;
     height: 30px;
@@ -369,23 +405,26 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: rgba(255,255,255,0.15);
+    background-color: rgba(255, 255, 255, 0.15);
     /* background-color: white; */
     backdrop-filter: blur(5px);
 }
-.modalposition{
+
+.modalposition {
     width: 1000px;
     height: 600px;
     border: 2px solid #b39c59;
     border-radius: 20px;
     background-color: white;
 }
-.modalpositionTop{
+
+.modalpositionTop {
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }
-.modalpositionTop button{ 
+
+.modalpositionTop button {
     display: block;
     position: absolute;
     right: 210px;
@@ -395,6 +434,7 @@
     background-color: white;
     border: none;
 }
+
 .framebar {
     margin-bottom: 20px;
     margin: 0px 0px;
@@ -413,23 +453,24 @@
     font-weight: bold;
     color: #555;
 }
-.recommendFrame{
+
+.recommendFrame {
     display: inline-flex;
     margin: 0px 30px;
 
 }
-.frameMoveButtonSetting
-{
+
+.frameMoveButtonSetting {
     margin-top: 130px;
     width: 100px;
 
 }
-.frameMoveButton
-{
-    size : 20px;
+
+.frameMoveButton {
+    size: 20px;
 }
- 
-.recommendFrametile{
+
+.recommendFrametile {
 
     width: 100%;
     height: 100px;
@@ -437,40 +478,170 @@
     align-items: center
 
 }
-.frameArtwork2{
-  margin-left: 10px;
-  width: 500px;
-  height: 250px;
-  border: 40px solid white;
-  border-image: url('../../../public/img/frame1.png') 50 64;
-  
+
+.frameArtwork2 {
+    margin-left: 10px;
+    width: 500px;
+    height: 250px;
+    border: 40px solid white;
+    border-image: url('../../../public/img/frame1.png') 50 64;
+
 
 }
-.frameArtwork1{
-  margin-left: 10px;
-  width: 500px;
-  height: 250px;
-  border: 40px solid white;
-  border-image: url('../../../public/img/frame2.png') 100 100 round
+
+.frameArtwork1 {
+    margin-left: 10px;
+    width: 500px;
+    height: 250px;
+    border: 40px solid white;
+    border-image: url('../../../public/img/frame2.png') 100 100 round
 }
-.FrameSlideView{
+
+.FrameSlideView {
     display: inline-flex;
-    
+
     width: 800px;
 
 }
-.frameImgSetting{
+
+.frameImgSetting {
     width: 300px;
     height: 150px;
     margin: 20px 0px 20px 130px;
-   
+
 }
 
-.soldOut{
+.soldOut {
     margin-left: 180px;
 
 }
-.soldOut td{
+
+.soldOut td {
     font-size: 50px;
     padding: 20px 20px;
+}
+
+
+/* 전체 행을 flex로 정렬 */
+.optionRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 양쪽으로 정렬 */
+    padding: 10px 0;
+}
+
+/* 옵션 드롭다운 스타일 */
+.optionDropdown {
+    flex: 1; /* 드롭다운이 적절히 공간을 차지하도록 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+}
+
+/* 드롭다운 자체 스타일 */
+.detailtitlearraFrame {
+    width: 200px; /* 드롭다운 너비 설정 */
+    max-width: 100%;
+    padding: 5px;
+    font-size: 14px;
+}
+
+
+/* 전체 테이블 스타일 */
+.newTotalPrice {
+
+}
+
+/* 작품 가격, 액자 가격, 총 금액 행 */
+.newTotalPriceBody {
+}
+
+.newItemRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e5e5;
+    width: 200%;
+}
+
+.newItemRowTotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.newItemName {
+    flex: 1;
+    font-size: 16px;
+    text-align: left;
+    color: #555;
+}
+
+.newItemValue {
+    flex: 1;
+    text-align: right;
+    font-size: 16px;
+    color: #333;
+}
+
+.newTotalLabel {
+    flex: 1;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+}
+
+.newTotalValue {
+    flex: 1;
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* 옵션 선택 섹션 */
+.newOptionBody {
+    margin-top: 20px;
+}
+
+.newOptionRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.newOptionLabel {
+    flex: 1;
+    font-size: 16px;
+    text-align: left;
+    color: #555;
+}
+
+.newOptionInput {
+    flex: 1;
+    text-align: right;
+}
+
+.newOptionSelect {
+    width: 200px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+
+}
+
+/* SOLD_OUT 스타일 */
+.newSoldOut {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d9534f;
 }
