@@ -80,7 +80,9 @@ const AdminQnA = () => {
                         params: {
                             startDate: searchPeriod.startDate,
                             endDate: searchPeriod.endDate
-                        }
+                        },headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
                     })
                     .then(response => {
                         setNotAnswerQuestions(response.data.notAnswerQuestions);

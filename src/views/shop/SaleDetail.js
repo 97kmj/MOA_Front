@@ -175,15 +175,11 @@ const SaleDetail = () => {
         setSelectedFrameButton(prev => (prev === frameImages.length - 1 ? 0 : prev + 1));
     };
 
-
-
-
     const basePrice = saleDetail?.price || 0;
 
     const framePrice = (selectedFrame?.framePrice || 0);
 
     const totalPrice = basePrice + framePrice;    // + framePrices[selectedFrame];
-
 
 
     return (
@@ -380,7 +376,7 @@ const SaleDetail = () => {
                     <Table className={styles.artworkInfoTable}>
                         <tbody>
                             <tr >
-                                <td className={styles.artworkInfotitle}>Anprtist’s Information</td>
+                                <td className={styles.artworkInfotitle}>Artist’s Information</td>
                                 <td className={styles.artworkInfotitleNone}></td>
                                 <td className={styles.artworkInfotitleNone}></td>
                             </tr>
