@@ -313,20 +313,29 @@ const handleSearchChange = (event) => {
                 key={artwork.artworkId}
                 onClick={() => handleCardClick(artwork.artworkId)}
               >
-                <img
-                  src={artwork.imageUrl}
-                  alt={artwork.title}
-                  className={styles.cardImage}
-                />
-                <h2 className={styles.cardTitle}>{artwork.title}</h2>
-                {/* <p className={styles.cardDescription}>{artwork.description}</p>
-                <p className={styles.cardPrice}>{`₩${artwork.price.toLocaleString()}`}</p>
-                <p className={styles.cardArtist}>아티스트: {artwork.artist.name}</p> */}
-                <p className={styles.cardCategory}>카테고리: {artwork.category.categoryName}</p>
-                {/* <p className={styles.cardLikes}>좋아요: {artwork.likeCount}</p>
-                <p className={styles.cardSaleStatus}>판매 상태: {artwork.saleStatus}</p> */}
-              </div>
-            ))}
+            <div className={styles.cardImageContainer}>
+              <img
+              src={artwork.imageUrl}
+              alt={artwork.title}
+              className={styles.cardImage}
+              onClick={() => handleCardClick(artwork.artworkId)}/>
+            </div>
+                {/* 텍스트 설명 부분 */}
+          <div className={styles.cardContent}>
+            <h2 className={styles.cardTitle}>{artwork.title}</h2>
+            <p className={styles.cardArtist}>{artwork.artist.name}</p>
+            <div className={styles.cardCategories}>
+              <p className={styles.cardCategory}>{artwork.category.categoryName}</p>
+              <p className={styles.cardCategory}>{artwork.type.typeName}</p>
+              <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
+            </div>
+            
+           
+          </div>
+        </div>
+      ))}
+  
+
             {artworks.length >= visibleCount && (
               <div className={styles.loadMore}>
                 <button className={styles.btn} onClick={loadMore}>
