@@ -32,14 +32,14 @@ const InfoEdit = () => {
     email: '수정하기',
   });
   
-  const token = useAtomValue(tokenAtom); // Jotai로 토큰 가져오기
+  const token = useAtomValue(tokenAtom); // tokenAtom 값을 그대로 사용
 
   useEffect(() => {
     // Fetch user data from the server
     fetch('http://localhost:8080/api/mypage/userinfoedit', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 포함
+        Authorization: token, // 토큰 직접 사용
         'Content-Type': 'application/json',
       },
       credentials: 'include', // Include cookies if needed
@@ -110,7 +110,7 @@ const handleEditClick = (field) => {
     fetch(`http://localhost:8080/api/mypage/userinfoupdate`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': token,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),

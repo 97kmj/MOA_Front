@@ -351,10 +351,11 @@ import { url } from "../../config";
             <h2 className={styles.cardTitle}>{artwork.title}</h2>
             <p className={styles.cardArtist}>{artwork.artist.name}</p>
             <div className={styles.cardCategories}>
-  <p className={styles.cardCategory}>{artwork.category.categoryName}</p>
-  <p className={styles.cardCategory}>{artwork.type.typeName}</p>
-  <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
-</div>
+              <p className={styles.cardCategory}>{artwork.category.categoryName}</p>
+              <p className={styles.cardCategory}>{artwork.type.typeName}</p>
+              <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
+            </div>
+            
             {user.role === "ADMIN" && (
               <label>
                 <input
