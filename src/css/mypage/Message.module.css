@@ -195,5 +195,9 @@ border-radius: 10px;
   margin-bottom:40px;
   color:#B39C59;
   text-align: center;
-
 }
+
+.modalContainer input:read-only:focus, .modalContainer textarea:read-only:focus {
+  outline: none;
+}
+
