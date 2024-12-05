@@ -37,7 +37,7 @@ const ArtistDetail = () => {
         })
     },[])
     useEffect(()=>{
-        if(!artistId) return;
+        if(!artistId || !user.username) return;
         axios.get(`${url}/existsLikeArtist`,{params:{artistId:artistId,username:user.username} , headers : {
             Authorization : token
         }})
@@ -109,6 +109,10 @@ const ArtistDetail = () => {
             });
     }
     const showModal = () => {
+        if(!user.username) {
+            alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+            return;
+        }
         setModalOpen(true);
         
     };
