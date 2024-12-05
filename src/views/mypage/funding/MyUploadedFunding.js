@@ -7,7 +7,8 @@ import {url} from "../../../config";
 
 import axios from "axios";
 import {useAtom} from "jotai/react";
-import {userAtom} from "../../../atoms";
+import {tokenAtom, userAtom} from "../../../atoms";
+import {useAtomValue} from "jotai/index";
 function MyUploadedFunding() {
     const [activeTab, setActiveTab] = useState('ONGOING'); // Default to "성공 펀딩"
     const [fundingList, setFundingList] = useState([]);
@@ -15,7 +16,7 @@ function MyUploadedFunding() {
     const [user] = useAtom(userAtom);
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
     const [totalPages, setTotalPages] = useState(1); // 총 페이지 수
-
+    const token = useAtomValue(tokenAtom);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -34,7 +35,9 @@ function MyUploadedFunding() {
                 status: activeTab,
                 page: 0,
                 size: 10
-            }
+            }, headers: {
+                Authorization: token,
+            },
         })
             .then((response) => {
                 setFundingList(response.data.content);

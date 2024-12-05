@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from '../../../css/mypage/funding/MyUploadedFundingDetail.module.css';
 import Header from "../../Header";
 import SideNav from "../SideNav";
-import { Modal, Box, Typography, Button } from "@mui/material";
+import {Modal, Box, Typography, Button} from "@mui/material";
 import {url} from "../../../config";
 import {useNavigate, useParams} from "react-router-dom";
+import {useAtomValue} from "jotai/index";
+import {tokenAtom} from "../../../atoms";
 
 function MyUploadedFundingDetail() {
     const [contributors, setContributors] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [selectedReward, setSelectedReward] = useState([]);
-    const { fundingId } = useParams();
+    const {fundingId} = useParams();
     const navigate = useNavigate();
+    const token = useAtomValue(tokenAtom);
 
     useEffect(() => {
-        axios.get(`${url}/api/myPage/funding/registeredFunding/${fundingId}`)
+        axios.get(`${url}/api/myPage/funding/registeredFunding/${fundingId}`, {headers: {Authorization: token}})
             .then((response) => {
                 setContributors(response.data.content);
             })
@@ -43,9 +46,9 @@ function MyUploadedFundingDetail() {
 
     return (
         <>
-            <Header />
+            <Header/>
             <div className={styles.container}>
-                <SideNav />
+                <SideNav/>
                 <div className={styles.myUploadedFundingDetail}>
                     {/* 펀딩 상세 보기 버튼 */}
                     <div className={styles.fundingDetailButton}>

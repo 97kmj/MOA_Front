@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from'../../css/funding/FundingRegistration.module.css';
 import Header from "../Header";
 import StepNavigation from "./StepNavigation";
 import {useNavigate} from "react-router-dom";
 import useFundingStore from "./store/fundingStore";
-import {useAtom} from "jotai/react";
-import {userAtom} from "../../atoms";
+import {useAtom, useAtomValue} from "jotai/react";
+import {tokenAtom, userAtom} from "../../atoms";
 
 function FundingRegistration() {
     const [user] = useAtom(userAtom);
+    const token = useAtomValue(tokenAtom)
+
     const setFundingInfo = useFundingStore((state) => state.setFundingInfo);
 
     // 로컬 상태 관리
@@ -19,6 +21,15 @@ function FundingRegistration() {
     const [accountInfo, setAccountInfo] = useState({ bank: '카카오', account: '' });
 
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (!token || !user) {
+            alert("로그인이 필요합니다.");
+            navigate("/login"); // 로그인 페이지로 리다이렉트
+        }
+    }, [token, user, navigate]);
+
 
     // 숫자 입력 검증 함수
     const validationNumericInput = (e, setter) => {
@@ -61,6 +72,8 @@ function FundingRegistration() {
         // RewardCreation 페이지로 이동
         navigate("/funding/new/rewards");
     };
+
+
 
     return (
         <>

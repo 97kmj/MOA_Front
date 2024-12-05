@@ -35,7 +35,6 @@ import SaleAddResult from "../views/shop/SaleAddResult";
 import SaleDetail from "../views/shop/SaleDetail";
 
 import SaleList from "../views/shop/SaleList";
-import SaleOrder from "../views/shop/SaleOrder";
 import SaleOrderResult from "../views/shop/SaleOrderResult";
 import ShoppingCart from "../views/shop/ShoppingCart";
 
@@ -53,8 +52,7 @@ import ArtistEdit from "../views/mypage/artist/ArtistEdit";
 import Message from "../views/mypage/Message";
 import MyQnA from "../views/mypage/MyQnA";
 import ShoppingCartOrder from "../views/shop/ShoppingCartOrder";
-import MySaleList from "../views/mypage/shop/MySaleList";
-import MyOrderList from "../views/mypage/shop/MyOrderList";
+
 import SaleDetail2 from "../views/shop/SaleDetail2";
 import SaleOrder2 from "../views/shop/SaleOrder2";
 
