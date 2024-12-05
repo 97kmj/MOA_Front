@@ -11,9 +11,9 @@ const AdminArtist = () => {
     const [selectedArtistInfo, setSelectedArtistInfo] = useState({})
     const token = useAtomValue(tokenAtom);
     useEffect(()=>{
-        axios.get(`${url}/adminApplyArtists`, {
+        token!==null && token!=='' && axios.get(`${url}/adminApplyArtists`, {
              headers : {
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         })
             .then(res=>{
@@ -25,7 +25,7 @@ const AdminArtist = () => {
             .catch(err => {
                 console.log(err);
             })
-    },[])
+    },[token])
     
     const selectArtist = (artist) => () => {
         setSelectedArtistInfo(artist)
@@ -61,7 +61,7 @@ const AdminArtist = () => {
         axios.post(`${url}/approveArtist`, {username:selectedArtistInfo.username},
             { headers : {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: token
                 }
             }
         )
@@ -93,7 +93,7 @@ const AdminArtist = () => {
         axios.post(`${url}/rejectArtist`,{username:selectedArtistInfo.username}, {
             headers : {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         })
         .then(res => {

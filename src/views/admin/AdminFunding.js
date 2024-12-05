@@ -10,9 +10,9 @@ const AdminFunding = () => {
     const [applyList, setApplyList] = useState([]);
     const [selectedFunding ,setSelectedFunding] = useState({});
     useEffect(()=>{
-        axios.get(`${url}/adminFundings`,{
+        token!==null && token!=='' && axios.get(`${url}/adminFundings`,{
             headers :{
-                Authorization : `Bearer ${token}`
+                Authorization : token
             }
         })
             .then(res => {
@@ -27,7 +27,7 @@ const AdminFunding = () => {
             .catch(err=>{
                 console.log(err);
             })
-    },[])
+    },[token])
 
     const selectFunding = (fundingItem) => () => {
         setSelectedFunding(fundingItem);
@@ -36,7 +36,7 @@ const AdminFunding = () => {
     const approve = () => {
         axios.post(`${url}/approveFunding`,{fundingId:selectedFunding.fundingId}, {
             headers:{
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         })
         .then(res => {
@@ -64,7 +64,7 @@ const AdminFunding = () => {
     const reject = () => {
         axios.post(`${url}/rejectFunding`,{fundingId:selectedFunding.fundingId}, {
             headers:{
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         })
         .then(res => {

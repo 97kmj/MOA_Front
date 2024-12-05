@@ -11,9 +11,9 @@ const AdminArtwork = () => {
     const [suspiciousArtworkList, setSuspiciousArtworkList] = useState([]); //의심작품리스트
     const [selectedArtwork,setSelectedArtwork] = useState({});
     useEffect(()=>{
-        axios.get(`${url}/adminBlackArtwork`, {
+        token!==null && token!=='' && axios.get(`${url}/adminBlackArtwork`, {
             headers :{ 
-                Authorization : `Bearer ${token}`
+                Authorization : token
             }
         })
             .then(res=> {
@@ -33,7 +33,7 @@ const AdminArtwork = () => {
         const artworkId = selectedArtwork.artworkId;
         axios.post(`${url}/deleteArtwork`,{ artworkId },{
             headers : {
-                Authorization : `Bearer ${token}`
+                Authorization : token
             }})
         .then(res => {
             if(res.status === 200 ) {

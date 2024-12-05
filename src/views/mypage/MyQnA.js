@@ -1,7 +1,7 @@
 import Header from "../Header";
 import SideNav from "./SideNav";
 import styles from "../../css/mypage/MyQnA.module.css";
-import { userAtom } from "../../atoms";
+import { userAtom,tokenAtom } from "../../atoms";
 import { useAtomValue } from "jotai";
 import axios from "axios";
 import { url } from "../../config";
@@ -9,6 +9,7 @@ import { useState,useEffect } from "react";
 const MyQnA = () => {
 
     const user = useAtomValue(userAtom);
+    const token = useAtomValue(tokenAtom);
     const [questionList,setQuestionList] = useState([]);
     const [isAnswered, setIsAnswered] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
@@ -21,6 +22,8 @@ const MyQnA = () => {
                 isAnswered,
                 page : currentPage,
                 size : pageSize 
+            }, headers : {
+                Authorization: token
             }})
         .then(res=> {
             console.log(res.data);

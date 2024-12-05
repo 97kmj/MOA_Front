@@ -24,9 +24,9 @@ const AdminFrame = () => {
     };
     
     useEffect(()=> {
-        axios.get(`${url}/adminFrame`,{
+        token!==null && token!=='' && axios.get(`${url}/adminFrame`,{
             headers : {
-                Authorization : `Bearer ${token}`
+                Authorization : token
             }
         })
             .then(res=>{
@@ -35,7 +35,7 @@ const AdminFrame = () => {
             .catch(err=> {
                 console.log(err)
             })
-    },[])    
+    },[token])    
     
     const selectCanvasType = (e) => {
         setRegistFrame({...registFrame,canvasType:e.target.value, canvasId:''})
@@ -44,7 +44,11 @@ const AdminFrame = () => {
     
     useEffect(() => {
         if(registFrame.canvasType){
-            axios.get(`${url}/getCanvas/${registFrame.canvasType}`)
+            axios.get(`${url}/getCanvas/${registFrame.canvasType}`, {
+                headers : {
+                    Authorization : token
+                }
+            })
             .then(res =>{
                 setCanvas(res.data);
             })
@@ -92,7 +96,7 @@ const AdminFrame = () => {
         const frame = {frameType:registFrame.frameType, framePrice:registFrame.framePrice ,stock:registFrame.stock ,canvasId:registFrame.canvasId}
         axios.post(`${url}/registFrame`,frame, {
             headers : {
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         })
         .then(res => {
@@ -129,7 +133,7 @@ const AdminFrame = () => {
         };
     
         axios.post(`${url}/updateFrame`, updatedFrame, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: token }
         })
         .then(res => {
             if (res.data === true) {

@@ -7,6 +7,7 @@ import { userAtom,tokenAtom } from '../../atoms.js';
 import { useAtomValue } from 'jotai';
 const Notice = () => {
     const user = useAtomValue(userAtom);
+    const token = useAtomValue(tokenAtom);
     const [noticeList, setNoticeList] = useState([]);
     const [FAQList, setFAQList] = useState([]);
     const [selectedNoticeId, setSelectedNoticeId] = useState(null); // 선택된 공지사항 ID
@@ -64,7 +65,7 @@ const Notice = () => {
     }
 
     const sendQuestion = () => {
-        axios.post(`${url}/sendQuestion`,question)
+        axios.post(`${url}/sendQuestion`,question , {headers : {Authorization : token}})
             .then(res => {
                 if(res.data === true) {
                     alert("문의가 완료되었습니다.");
