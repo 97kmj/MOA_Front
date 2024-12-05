@@ -47,7 +47,15 @@
     background: none;
     cursor: pointer;
   }
-  
+  .selbutton {
+    flex: 1;
+    padding: 0.5rem 0;
+    border: 2px solid #b39c59; 
+    color: white;
+    border-radius: 0.5rem;
+    background: #b39c59;
+    cursor: pointer;
+  } 
   .button:hover {
     background-color: #b39c59;
     color: white;

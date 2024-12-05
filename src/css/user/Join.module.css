@@ -57,9 +57,7 @@
 }
 
 /* Input Field Styling */
-.formGroup input[type="text"],
-input[type="password"],
-input[type="email"] {
+.formGroup input {
     width: 100%;
     padding: 8px;
     border: 1px solid #B39C59;
