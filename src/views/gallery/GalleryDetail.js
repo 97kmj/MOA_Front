@@ -11,8 +11,11 @@ function GalleryDetail() {
   const [data, setData] = useState(null); // 작품 데이터를 저장
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
-  const token = useAtomValue(tokenAtom); // Jotai로 토큰 가져오기
-  // const token = sessionStorage.getItem("accessToken"); 
+ 
+  // const tokenData = JSON.parse(useAtomValue(tokenAtom));
+  // const token = tokenData.access_token; 
+  const token = useAtomValue(tokenAtom); // tokenAtom 값을 그대로 사용
+
   
   //좋아요버튼
   const handleLikeButtonClick = async () => {
@@ -25,8 +28,8 @@ function GalleryDetail() {
       const response = await fetch(`http://localhost:8080/api/like/${id}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Authorization: token, // 토큰 직접 사용
         },
       });
   
@@ -53,7 +56,7 @@ function GalleryDetail() {
       try {
         // Fetch artwork details
         const artworkResponse = await fetch(`http://localhost:8080/api/artworks/${id}`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : {}, // 비로그인 상태에서도 요청 가능
+          headers: token ? { Authorization: token } : {}, // 비로그인 상태에서도 요청 가능
         });
         if (!artworkResponse.ok) throw new Error("Failed to fetch artwork data");
         const artworkData = await artworkResponse.json();
@@ -62,7 +65,7 @@ function GalleryDetail() {
         // Fetch like status if token is available
         if (token) {
           const likeResponse = await fetch(`http://localhost:8080/api/like/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: token },
           });
           if (likeResponse.ok) {
             const likeData = await likeResponse.json();

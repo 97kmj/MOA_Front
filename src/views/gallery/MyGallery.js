@@ -107,7 +107,10 @@ const MyGallery = () => {
     type: "",
     category: "",
   }); // 필터 상태
-  const token = useAtomValue(tokenAtom); // JWT 토큰 가져오기
+  
+  const token = useAtomValue(tokenAtom); // tokenAtom 값을 그대로 사용
+
+
 
   const navigate = useNavigate();
 
@@ -139,7 +142,8 @@ const handleSearchChange = (event) => {
           `http://localhost:8080/api/like/artworks?${queryParams}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: token, // 토큰 직접 사용
+              'Content-Type': 'application/json',
             },
           }
         );

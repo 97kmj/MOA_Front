@@ -16,7 +16,9 @@ function RegArtworkList() {
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
     const [error, setError] = useState(null); // 에러 상태 관리
-    const token = useAtomValue(tokenAtom);
+    
+    const token = useAtomValue(tokenAtom); // tokenAtom 값을 그대로 사용
+
 
    
 
@@ -37,7 +39,7 @@ function RegArtworkList() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                    Authorization: token,
                 },
                 credentials: "include", // 이 부분 추가
             });
