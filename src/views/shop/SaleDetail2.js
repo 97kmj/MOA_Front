@@ -8,8 +8,6 @@ import { useNavigate, useParams } from 'react-router';
 import { url } from "../../config";
 import axios from 'axios';
 
-
-
 const SaleDetail = () => {
     const navigate = useNavigate();
     const {artworkId} = useParams(); // URL에서 id 가져오기
@@ -28,7 +26,6 @@ const SaleDetail = () => {
     const [saleItems, setSaleItems] = useState([
         { title: saleDetail?.title || "기본 작품", basePrice: saleDetail?.price || 0, framePrice: 0, selectedOption: "" }
     ]);
-
 
 
     useEffect(() => {
@@ -97,18 +94,7 @@ const SaleDetail = () => {
 
 
 
-    // const handleOptionChange = (index, selectedOption) => {
-    //     const updatedItems = [...saleItems];
-    //     const framePrice = getFrame.find((f) => f.frameId === selectedOption)?.framePrice || 0;
-    //     updatedItems[index].selectedOption = selectedOption;
-    //     updatedItems[index].framePrice = framePrice;
-    //     setSaleItems(updatedItems);
-    // };
-
-
-
     //좋아요 처리 
-
     const handleLikeButtonClick = async() => {
         if (!user.username) {
           alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
@@ -119,9 +105,6 @@ const SaleDetail = () => {
             setIsLiked(response.data)
 
             setIsCount(prevCount => response.data ? prevCount + 1 : prevCount - 1);
-
-
-
         } catch (error) {
             console.error("Error toggling like:", error);
         }
@@ -186,7 +169,6 @@ const SaleDetail = () => {
     //프레임
     const handleFrameChange = (e) => {
 
-
         const selFrame = getFrame.find(f=>+f.frameId===+e.target.value);
         if (selFrame != null){
             setSelectedFrame(selFrame);
@@ -199,7 +181,6 @@ const SaleDetail = () => {
             setFrameListId("");
         }
     };
-
 
 
     if (!saleDetail) {

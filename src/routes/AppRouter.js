@@ -56,6 +56,7 @@ import ShoppingCartOrder from "../views/shop/ShoppingCartOrder";
 import MySaleList from "../views/mypage/shop/MySaleList";
 import MyOrderList from "../views/mypage/shop/MyOrderList";
 import SaleDetail2 from "../views/shop/SaleDetail2";
+import SaleOrder2 from "../views/shop/SaleOrder2";
 
 
 function AppRouter() {
@@ -104,7 +105,7 @@ function AppRouter() {
             <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
             <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail2 />} />
             <Route path="/shop/saleList" element={<SaleList />} />
-            <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
+            <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder2 />} />
             <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
             <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
             <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
