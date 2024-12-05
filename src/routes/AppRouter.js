@@ -53,6 +53,10 @@ import ArtistEdit from "../views/mypage/artist/ArtistEdit";
 import Message from "../views/mypage/Message";
 import MyQnA from "../views/mypage/MyQnA";
 import ShoppingCartOrder from "../views/shop/ShoppingCartOrder";
+import MySaleList from "../views/mypage/shop/MySaleList";
+import MyOrderList from "../views/mypage/shop/MyOrderList";
+import SaleDetail2 from "../views/shop/SaleDetail2";
+import SaleOrder2 from "../views/shop/SaleOrder2";
 
 
 function AppRouter() {
@@ -99,9 +103,9 @@ function AppRouter() {
             {/* 판매 */}
             <Route path="/shop/artworkAdd" element={<ArtworkAdd />} />
             <Route path="/shop/saleAddResult/:artworkId" element={<SaleAddResult />} />
-            <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail />} />
+            <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail2 />} />
             <Route path="/shop/saleList" element={<SaleList />} />
-            <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder />} />
+            <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder2 />} />
             <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
             <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
             <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
@@ -113,7 +117,7 @@ function AppRouter() {
             
             {/* 마이페이지*/}
             <Route path="/mypage/fundings/uploaded" element={<MyUploadedFunding />} />
-            <Route path="/mypage/fundings/uploaded/:id" element={<MyUploadedFundingDetail />} />
+            <Route path="/mypage/fundings/uploaded/:fundingId" element={<MyUploadedFundingDetail />} />
             <Route path="/mypage/fundings/contributed" element={<MyContributedFunding />} />
             <Route path="/mypage/artistRegist" element={<ArtistRegist/>}/>
             <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
@@ -131,7 +135,7 @@ function AppRouter() {
             {/* 공지사항 */}
             <Route path="/notice" element={<Notice/>}/>
             {/* 작가상세 */}
-            <Route path="/artistDetail/:artiestId" element={<ArtistDetail/>}/>
+            <Route path="/artistDetail" element={<ArtistDetail/>}/>
             
             </Routes>
         </Router>

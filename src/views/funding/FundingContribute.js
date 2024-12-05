@@ -89,7 +89,7 @@ const FundingContribute = () => {
                     ...requestData,
                 }, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: token
                     },
                 }
             );
@@ -127,7 +127,7 @@ const FundingContribute = () => {
                         try {
                             const response = await axios.post(`${url}/api/funding/payment/complete`, requestData,
                                 {
-                                    headers: {Authorization: `Bearer ${token}`}
+                                    headers: {Authorization: token}
                                 });
 
                             if (response.status === 200) {
