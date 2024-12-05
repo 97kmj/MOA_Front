@@ -7,6 +7,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
 import {useAtom} from "jotai/react";
 import {userAtom} from "../../atoms";
+import { motion } from "framer-motion";
 
 const FundingDetail = () => {
     const {fundingId} = useParams();
@@ -18,6 +19,22 @@ const FundingDetail = () => {
     const rewardSectionRef = useRef(null);
 
     const [user] = useAtom(userAtom);
+
+    const [isArtworkView, setIsArtworkView] = useState(false); // "작품 모아보기" 모드 여부
+
+
+    const [artworkImages, setArtworkImages] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+
+
+
+    useEffect(() => {
+        if (fundingDetail && fundingDetail.images) {
+            setArtworkImages(fundingDetail.images.map((image) => image.imageUrl));
+        }
+    }, [fundingDetail]);
+
 
     const fundButtonToMoveRewardSection = () => {
         rewardSectionRef.current?.scrollIntoView({behavior: "smooth"});
@@ -83,16 +100,6 @@ const FundingDetail = () => {
         }
     };
 
-    // const changeSelectedRewardQuantity = (selectedRewardId, quantityCount) => {
-    //     setSelectedRewards((prevRewards) =>
-    //         prevRewards.map((reward) =>
-    //             reward.rewardId === selectedRewardId
-    //                 ? {...reward, rewardQuantity: Math.max(1, reward.rewardQuantity + quantityCount)} // rewardQuantity 사용
-    //                 : reward
-    //         )
-    //     );
-    // };
-
     const changeSelectedRewardQuantity = (selectedRewardId, quantityCount) => {
         setSelectedRewards((prevRewards) =>
             prevRewards.map((reward) => {
@@ -119,20 +126,59 @@ const FundingDetail = () => {
         );
     };
 
-    const totalAmount = selectedRewards.reduce((sum, reward) => {
-        return sum + reward.rewardPrice * reward.quantity;
-    }, 0);
-
-
     const goToContribute = (fundingId) => {
         // 선택한 리워드와 펀딩 ID를 state로 전달
-
 
         console.log("Selected Rewards:", selectedRewards);
         navigate('/fundings/contributions', {
             state: {fundingId, selectedRewards, fundingDetail}
         });
     };
+
+
+    const handleNext = () => {
+        const updatedImages = [...artworkImages];
+        const firstImage = updatedImages.shift(); // 첫 번째 이미지를 제거
+        updatedImages.push(firstImage); // 첫 번째 이미지를 맨 뒤로 추가
+        setArtworkImages(updatedImages); // 상태 업데이트
+    };
+
+    const handlePrev = () => {
+        const updatedImages = [...artworkImages];
+        const lastImage = updatedImages.pop(); // 마지막 이미지를 제거
+        updatedImages.unshift(lastImage); // 마지막 이미지를 맨 앞으로 추가
+        setArtworkImages(updatedImages); // 상태 업데이트
+    };
+
+    if (!artworkImages.length) {
+        return <p>Loading artworks...</p>;
+    }
+
+
+
+
+    const openArtworkView = (images) => {
+        setArtworkImages(images); // 작품 이미지 설정
+        setIsArtworkView(true); // 모드 활성화
+    };
+
+    const closeArtworkView = () => {
+        setIsArtworkView(false); // 모드 종료
+    };
+
+    // 카드 위치 교환 로직
+    const swapCards = (index) => {
+        const updatedImages = [...artworkImages];
+        [updatedImages[2], updatedImages[index]] = [updatedImages[index], updatedImages[2]]; // 중앙 카드와 교환
+        setArtworkImages(updatedImages);
+    };
+
+
+
+
+
+
+
 
     if (isLoading) {
         return (
@@ -191,7 +237,6 @@ const FundingDetail = () => {
                         {/* 정보 섹션 */}
                         <div className={styles.infoSection}>
 
-
                             <h3 className={styles.fundingTitle}>{fundingDetail.title}</h3>
 
                             <br/>
@@ -233,7 +278,6 @@ const FundingDetail = () => {
 
                             <hr className={styles.separator}/>
 
-
                             {/* 추가 정보 */}
                             <div className={styles.additionalInfo}>
                                 <p>
@@ -247,7 +291,6 @@ const FundingDetail = () => {
 
 
                             </div>
-
 
                             {/* 펀딩하기 버튼 */}
                             <button
@@ -264,13 +307,73 @@ const FundingDetail = () => {
                     <div className={styles.fundingDetailContentContainer}>
                         <div className={styles.projectPlan}>
                             <h4>프로젝트 계획</h4>
-                            <button className={styles.showArtworks}>작품 모아보기</button>
+                            <button
+                                className={styles.showArtworks}
+                                onClick={() =>
+                                    openArtworkView(
+                                        fundingDetail.images.map((image) => image.imageUrl)
+                                    )
+                                }
+                            >
+                                작품 모아보기
+                            </button>
                             <div className={styles.projectDetails}>
                                 <p>{fundingDetail.introduction}</p>
                                 <MasonryGallery
                                     images={fundingDetail.images.map((image) => image.imageUrl)}
                                 />
                             </div>
+
+                            {isArtworkView && (
+                                <div className={styles.artworkViewContainer}>
+                                    <button
+                                        className={styles.closeButton}
+                                        onClick={closeArtworkView}
+                                    >
+                                        닫기
+                                    </button>
+
+                                    <button
+                                        className={`${styles.navButton} ${styles.prevButton}`}
+                                        onClick={handlePrev}
+                                    >
+                                        &#8249; {/* 이전 버튼 */}
+                                    </button>
+
+                                    <div className={styles.cardSlider}>
+                                        {artworkImages.map((image, index) => (
+                                            <motion.div
+                                                key={index}
+                                                className={styles.card}
+                                                initial={{
+                                                    scale: 0.8,
+                                                    opacity: 0,
+                                                }}
+                                                animate={{
+                                                    scale: index === 2 ? 1.2 : 1,
+                                                    opacity: 1,
+                                                }}
+                                                transition={{ duration: 0.5 }}
+                                                onClick={() => swapCards(index)}
+                                            >
+                                                <img
+                                                    src={image}
+                                                    alt={`Artwork ${index}`}
+                                                />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        className={`${styles.navButton} ${styles.nextButton}`}
+                                        onClick={handleNext}
+                                    >
+                                        &#8250; {/* 다음 버튼 */}
+                                    </button>
+                                </div>
+                            )}
+
+
                         </div>
 
                         <div className={styles.rewardSelection} ref={rewardSectionRef}>
@@ -316,7 +419,8 @@ const FundingDetail = () => {
                                                 alert("로그인이 필요합니다.");
                                                 return;
                                             }
-                                            goToContribute(fundingDetail.fundingId)}
+                                            goToContribute(fundingDetail.fundingId)
+                                        }
                                         }
 
                                     >
@@ -332,39 +436,6 @@ const FundingDetail = () => {
                                 </div>
                             )}
 
-                            {/*<div className={styles.rewardList}>*/}
-                            {/*    {fundingDetail.rewards.map((reward) => (*/}
-                            {/*        <div*/}
-                            {/*            key={reward.rewardId}*/}
-                            {/*            className={styles.rewardItem}*/}
-                            {/*            onClick={() => addRewardToSelection(reward)}*/}
-                            {/*        >*/}
-                            {/*            <div className={styles.rewardHeader}>*/}
-                            {/*                <h5>{reward.rewardName}</h5>*/}
-                            {/*                <span className={styles.rewardLeft}>남음: {reward.stock}개</span>*/}
-                            {/*            </div>*/}
-                            {/*            <p className={styles.rewardDescription}>{reward.rewardDescription}</p>*/}
-                            {/*        </div>*/}
-                            {/*    ))}*/}
-                            {/*</div>*/}
-
-                            {/*<div className={styles.rewardList}>*/}
-                            {/*    {fundingDetail.rewards.map((reward) => (*/}
-                            {/*        <div*/}
-                            {/*            key={reward.rewardId}*/}
-                            {/*            className={styles.rewardItem}*/}
-                            {/*            onClick={() => addRewardToSelection(reward)}*/}
-                            {/*        >*/}
-                            {/*            <div className={styles.rewardHeader}>*/}
-                            {/*                <h5>{reward.rewardName}</h5>*/}
-                            {/*                <span className={styles.rewardLeft}>*/}
-                            {/*                    남음: {reward.stock}개 {reward.isLimit && `| 1인당 최대: ${reward.limitQuantity}개`}*/}
-                            {/*                </span>*/}
-                            {/*            </div>*/}
-                            {/*            <p className={styles.rewardDescription}>{reward.rewardDescription}</p>*/}
-                            {/*        </div>*/}
-                            {/*    ))}*/}
-                            {/*</div>*/}
 
                             <div className={styles.rewardList}>
                                 {fundingDetail.rewards.map((reward) => (
