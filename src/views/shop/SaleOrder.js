@@ -130,12 +130,7 @@ const SaleOrder = () => {
             
             
         };
-        const saleData={
-            artworkId: artworkId,
-            artworkQuantity : 1,
-            frameId : frameId,
-            frameQuantity : 1,
-        }
+
         //결제
         IMP.request_pay(paymentData, (response) => {
             if (response.success) {
