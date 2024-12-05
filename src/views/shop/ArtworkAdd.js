@@ -245,7 +245,7 @@ const Artwork = () => {
 
 
 
-        axios.post(`${url}/shop/artworkAdd`, formData, {
+        axios.post(`${url}/shopAdd/artworkAdd`, formData, {
             headers: {
                 Authorization: token,
                 "Content-Type":"multipart/form-data",

@@ -218,7 +218,7 @@ const FundingContribute = () => {
                                 <p>목표 금액 {fundingDetail?.goalAmount.toLocaleString()}원</p>
                                 {/*<p>현재 달성금액 {fundingDetail?.totalAmount.toLocaleString()}원{" "}</p>*/}
 
-                                <span>
+                                <span> 
                                 {((fundingDetail?.totalAmount / fundingDetail?.goalAmount) * 100).toFixed(2)}% 달성
                             </span>{" "}
                                 {Math.ceil(
