@@ -10,8 +10,8 @@ const AdminItem = () => {
     const [orderItemList,setOrderItemList] = useState([]);
     const [updateStatusList,setUpdateStatusList] = useState([]);
     useEffect(()=>{
-        axios.get(`${url}/adminItem`,{headers:{
-            Authorization: `Bearer ${token}`
+        token!==null && token!=='' && axios.get(`${url}/adminItem`,{headers:{
+            Authorization: token
         }})
         .then(res => {
             console.log(res.data)
@@ -52,7 +52,7 @@ const AdminItem = () => {
                 updateStatusList ,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: token,
                     },
                 }
             )

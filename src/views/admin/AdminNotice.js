@@ -17,13 +17,14 @@ const AdminNotice = () => {
     const modalHandler = () => {
         setModalOpen(!modalOpen);        
     }
+
     
 
     useEffect(()=>{
-        axios.get(`${url}/adminNotice`,{
+        token!==null && token!=='' && axios.get(`${url}/adminNotice`,{
             headers:
             {
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         })
             .then(res => {
@@ -71,7 +72,12 @@ const AdminNotice = () => {
     
     const modifyNotice = () => {
         const modifiedNotice = {noticeId:notice.noticeId, title:notice.title, content:notice.content};
-        axios.post(`${url}/modifyNotice`,modifiedNotice)
+        axios.post(`${url}/modifyNotice`,modifiedNotice ,{
+            headers:
+            {
+                Authorization: token
+            }
+        })
             .then(res => {
                 // 1. 개별 공지사항 업데이트
                 setNotice(res.data);
@@ -90,7 +96,12 @@ const AdminNotice = () => {
     }
 
     const registNotice = () => {
-        axios.post(`${url}/writeNotice`,notice)
+        axios.post(`${url}/writeNotice`,notice ,{
+            headers:
+            {
+                Authorization: token
+            }
+        })
             .then(res => {
                 const newNotice = res.data; // 새로 등록된 공지사항 데이터
                 setNotice(newNotice);
@@ -106,7 +117,12 @@ const AdminNotice = () => {
     }
 
     const deleteNotice = () => {
-        axios.post(`${url}/deleteNotice/${notice.noticeId}`)
+        axios.post(`${url}/deleteNotice/${notice.noticeId}` ,{
+            headers:
+            {
+                Authorization: token
+            }
+        })
             .then(res => {
                 // 1. 삭제된 공지사항을 목록에서 제거
                 const updatedList = noticeList.filter(item => item.noticeId !== notice.noticeId);

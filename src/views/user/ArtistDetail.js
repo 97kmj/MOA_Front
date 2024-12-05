@@ -1,6 +1,6 @@
 import Header from "../Header";
 import styles from "../../css/user/ArtistDetail.module.css"
-import { userAtom } from "../../atoms";
+import { userAtom,tokenAtom } from "../../atoms";
 import { useAtomValue } from "jotai";
 import { useState,useEffect } from "react";
 import { useLocation } from "react-router";
@@ -8,6 +8,7 @@ import { url } from "../../config";
 import axios from "axios";
 const ArtistDetail = () => {
     const user = useAtomValue(userAtom);
+    const token = useAtomValue(tokenAtom);
     const [artist,setArtist] = useState({});
     const [isArtistNote, setIsArtistNote] = useState(true);
     const [artworks, setArtworks] = useState([]); // 작품 리스트
@@ -37,7 +38,9 @@ const ArtistDetail = () => {
     },[])
     useEffect(()=>{
         if(!artistId) return;
-        axios.get(`${url}/existsLikeArtist`,{params:{artistId:artistId,username:user.username}})
+        axios.get(`${url}/existsLikeArtist`,{params:{artistId:artistId,username:user.username} , headers : {
+            Authorization : token
+        }})
         .then(res=> {
             console.log(res.data);
             setIsArtistLiked(res.data)
@@ -56,7 +59,9 @@ const ArtistDetail = () => {
             alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
             return;
         } 
-        axios.get(`${url}/likeArtist`,{params:{artistId:artistId,username:user.username}})
+        axios.get(`${url}/likeArtist`,{params:{artistId:artistId,username:user.username}, headers : {
+            Authorization : token
+        }})
             .then(res=>{
                 setIsArtistLiked(res.data);
                 // 좋아요 상태에 따라 likeCount 업데이트
@@ -73,7 +78,7 @@ const ArtistDetail = () => {
     }
     //작품 목록 가져오기 
     useEffect(()=> {
-        if (!artistId || !user.username) return; // artistId와 username이 있어야 요청 가능
+        if (!artistId) return; // artistId이 있어야 요청 가능
         axios.get(`${url}/artistArtworks`,{params : {artistId,artworkType, username:user.username}})
             .then(res=> {
                 setArtworks(res.data);
@@ -89,7 +94,7 @@ const ArtistDetail = () => {
             return;
         }
 
-        axios.get(`${url}/likeArtwork`, { params: { artworkId, username: user.username } })
+        axios.get(`${url}/likeArtwork`, { params: { artworkId, username: user.username }, headers : {Authorization : token} })
             .then((res) => {
                 const updatedArtworks = artworks.map((artwork) =>
                     artwork.artworkId === artworkId
@@ -121,7 +126,7 @@ const ArtistDetail = () => {
             return;
         } 
         setMessage({...message, artistId:artistId, username:user.username });
-        axios.post(`${url}/sendMessage`,message)
+        axios.post(`${url}/sendMessage`,message , {headers : {Authorization : token}})
             .then(res=>{
                 if(res.data===true) {
                     alert("작가님께 쪽지를 보냈습니다.")

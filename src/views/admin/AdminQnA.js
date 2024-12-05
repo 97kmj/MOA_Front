@@ -37,7 +37,7 @@ const AdminQnA = () => {
                     endDate: searchPeriod.endDate,
                 },
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: token
                 },
             })
                 .then(res => {
@@ -71,7 +71,11 @@ const AdminQnA = () => {
 
     const writeAnswer = () => {
         const answer = {...selectedQuestion,answerStatus:true,answerAt:new Date()}
-        axios.post(`${url}/writeAnswer`,answer)
+        axios.post(`${url}/writeAnswer`,answer , {
+            headers : {
+                Authorization : token
+            }
+        })
             .then(res => {
                 if(res.data===true) {
                     alert("답변이 완료되었습니다.")
@@ -81,7 +85,7 @@ const AdminQnA = () => {
                             startDate: searchPeriod.startDate,
                             endDate: searchPeriod.endDate
                         },headers: {
-                            Authorization: `Bearer ${token}`,
+                            Authorization: token
                         },
                     })
                     .then(response => {

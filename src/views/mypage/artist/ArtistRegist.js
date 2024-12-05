@@ -61,7 +61,7 @@ const ArtistRegist = () => {
 
         axios.post(`${url}/artistSubmit`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: token,
                     "Content-Type": "multipart/form-data", // 반드시 명시
                 },
             })
