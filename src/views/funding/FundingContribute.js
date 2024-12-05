@@ -80,7 +80,7 @@ const FundingContribute = () => {
 
         try {
             // Step 1: 결제 금액 사전등록 요청
-            const prepareResponse = await axios.post(`${url}/api/funding/payment/prepare`, {
+            const prepareResponse = await axios.post(`${url}/api/payment/funding/prepare`, {
                     //아임포트
                     merchant_uid: merchantUid,
                     amount: paymentAmount,
@@ -125,7 +125,7 @@ const FundingContribute = () => {
 
                         // Step 3: 백엔드 DB에 결제 정보 저장
                         try {
-                            const response = await axios.post(`${url}/api/funding/payment/complete`, requestData,
+                            const response = await axios.post(`${url}/api/payment/funding/complete`, requestData,
                                 {
                                     headers: {Authorization: token}
                                 });

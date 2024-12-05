@@ -44,7 +44,9 @@ function MyContributedFunding() {
         try {
             setLoading(true);
             const response = await axios.get(
-                `${url}/api/myPage/funding/contributedFunding/${fundingOrderId}`
+                `${url}/api/myPage/funding/contributedFunding/${fundingOrderId}`,{   headers: {
+                        Authorization: token,
+                    },}
             );
             setSelectedFunding(response.data); // 상세 데이터 저장
             setModalOpen(true); // 모달 열기
@@ -65,7 +67,7 @@ function MyContributedFunding() {
     function refundIndividualFunding(fundingOrderId) {
         axios
             .post(
-                `${url}/api/funding/refund/individual/${fundingOrderId}`, // 백엔드 API
+                `${url}/api/payment/funding/refund/individual/${fundingOrderId}`, // 백엔드 API
                 {},
                 {
                     headers: {
@@ -109,7 +111,10 @@ function MyContributedFunding() {
                         status: activeTab.toUpperCase(),
                         page: currentPage, // 현재 페이지 번호
                         size: 5 // 페이지 크기
-                    }
+                    },
+                    headers: {
+                        Authorization: token,
+                    },
                 });
                 setFundingList(response.data.content);
                 setTotalPages(response.data.totalPages);
