@@ -130,7 +130,6 @@ const SaleOrder = () => {
             
             
         };
-
         const saleData={
             artworkId: artworkId,
             artworkQuantity : 1,
@@ -146,9 +145,10 @@ const SaleOrder = () => {
                 paymentData.impUid= response.imp_uid; //주문번호
                 paymentData.paymentType = response.pay_method.toUpperCase(); //고유번호
                 
-    
+                
+                //백엔드에 DB 저장 
                 try{
-                    const response = axios.post(`${url}/shop/payment`, {paymentData, username:user.username, saleData});
+                    const response = axios.post(`${url}/shop/payment`, {paymentData, username:user.username, saleData},{});
 
                     if (response.status === 200) {
                         alert("결제가 성공적으로 완료되었습니다!");
