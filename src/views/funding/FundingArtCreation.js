@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import useFundingStore from "./store/fundingStore";
 import axios from "axios";
 import {url} from "../../config";
+import {tokenAtom, userAtom} from "../../atoms";
+import {useAtomValue} from "jotai/index";
 
 function FundingArtCreation() {
     // Zustand 스토어에서 메서드 및 상태 가져오기
@@ -13,9 +15,10 @@ function FundingArtCreation() {
     const [artWorkTitle, setArtWorkTitle] = useState('');
     const [artWorkDescription, setArtWorkDescription] = useState('');
     const [artWorkImage, setArtWorkImage] = useState(null);
-
     const navigate = useNavigate();
 
+    const token = useAtomValue(tokenAtom);
+    const user = useAtomValue(userAtom);
 
     const previewFundingMainImage = (e) => {
         const file = e.target.files[0];
@@ -36,6 +39,12 @@ function FundingArtCreation() {
 
     // 작품 추가
     const addArtWork = () => {
+        if (!user) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+
         if (!artWorkTitle.trim() || !artWorkDescription.trim() || !artWorkImage) {
             alert("작품 이름, 설명 및 이미지를 모두 입력해야 합니다.");
             return;
@@ -52,6 +61,11 @@ function FundingArtCreation() {
     };
 
     const submitFundingData = async () => {
+        if (!user) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
         if (!fundingInfo.title || !fundingInfo.description || !fundingInfo.mainImage) {
             alert("펀딩 제목, 소개, 대표 이미지를 모두 입력하세요.");
             return;
@@ -84,10 +98,10 @@ function FundingArtCreation() {
         try {
             const response = await axios.post(`${url}/api/funding`, formData, {
                 headers: {
+                    Authorization: token,
                     "Content-Type": "multipart/form-data",
                 },
             });
-
             console.log("펀딩 데이터 전송 성공:", response.data);
 
             resetFundingState();
