@@ -66,9 +66,9 @@ function AppRouter() {
 
 
                 <Route path="/user/findId" element={<FindId/>} />
-                <Route path="/user/findIdResult" element={<FindIdResult/>} />
+                <Route path="/user/findIdResult/:id" element={<FindIdResult/>} />
                 <Route path="/user/findPwd" element={<FindPwd/>} />
-                <Route path="/user/findPwdResult" element={<FindPwdResult/>} />
+                <Route path="/user/findPwdResult/:id" element={<FindPwdResult/>} />
                 
                 <Route path="/login" element={<TokenHandler />} /> {/* 토큰 처리 */}
 
@@ -110,6 +110,8 @@ function AppRouter() {
             <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
             <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
 
+            <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />
+
             <Route path="/gallery" element={<Gallery/>} />
             <Route path="/gallerydetail" element={<GalleryDetail/>} />
             
@@ -121,8 +123,6 @@ function AppRouter() {
             <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
             <Route path="/mypage/message" element={<Message/>}/>
             <Route path="/mypage/qna" element={<MyQnA/>}/>
-            <Route path="mypage/shop/myOrderList" element={<MyOrderList/>}/>
-            <Route path="mypage/shop/mySaleList" element={<MySaleList/>}/>
             {/* 관리자 */}
             <Route path="/admin/notice" element={<AdminNotice/>} />
             <Route path="/admin/qna" element={<AdminQnA/>} />

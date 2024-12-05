@@ -48,7 +48,7 @@ const AdminItem = () => {
     };
 
     const saveStatuses = () => {
-        axios.put(`${url}/updateStatus`,
+        axios.put(`${url}/adminItem`,
                 updateStatusList ,
                 {
                     headers: {
