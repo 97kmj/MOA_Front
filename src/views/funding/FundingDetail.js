@@ -7,7 +7,8 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
 import {useAtom} from "jotai/react";
 import {userAtom} from "../../atoms";
-import { motion } from "framer-motion";
+import { motion, LayoutGroup } from "framer-motion";
+import ShowGallery from "./ShowGallery";
 
 const FundingDetail = () => {
     const {fundingId} = useParams();
@@ -25,7 +26,6 @@ const FundingDetail = () => {
 
     const [artworkImages, setArtworkImages] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-
 
 
 
@@ -136,19 +136,6 @@ const FundingDetail = () => {
     };
 
 
-    const handleNext = () => {
-        const updatedImages = [...artworkImages];
-        const firstImage = updatedImages.shift(); // 첫 번째 이미지를 제거
-        updatedImages.push(firstImage); // 첫 번째 이미지를 맨 뒤로 추가
-        setArtworkImages(updatedImages); // 상태 업데이트
-    };
-
-    const handlePrev = () => {
-        const updatedImages = [...artworkImages];
-        const lastImage = updatedImages.pop(); // 마지막 이미지를 제거
-        updatedImages.unshift(lastImage); // 마지막 이미지를 맨 앞으로 추가
-        setArtworkImages(updatedImages); // 상태 업데이트
-    };
 
     if (!artworkImages.length) {
         return <p>Loading artworks...</p>;
@@ -161,22 +148,6 @@ const FundingDetail = () => {
         setArtworkImages(images); // 작품 이미지 설정
         setIsArtworkView(true); // 모드 활성화
     };
-
-    const closeArtworkView = () => {
-        setIsArtworkView(false); // 모드 종료
-    };
-
-    // 카드 위치 교환 로직
-    const swapCards = (index) => {
-        const updatedImages = [...artworkImages];
-        [updatedImages[2], updatedImages[index]] = [updatedImages[index], updatedImages[2]]; // 중앙 카드와 교환
-        setArtworkImages(updatedImages);
-    };
-
-
-
-
-
 
 
 
@@ -324,53 +295,79 @@ const FundingDetail = () => {
                                 />
                             </div>
 
+
                             {isArtworkView && (
-                                <div className={styles.artworkViewContainer}>
-                                    <button
-                                        className={styles.closeButton}
-                                        onClick={closeArtworkView}
-                                    >
-                                        닫기
-                                    </button>
 
-                                    <button
-                                        className={`${styles.navButton} ${styles.prevButton}`}
-                                        onClick={handlePrev}
-                                    >
-                                        &#8249; {/* 이전 버튼 */}
-                                    </button>
+                                <ShowGallery
+                                    images={artworkImages}
+                                    onClose={() => setIsArtworkView(false)}
+                                />
 
-                                    <div className={styles.cardSlider}>
-                                        {artworkImages.map((image, index) => (
-                                            <motion.div
-                                                key={index}
-                                                className={styles.card}
-                                                initial={{
-                                                    scale: 0.8,
-                                                    opacity: 0,
-                                                }}
-                                                animate={{
-                                                    scale: index === 2 ? 1.2 : 1,
-                                                    opacity: 1,
-                                                }}
-                                                transition={{ duration: 0.5 }}
-                                                onClick={() => swapCards(index)}
-                                            >
-                                                <img
-                                                    src={image}
-                                                    alt={`Artwork ${index}`}
-                                                />
-                                            </motion.div>
-                                        ))}
-                                    </div>
-
-                                    <button
-                                        className={`${styles.navButton} ${styles.nextButton}`}
-                                        onClick={handleNext}
-                                    >
-                                        &#8250; {/* 다음 버튼 */}
-                                    </button>
-                                </div>
+                                // <div className={styles.artworkViewContainer}>
+                                //     <button
+                                //         className={styles.closeButton}
+                                //         onClick={() => setIsArtworkView(false)}
+                                //     >
+                                //         닫기
+                                //     </button>
+                                //     <LayoutGroup>
+                                //         <div className={styles.gallery}>
+                                //             {artworkImages.map((image, index) => {
+                                //                 // 현재 인덱스를 기준으로 위치 계산
+                                //                 const position = index - currentIndex;
+                                //
+                                //                 // 위치 제한 (화면에 표시할 이미지만 렌더링)
+                                //                 if (position < -4 || position > 4) {
+                                //                     return null; // 좌우로 3개씩만 표시
+                                //                 }
+                                //
+                                //                 return (
+                                //                     <motion.div
+                                //                         key={image}
+                                //                         className={styles.card}
+                                //                         layout
+                                //                         animate={{
+                                //                             zIndex: position === 0 ? 10 : 1,
+                                //                             scale: position === 0 ? 1.2 : 1, // 중앙 이미지 확대
+                                //                             x: position * 25, // 각 카드의 위치 간격
+                                //                             rotateY: position * -10, // 각 카드 회전 각도
+                                //                         }}
+                                //                         transition={{
+                                //                             duration: 0.5,
+                                //                             ease: "easeInOut",
+                                //                         }}
+                                //                         onClick={() => setCurrentIndex(index)}
+                                //                     >
+                                //                         <img src={image} alt={`Artwork ${index}`} />
+                                //                     </motion.div>
+                                //                 );
+                                //             })}
+                                //         </div>
+                                //     </LayoutGroup>
+                                //
+                                //     <div className={styles.controls}>
+                                //         <button
+                                //             className={styles.navButton}
+                                //             onClick={() => {
+                                //                 if (currentIndex > 0) {
+                                //                     setCurrentIndex(currentIndex - 1); // 이전 버튼 클릭 시 인덱스 감소
+                                //                 }
+                                //             }}
+                                //         >
+                                //             &#8249;
+                                //         </button>
+                                //         <button
+                                //             className={styles.navButton}
+                                //             onClick={() => {
+                                //                 if (currentIndex < artworkImages.length - 1) {
+                                //                     setCurrentIndex(currentIndex + 1); // 다음 버튼 클릭 시 인덱스 증가
+                                //                 }
+                                //             }}
+                                //         >
+                                //             &#8250;
+                                //         </button>
+                                //     </div>
+                                // </div>
                             )}
 
 
