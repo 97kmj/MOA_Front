@@ -3,6 +3,7 @@ import { useNavigate,useLocation } from 'react-router-dom';
 import { useSetAtom } from 'jotai';
 import { tokenAtom, userAtom } from '../../atoms';
 import styles from '../../css/user/Login.module.css';
+import {url} from '../../config';
 import axios from 'axios';
 
 const Login = () => {
@@ -17,25 +18,23 @@ const Login = () => {
   //일반 로그인 처리
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/user/login', {
-        username,
-        password,
-      });
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
+      const response = await axios.post(`${url}/login`, formData);
   
       // 헤더에서 JWT 토큰 읽기
-      const accessToken = response.headers['authorization']?.replace('Bearer ', '');
-      const refreshToken = response.headers['refresh-token']?.replace('Bearer ', '');
+      const token = response.headers['authorization']
+      console.log(token)
   
-      if (!accessToken) {
+      if (!token) {
         throw new Error('Access Token is missing in response headers.');
       }
   
       // 토큰과 사용자 정보 저장
-      setToken(accessToken); // Jotai를 통해 관리
+      setToken(token); // Jotai를 통해 관리
       setUser(response.data); // 본문에서 사용자 정보 저장
 
-      console.log('Access Token:', accessToken);
-  
       // 메인 페이지로 이동
       navigate('/');
     } catch (error) {
@@ -43,45 +42,7 @@ const Login = () => {
       alert('로그인에 실패했습니다. 사용자 이름과 비밀번호를 확인하세요.');
     }
   };
-  
-
-// 소셜 로그인 토큰 처리
-useEffect(() => {
-  const query = new URLSearchParams(location.search);
-  const tokenString = query.get('token');
-
-  if (tokenString) {
-    try {
-      const parsedToken = JSON.parse(decodeURIComponent(tokenString));
-      const accessToken = parsedToken.access_token.replace('Bearer ', '');
-
-      // 토큰 저장
-      setToken(accessToken);
-      // sessionStorage.setItem('accessToken', accessToken); 
-
-      // 사용자 정보 요청 및 저장
-      axios
-        .get('http://localhost:8080/api/user/profile', {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        })
-        .then((response) => {
-          setUser(response.data); // 사용자 정보 저장
-          navigate('/'); // 메인 페이지로 이동
-        })
-        .catch((error) => {
-          console.error('Error fetching user info:', error);
-          alert('사용자 정보를 가져올 수 없습니다.');
-        });
-    } catch (error) {
-      console.error('Error parsing token:', error);
-      alert('잘못된 토큰 형식입니다.');
-    }
-  }
-}, [location.search, setToken, setUser, navigate]);
-
-
-
-
+ 
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginSideText}>
@@ -117,17 +78,15 @@ useEffect(() => {
         </div>
 
         <div className={styles.socialLogin}>
-          <button className={styles.socialButton}>네이버 소셜로그인</button>
+          <button className={styles.socialButton}
+            onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>네이버 로그인</button>
           <button
             className={styles.socialButton}
-            onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}
-          >
-            카카오 소셜로그인
-          </button>          <button className={styles.socialButton}>구글 소셜로그인</button>
+            onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}>카카오 로그인</button>
+          <button className={styles.socialButton}>구글 로그인</button>
         </div>
       </div>
     </div>
   );
 };
-
 export default Login;

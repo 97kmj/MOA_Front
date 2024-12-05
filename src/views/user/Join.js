@@ -254,6 +254,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                 {/* Password */}
                 <div className={styles.formGroup}>
                     <label htmlFor="password">비밀번호</label>
+                    <div className={styles.inputGroup}>
                     <input
                         type="password"
                         id="password"
@@ -261,11 +262,13 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                         onChange={handleChange}
                         placeholder="비밀번호 입력"
                     />
+                    </div>
                 </div>
 
                 {/* Password Check */}
                 <div className={styles.formGroup}>
                     <label htmlFor="passwordCheck">비밀번호 확인</label>
+                    <div className={styles.inputGroup}>
                     <input
                         type="password"
                         id="passwordCheck"
@@ -273,6 +276,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                         onChange={handleChange}
                         placeholder="비밀번호 확인"
                     />
+                    </div>
                 </div>
 
                 <div>
@@ -303,6 +307,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                             찾기
                         </button>
                     </div>
+                    <div className={styles.inputGroup}>
                     <input
                         type="text"
                         id="address"
@@ -310,6 +315,8 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                         onChange={handleChange}
                         placeholder="주소"
                     />
+                    </div>
+                    <div className={styles.inputGroup}>
                     <input
                         type="text"
                         id="detailAddress"
@@ -317,6 +324,8 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                         onChange={handleChange}
                         placeholder="상세주소"
                     />
+                    </div>
+                    <div className={styles.inputGroup}>
                     <input
                         type="text"
                         id="extraAddress"
@@ -324,6 +333,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                         onChange={handleChange}
                         placeholder="참고항목"
                     />
+                    </div>
                 </div>
 
                 {/* Phone */}
@@ -364,6 +374,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                 {/* Name */}
                 <div className={styles.formGroup}>
                     <label htmlFor="name">이름</label>
+                    <div className={styles.inputGroup}>
                     <input
                         type="text"
                         id="name"
@@ -371,6 +382,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                         onChange={handleChange}
                         placeholder="이름 입력"
                     />
+                    </div>
                 </div>
 
                 {/* Email */}

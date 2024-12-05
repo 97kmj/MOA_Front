@@ -44,7 +44,7 @@
 }
 
 .input {
-    width: 100%;
+    width: 90%;
     padding: 0.5rem;
     border: 2px solid #b39c59;
     border-radius: 0.5rem;
@@ -54,6 +54,11 @@
 }
 
 .shortInput {
+    width: 95%;
+    margin: 5 auto;
+}
+
+.shortPassword {
     width: 95%;
     margin: 5 auto;
 }
