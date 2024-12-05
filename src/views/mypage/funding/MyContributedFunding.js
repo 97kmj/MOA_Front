@@ -69,7 +69,7 @@ function MyContributedFunding() {
                 {},
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: token,
                     },
                 }
             )
