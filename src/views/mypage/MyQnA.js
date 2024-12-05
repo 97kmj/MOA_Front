@@ -77,7 +77,7 @@ const MyQnA = () => {
 
                 <div className={styles.questionList}>
                         {
-                            questionList.length > 0 ? (
+                            questionList?.length > 0 ? (
 
                             questionList.map((question) => (
                                 <div key={question.id} className={styles.question}>
