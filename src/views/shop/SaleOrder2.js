@@ -151,11 +151,12 @@ const SaleOrder = () => {
             frameprice:item.framePrice,
             
         }))
+        
         try{
-            const checkStock = await axios.post(`${url}/shopOrder/checkStock`, { saleDatas } ,{
+            const checkStock = await axios.post(`${url}/shopOrder/checkStock`,  saleDatas  ,{
                 headers: {
                     Authorization: token,
-                    "Content-Type":"multipart/form-data",
+
                 }
             });
             if(checkStock.status===200){
@@ -199,7 +200,6 @@ const SaleOrder = () => {
             
         }
     };
-
    
 
 
