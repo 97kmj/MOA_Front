@@ -18,6 +18,7 @@ function Message() {
     const [pageSize, setPageSize] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [modalOpen,setModalOpen] = useState(false);
+    const [reply, setReply] = useState('');
     useEffect(()=>{
         
         axios.get(`${url}/message`,{ params: 
@@ -29,9 +30,6 @@ function Message() {
                 Authorization: token
             }})
         .then(res=> {
-            console.log(res.data);
-            console.log("=========")
-            console.log(res.headers.authorization);
             if(res.headers.authorization!==null && res.headers.authorization!==undefined) { //갱신받은 토큰이 있을 시
                 setToken(res.headers.authorization)
             }
@@ -53,24 +51,39 @@ function Message() {
     const handleMessageType = (e) => {
         setCurrentPage(0);
         setMessageType(e.target.name);
+        console.log(e.target.name);
     }
+
     const showMessage = (message) => {
         setSelectedMessage(message);
         setModalOpen(true);
+        if (messageType === 'notRead') {
+            axios.patch(`${url}/message/${message.messageId}/read`,{},{headers:{Authorization:token}})
+            .then(()=>{
+                // 목록에서 해당 메시지 제거
+                setMessageList((prev) => prev.filter((msg) => msg.messageId !== message.messageId));
+            })
+            .catch(err=> {
+                console.error(err);
+                alert("메시지 상태를 업데이트하지 못했습니다.");
+            })
+        }
     };
     const closeModal = () => {
         setModalOpen(false);
         setSelectedMessage({});
+        setReply('');
     }
     const editReply = (e) => {
-        setSelectedMessage({...selectedMessage, reply:e.target.value})
+        setReply(e.target.value);
     }
     const sendReply = () => {
-        const replyMessage = selectedMessage;
+        const replyMessage = {...selectedMessage, reply : reply}
         axios.post(`${url}/replyMessage`,replyMessage, {headers : {Authorization: token}})
             .then(res=> {
                 if(res.status === 200) {
                     alert("답장을 성공적으로 보냈습니다.")
+                    setSelectedMessage(replyMessage);
                 } else {
                     alert("답장 보내는 중 오류가 발생했습니다.")   
                 }
@@ -186,9 +199,9 @@ function Message() {
                             ) : (
                                 <>
                                 <h3>답변 작성하기</h3>
-                                <textarea name="reply" onChange={editReply}></textarea>
+                                <textarea name="reply" value={reply} onChange={editReply}></textarea>
                                 <div className={styles.buttonDiv}>
-                                    <button className={styles.goldbutton} >답변 보내기</button>
+                                    <button className={styles.goldbutton} onClick={sendReply} >답변 보내기</button>
                                 </div>
                                 </>
                             )
