@@ -7,8 +7,7 @@
     background-color: #b39c59;
   }
 .container {
-   
-    margin:20px auto;
+    margin:50px auto;
     padding:0;
     width: 1200px;
 }
@@ -25,15 +24,15 @@
   
   /* 상품들의 테두리 스타일 */
   .cartTable tr {
-    border-bottom: 3px solid #b39c59; /* 각 상품 아래에 3px 줄 추가 */
+    border-bottom: 1px solid #b39c59; /* 각 상품 아래에 3px 줄 추가 */
   }
   
   .cartTable tr:first-child {
-    border-top: 5px solid #b39c59; /* 첫 번째 상품 위에 5px 줄 추가 */
+    border-top: 3px solid #b39c59; /* 첫 번째 상품 위에 5px 줄 추가 */
   }
   
   .cartTable tr:last-child {
-    border-bottom: 5px solid #b39c59; /* 마지막 상품 아래에 5px 줄 추가 */
+    border-bottom: 3px solid #b39c59; /* 마지막 상품 아래에 5px 줄 추가 */
   }
   
   /* 각 열의 너비를 설정 */
@@ -52,31 +51,36 @@
   }
   
   .cartToptionable th:nth-child(3), .cartTable td:nth-child(3) {
-    width: 25%; /* 상품 정보 열 */
+    width: 20%; /* 상품 정보 열 */
   }
-  
-  .cartTable th:nth-child(4), .cartTable td:nth-child(4) {
-    width: 35%; /* 옵션 열 */
+
+  .cartToptionable th:nth-child(4), .cartTable td:nth-child(4) {
+    width: 5%; /* 수량 열 */
   }
   
   .cartTable th:nth-child(5), .cartTable td:nth-child(5) {
-    width: 12%; /* 상품 금액 열 */
+    width: 30%; /* 옵션 열 */
   }
   
   .cartTable th:nth-child(6), .cartTable td:nth-child(6) {
+    width: 17%; /* 상품 금액 열 */
+  }
+  
+  .cartTable th:nth-child(7), .cartTable td:nth-child(7) {
     width: 8%; /* 배송비 열 */
   }
   
 
   
   /* 상품 이미지 스타일 */
-  .titleColumn {
+  .titleColumn , .imageColumn{
     text-align: center;
   }
-
+  
   .imageColumn img{
-    width: 120px;
+    max-width: 120px;
     height: 120px;
+    object-fit: contain;
   }
   
   .summarySection {
@@ -114,6 +118,7 @@
   }
   
   .cartListButton {
+    margin:10px;
     cursor: pointer;
     padding: 8px 15px;
     background-color: #b39c59;
@@ -183,7 +188,7 @@
     overflow: hidden;    /* 넘친 부분 숨기기 */
     text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
     display: inline-block;
-    width: 120px;
+    width: 100px;
     text-align: left;
   }
 
@@ -198,7 +203,13 @@
   
 }
 .optionAlign{
-  text-align: left;
+  text-align: center;
+}
+.optionItem {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
 }
 
 .optionPriceStyle{

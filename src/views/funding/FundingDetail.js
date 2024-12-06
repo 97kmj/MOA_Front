@@ -77,8 +77,6 @@ const FundingDetail = () => {
                 alert(`이 리워드는 1인당 최대 ${reward.limitQuantity}개까지 구매 가능합니다.`);
                 return;
             }
-
-
             setSelectedRewards((prevRewards) =>
                 prevRewards.map((r) =>
                     r.rewardId === reward.rewardId
@@ -256,8 +254,9 @@ const FundingDetail = () => {
                                 </p>
                                 <p>
                                     <strong>펀딩기간:</strong>{" "}
-                                    {new Date(fundingDetail.startDate).toLocaleDateString()} -{" "}
-                                    {new Date(fundingDetail.endDate).toLocaleDateString()}
+                                    {new Date(fundingDetail.startDate).toISOString().split("T")[0]}{" "}
+                                    -{" "}
+                                    {new Date(fundingDetail.endDate).toISOString().split("T")[0]}
                                 </p>
 
 
@@ -268,7 +267,7 @@ const FundingDetail = () => {
                                 className={`${styles.fundButton} ${styles.primaryButton}`}
                                 onClick={fundButtonToMoveRewardSection}
                             >
-                                펀딩하기
+                            펀딩하기
                             </button>
                         </div>
                     </div>
@@ -303,71 +302,6 @@ const FundingDetail = () => {
                                     onClose={() => setIsArtworkView(false)}
                                 />
 
-                                // <div className={styles.artworkViewContainer}>
-                                //     <button
-                                //         className={styles.closeButton}
-                                //         onClick={() => setIsArtworkView(false)}
-                                //     >
-                                //         닫기
-                                //     </button>
-                                //     <LayoutGroup>
-                                //         <div className={styles.gallery}>
-                                //             {artworkImages.map((image, index) => {
-                                //                 // 현재 인덱스를 기준으로 위치 계산
-                                //                 const position = index - currentIndex;
-                                //
-                                //                 // 위치 제한 (화면에 표시할 이미지만 렌더링)
-                                //                 if (position < -4 || position > 4) {
-                                //                     return null; // 좌우로 3개씩만 표시
-                                //                 }
-                                //
-                                //                 return (
-                                //                     <motion.div
-                                //                         key={image}
-                                //                         className={styles.card}
-                                //                         layout
-                                //                         animate={{
-                                //                             zIndex: position === 0 ? 10 : 1,
-                                //                             scale: position === 0 ? 1.2 : 1, // 중앙 이미지 확대
-                                //                             x: position * 25, // 각 카드의 위치 간격
-                                //                             rotateY: position * -10, // 각 카드 회전 각도
-                                //                         }}
-                                //                         transition={{
-                                //                             duration: 0.5,
-                                //                             ease: "easeInOut",
-                                //                         }}
-                                //                         onClick={() => setCurrentIndex(index)}
-                                //                     >
-                                //                         <img src={image} alt={`Artwork ${index}`} />
-                                //                     </motion.div>
-                                //                 );
-                                //             })}
-                                //         </div>
-                                //     </LayoutGroup>
-                                //
-                                //     <div className={styles.controls}>
-                                //         <button
-                                //             className={styles.navButton}
-                                //             onClick={() => {
-                                //                 if (currentIndex > 0) {
-                                //                     setCurrentIndex(currentIndex - 1); // 이전 버튼 클릭 시 인덱스 감소
-                                //                 }
-                                //             }}
-                                //         >
-                                //             &#8249;
-                                //         </button>
-                                //         <button
-                                //             className={styles.navButton}
-                                //             onClick={() => {
-                                //                 if (currentIndex < artworkImages.length - 1) {
-                                //                     setCurrentIndex(currentIndex + 1); // 다음 버튼 클릭 시 인덱스 증가
-                                //                 }
-                                //             }}
-                                //         >
-                                //             &#8250;
-                                //         </button>
-                                //     </div>
-                                // </div>
                             )}
 
 

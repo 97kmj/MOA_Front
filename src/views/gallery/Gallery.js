@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
-import { userAtom } from "../../atoms";
-import { useAtomValue } from "jotai";
+import { tokenAtom, userAtom } from "../../atoms";
+import { useAtomValue, useAtom } from "jotai";
 import { Gallery as GridGallery } from "react-grid-gallery";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -106,6 +106,7 @@ import ShowGallery from "../funding/ShowGallery";
     const [isGalleryView, setIsGalleryView] = useState(false); // 갤러리 보기 상태 관리
 
     const user = useAtomValue(userAtom);
+    const [token,setToken] = useAtom(tokenAtom);
     const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
     const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수  
@@ -238,12 +239,14 @@ import ShowGallery from "../funding/ShowGallery";
       axios.post(`${url}/updateArtworkStatus`,{
           artworkId,
           isSuspicious : isChecked //의심체크 여부 
+      }, {
+        headers : { Authorization : token}
       })
       .then(res=>{
           console.log(res.data);
           if (res.status === 200) {
               setArtworks((prevArtworks) =>
-                  prevArtworks.map((artwork) =>
+                  prevArtworks.map((artwork) => 
                       artwork.artworkId === artworkId
                           ? { ...artwork, adminCheck: isChecked }
                           : artwork
