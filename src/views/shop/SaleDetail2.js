@@ -13,6 +13,7 @@ const SaleDetail = () => {
     const {artworkId} = useParams(); // URL에서 id 가져오기
     const [saleDetail, setSaleDetail] = useState(null); //작품 데이터 저장
     const user = useAtomValue(userAtom);
+    const [token,setToken] = useAtom(tokenAtom);
     const [modalOpen,setModalOpen] = useState(false);
     const [selectedFrame, setSelectedFrame] = useState({framePrice:0, frameType:"프레임 없음"});
     const [selectedFrameButton, setSelectedFrameButton] = useState(0);
@@ -41,6 +42,26 @@ const SaleDetail = () => {
         }
     }, [saleDetail]);
 
+
+    const addToCart = () => {
+        const itemList = saleItems.map(item=> ({
+            saleId : artworkId,
+            price : item.basePrice,
+            frameOptionId : item.selectedOption || null,
+            framePrice : item.framePrice,
+        }))
+        axios.post(`${url}/addToCart`,{itemList, username:user.username},
+            {headers:{Authorization:token}})
+            .then(res=> {
+                if(res.headers.authorization!==null && res.headers.authorization!==undefined) { //갱신받은 토큰이 있을 시
+                    setToken(res.headers.authorization)
+                }
+                alert("장바구니에 상품이 등록되었습니다.")
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+    }
 
     const addNewItem = () => {
         setSaleItems((prevItems) => [
@@ -187,11 +208,6 @@ const SaleDetail = () => {
         return <div>Loading...</div>;
     }
 
-    const goShoppingCart = (artistId) => {
-        navigate(`/shop/shoppingCart/${artistId}`, { state: { saleItems } });
-
-        console.log("saleItems cart", saleItems);
-    };
 
     const goOrder = (artworkId) => {
         navigate(`/shop/SaleOrder/${artworkId}`, { state: { saleItems, frameId: frameListId } });
@@ -290,7 +306,7 @@ const SaleDetail = () => {
                                         )}
                                         <tr>
                                             <td>
-                                                <div className={styles.buttonDarkStyle} onClick={()=> goShoppingCart(saleDetail.artworkId)}><b>ADD TO CART</b></div>
+                                                <div className={styles.buttonDarkStyle} onClick={addToCart}><b>ADD TO CART</b></div>
                                             </td>
                                             <td>
                                                 <div className={styles.buttonDarkStyle2} onClick={()=> goOrder(saleDetail.artworkId)}><b>결제하기</b></div>
