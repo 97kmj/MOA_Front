@@ -55,7 +55,7 @@ const Header = () => {
                     user.username!==''? <>                 
                         {
                             user.role!=='ADMIN' &&<>
-                            <Link to="/shop/shoppingCart/:artworkId"><img src="/img/cartIcon.png"/></Link>
+                            <Link to="/shop/shoppingCart"><img src="/img/cartIcon.png"/></Link>
                             <Link to="/mypage/message"><img src="/img/messageIcon.png"/></Link>
                             <Link to=""><img src="/img/notificationIcon.png"/></Link>
                             </>

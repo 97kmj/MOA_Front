@@ -105,7 +105,7 @@ function AppRouter() {
             <Route path="/shop/saleList" element={<SaleList />} />
             <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder2 />} />
             <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
-            <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
+            <Route path="/shop/shoppingCart" element={<ShoppingCart />} />
             <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
 
             <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />

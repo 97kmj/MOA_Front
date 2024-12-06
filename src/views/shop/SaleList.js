@@ -4,11 +4,12 @@ import Header from "../Header";
 import { useNavigate } from 'react-router';
 import { url } from "../../config";
 import axios from 'axios';
-import { userAtom } from '../../atoms';
-import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from '../../atoms';
+import { useAtomValue, useSetAtom,useAtom } from 'jotai';
 
 const SaleList = () => {
     const user = useAtomValue(userAtom);
+    const [token,setToken] = useAtom(tokenAtom);
     const [searchKeyword, setSearchKeyword] = useState(""); //검색어
     const [category, setCategory] = useState([]); // 카테고리 리스트 가져오기
     const [types, setTypes] = useState([]); // 타입 리스트 가져오기
@@ -141,6 +142,10 @@ const SaleList = () => {
         axios.post(`${url}/updateArtworkStatus`,{
             artworkId,
             isSuspicious : isChecked //의심체크 여부 
+        },{
+            headers: {
+                Authorization : token
+            }
         })
         .then(res=>{
             console.log(res.data);
