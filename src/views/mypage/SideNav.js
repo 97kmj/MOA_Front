@@ -35,10 +35,10 @@ const SideNav = () => {
             목록
           </strong>
           <ul className={styles.snbMenu}>
-            <li className={styles.menuItem}><Link to="/purchaseList" className={styles.menuLink}>구매목록</Link></li>
+            <li className={styles.menuItem}><Link to="/mypage/shop/MyOrderList" className={styles.menuLink}>구매목록</Link></li>
             <li className={styles.menuItem}><Link to="/cartList" className={styles.menuLink}>장바구니 목록</Link></li>
             {isArtist && (
-              <li className={styles.menuItem}><Link to="/mypage/regArtworklist" className={styles.menuLink}>등록작품 목록</Link></li>
+              <li className={styles.menuItem}><Link to="/mypage/shop/MySaleList" className={styles.menuLink}>등록작품 목록</Link></li>
             )}         
           </ul>
         </div>
