@@ -25,7 +25,7 @@
 }
 
 .pageTitle {
-  font-size: 24px;
+  font-size: 14px;
   font-weight: bold;
   margin-bottom: 10px;
   text-align: left; /* 타이틀 왼쪽 정렬 */
@@ -52,14 +52,16 @@
   align-items: flex-start; /* 이미지와 텍스트 위쪽 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
   margin-bottom: 30px; /* 여백 추가 */
-  gap: 100px; /* 이미지와 텍스트 사이 간격 */
+  gap: 50px; /* 이미지와 텍스트 사이 간격 */
 }
 
 .smallImage {
-  max-width: 300px; /* 이미지 너비 증가 */
-  max-height: 300px; /* 이미지 높이 증가 */
-  object-fit: cover;
+  max-width: 500px; /* 이미지 너비를 400px로 증가 */
+  max-height: 500px; /* 이미지 높이를 400px로 증가 */
+  object-fit: contain; /* 이미지를 비율에 맞게 채우면서 자르기 */
+  margin: 10px auto; /* 상하 좌우 여백 조정 */
 }
+
 
 .imageDetails {
   position: relative; /* 좋아요 버튼 위치 조정을 위해 부모를 상대 위치로 설정 */
@@ -68,11 +70,19 @@
   line-height: 1.8; /* 줄 간격 조정 */
   max-width: 400px; /* 텍스트 최대 너비 제한 */
 }
+
+.imageDetails p {
+  display: flex; /* 줄 사이 간격 균일하게 배치 */
+  justify-content: space-between; /* 텍스트와 값 사이 간격 */
+  gap: 10px; /* 라벨과 값 간격 조정 */
+}
 .imageDetails strong {
-  margin-right: 5px; /* ':' 뒤에 간격 추가 */
+  margin-right: 200px; /* ':' 뒤에 간격 추가 */
 }
 
 .imageTitle {
+  margin-left: 90px;
+  color: #b39c59;
   font-size: 22px; /* 제목 크기 증가 */
   font-weight: bold;
   margin-bottom: 15px; /* 여백 추가 */
@@ -135,17 +145,17 @@
 
 .descriptionBox {
   width: 500px; /* 설명 박스 너비 */
-  height: 500px;
-  border: 1px solid #ddd;
-  padding: 30px; /* 박스 자체에 기본 패딩 */
-  background-color: #f9f9f9;
-  overflow-y: auto;
-  margin: 0 auto; /* 박스를 중앙에 위치 */
-  
-  display: flex; /* 자식 요소를 정렬 */
+  padding: 30px; /* 여백 */
+  background-color: #f9f9f9; /* 배경색 */
+  overflow-y: auto; /* 내용이 많아질 경우 스크롤 표시 */
+  margin: 0 auto; /* 중앙 정렬 */
+  display: flex; /* 자식 요소 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
-  box-sizing: border-box;
+  box-sizing: border-box; /* 패딩 포함한 크기 조정 */
+  height: auto; /* 높이를 내용에 맞게 자동 조정 */
+  max-height: 500px; /* 선택 사항: 너무 긴 경우 최대 높이 제한 */
 }
+
 .descriptionBoxContent {
   padding: 20px; /* 글씨 주변에 상하좌우 패딩 */
   text-align: justify; /* 텍스트 정렬 (선택 사항) */

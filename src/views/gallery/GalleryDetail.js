@@ -122,12 +122,12 @@ function GalleryDetail() {
             <div className={styles.imageDetails}>
               <h2 className={styles.imageTitle}>{data.title}</h2>
               <p>
-              <strong>Artist:</strong>{' '}
+              <strong>ARTIST</strong>{' '}
               <Link to={`/artistDetail/${data.artist.id}`}>{data.artist.name}</Link>
               </p>              
-              <p><strong>Subject:</strong> {data.subject.subjectName}</p>
-              <p><strong>Type:</strong> {data.type.typeName}</p>
-              <p><strong>Size:</strong> {data.width} x {data.height} cm</p>
+              <p><strong>SIZE</strong> {data.width} x {data.height} cm</p>
+              <p><strong>TYPE</strong> {data.type.typeName}</p>
+              <p><strong>SUBJECT</strong> {data.subject.subjectName}</p>
               {/* 좋아요 버튼 */}
               <button className={styles.likeButton} onClick={handleLikeButtonClick} >
                 <img
