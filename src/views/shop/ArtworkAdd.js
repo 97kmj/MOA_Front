@@ -25,6 +25,7 @@ const Artwork = () => {
     const [isCanvasAvailable, setIsCanvasAvailable] = useState(false);
     const [isCanvasAvailableYn, setIsCanvasAvailableYn] = useState(false);
 
+    console.log("토큰",token)
    
     const [artwork, setArtwork] = useState({
         canvasType: 'A', description: '', height: '',
@@ -252,9 +253,15 @@ const Artwork = () => {
             }
         })
             .then(res => {
-                
-                console.log(res.data);
-                navigate(`/shop/saleDetail/${res.data}`);
+                console.log("시작")
+                console.log("일반",res)
+                if(saleStatus===true){
+                    console.log(res.data);
+                    navigate(`/shop/saleDetail/${res.data}`);
+                }else{
+                    console.log(res.data);
+                    navigate(`/gallery/galleryDetail/${res.data}`);
+                }
             })
             .catch(err => {
                 console.log(err);

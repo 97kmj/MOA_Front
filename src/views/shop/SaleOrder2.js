@@ -11,7 +11,7 @@ import { useParams,useLocation } from 'react-router';
 const SaleOrder = () => {
     const location = useLocation();
     const frameId = location.state?.frameId;
-
+    const token = useAtomValue(tokenAtom);
     const{artworkId} = useParams();
     const[orderData, setOrderData] = useState(); 
     const user = useAtomValue(userAtom);
@@ -109,7 +109,9 @@ const SaleOrder = () => {
     // 결제 
 
     //결제
-    const initiatePayment = () => {
+    const initiatePayment = async () => {
+
+
 
         const { IMP } = window;
         if(!IMP){
@@ -119,7 +121,7 @@ const SaleOrder = () => {
         IMP.init('imp55612646');  // 가맹점 식별코드
         console.log("결제 시작");
 
-        // IMP 객체를 사용하여 결제을 요청
+        
         const paymentData = {
             pg: "html5_inicis", // PG사 (예: html5_inicis)
             pay_method: "card", // 결제 방식
@@ -134,42 +136,70 @@ const SaleOrder = () => {
             
         };
 
-        const saleData={
-            artworkId: artworkId,
-            artworkQuantity : 1,
-            frameId : frameId,
-            frameQuantity : 1,
+        const requestData = {
+            name : orderData.title, // 상품명
+            buyerName: buyerInfo.name, // 구매자 이름
+            buyerEmail: buyerInfo.email, // 구매자 이메일
+            amount: calculateTotalPrice(), // 결제 금액  calculateTotalPrice()
+            buyerTel: buyerInfo.contact, // 구매자 연락처
+            buyerAddr: userInfo.address, // 구매자 주소
         }
-        //결제
-        IMP.request_pay(paymentData, (response) => {
-            if (response.success) {
-                // 결제 성공 시 서버로 결제 정보를 전달하여 처리
-                console.log("결제 성공:", response);
+        const saleDatas = saleItems.map(item =>({
+            artworkId:artworkId,
+            frameOptionId: item.selectedOption, 
+            price:item.basePrice,
+            frameprice:item.framePrice,
+            
+        }))
+        
+        try{
+            const checkStock = await axios.post(`${url}/shopOrder/checkStock`,  saleDatas  ,{
+                headers: {
+                    Authorization: token,
 
-                paymentData.impUid= response.imp_uid; //주문번호
-                paymentData.paymentType = response.pay_method.toUpperCase(); //고유번호
-                
-    
-                try{
-                    const response = axios.post(`${url}/shop/payment`, {paymentData, username:user.username, saleData});
-
-                    if (response.status === 200) {
-                        alert("결제가 성공적으로 완료되었습니다!");
-                    } else {
-                        alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
-                        console.error("백엔드 검증 실패:", response.data);
-                    }
-                } catch (error){
-                    console.error("백엔드 검증 요청 중 오류:", error);
-                    alert("결제 검증 중 문제가 발생했습니다.");
                 }
+            });
+            if(checkStock.status===200){
+                console.log("재고 확인 성공");
+                        // // 결제
+                        // IMP.request_pay(paymentData, async (response) => {
+                        //     if (response.success) {
+                        //         // 결제 성공 시 서버로 결제 정보를 전달하여 처리
+                        //         console.log("결제 성공:", response);
+                      
+                    try{
+  
+                        const response = await axios.post(`${url}/shopOrder/payment`, {requestData, username:user.username, saleDatas});
+                        if (response.status === 200) {
+                            alert("결제가 성공적으로 완료되었습니다!");
+                        } else {
+                            alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
+                            console.error("백엔드 검증 실패:", response.data);
+                        }
+                    } catch (error){
+                        console.error("백엔드 검증 요청 중 오류:", error);
+                        alert("결제 검증 중 문제가 발생했습니다.");
+                    }
 
-            } else {
-                alert(`결제 실패: ${response.error_msg}`);
-            }
-        });
+            //     } else {
+            //         alert(`결제 실패: ${response.error_msg}`);
+            //     }
+            // });
+
+
+        } else {
+            console.log("재고 확인 실패");
+       
+           
+        }
+
+        } catch(error){
+ 
+            alert("옵션수량 및 그림 수량이 부족합니다.");
+            console.error("재고 부족",error);
+            
+        }
     };
-
    
 
 

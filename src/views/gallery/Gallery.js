@@ -9,6 +9,7 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import axios from "axios";
 import { url } from "../../config";
+import ShowGallery from "../funding/ShowGallery";
 
 // Type과 Category의 옵션 매핑
   const OPTIONS = {
@@ -102,6 +103,8 @@ import { url } from "../../config";
 
   // Gallery 컴포넌트
   const Gallery = () => {
+    const [isGalleryView, setIsGalleryView] = useState(false); // 갤러리 보기 상태 관리
+
     const user = useAtomValue(userAtom);
     const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
@@ -190,6 +193,10 @@ import { url } from "../../config";
   }, [filters, search, visibleCount]); // 필터, 검색어, visibleCount 변경 시 데이터 가져오기
 
 
+    const galleryImages = artworks.map((artwork) => artwork.imageUrl);
+
+
+
   // 검색 입력 필드 핸들러
   const handleSearchChange = (event) => {
     setSearch(event.target.value); // 검색어 상태 업데이트
@@ -202,29 +209,31 @@ import { url } from "../../config";
   const handleCardClick = (id) => {
     navigate(`/gallery/gallerydetail/${id}`);
   };
+  //
+  // // 갤러리 모드 이미지 데이터 변환
+  // const galleryImages = artworks.map((artwork) => ({
+  // src: artwork.imageUrl,
+  // thumbnail: artwork.imageUrl,
+  // thumbnailWidth: 320,
+  // thumbnailHeight: 213,
+  // caption: artwork.title,
+  // }));
+  //
+  // console.log("Gallery Images:", galleryImages);
+  // console.log("GridGallery Data:", galleryImages);
+  // console.log("Rendering GridGallery:", viewMode === "gallery");
+  //
+  // const lightboxSlides = artworks.map((artwork) => ({
+  // src: artwork.imageUrl,
+  // width: 1600,
+  // height: 1200,
+  // }));
 
-  // 갤러리 모드 이미지 데이터 변환
-  const galleryImages = artworks.map((artwork) => ({
-  src: artwork.imageUrl,
-  thumbnail: artwork.imageUrl,
-  thumbnailWidth: 320,
-  thumbnailHeight: 213,
-  caption: artwork.title,
-  }));
-
-  console.log("Gallery Images:", galleryImages);
-  console.log("GridGallery Data:", galleryImages);
-  console.log("Rendering GridGallery:", viewMode === "gallery");
-
-  const lightboxSlides = artworks.map((artwork) => ({
-  src: artwork.imageUrl,
-  width: 1600,
-  height: 1200,
-  }));
 
 
-  
-   //관리자 작품 블랙리스트 체크박스
+
+
+    //관리자 작품 블랙리스트 체크박스
    const handleCheckboxChange = (artworkId, isChecked) => {
       axios.post(`${url}/updateArtworkStatus`,{
           artworkId,
@@ -256,33 +265,51 @@ import { url } from "../../config";
           <div className={styles.headerTop}>
             <h1 className={styles.title}>온라인 갤러리</h1>
             <div className={styles.viewButtons}>
+              {/*<button*/}
+              {/*  className={`${styles.btn} ${*/}
+              {/*    viewMode === "gallery" ? styles.btnActive : ""*/}
+              {/*  }`}*/}
+              {/*  onClick={() => setViewMode("gallery")}*/}
+              {/*>*/}
+              {/*  갤러리로 보기*/}
+              {/*</button>*/}
               <button
-                className={`${styles.btn} ${
-                  viewMode === "gallery" ? styles.btnActive : ""
-                }`}
-                onClick={() => setViewMode("gallery")}
+                  className={`${styles.btn} ${
+                      viewMode === "gallery" ? styles.btnActive : ""
+                  }`}
+                  onClick={() => setIsGalleryView(true)}
               >
                 갤러리로 보기
               </button>
+
+              {/* 갤러리 보기 */}
+              {/* 갤러리 보기 */}
+              {isGalleryView && (
+                  <ShowGallery
+                      images={galleryImages}
+                      onClose={() => setIsGalleryView(false)} // 닫기 버튼 핸들링
+                  />
+              )}
+
               <button
-                className={`${styles.btn} ${
-                  viewMode === "list" ? styles.btnActive : ""
-                }`}
-                onClick={() => setViewMode("list")}
+                  className={`${styles.btn} ${
+                      viewMode === "list" ? styles.btnActive : ""
+                  }`}
+                  onClick={() => setViewMode("list")}
               >
                 리스트로 보기
               </button>
             </div>
           </div>
-          <hr className={styles.separator} />
+          <hr className={styles.separator}/>
         </header>
 
         <div className={styles.filters}>
           <div className={styles.filters}>
-          <Dropdown
-            label="카테고리"
-            options={Object.keys(OPTIONS)}
-            onChange={handleCategoryChange}
+            <Dropdown
+                label="카테고리"
+                options={Object.keys(OPTIONS)}
+                onChange={handleCategoryChange}
             selectedValue={filters.category}
           />
           <Dropdown
@@ -311,25 +338,25 @@ import { url } from "../../config";
           </div>
         </div>
 
-        {/* 갤러리 모드 */}
-        {viewMode === "gallery" && (
-          <div className={styles.galleryView}>
-            <GridGallery
-              images={galleryImages}
-              onClick={(index) => {
-                console.log("Image Clicked at Index:", index);
-                setLightboxIndex(index);
-              }}
-              enableImageSelection={false}
-            />
-            <Lightbox
-              slides={lightboxSlides}
-              open={lightboxIndex >= 0}
-              index={lightboxIndex}
-              close={() => setLightboxIndex(-1)}
-            />
-          </div>
-        )}
+        {/*/!* 갤러리 모드 *!/*/}
+        {/*{viewMode === "gallery" && (*/}
+        {/*  <div className={styles.galleryView}>*/}
+        {/*    <GridGallery*/}
+        {/*      images={galleryImages}*/}
+        {/*      onClick={(index) => {*/}
+        {/*        console.log("Image Clicked at Index:", index);*/}
+        {/*        setLightboxIndex(index);*/}
+        {/*      }}*/}
+        {/*      enableImageSelection={false}*/}
+        {/*    />*/}
+        {/*    <Lightbox*/}
+        {/*      slides={lightboxSlides}*/}
+        {/*      open={lightboxIndex >= 0}*/}
+        {/*      index={lightboxIndex}*/}
+        {/*      close={() => setLightboxIndex(-1)}*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*)}*/}
 
 {viewMode === "list" && (
   <div className={styles.listgalleryGrid}>
