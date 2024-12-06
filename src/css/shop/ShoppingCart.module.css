@@ -183,6 +183,17 @@
     font-weight: bold;
     justify-content: flex-end; /* 버튼을 오른쪽 끝으로 배치 */
   }
+
+  .priceMiddleButton:disabled {
+    border:none;
+    background-color: #bbbbbb;
+    color: white;
+  }
+
+  .priceMiddleButton:disabled:hover {
+    cursor: default;
+}
+
   .optionContent  {
     white-space: nowrap; /* 줄바꿈 방지 */
     overflow: hidden;    /* 넘친 부분 숨기기 */

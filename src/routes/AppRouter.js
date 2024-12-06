@@ -109,7 +109,7 @@ function AppRouter() {
             <Route path="/shop/saleOrderResult" element={<SaleOrderResult />} />
             <Route path="/shop/shoppingCart" element={<ShoppingCart />} />
 
-            <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
+            <Route path="/shop/shoppingCartOrder" element={<ShoppingCartOrder />} />
 
 
             <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />

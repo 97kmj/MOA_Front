@@ -59,7 +59,10 @@ const SaleDetail = () => {
                 if(res.headers.authorization!==null && res.headers.authorization!==undefined) { //갱신받은 토큰이 있을 시
                     setToken(res.headers.authorization)
                 }
-                alert("장바구니에 상품이 등록되었습니다.")
+                const confirmResult = window.confirm("장바구니에 상품이 등록되었습니다. 장바구니로 이동하시겠습니까?")
+                if (confirmResult) {
+                    navigate('/shop/shoppingCart')
+                } 
             })
             .catch(err=>{
                 console.log(err);
