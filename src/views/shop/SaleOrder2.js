@@ -5,7 +5,7 @@ import { useAtomValue, useAtom } from 'jotai/react';
 import { tokenAtom, userAtom } from "../../atoms";
 import { url } from "../../config";
 import axios from 'axios';
-import { useParams,useLocation } from 'react-router';
+import { useParams,useLocation,useNavigate } from 'react-router';
 
 
 const SaleOrder = () => {
@@ -18,6 +18,7 @@ const SaleOrder = () => {
     const [useMemberInfo, setUseMemberInfo] = useState(false);
     const [userInfo, setUserInfo] = useState();
     const [saleFrameInfo,setSaleFrameInfo] = useState([]);
+    const navigate = useNavigate();
 
     const saleItems = location.state?.saleItems || [];
 
@@ -61,6 +62,9 @@ const SaleOrder = () => {
         email: '',
         address: '',
     });
+
+
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -136,6 +140,7 @@ const SaleOrder = () => {
             
         };
 
+
         const requestData = {
             name : orderData.title, // 상품명
             buyerName: buyerInfo.name, // 구매자 이름
@@ -151,12 +156,17 @@ const SaleOrder = () => {
             frameprice:item.framePrice,
             
         }))
+
+        const goResult =()=>{
+            navigate(`/shop/saleOrderResult`, { state: { requestData} });
+            
+            console.log("결제 완료창으로 가자", requestData);
+        }
         
         try{
             const checkStock = await axios.post(`${url}/shopOrder/checkStock`,  saleDatas  ,{
                 headers: {
                     Authorization: token,
-
                 }
             });
             if(checkStock.status===200){
@@ -169,9 +179,15 @@ const SaleOrder = () => {
                       
                     try{
   
-                        const response = await axios.post(`${url}/shopOrder/payment`, {requestData, username:user.username, saleDatas});
+                        const response = await axios.post(`${url}/shopOrder/payment`, {requestData, username:user.username, saleDatas},{
+                            headers: {
+                                Authorization: token,
+                            }
+                        });
                         if (response.status === 200) {
                             alert("결제가 성공적으로 완료되었습니다!");
+                            goResult(requestData, user.username);
+                            
                         } else {
                             alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
                             console.error("백엔드 검증 실패:", response.data);
@@ -187,16 +203,15 @@ const SaleOrder = () => {
             // });
 
 
-        } else {
-            console.log("재고 확인 실패");
-       
-           
-        }
+
+            } else {
+                console.log("재고 확인 실패");
+            }
 
         } catch(error){
  
             alert("옵션수량 및 그림 수량이 부족합니다.");
-            console.error("재고 부족",error);
+            console.log("재고 부족",error);
             
         }
     };

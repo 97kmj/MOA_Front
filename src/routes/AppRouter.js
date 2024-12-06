@@ -52,10 +52,11 @@ import ArtistEdit from "../views/mypage/artist/ArtistEdit";
 import Message from "../views/mypage/Message";
 import MyQnA from "../views/mypage/MyQnA";
 import ShoppingCartOrder from "../views/shop/ShoppingCartOrder";
-
 import SaleDetail2 from "../views/shop/SaleDetail2";
 import SaleOrder2 from "../views/shop/SaleOrder2";
 
+import MyOrderList from "../views/mypage/shop/MyOrderList";
+import MySaleList from "../views/mypage/shop/MySaleList";
 
 function AppRouter() {
     return (
@@ -104,9 +105,10 @@ function AppRouter() {
             <Route path="/shop/saleDetail/:artworkId" element={<SaleDetail2 />} />
             <Route path="/shop/saleList" element={<SaleList />} />
             <Route path="/shop/saleOrder/:artworkId" element={<SaleOrder2 />} />
-            <Route path="/shop/saleOrderResult/:frameId" element={<SaleOrderResult />} />
+            <Route path="/shop/saleOrderResult" element={<SaleOrderResult />} />
             <Route path="/shop/shoppingCart/:artworkId" element={<ShoppingCart />} />
             <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
+
 
             <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />
 
@@ -121,6 +123,9 @@ function AppRouter() {
             <Route path="/mypage/artistEdit" element={<ArtistEdit/>}/>
             <Route path="/mypage/message" element={<Message/>}/>
             <Route path="/mypage/qna" element={<MyQnA/>}/>
+            <Route path="/mypage/shop/MyOrderList" element={<MyOrderList/>}/>
+            <Route path="/mypage/shop/MySaleList" element={<MySaleList/>}/>
+
             {/* 관리자 */}
             <Route path="/admin/notice" element={<AdminNotice/>} />
             <Route path="/admin/qna" element={<AdminQnA/>} />
