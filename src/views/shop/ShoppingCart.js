@@ -6,13 +6,13 @@ import axios from 'axios'
 import { url } from "../../config";
 import { userAtom,tokenAtom } from '../../atoms';
 import { useAtomValue,useAtom } from 'jotai';
-
+import { useNavigate } from 'react-router';
 
 const ShoppingCart = () => {
   const user = useAtomValue(userAtom);
   const [token,setToken] = useAtom(tokenAtom);
   const [cartItems,setCartItems] = useState([])
-
+  const navigate = useNavigate();
   useEffect(()=>{
     user && axios.get(`${url}/cart?username=${user.username}`,{headers:{Authorization:token}})
     .then(res=>{
@@ -134,7 +134,18 @@ const ShoppingCart = () => {
 
   const { totalPrice, totalShipping, totalAmount } = calculateTotal();
 
-  
+  //카트에서 선택한 상품 주문하기 
+  const handleOrder = () => {
+    const selectedCartItem = cartItems.filter((item) => selectedItems.includes(item.cartId))
+    const totalPriceData = calculateTotal();
+
+    navigate(`/shop/shoppingCartOrder`, {
+      state : {
+      cartItems : selectedCartItem, 
+      totalData : totalPriceData
+      }
+    })
+  }
 
   return (
     <>
@@ -271,7 +282,7 @@ const ShoppingCart = () => {
                 className={styles.priceMiddleButton}
                 color="primary" 
                 disabled={selectedItems.length === 0}
-                onClick={() => alert('주문이 완료되었습니다!')}
+                onClick={handleOrder}
               >
                 주문하기
               </Button>

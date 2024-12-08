@@ -28,11 +28,11 @@
   }
   
   .cartTable tr:first-child {
-    border-top: 3px solid #b39c59; /* 첫 번째 상품 위에 5px 줄 추가 */
+    border-top: 2px solid #b39c59; /* 첫 번째 상품 위에 5px 줄 추가 */
   }
   
   .cartTable tr:last-child {
-    border-bottom: 3px solid #b39c59; /* 마지막 상품 아래에 5px 줄 추가 */
+    border-bottom: 2px solid #b39c59; /* 마지막 상품 아래에 5px 줄 추가 */
   }
   
   /* 각 열의 너비를 설정 */
