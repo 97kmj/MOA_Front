@@ -1,0 +1,76 @@
+.notificationBox {
+    position: relative;
+    cursor: pointer;
+}
+
+.iconContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.notificationCount {
+    position: absolute;
+    top: -15px;
+    right: 2px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.countBadge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notificationList {
+    position: absolute;
+    top: 30px;
+    /* right: 5px; */
+    width: 525%;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 8px;
+    list-style: none;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.notificationItem {
+padding: 5px 10px;
+cursor: pointer;
+border-bottom: 1px solid #f0f0f0;
+}
+
+.notificationItem:last-child {
+border-bottom: none;
+}
+
+.notificationItem:hover {
+background: #f9f9f9;
+}
+
+.emptyList {
+text-align: center;
+color: gray;
+padding: 10px;
+}

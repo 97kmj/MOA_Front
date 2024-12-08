@@ -2,6 +2,9 @@ import { useAtom,useAtomValue, useSetAtom } from "jotai/react";
 import { tokenAtom, userAtom, initUser} from "../atoms";
 import styles from '../css/Header.module.css';
 import {Link, NavLink, useNavigate} from "react-router-dom";
+import Notification from "./notification/Notification";
+import axios from "axios";
+import {url} from "../config";
 
 
 const Header = () => {
@@ -12,8 +15,23 @@ const Header = () => {
         setUser({...initUser});
         setToken('');
         sessionStorage.removeItem('accessToken'); // 세션 스토리지의 토큰 삭제
+        deleteSseConnection();
         navigate("/");
     }
+
+    const deleteSseConnection = async () => {
+        try {
+            const username = user?.username;
+            if (username) {
+                await axios.delete(`${url}/api/sse/unsubscribe/${username}`);
+                console.log("SSE connection deleted for username:", username);
+            }
+        } catch (error) {
+            console.error("Error deleting SSE connection:", error);
+        }
+
+    }
+
     return(
         <>
         <div className={styles.header}>
@@ -57,7 +75,10 @@ const Header = () => {
                             user.role!=='ADMIN' &&<>
                             <Link to="/shop/shoppingCart"><img src="/img/cartIcon.png"/></Link>
                             <Link to="/mypage/message"><img src="/img/messageIcon.png"/></Link>
-                            <Link to=""><img src="/img/notificationIcon.png"/></Link>
+                            {/*<Link to=""><img src="/img/notificationIcon.png"/></Link>*/}
+                                <Notification username={user.username}>
+                                    <img src="/img/notificationIcon.png" alt="Notifications" />
+                                </Notification>
                             </>
                         }
                         <Link to="/mypage/infoEdit" className={styles.login}>{user.name}</Link>&nbsp;&nbsp;&nbsp;
