@@ -4,11 +4,11 @@ import Header from "../Header";
 import MasonryGallery from "./MasonryGallery";
 import axios from "axios";
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {url} from "../../config";
 import {useAtom} from "jotai/react";
 import {userAtom} from "../../atoms";
-import { motion, LayoutGroup } from "framer-motion";
+import {motion, LayoutGroup} from "framer-motion";
 import ShowGallery from "./ShowGallery";
+import {url} from "../../config";
 
 const FundingDetail = () => {
     const {fundingId} = useParams();
@@ -26,7 +26,6 @@ const FundingDetail = () => {
 
     const [artworkImages, setArtworkImages] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-
 
 
     useEffect(() => {
@@ -151,9 +150,8 @@ const FundingDetail = () => {
 
 
     const goArtist = (username) => {
-        navigate('/artistDetail', { state: { username: username } });
+        navigate('/artistDetail', {state: {artistId: username}});
     };
-
 
 
     if (isLoading) {
@@ -227,7 +225,7 @@ const FundingDetail = () => {
                                     {/*<button className={styles.artistInfoButton}>작가 정보</button>*/}
                                     <button
                                         className={styles.artistInfoButton}
-                                        onClick={() => goArtist(fundingDetail.fundingUserName)}
+                                        onClick={() => goArtist(fundingDetail.username)}
                                     >
                                         작가 정보
                                     </button>
@@ -280,7 +278,7 @@ const FundingDetail = () => {
                                 className={`${styles.fundButton} ${styles.primaryButton}`}
                                 onClick={fundButtonToMoveRewardSection}
                             >
-                            펀딩하기
+                                펀딩하기
                             </button>
                         </div>
                     </div>
@@ -301,7 +299,8 @@ const FundingDetail = () => {
                                 작품 모아보기
                             </button>
                             <div className={styles.projectDetails}>
-                                <p>{fundingDetail.introduction}</p>
+                                {/*<p>{fundingDetail.introduction}</p>*/}
+                                <div dangerouslySetInnerHTML={{__html: fundingDetail.introduction}}/>
                                 <MasonryGallery
                                     images={fundingDetail.images.map((image) => image.imageUrl)}
                                 />
@@ -357,27 +356,27 @@ const FundingDetail = () => {
                             {selectedRewards.length > 0 && (
                                 <div className={styles.totalSupport}>
                                     {new Date(fundingDetail.endDate) >= new Date().setHours(0, 0, 0, 0) ? (
-                                    <button
-                                        className={styles.rewardButton}
-                                        onClick={() => {
-                                            if (!user || !user.username) {
-                                                alert("로그인이 필요합니다.");
-                                                return;
+                                        <button
+                                            className={styles.rewardButton}
+                                            onClick={() => {
+                                                if (!user || !user.username) {
+                                                    alert("로그인이 필요합니다.");
+                                                    return;
+                                                }
+                                                goToContribute(fundingDetail.fundingId)
                                             }
-                                            goToContribute(fundingDetail.fundingId)
-                                        }
-                                        }
+                                            }
 
-                                    >
-                                        총{" "}
-                                        {selectedRewards
-                                            .reduce(
-                                                (total, reward) => total + reward.rewardPrice * reward.rewardQuantity,
-                                                0
-                                            )
-                                            .toLocaleString()}
-                                        원 후원하기
-                                    </button>
+                                        >
+                                            총{" "}
+                                            {selectedRewards
+                                                .reduce(
+                                                    (total, reward) => total + reward.rewardPrice * reward.rewardQuantity,
+                                                    0
+                                                )
+                                                .toLocaleString()}
+                                            원 후원하기
+                                        </button>
                                     ) : (
                                         <button className={styles.rewardButton} disabled>
                                             펀딩이 종료되었습니다.

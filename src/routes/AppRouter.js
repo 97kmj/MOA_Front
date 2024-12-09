@@ -58,6 +58,7 @@ import SaleOrder2 from "../views/shop/SaleOrder2";
 import MyOrderList from "../views/mypage/shop/MyOrderList";
 import MySaleList from "../views/mypage/shop/MySaleList";
 import {SSEProvider} from "../views/notification/sse/SSEProvider";
+import FundingContributionThankYou from "../views/funding/FundingContributionThankYou";
 
 function AppRouter() {
     return (
@@ -91,6 +92,7 @@ function AppRouter() {
             <Route path="/fundings" element={<FundingList />} />
             <Route path="/fundings/:fundingId" element={<FundingDetail />} />
             <Route path="/fundings/contributions" element={<FundingContribute />} />
+            <Route path="/fundings/conributions/thankYou" element={<FundingContributionThankYou />} />
 
 
             <Route path="/galleryExam" element={<GalleryExam />} />

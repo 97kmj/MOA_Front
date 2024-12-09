@@ -4,7 +4,7 @@ import { tokenAtom } from "../../atoms";
 import { useAtomValue } from "jotai";
 import axios from "axios";
 import { url } from "../../config";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 const AdminFunding = () => {
     const token = useAtomValue(tokenAtom);
     const [applyList, setApplyList] = useState([]);
@@ -127,21 +127,30 @@ const AdminFunding = () => {
                 <h4>펀딩 신청 정보</h4><br/>
                 <div style={{display:"flex",marginBottom:"20px",justifyContent:"space-between"}}>
                     <div className={styles.detailLeftBox}>
-                    <div className={styles.optionText}>목표금액</div>
-                    <span className={styles.gold}>{selectedFunding?.goalAmount ? selectedFunding.goalAmount.toLocaleString(): 0}</span>원
-                    
-                    <div className={styles.optionText}>펀딩 기간</div>
-                    <table className={styles.fundingPeriod}>
-                        <tr><th>시작일</th><th>종료일</th></tr>
-                        <tr><td>{selectedFunding?.startDate ? new Date(selectedFunding.startDate).toISOString().slice(0, 10) : " "}&nbsp;</td><td>{selectedFunding?.endDate ? new Date(selectedFunding.endDate).toISOString().slice(0, 10) : " "}&nbsp;</td></tr>
-                    </table>
-                    <div className={styles.optionText}>펀딩 소개</div>
-                        <textarea className={styles.fundingDescription} value={selectedFunding?.introduction}></textarea>
-                   
-                    
+                        <div className={styles.optionText}>목표금액</div>
+                        <span
+                            className={styles.gold}>{selectedFunding?.goalAmount ? selectedFunding.goalAmount.toLocaleString() : 0}</span>원
+
+                        <div className={styles.optionText}>펀딩 기간</div>
+                        <table className={styles.fundingPeriod}>
+                            <tr>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                            </tr>
+                            <tr>
+                                <td>{selectedFunding?.startDate ? new Date(selectedFunding.startDate).toISOString().slice(0, 10) : " "}&nbsp;</td>
+                                <td>{selectedFunding?.endDate ? new Date(selectedFunding.endDate).toISOString().slice(0, 10) : " "}&nbsp;</td>
+                            </tr>
+                        </table>
+                        <div className={styles.optionText}>펀딩 소개</div>
+
+                        {/*<textarea className={styles.fundingDescription}*/}
+                        {/*          value={selectedFunding?.introduction}></textarea>*/}
+                        <div  className={styles.fundingDescription} dangerouslySetInnerHTML={{__html: selectedFunding?.introduction}}/>
+
                     </div>
                     <div className={styles.detailRightBox}>
-                        <div className={styles.optionText}>리워드 목록</div>
+                    <div className={styles.optionText}>리워드 목록</div>
                         <div className={styles.rewardListContainer}>
                             <table className={styles.rewardList}>
                                 <tr><th>리워드 이름</th><th>설명</th><th>가격</th><th>수량</th><th>수량제한</th></tr>

@@ -4,12 +4,13 @@ import Header from "../Header";
 import axios from "axios";
 import {tokenAtom, userAtom} from "../../atoms";
 import {useAtom} from "jotai/react";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {url} from "../../config";
 import {useAtomValue} from "jotai/index";
 
 const FundingContribute = () => {
     const token = useAtomValue(tokenAtom);
+    const navigate = useNavigate();
     const [user] = useAtom(userAtom);
     const location = useLocation();
     const {fundingId, selectedRewards, fundingDetail} = location.state || {};//fundingDetail에서 받아온 데이터
@@ -132,6 +133,7 @@ const FundingContribute = () => {
 
                             if (response.status === 200) {
                                 alert("결제가 성공적으로 완료되었습니다!");
+                                navigate("/fundings/conributions/thankYou");
                             } else {
                                 alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
                                 console.error("백엔드 검증 실패:", response.data);
@@ -179,9 +181,6 @@ const FundingContribute = () => {
         }));
     };
 
-    // const goToComplete =  ()=>{
-    //     null;
-    // }
 
 
     return (
