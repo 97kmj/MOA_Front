@@ -25,7 +25,6 @@ const ShoppingCart = () => {
     .catch(err=>{
       console.log(err);
     })
-
   },[])
  
   const [selectedItems, setSelectedItems] = useState([]); //선택된 카트id리스트
