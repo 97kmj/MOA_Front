@@ -193,11 +193,11 @@ const FundingList = () => {
 
                                         {/* 달성률, 목표 금액, 남은 날짜 */}
                                         <span className={styles.fundingListGoalText}>
-                                          {funding.achievementRate || 0}% 달성
+                                          {funding.achievementRate.toLocaleString() || 0}% 달성
                                         </span>
 
                                         <span className={styles.fundingListGoalAmount}>
-                                          {funding.goalAmount.toLocaleString()}₩
+                                          {funding.goalAmount.toLocaleString()}원
                                         </span>
 
                                         <span className={styles.fundingListLeftDays}>

@@ -247,7 +247,7 @@ import ShowGallery from "../funding/ShowGallery";
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.headerTop}>
-            <h1 className={styles.title}>온라인 갤러리</h1>
+            <h3 >온라인 갤러리</h3>
             <div className={styles.viewButtons}>
 
               <button

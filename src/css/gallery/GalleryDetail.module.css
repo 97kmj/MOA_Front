@@ -14,8 +14,6 @@
 
 }
 .galleryDetailContainer {
-  padding: 20px;
-  font-family: Arial, sans-serif;
   text-align: center; /* 기본 중앙 정렬 */
   margin: 50px auto;
   width: 1200px;
@@ -30,7 +28,7 @@
   margin-bottom: 10px;
   text-align: left; /* 타이틀 왼쪽 정렬 */
   margin-left: calc(10%); /* 금색 줄과 같은 위치에 맞춤 */
-  width: 80%; /* 금색 줄 너비와 일치 */
+  width: 100%; /* 금색 줄 너비와 일치 */
 }
 
 .titleSeparator {
@@ -38,7 +36,7 @@
   height: 2px;
   background-color: #b39c59;
   margin: 10px auto 20px;
-  width: 850px; 
+  width: 100%; 
 }
 
 .galleryDisplayArea {
@@ -48,6 +46,7 @@
 }
 
 .smallImageArea {
+  width: 1000px;
   display: flex;
   align-items: flex-start; /* 이미지와 텍스트 위쪽 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
@@ -68,7 +67,7 @@
   text-align: left; /* 텍스트 좌측 정렬 */
   font-size: 18px; /* 기본 텍스트 크기 증가 */
   line-height: 1.8; /* 줄 간격 조정 */
-  max-width: 400px; /* 텍스트 최대 너비 제한 */
+  width: 400px; /* 텍스트 최대 너비 제한 */
 }
 
 .imageDetails p {
@@ -76,8 +75,25 @@
   justify-content: space-between; /* 텍스트와 값 사이 간격 */
   gap: 10px; /* 라벨과 값 간격 조정 */
 }
-.imageDetails strong {
-  margin-right: 200px; /* ':' 뒤에 간격 추가 */
+
+
+
+.artistMoveButton {
+  margin-left: 30px;
+  width: 95px;
+  height: 20px;
+  font-size: 15px;
+  border: 1px solid #B39C59;
+  background-color: #B39C59;
+  color: white;
+  border-radius: 50px;
+  text-align: center;
+  float: right;
+}
+
+.artistMoveButton:hover {
+
+  cursor: pointer;
 }
 
 .imageTitle {
@@ -109,7 +125,7 @@
   height: 2px;
   background-color: #b39c59;
   margin: 20px auto;
-  width: 850px;
+  width: 1000px;
 }
 
 .largeImageArea {
