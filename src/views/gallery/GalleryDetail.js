@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { tokenAtom } from "../../atoms";
-import { Link } from 'react-router-dom';
 import styles from "../../css/gallery/GalleryDetail.module.css";
 import Header from "../Header";
+import { url } from "../../config";
+
 
 function GalleryDetail() {
   const { id } = useParams(); // URL에서 id 가져오기
   const [data, setData] = useState(null); // 작품 데이터를 저장
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
- 
+  const navigate = useNavigate();
   // const tokenData = JSON.parse(useAtomValue(tokenAtom));
   // const token = tokenData.access_token; 
   const token = useAtomValue(tokenAtom); // tokenAtom 값을 그대로 사용
@@ -25,7 +26,7 @@ function GalleryDetail() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:8080/api/like/${id}`, {
+      const response = await fetch(`${url}/api/like/${id}`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ function GalleryDetail() {
     const fetchData = async () => {
       try {
         // Fetch artwork details
-        const artworkResponse = await fetch(`http://localhost:8080/api/artworks/${id}`, {
+        const artworkResponse = await fetch(`${url}/api/artworks/${id}`, {
           headers: token ? { Authorization: token } : {}, // 비로그인 상태에서도 요청 가능
         });
         if (!artworkResponse.ok) throw new Error("Failed to fetch artwork data");
@@ -64,7 +65,7 @@ function GalleryDetail() {
   
         // Fetch like status if token is available
         if (token) {
-          const likeResponse = await fetch(`http://localhost:8080/api/like/${id}`, {
+          const likeResponse = await fetch(`${url}/api/like/${id}`, {
             headers: { Authorization: token },
           });
           if (likeResponse.ok) {
@@ -110,6 +111,12 @@ function GalleryDetail() {
     );
   }
 
+
+  const goArtist = (artistId) => {
+    navigate('/artistDetail', {state : {artistId : artistId}})
+  }
+
+
   return (
     <>
       <Header />
@@ -122,8 +129,9 @@ function GalleryDetail() {
             <div className={styles.imageDetails}>
               <h2 className={styles.imageTitle}>{data.title}</h2>
               <p>
-              <strong>ARTIST</strong>{' '}
-              <Link to={`/artistDetail/${data.artist.id}`}>{data.artist.name}</Link>
+              <strong>ARTIST</strong><span >
+              {data.artist.name} <td className={styles.artistMoveButton} onClick={()=> goArtist(data.artist.username)}>작가상세</td>
+              </span>
               </p>              
               <p><strong>SIZE</strong> {data.width} x {data.height} cm</p>
               <p><strong>TYPE</strong> {data.type.typeName}</p>

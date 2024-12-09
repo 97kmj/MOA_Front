@@ -51,7 +51,11 @@ const Main = () => {
                     <span>펀딩으로 신진작가의 성장을 함께 지원하세요.</span>
                 </div>
             </div>
+            <div className={styles.subject}>
+            <img src='https://img.icons8.com/?size=40&id=ILYxpWvfwV7u&format=png&color=000000'/>    
             <h3>작품</h3>          
+            </div>
+            
             <hr className={styles.bar}></hr>
             <br/>
             <div className = {styles.mainartwork}>
@@ -74,9 +78,11 @@ const Main = () => {
             <div className={styles.buttonDiv}>
                 <button className={styles.goldbutton} onClick={()=>navigate("/gallery/gallery")}>Gallery</button>
                 <button className={styles.goldbutton} onClick={()=>navigate("/shop/saleList")}>Shop</button>
-            </div><br/>
-
-            <h3>진행중인 펀딩</h3>
+            </div>
+            <div className={styles.subject}>
+                <img src='https://img.icons8.com/?size=40&id=KimA28RaNE28&format=png&color=000000'/>
+                <h3>진행중인 펀딩</h3>
+            </div>
             <hr className={styles.bar}></hr>
 
             <br/>
@@ -97,9 +103,9 @@ const Main = () => {
                                 <div className={styles.fundingInfo}>        
                                     <div className={styles.fundingUsername}>{funding.fundingUserName}</div>
                                     <div className={styles.fundingTitle}>{funding.title}</div>
-                                    <div className={styles.fundingAmount}><span className={styles.gold}>{goalRatio}% 달성</span>&nbsp;&nbsp;&nbsp;{funding.currentAmount.toLocaleString()}원<span style={{float:"right"}}>{diffDate}일 남음</span></div>
+                                    <div className={styles.fundingAmount}><div><span className={styles.gold}>{goalRatio.toLocaleString()}% 달성</span>&nbsp;{funding.currentAmount.toLocaleString()}원</div><span className={styles.diffDate}>{diffDate}일 남음</span></div>
                                     <div className={styles.progressbar}>
-                                        <span style={{width:`${goalRatio}%`}}></span>
+                                        <span style={{width:`${Math.min(goalRatio,100)}%`}}></span>
                                     </div>
                                 </div>
                             </article>

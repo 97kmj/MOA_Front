@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/user/Join.module.css";
+import Header from "../Header";
 
 function Join() {
     const navigate = useNavigate();
@@ -231,6 +232,8 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
     };
 
     return (
+        <>
+        <Header/>
         <div className={styles.joinContainer}>
             <h1 className={styles.joinTitle}>MOA에 오신 것을 환영합니다</h1>
             <form onSubmit={handleSubmit}>
@@ -416,6 +419,7 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
                 </button>
             </form>
         </div>
+        </>
     );
 }
 

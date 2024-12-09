@@ -252,7 +252,7 @@ const SaleList = () => {
                                 <div className={styles.info}>
                                     <p className={styles.title}>{item.title}</p>
                                     <p className={styles.artistName}>{item.artistName}</p>
-                                    <p className={styles.price}>{item.price}</p>
+                                    <p className={styles.price}>{item.price.toLocaleString()}원</p>
                                     <p className={styles.category}>{item.subjectName}&nbsp;&nbsp;{item.typeName}</p>
                                 </div>
                             {

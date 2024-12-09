@@ -107,13 +107,18 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding-top: 3%;
-    padding-bottom: 3%;
+    background-color: #f8f9fa; /* 기본 배경색 */
+    transition: background-color 0.3s ease; /* 배경색 변경 애니메이션 */
+}
+.imageWrapper:hover {
+    cursor : pointer;
+    background-color: #dddddd; /* 마우스 올릴 때 진한 배경색 */
+
 }
 
 .image {
     max-width: 95%;
-    max-height: 100%;
+    max-height: 90%;
     object-fit: contain;
     box-shadow: 3px 3px 3px #666;
 }
