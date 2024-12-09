@@ -12,7 +12,7 @@ import { tokenAtom } from "../../../atoms";
 
 function MyContributedFunding() {
     const user = useAtomValue(userAtom);
-    const [activeTab, setActiveTab] = useState('all'); // Default to "전체 보기"
+    const [activeTab, setActiveTab] = useState(null); // Default to "전체 보기"
     const [currentPage, setCurrentPage] = useState(0); // Pagination state
     const [saleData, setSaleData] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
@@ -23,7 +23,7 @@ function MyContributedFunding() {
     useEffect(() => {
         getSaleInfo(activeTab,currentPage);
 
-    },[currentPage])
+    },[currentPage,user.username])
 
     const getSaleInfo = (tab, currentPage) => {
         console.log(tab)
