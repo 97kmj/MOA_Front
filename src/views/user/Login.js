@@ -5,6 +5,7 @@ import { tokenAtom, userAtom } from '../../atoms';
 import styles from '../../css/user/Login.module.css';
 import {url} from '../../config';
 import axios from 'axios';
+import Header from "../Header";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,9 +45,11 @@ const Login = () => {
   };
  
   return (
+      <>
+      <Header/>
     <div className={styles.loginContainer}>
       <div className={styles.loginSideText}>
-        <h2>Museum Of Art<br />Dreams Come True</h2>
+        {/*<h2>Museum Of Art<br />Dreams Come True</h2>*/}
       </div>
       <div className={styles.loginBox}>
         <h1 className={styles.loginTitle}>WELCOME TO THE <br /> MOA</h1>
@@ -87,6 +90,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+      </>
   );
 };
 export default Login;
