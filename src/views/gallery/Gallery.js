@@ -210,25 +210,6 @@ import ShowGallery from "../funding/ShowGallery";
   const handleCardClick = (id) => {
     navigate(`/gallery/gallerydetail/${id}`);
   };
-  //
-  // // 갤러리 모드 이미지 데이터 변환
-  // const galleryImages = artworks.map((artwork) => ({
-  // src: artwork.imageUrl,
-  // thumbnail: artwork.imageUrl,
-  // thumbnailWidth: 320,
-  // thumbnailHeight: 213,
-  // caption: artwork.title,
-  // }));
-  //
-  // console.log("Gallery Images:", galleryImages);
-  // console.log("GridGallery Data:", galleryImages);
-  // console.log("Rendering GridGallery:", viewMode === "gallery");
-  //
-  // const lightboxSlides = artworks.map((artwork) => ({
-  // src: artwork.imageUrl,
-  // width: 1600,
-  // height: 1200,
-  // }));
 
 
 
@@ -268,14 +249,7 @@ import ShowGallery from "../funding/ShowGallery";
           <div className={styles.headerTop}>
             <h1 className={styles.title}>온라인 갤러리</h1>
             <div className={styles.viewButtons}>
-              {/*<button*/}
-              {/*  className={`${styles.btn} ${*/}
-              {/*    viewMode === "gallery" ? styles.btnActive : ""*/}
-              {/*  }`}*/}
-              {/*  onClick={() => setViewMode("gallery")}*/}
-              {/*>*/}
-              {/*  갤러리로 보기*/}
-              {/*</button>*/}
+
               <button
                   className={`${styles.btn} ${
                       viewMode === "gallery" ? styles.btnActive : ""

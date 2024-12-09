@@ -3,7 +3,7 @@ import styles from "../../css/funding/FundingDetail.module.css";
 import Header from "../Header";
 import MasonryGallery from "./MasonryGallery";
 import axios from "axios";
-import {useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {url} from "../../config";
 import {useAtom} from "jotai/react";
 import {userAtom} from "../../atoms";
@@ -110,6 +110,12 @@ const FundingDetail = () => {
                         return reward; // 변경하지 않고 그대로 반환
                     }
 
+
+                    if (newQuantity > reward.stock) {
+                        alert(`이 리워드는 최대 ${reward.stock}개까지 구매 가능합니다.`);
+                        return reward; // 변경하지 않고 그대로 반환
+                    }
+
                     return {...reward, rewardQuantity: Math.max(1, newQuantity)};
                 }
                 return reward;
@@ -134,17 +140,18 @@ const FundingDetail = () => {
     };
 
 
-
     if (!artworkImages.length) {
         return <p>Loading artworks...</p>;
     }
 
-
-
-
     const openArtworkView = (images) => {
         setArtworkImages(images); // 작품 이미지 설정
         setIsArtworkView(true); // 모드 활성화
+    };
+
+
+    const goArtist = (username) => {
+        navigate('/artistDetail', { state: { username: username } });
     };
 
 
@@ -188,7 +195,7 @@ const FundingDetail = () => {
                 <div className={styles.fundingDetail}>
                     <div className={styles.breadcrumb}>
                         펀딩 &gt; 펀딩상세
-                        <button className={styles.notifyButton}>알림받기</button>
+                        {/*<button className={styles.notifyButton}>알림받기</button>*/}
                     </div>
                     <hr className={styles.titleLine}/>
 
@@ -217,7 +224,13 @@ const FundingDetail = () => {
                                 <span className={styles.artistInfo}>
                                     <strong>작가:</strong> {fundingDetail.fundingUserName}
                                 </span>
-                                    <button className={styles.artistInfoButton}>작가 정보</button>
+                                    {/*<button className={styles.artistInfoButton}>작가 정보</button>*/}
+                                    <button
+                                        className={styles.artistInfoButton}
+                                        onClick={() => goArtist(fundingDetail.fundingUserName)}
+                                    >
+                                        작가 정보
+                                    </button>
                                 </div>
 
                                 <hr className={styles.separator}/>
@@ -343,6 +356,7 @@ const FundingDetail = () => {
 
                             {selectedRewards.length > 0 && (
                                 <div className={styles.totalSupport}>
+                                    {new Date(fundingDetail.endDate) >= new Date().setHours(0, 0, 0, 0) ? (
                                     <button
                                         className={styles.rewardButton}
                                         onClick={() => {
@@ -364,6 +378,11 @@ const FundingDetail = () => {
                                             .toLocaleString()}
                                         원 후원하기
                                     </button>
+                                    ) : (
+                                        <button className={styles.rewardButton} disabled>
+                                            펀딩이 종료되었습니다.
+                                        </button>
+                                    )}
                                 </div>
                             )}
 

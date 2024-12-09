@@ -8,6 +8,12 @@
     display: inline-block;
 }
 
+
+.notificationTitle{
+    text-align: center;
+
+}
+
 .notificationCount {
     position: absolute;
     top: -15px;
@@ -44,8 +50,10 @@
     position: absolute;
     top: 30px;
     /* right: 5px; */
-    width: 525%;
-    background: white;
+    width: 711%;
+    color: #b29c59;
+    font-weight: bold;
+    background: #ffffff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 8px;
@@ -66,7 +74,7 @@ border-bottom: none;
 }
 
 .notificationItem:hover {
-background: #f9f9f9;
+background: #ecebeb;
 }
 
 .emptyList {

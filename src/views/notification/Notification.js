@@ -8,7 +8,6 @@ const Notification = ({ username, children }) => {
     const [unreadCount, setUnreadCount] = useState(0); // 초기 알림 개수 관리
     const { unreadCount: sseUnreadCount } = useSSE(); // SSE에서 받은 알림 개수
 
-    console.log("Unread count in Notification:", sseUnreadCount); // 디버그 로그
 
     const [notifications, setNotifications] = useState([]); // 알림 리스트
     const [showNotifications, setShowNotifications] = useState(false); // 알림 리스트 토글 상태
@@ -78,15 +77,20 @@ const Notification = ({ username, children }) => {
 
     return (
         <div className={styles.notificationBox} onClick={toggleNotifications}>
-            {/* 자식 컴포넌트로 알림 아이콘 렌더링 */}
             <div className={styles.iconContainer}>
                 {children}
                 {unreadCount > 0 && (
                     <span className={styles.notificationCount}>{unreadCount}</span>
                 )}
             </div>
+            <div>
+
             {showNotifications && (
+
                 <ul className={styles.notificationList}>
+                    <div>
+                        <h3 className={styles.notificationTitle}>알림</h3>
+                    </div>
                     {notifications.length > 0 ? (
                         notifications.map((notification) => (
                             <li
@@ -102,6 +106,7 @@ const Notification = ({ username, children }) => {
                     )}
                 </ul>
             )}
+            </div>
         </div>
     );
 };
