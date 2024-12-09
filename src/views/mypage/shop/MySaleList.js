@@ -13,87 +13,70 @@ import { tokenAtom } from "../../../atoms";
 function MyContributedFunding() {
     const user = useAtomValue(userAtom);
     const [activeTab, setActiveTab] = useState('all'); // Default to "전체 보기"
-    const [startDate, setStartDate] = useState(null); // 시작 날짜
-    const [endDate, setEndDate] = useState(null); // 종료 날짜
-    const [currentPage, setCurrentPage] = useState(1); // Pagination state
+    const [currentPage, setCurrentPage] = useState(0); // Pagination state
     const [saleData, setSaleData] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
     const itemsPerPage = 5; // Items per page
     const token = useAtomValue(tokenAtom);
 
 
     useEffect(() => {
+        getSaleInfo(activeTab,currentPage);
 
-        const getSaleInfo = async () => {
-            try{
-                const response = await axios.post(`${url}/mapage/MaSaleList`, {
-                    userName: user.username, 
-                    saleStatus: activeTab === 'AVAILABLE' ? 'AVAILABLE' : 'NOT_SALE' , 
-                    startDate: startDate ? formatDate(startDate) : null,
-                    endDate: endDate ? formatDate(endDate) : null,
-                    page: currentPage,
-                    size: itemsPerPage
-                },{
-                    headers: {
-                        Authorization: token,
-                    }
-                });
-                setSaleData(response.data);
-            }catch{
-                console.error('작품정보를 못 가져왔음');
+    },[currentPage])
+
+    const getSaleInfo = (tab, currentPage) => {
+        console.log(tab)
+        console.log(currentPage)
+        axios.post(`${url}/mypage/MaSaleList`, {
+            userName: user.username, 
+            saleStatus: tab, 
+            page: currentPage,
+            size: itemsPerPage
+            
+        },{
+            headers: {
+                Authorization: token,
             }
-        };
-        getSaleInfo();
-
-    },[])
+        })
+        .then(res=> {
+            console.log(res);
+            setSaleData(res.data.content);
+            setTotalPages(res.data.totalPages);
+               
+        })
+        .catch(err=> {
+            console.log(err)
+        });
+    }
 
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        setCurrentPage(1); // Reset to page 1 when changing tab
-        if (tab !== 'success') {
-            setStartDate(null); // Clear the startDate if not in "판매완료" (Success) tab
-            setEndDate(null); // Clear the endDate if not in "판매완료" (Success) tab
-        }
-    };
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
+        setCurrentPage(0); // Reset to page 1 when changing tab
+        getSaleInfo(tab, 0)
+
     };
 
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-    };
-
-     const formatDate = (date) => {
-        const d = new Date(date);
-        return d.toISOString().split('T')[0]; // Returns YYYY-MM-DD
-    };
 
     const filteredSaleList = saleData.filter((saleItem) => {
-        if (activeTab === 'NOTSALE') {
+        if (activeTab === 'SOLD_OUT') {
             return saleItem.saleResult === 1; // 판매완료 (saleResult: 1)
         }
         if (activeTab === 'AVAILABLE') {
             return saleItem.saleResult === 0; // 판매중 (saleResult: 0)
         }
+        if (activeTab === 'all') {
+            return saleItem.saleResult === 2; // 전체보기 (saleResult: 0)
+        }
         return true; // 
     });
 
-      const filteredByDate = startDate && endDate
-        ? filteredSaleList.filter((saleItem) => {
-            if (!saleItem.endDate) return false;
-            const saleEndDate = new Date(saleItem.endDate);
-            return saleEndDate >= startDate && saleEndDate <= endDate;
-        })
-        : filteredSaleList;
 
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredByDate.slice(indexOfFirstItem, indexOfLastItem);
-
-    // Handle page change
     const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+        if (pageNumber >= 0 && pageNumber < totalPages) {
+            setCurrentPage(pageNumber);
+        }
     };
 
     return (
@@ -110,61 +93,36 @@ function MyContributedFunding() {
                     {/* Tabs: 전체 보기, 판매완료, 판매중 */}
                     <div className={styles.myPageSaleListTabs}>
                         <button
-                            className={activeTab === 'all' ? 'active' : ''}
-                            onClick={() => handleTabClick('all')}
+                            className={activeTab === null ? styles.active : ''}
+                            onClick={() => handleTabClick(null)}
                         >
                             전체 보기
                         </button>
                         <button
-                            className={activeTab === 'NOTSALE' ? 'active' : ''}
-                            onClick={() => handleTabClick('NOTSALE')}
+                            className={activeTab === 'SOLD_OUT' ? styles.active : ''}
+                            onClick={() => handleTabClick('SOLD_OUT')}
                         >
                             판매완료
                         </button>
                         <button
-                            className={activeTab === 'AVAILABLE' ? 'active' : ''}
+                            className={activeTab === 'AVAILABLE' ? styles.active : ''}
                             onClick={() => handleTabClick('AVAILABLE')}
                         >
                             판매중
                         </button>
 
-                        {/* Date Filter for "판매완료" tab */}
-                        {activeTab === 'success' && (
-                            <div className={styles.dateFilters}>
-                                <div className={styles.dateFilterStart}>
-                                    <label htmlFor="startDate"></label>
-                                    <DatePicker
-                                        selected={startDate}
-                                        onChange={handleStartDateChange}
-                                        dateFormat="yyyy-MM-dd"
-                                        className={styles.dateInput}
-                                        placeholderText="시작 날짜 선택"
-                                    />
-                                </div>
-                                <div className={styles.dateFilterEnd}>
-                                    <label htmlFor="endDate"></label>
-                                    <DatePicker
-                                        selected={endDate}
-                                        onChange={handleEndDateChange}
-                                        dateFormat="yyyy-MM-dd"
-                                        className={styles.dateInput}
-                                        placeholderText="종료 날짜 선택"
-                                    />
-                                </div>
-                            </div>
-                        )}
                     </div>
                 
                     {/* Sale List */}
                     <div className={styles.myPageSaleListList}>
-                        {currentItems.length > 0 ? (
+                        {saleData.length > 0 ? (
                             saleData.map((saleItem) => (
-                                <div key={saleItem.id} className={styles.myPageSaleListItem}>
-                                    <img src="https://via.placeholder.com/60" alt="saleList" className={styles.myPageSaleListItemItemImg} />
+                                <div key={saleItem.artworkId} className={styles.myPageSaleListItem}>
+                                    <img src={saleItem.imageUrl} alt="saleList" className={styles.myPageSaleListItemItemImg} />
                                     <div className={styles.myPageSaleListItemItemDetails}>
                                         <h4>{saleItem.title}</h4>
-                                        <p>모집 희망금액: {saleItem.amount}</p>
-                                        <p>판매일: {saleItem.endDate}</p>
+                                        <p>금액: {saleItem.price}</p>
+                                        <p>판매여부: {saleItem.saleStatus==="AVAILABLE" ? "판매중" : "판매완료" }</p>
                                     </div>
                                 </div>
                             ))
@@ -175,21 +133,21 @@ function MyContributedFunding() {
 
                     {/* Pagination */}
                     <div className={styles.myPageSaleListPagination}>
-                        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
                             &lt;
                         </button>
-                        {[...Array(Math.ceil(filteredByDate.length / itemsPerPage))].map((_, index) => (
+                        {Array.from({ length: totalPages }, (_, index) => (
                             <button
-                                key={index + 1}
-                                className={currentPage === index + 1 ? 'active' : ''}
-                                onClick={() => handlePageChange(index + 1)}
+                                key={index}
+                                className={currentPage === index  ? styles.active : ''}
+                                onClick={() => handlePageChange(index)}
                             >
                                 {index + 1}
                             </button>
                         ))}
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === Math.ceil(filteredByDate.length / itemsPerPage)}
+                            disabled={currentPage === totalPages -1}
                         >
                             &gt;
                         </button>

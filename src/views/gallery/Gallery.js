@@ -341,25 +341,6 @@ import ShowGallery from "../funding/ShowGallery";
           </div>
         </div>
 
-        {/*/!* 갤러리 모드 *!/*/}
-        {/*{viewMode === "gallery" && (*/}
-        {/*  <div className={styles.galleryView}>*/}
-        {/*    <GridGallery*/}
-        {/*      images={galleryImages}*/}
-        {/*      onClick={(index) => {*/}
-        {/*        console.log("Image Clicked at Index:", index);*/}
-        {/*        setLightboxIndex(index);*/}
-        {/*      }}*/}
-        {/*      enableImageSelection={false}*/}
-        {/*    />*/}
-        {/*    <Lightbox*/}
-        {/*      slides={lightboxSlides}*/}
-        {/*      open={lightboxIndex >= 0}*/}
-        {/*      index={lightboxIndex}*/}
-        {/*      close={() => setLightboxIndex(-1)}*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/*)}*/}
 
 {viewMode === "list" && (
   <div className={styles.listgalleryGrid}>

@@ -4,20 +4,57 @@ import "react-datepicker/dist/react-datepicker.css"; // 스타일 파일 임포�
 import styles from '../../../css/mypage/MyPageSaleList.module.css';
 import SideNav from '../../../views/mypage/SideNav';
 import Header from '../../Header';
+import {url} from '../../../config.js'
+import axios from 'axios';
+import { userAtom } from '../../../atoms';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from "../../../atoms";
+
+
+
 
 function MyContributedFunding() {
+    const user = useAtomValue(userAtom);
     const itemsPerPage = 5; // Items per page
     const [startDate, setStartDate] = useState(null); // 시작일자
     const [endDate, setEndDate] = useState(null); // 종료일자
-    const [currentPage, setCurrentPage] = useState(1); // Pagination state
+    const [currentPage, setCurrentPage] = useState(0); // Pagination state
+    const token = useAtomValue(tokenAtom);
+    const [orderlist, setOrderLIst]= useState([]);
+    const [totalPages, setTotalPages] = useState(0);
 
-    // Sample data for sale items
-    const saleList = [
-        { id: 1, title: "훈민정음가나다라마바사", amount: "250,000 원", saleResult: 1, endDate: "2024-08-07" },
-        { id: 2, title: "영어ABCDEFG", amount: "350,000 원", saleResult: 1, endDate: "2024-08-07" },
-        { id: 3, title: "가나다라마바사아자차카타파하ABCDEFGHIJKLMN", amount: "350,000 원", saleResult: 1, endDate: "2023-08-07" },
-        { id: 4, title: "가나다라마바사아자차카타파하ABCDEFGHIJKLMN", amount: "350,000 원", saleResult: 1, endDate: "2023-08-07" },
-    ];
+
+    useEffect(() => {
+        const today = new Date();
+        const lastweek = new Date();
+        lastweek.setDate(today.getDate()-7);
+
+        setStartDate(lastweek);
+        setEndDate(today);
+
+        getsaleInfo(currentPage);
+    },[currentPage]);
+
+    const getsaleInfo = (currentPage) =>{
+        axios.post(`${url}/mypage/MyOrderList`,{
+            userName:user.username,
+            startDate:startDate,
+            endDate: endDate,
+            page:currentPage,
+            size: itemsPerPage
+        }, {
+            headers: {
+                Authorization: token,
+            }   
+        })
+        .then(res=>{
+            setOrderLIst(res.data.content);
+            setTotalPages(res.data.totalPages);
+        })
+        .catch(err=>{
+            console.log(err)
+        });
+    }
 
     // Handle start date change
     const handleStartDateChange = (date) => {
@@ -30,21 +67,19 @@ function MyContributedFunding() {
     };
 
     // Filter sale list by the selected date range
-    const filteredByDate = saleList.filter((saleItem) => {
+    const filteredByDate = orderlist.filter((saleItem) => {
         const saleEndDate = new Date(saleItem.endDate); // Convert saleItem's endDate to Date object
         return (
             (!startDate || saleEndDate >= startDate) && (!endDate || saleEndDate <= endDate)
         );
     });
 
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredByDate.slice(indexOfFirstItem, indexOfLastItem);
 
     // Handle page change
     const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+        if (pageNumber >= 0 && pageNumber < totalPages) {
+            setCurrentPage(pageNumber);
+        }
     };
 
     return (
@@ -83,10 +118,10 @@ function MyContributedFunding() {
 
                     {/* Sale List */}
                     <div className={styles.myPageSaleListList}>
-                        {currentItems.length > 0 ? (
-                            currentItems.map((saleItem) => (
+                        {orderlist.length > 0 ? (
+                            orderlist.map((saleItem) => (
                                 <div key={saleItem.id} className={styles.myPageSaleListItem}>
-                                    <img src="https://via.placeholder.com/60" alt="saleList" className={styles.myPageSaleListItemItemImg} />
+                                    <img src="https://via.placeholder.com/60" alt="orderlist" className={styles.myPageSaleListItemItemImg} />
                                     <div className={styles.myPageSaleListItemItemDetails}>
                                         <h4>{saleItem.title}</h4>
                                         <p>모집 희망금액: {saleItem.amount}</p>
@@ -104,18 +139,18 @@ function MyContributedFunding() {
                         <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                             &lt;
                         </button>
-                        {[...Array(Math.ceil(filteredByDate.length / itemsPerPage))].map((_, index) => (
+                        {Array.from({length: totalPages}, (_, index) => (
                             <button
-                                key={index + 1}
-                                className={currentPage === index + 1 ? styles.active : ''}
-                                onClick={() => handlePageChange(index + 1)}
+                                key={index }
+                                className={currentPage === index  ? styles.active : ''}
+                                onClick={() => handlePageChange(index)}
                             >
                                 {index + 1}
                             </button>
                         ))}
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === Math.ceil(filteredByDate.length / itemsPerPage)}
+                            disabled={currentPage === totalPages -1}
                         >
                             &gt;
                         </button>

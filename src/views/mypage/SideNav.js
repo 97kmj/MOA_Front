@@ -22,7 +22,7 @@ const SideNav = () => {
             <li className={styles.menuItem}><Link to="/mypage/fundings/contributed" className={styles.menuLink}>후원한 펀딩 조회</Link></li>
             <li className={styles.menuItem}><Link to="/mypage/fundings/uploaded" className={styles.menuLink}>올린 펀딩 조회</Link></li>
             {isArtist && (
-              <li className={styles.menuItem}><Link to="/salesPosts" className={styles.menuLink}>판매글 조회</Link></li>
+              <li className={styles.menuItem}><Link to="/mypage/shop/MySaleList" className={styles.menuLink}>판매글 조회</Link></li>
             )}         
           </ul>
         </div>
@@ -38,7 +38,7 @@ const SideNav = () => {
             <li className={styles.menuItem}><Link to="/mypage/shop/MyOrderList" className={styles.menuLink}>구매목록</Link></li>
             <li className={styles.menuItem}><Link to="/shop/shoppingCart" className={styles.menuLink}>장바구니 목록</Link></li>
             {isArtist && (
-              <li className={styles.menuItem}><Link to="/mypage/shop/MySaleList" className={styles.menuLink}>등록작품 목록</Link></li>
+              <li className={styles.menuItem}><Link to="/mypage/regartworklist" className={styles.menuLink}>등록작품 목록</Link></li>
             )}         
           </ul>
         </div>
