@@ -187,7 +187,6 @@ const ShoppingCart = () => {
               <th>수량</th>
               <th>옵션</th>
               <th>금액</th>
-              
               <th>배송비</th>
             </tr>
           </thead>

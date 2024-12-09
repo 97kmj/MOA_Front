@@ -115,8 +115,6 @@ const SaleOrder = () => {
     //결제
     const initiatePayment = async () => {
 
-
-
         const { IMP } = window;
         if(!IMP){
             console.error("IMP객체가 존재하지 않음");
@@ -136,8 +134,6 @@ const SaleOrder = () => {
             buyer_email: buyerInfo.email, // 구매자 이메일
             buyer_tel: buyerInfo.contact, // 구매자 연락처
             buyer_addr: buyerInfo.address, // 구매자 주소
-            
-            
         };
 
 
@@ -159,7 +155,6 @@ const SaleOrder = () => {
 
         const goResult =()=>{
             navigate(`/shop/saleOrderResult`, { state: { requestData} });
-            
             console.log("결제 완료창으로 가자", requestData);
         }
         
@@ -169,16 +164,14 @@ const SaleOrder = () => {
                     Authorization: token,
                 }
             });
-            if(checkStock.status===200){
-                console.log("재고 확인 성공");
-                        // // 결제
-                        // IMP.request_pay(paymentData, async (response) => {
-                        //     if (response.success) {
-                        //         // 결제 성공 시 서버로 결제 정보를 전달하여 처리
-                        //         console.log("결제 성공:", response);
-                      
+                if(checkStock.status===200){
+                    console.log("재고 확인 성공");
+                    // 결제
+                    IMP.request_pay(paymentData, async (response) => {
+                        if (response.success) {
+                            // 결제 성공 시 서버로 결제 정보를 전달하여 처리
+                            console.log("결제 성공:", response);          
                     try{
-  
                         const response = await axios.post(`${url}/shopOrder/payment`, {requestData, username:user.username, saleDatas},{
                             headers: {
                                 Authorization: token,
@@ -197,13 +190,10 @@ const SaleOrder = () => {
                         alert("결제 검증 중 문제가 발생했습니다.");
                     }
 
-            //     } else {
-            //         alert(`결제 실패: ${response.error_msg}`);
-            //     }
-            // });
-
-
-
+                } else {
+                    alert(`결제 실패: ${response.error_msg}`);
+                }
+            });
             } else {
                 console.log("재고 확인 실패");
             }

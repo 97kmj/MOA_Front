@@ -10,6 +10,11 @@ import { useLocation } from 'react-router';
 const ShoppingCartOrder = () =>{
     const location = useLocation();
     const {cartItems, totalData} = location.state || {}
+    useEffect(()=>{
+        console.log(cartItems);
+        console.log(totalData);
+    },[location.state])
+
     const user = useAtomValue(userAtom);
     const [token,setToken] = useAtom(tokenAtom);
 
@@ -48,6 +53,130 @@ const ShoppingCartOrder = () =>{
             address: '',
         });
         setUseMemberInfo(false);
+    };
+
+    //아임포트 api 
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.iamport.kr/v1/iamport.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    const requestPayment = async () => {
+
+        if (!user || !user.username) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        if (buyerInfo.name.trim() === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (buyerInfo.contact.trim() === "") {
+            alert("연락처를 입력해주세요.");
+            return;
+        }
+        if (buyerInfo.address.trim() === "") {
+            alert("주소를 입력해주세요.");
+            return;
+        }
+
+
+        if (!window.IMP) {
+            alert("아임포트가 아직 로드되지 않았습니다. 새로고침 후 다시 시도해주세요.");
+            return;
+        }
+
+        // 백엔드에 전달할 데이터
+        const requestData = {
+            totalAmount: totalData.totalAmount,
+            paymentType: "", // 이 값은 결제 성공 후 업데이트됨
+            username:user.username,
+            cartItemList : cartItems,
+            address: buyerInfo.address,
+            phoneNumber: buyerInfo.contact || user.phone,
+            name: buyerInfo.name || user.name,
+        };
+
+        try {
+            // Step 1: 결제 사전 검증
+            const prepareResponse = await axios.post(`${url}/cartOrder/prepare`, {
+
+                    ...requestData,
+                }, {
+                    headers: {
+                        Authorization: token
+                    },
+                }
+            );
+
+            if (prepareResponse.status === 200) {
+                console.log("사전 검증 성공:", prepareResponse.data);
+
+                // Step 2: 결제 요청
+                const {IMP} = window;
+                IMP.init('imp55612646'); // 가맹점 식별코드
+
+                const paymentData = {
+                    pg: "html5_inicis", // PG사 선택
+                    pay_method: "CARD", // 결제수단
+                    merchant_uid: `order_${new Date().getTime()}`, // 주문번호
+                    name: "작품 결제", // 결제명
+                    amount: totalData.totalAmount, // 결제 금액
+                    buyer_email: user.email,
+                    buyer_name: user.name,
+                    buyer_tel: user.phone,
+                    buyer_addr: buyerInfo.address || user.address,
+                };
+
+                IMP.request_pay(paymentData, async (rsp) => {
+                    if (rsp.success) {
+                        console.log("결제 성공:", rsp);
+                        // Step 3: 백엔드 DB에 결제 정보 저장
+                        try {
+                            const response = await axios.post(`${url}/cartOrder/complete`, requestData,
+                                {
+                                    headers: {Authorization: token}
+                                });
+
+                            if (response.status === 200) {
+                                alert("결제가 성공적으로 완료되었습니다!");
+                            } else {
+                                alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
+                                console.error("백엔드 검증 실패:", response.data);
+                            }
+                        } catch (error) {
+                            console.error("백엔드 검증 요청 중 오류:", error);
+                            alert("결제 검증 중 문제가 발생했습니다.");
+                        }
+                    } else {
+                        // 결제 실패 처리
+                        alert(`결제 요청에 실패했습니다. 에러 메시지: ${rsp.error_msg}`);
+                        console.error("결제 실패:", rsp);
+                    }
+                });
+            } else {
+                alert("사전 등록에 실패했습니다. 다시 시도해주세요.");
+                console.error("사전 등록 실패:", prepareResponse);
+            }
+        } catch (error) {
+            if (error.response) {
+                // 서버에서 반환한 오류를 기반으로 적절한 메시지 표시
+                const {error: errorCode, message} = error.response.data;
+                alert(`알 수 없는 오류: ${message}`);
+                
+            } else {
+                // 네트워크 오류 등 일반적인 오류 처리
+                console.error("사전 등록 요청 중 오류:", error);
+                alert("결제 사전등록 중 문제가 발생했습니다.");
+            }
+        }
     };
 
     

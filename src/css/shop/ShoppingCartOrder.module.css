@@ -94,12 +94,27 @@
   justify-content: center;
   vertical-align: middle;
   align-items: center;
-}  
+} 
+
+.optionContent  {
+  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden;    /* 넘친 부분 숨기기 */
+  text-overflow: ellipsis; /* 넘칠 경우 '...'으로 표시 */
+  display: inline-block;
+  width: 100px;
+  text-align: left;
+}
   
   /* 상품 이미지 스타일 */
   .imageColumn {
     text-align: center;
   }
+
+.imageColumn img {
+  max-width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
 
   .leftSection {
     width: 50%;
