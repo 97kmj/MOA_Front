@@ -2,24 +2,16 @@
 .container {
   display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
   margin-top: 0;
+  align-items: stretch;
+    
 }
 
-/* Side Navigation */
-.sideNav {
-  flex: 0 0 200px; /* 고정된 너비 */
-  position: sticky; /* 헤더 바로 아래에 고정 */
-  top: 0; /* 헤더와 붙이기 */
-  height: 100vh; /* 전체 화면 높이 */
-  background-color: #f9f9f9; /* 배경 색 */
-  padding: 10px;
-  border-right: 1px solid #ddd; /* 구분선 추가 */
-}
 
 /* 메인 콘텐츠 영역 */
 .messageContent {
   margin:50px auto;
   width: 1000px;
-  height: 600px;
+  height: 750px;
   background-color: #ffffff;
   position:relative;
 }

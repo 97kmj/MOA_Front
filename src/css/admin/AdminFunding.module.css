@@ -175,7 +175,7 @@
     height: 370px;
     resize: none;
     border: #B39C59 1px solid;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     overflow-y: auto;
 
@@ -198,4 +198,27 @@
 .regList table tbody tr.selectedFunding {
     border: #B39C59 1px solid;
     border-radius: 10px;
+}
+
+
+.fundingDescription::-webkit-scrollbar {
+    width: 6px;
+    
+}
+
+.fundingDescription::-webkit-scrollbar-track { 
+    background-color: whitesmoke;
+}
+
+.fundingDescription::-webkit-scrollbar-thumb { 
+    background-color: #B39C59;
+}
+
+.fundingDescription::-webkit-scrollbar-button {
+    display: none;
+}
+
+.fundingDescription::-webkit-scrollbar-track,
+.fundingDescription::-webkit-scrollbar-thumb {
+    border-radius: 5px;
 }

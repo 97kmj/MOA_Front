@@ -311,7 +311,6 @@ import ShowGallery from "../funding/ShowGallery";
              placeholder="작가 및 작품 검색"
              className={styles.searchInput}
             />
-            <button className={styles.searchBtn}>🔍</button>
           </div>
         </div>
 
@@ -333,10 +332,9 @@ import ShowGallery from "../funding/ShowGallery";
 
           {/* 텍스트 설명 부분 */}
           <div className={styles.cardContent}>
-            <h2 className={styles.cardTitle}>{artwork.title}</h2>
+            <h4 className={styles.cardTitle}>{artwork.title}</h4>
             <p className={styles.cardArtist}>{artwork.artist.name}</p>
             <div className={styles.cardCategories}>
-              <p className={styles.cardCategory}>{artwork.category.categoryName}</p>
               <p className={styles.cardCategory}>{artwork.type.typeName}</p>
               <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
             </div>
