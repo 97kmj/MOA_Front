@@ -9,38 +9,49 @@ import axios from 'axios';
 import { userAtom } from '../../../atoms';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from "../../../atoms";
+import { useNavigate } from 'react-router';
 
 
 
 
 function MyContributedFunding() {
-    const user = useAtomValue(userAtom);
     const itemsPerPage = 5; // Items per page
-    const [startDate, setStartDate] = useState(null); // 시작일자
-    const [endDate, setEndDate] = useState(null); // 종료일자
+    const [startDate, setStartDate] = useState((new Date()).getDate()-7); // 시작일자
+    const [endDate, setEndDate] = useState(new Date()); // 종료일자
     const [currentPage, setCurrentPage] = useState(0); // Pagination state
     const token = useAtomValue(tokenAtom);
+    const user = useAtomValue(userAtom);
     const [orderlist, setOrderLIst]= useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const navigate = useNavigate();
+
 
 
     useEffect(() => {
-        const today = new Date();
-        const lastweek = new Date();
-        lastweek.setDate(today.getDate()-7);
+        if(user!==null && user.username!=='' && token!==null && token!=='')  {
+            const today = new Date();
+            console.log(today)
+            setEndDate(today.toISOString().slice(0,10))
 
-        setStartDate(lastweek);
-        setEndDate(today);
+            let beforeDay = new Date();
+            beforeDay.setDate(today.getDate() - 7);
+            setStartDate(beforeDay.toISOString().slice(0,10));
+            getsaleInfo(0, beforeDay.toISOString().slice(0,10), today.toISOString().slice(0,10));
+        }
+        
+    },[user,token]);
 
-        getsaleInfo(currentPage);
-    },[currentPage]);
-
-    const getsaleInfo = (currentPage) =>{
+    const getsaleInfo = (page, start, end) =>{
+        console.log(user.username)
+        console.log(start)
+        console.log(end);
         axios.post(`${url}/mypage/MyOrderList`,{
             userName:user.username,
-            startDate:startDate,
-            endDate: endDate,
-            page:currentPage,
+            // startDate:start+"T00:00:00.000Z",
+            // endDate: end+"T23:59:59.000Z",
+            startDate: start + "T00:00:00.000+09:00",  
+            endDate: end + "T23:59:59.000+09:00",      
+            page:page,
             size: itemsPerPage
         }, {
             headers: {
@@ -48,6 +59,8 @@ function MyContributedFunding() {
             }   
         })
         .then(res=>{
+            // setOrderLIst(res.data);
+            console.log(res.data.content);
             setOrderLIst(res.data.content);
             setTotalPages(res.data.totalPages);
         })
@@ -58,29 +71,28 @@ function MyContributedFunding() {
 
     // Handle start date change
     const handleStartDateChange = (date) => {
-        setStartDate(date);
-    };
+        setStartDate(date.target.value);
+        getsaleInfo(currentPage, date.target.value, endDate);
+    }
 
     // Handle end date change
     const handleEndDateChange = (date) => {
-        setEndDate(date);
-    };
-
-    // Filter sale list by the selected date range
-    const filteredByDate = orderlist.filter((saleItem) => {
-        const saleEndDate = new Date(saleItem.endDate); // Convert saleItem's endDate to Date object
-        return (
-            (!startDate || saleEndDate >= startDate) && (!endDate || saleEndDate <= endDate)
-        );
-    });
-
+        setEndDate(date.target.value);
+        getsaleInfo(currentPage, startDate, date.target.value);
+    }
+    
 
     // Handle page change
     const handlePageChange = (pageNumber) => {
         if (pageNumber >= 0 && pageNumber < totalPages) {
             setCurrentPage(pageNumber);
+            getsaleInfo(pageNumber, startDate, endDate);
         }
     };
+
+    const handleOrderListClieck = (artworkId) =>{
+        navigate(`/shop/saleDetail/${artworkId}`);
+    }
 
     return (
         <>
@@ -96,36 +108,30 @@ function MyContributedFunding() {
                     <div className={styles.myPageSaleListTabs}>
                         <div className={styles.orderDateFilterStart}>
                             <label htmlFor="startDate"></label>
-                            <DatePicker
-                                selected={startDate}
+                            <input type="date"
+                                value={startDate}
                                 onChange={handleStartDateChange}
-                                dateFormat="yyyy-MM-dd"
-                                className={styles.dateInput}
-                                placeholderText="시작 날짜 선택"
                             />
                         </div>
                         <div className={styles.orderDateFilterEnd}>
                             <label htmlFor="endDate"></label>
-                            <DatePicker
-                                selected={endDate}
+                            <input type="date"
+                                value={endDate}
                                 onChange={handleEndDateChange}
-                                dateFormat="yyyy-MM-dd"
-                                className={styles.dateInput}
-                                placeholderText="종료 날짜 선택"
                             />
                         </div>
                     </div>
 
                     {/* Sale List */}
-                    <div className={styles.myPageSaleListList}>
+                    <div className={styles.myPageSaleListList}  >
                         {orderlist.length > 0 ? (
                             orderlist.map((saleItem) => (
-                                <div key={saleItem.id} className={styles.myPageSaleListItem}>
-                                    <img src="https://via.placeholder.com/60" alt="orderlist" className={styles.myPageSaleListItemItemImg} />
+                                <div key={saleItem.id} className={styles.myPageSaleListItem} onClick={()=>handleOrderListClieck(saleItem.artworkId)}>
+                                    <img src={saleItem.imageUrl} alt="orderlist" className={styles.myPageSaleListItemItemImg} />
                                     <div className={styles.myPageSaleListItemItemDetails}>
                                         <h4>{saleItem.title}</h4>
-                                        <p>모집 희망금액: {saleItem.amount}</p>
-                                        <p>판매일: {saleItem.endDate}</p>
+                                        <p>주문 금액: {saleItem.price}</p>
+                                        <p>판매일: {new Date(saleItem.paymentDate).toLocaleDateString('ko-KR')}</p>
                                     </div>
                                 </div>
                             ))
