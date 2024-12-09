@@ -6,10 +6,16 @@ import axios from 'axios'
 import { url } from '../../config';
 import { userAtom,tokenAtom } from '../../atoms';
 import { useAtomValue,useAtom } from 'jotai';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 const ShoppingCartOrder = () =>{
     const location = useLocation();
+    const navigate = useNavigate();
     const {cartItems, totalData} = location.state || {}
+    useEffect(()=>{
+        console.log(cartItems);
+        console.log(totalData);
+    },[location.state])
+
     const user = useAtomValue(userAtom);
     const [token,setToken] = useAtom(tokenAtom);
 
@@ -50,6 +56,131 @@ const ShoppingCartOrder = () =>{
         setUseMemberInfo(false);
     };
 
+    //아임포트 api 
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.iamport.kr/v1/iamport.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+
+    //결제
+    const initiatePayment = async () => {
+        if (!user || !user.username) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        if (buyerInfo.name.trim() === "") {
+            alert("이름을 입력해주세요.");
+            return;
+        }
+        if (buyerInfo.contact.trim() === "") {
+            alert("연락처를 입력해주세요.");
+            return;
+        }
+        if (buyerInfo.address.trim() === "") {
+            alert("주소를 입력해주세요.");
+            return;
+        }
+        const { IMP } = window;
+        if(!IMP){
+            console.error("IMP객체가 존재하지 않음");
+            return;
+        }
+        IMP.init('imp55612646');  // 가맹점 식별코드
+        console.log("결제 시작");
+
+        
+        const paymentData = {
+            pg: "html5_inicis", // PG사 (예: html5_inicis)
+            pay_method: "card", // 결제 방식
+            merchant_uid: `order_${new Date().getTime()}`, // 주문 고유 ID
+            name: "작품 결제", // 상품명
+            amount: 100, //totalData.totalAmount, // 결제 금액 
+            buyer_name: buyerInfo.name, // 구매자 이름
+            buyer_email: buyerInfo.email, // 구매자 이메일
+            buyer_tel: buyerInfo.contact, // 구매자 연락처
+            buyer_addr: buyerInfo.address, // 구매자 주소
+        };
+
+
+        const requestData = {
+            name : cartItems[0].artworkTitle, // 상품명
+            buyerName: buyerInfo.name, // 구매자 이름
+            buyerEmail: buyerInfo.email, // 구매자 이메일
+            amount: totalData.totalAmount, // 결제 금액  calculateTotalPrice()
+            buyerTel: buyerInfo.contact, // 구매자 연락처
+            buyerAddr: buyerInfo.address, // 구매자 주소
+        }
+        const saleDatas = cartItems.flatMap((item) =>
+            item.itemList.map((listItem) => ({
+              artworkId: listItem.saleId,
+              frameOptionId: listItem.frameOptionId,
+              price: listItem.price,
+              frameprice: listItem.framePrice,
+            }))
+          );
+    
+
+        const goResult =()=>{
+            navigate(`/shop/saleOrderResult`, { state: { requestData} });
+            console.log("결제 완료창으로 가자", requestData);
+        }
+        
+        try{
+            const checkStock = await axios.post(`${url}/cartOrder/checkStock`,  saleDatas  ,{
+                headers: {
+                    Authorization: token,
+                }
+            });
+                if(checkStock.status===200){
+                    console.log("재고 확인 성공");
+                    // 결제
+                    IMP.request_pay(paymentData, async (response) => {
+                        if (response.success) {
+                            // 결제 성공 시 서버로 결제 정보를 전달하여 처리
+                            console.log("결제 성공:", response);          
+                    try{
+                        const response = await axios.post(`${url}/cartOrder/payment`, {requestData, username:user.username, saleDatas},{
+                            headers: {
+                                Authorization: token,
+                            }
+                        });
+                        if (response.status === 200) {
+                            alert("결제가 성공적으로 완료되었습니다!");
+                            goResult(requestData, user.username);
+                            
+                        } else {
+                            alert("결제는 성공했으나 서버 검증 중 오류가 발생했습니다.");
+                            console.error("백엔드 검증 실패:", response.data);
+                        }
+                    } catch (error){
+                        console.error("백엔드 검증 요청 중 오류:", error);
+                        alert("결제 검증 중 문제가 발생했습니다.");
+                    }
+
+                } else {
+                    alert(`결제 실패: ${response.error_msg}`);
+                }
+            });
+            } else {
+                console.log("재고 확인 실패");
+            }
+
+        } catch(error){
+ 
+            alert("옵션수량 및 그림 수량이 부족합니다.");
+            console.log("재고 부족",error);
+            
+        }
+    };
+    
     
 
     return(
@@ -214,7 +345,7 @@ const ShoppingCartOrder = () =>{
                                 총 금액: {totalData.totalAmount.toLocaleString()}원
                             </p>
                         </div>
-                        <button className={styles.payButton}>결제하기</button>
+                        <button className={styles.payButton} onClick={initiatePayment}>결제하기</button>
                     </div>
                 </div>
             </div> 
