@@ -6,10 +6,11 @@ import {useNavigate} from "react-router-dom";
 const FundingRegistrationThankYou = () => {
     const navigate = useNavigate();
 
+    //메인으로 가려는 함수
     const goToMain = () => {
         navigate("/"); // 메인 페이지로 이동
+    };
 
-    }
 
 
     return (
@@ -24,11 +25,11 @@ const FundingRegistrationThankYou = () => {
                     className={styles.icon}
                 />
             </div>
-            <h1 className={styles.title}>펀딩을 등록 신청해주셔서 감사합니다</h1>
+            <h1 className={styles.title}>펀딩을 후원을 해주셔서 감사합니다</h1>
             <p className={styles.subtitle}>
-                마이페이지에서 등록한 펀딩 정보를 확인하실 수 있습니다.
+                마이페이지에서 후원 내역을 확인하실수있습니다
                 <br />
-                펀딩 심사는 펀딩에 따라 일정이 다를 수 있습니다.
+                펀딩 환불은 후원 마감 당일까지만 가능합니다!
             </p>
             <button className={styles.confirmButton} onClick={goToMain}>확인</button>
         </div>

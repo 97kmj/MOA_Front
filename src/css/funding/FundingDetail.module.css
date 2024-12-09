@@ -257,6 +257,10 @@
     margin-top: 20px;
 }
 
+.projectDetails p {
+    white-space: pre-wrap; /* 줄바꿈과 띄어쓰기 모두 유지 */
+}
+
 /*.artwork-image {*/
 /*    width: 100%;*/
 /*    max-width: 400px;*/

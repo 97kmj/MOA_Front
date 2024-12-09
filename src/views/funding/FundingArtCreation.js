@@ -8,6 +8,8 @@ import axios from "axios";
 import {url} from "../../config";
 import {tokenAtom, userAtom} from "../../atoms";
 import {useAtomValue} from "jotai/index";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 function FundingArtCreation() {
     // Zustand 스토어에서 메서드 및 상태 가져오기
@@ -19,6 +21,20 @@ function FundingArtCreation() {
 
     const token = useAtomValue(tokenAtom);
     const user = useAtomValue(userAtom);
+
+    const handleDescriptionChange = (value) => {
+        setFundingInfo({ description: value }); // Quill 에디터의 값 업데이트
+    };
+
+    const quillModules = {
+        toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['link', 'image'],
+        ],
+    };
+
 
     const previewFundingMainImage = (e) => {
         const file = e.target.files[0];
@@ -100,8 +116,8 @@ function FundingArtCreation() {
             }
         });
 
-        try {
-            const response = await axios.post(`${url}/api/funding`, formData, {
+        try {//안되면 {} 없애기
+            const response = await axios.post(`${url}/api/funding`, {formData}, {
                 headers: {
                     Authorization: token,
                     "Content-Type": "multipart/form-data",
@@ -135,12 +151,23 @@ function FundingArtCreation() {
                             className={styles.fundingArtCreationInput}
                         />
                         <label>펀딩 소개</label>
-                        <textarea
-                            value={fundingInfo.description}
-                            onChange={(e) => setFundingInfo({description: e.target.value})}
-                            placeholder="펀딩 소개를 입력하세요"
-                            className={styles.fundingArtCreationTextarea}
-                        />
+                        {/*<textarea*/}
+                        {/*    value={fundingInfo.description}*/}
+                        {/*    onChange={(e) => setFundingInfo({description: e.target.value})}*/}
+                        {/*    placeholder="펀딩 소개를 입력하세요"*/}
+                        {/*    className={styles.fundingArtCreationTextarea}*/}
+                        {/*/>*/}
+                      <div className={styles.fundingInfoDescription}>
+                          <ReactQuill
+                              value={fundingInfo.description}
+                              onChange={handleDescriptionChange}
+                              placeholder="펀딩 소개를 입력하세요"
+                              theme="snow"
+                              style={{
+                                  height: '450px', // 전체 높이
+                              }}
+                          />
+                      </div>
                     </div>
 
                     <div className={styles.fundingArtCreationImagePreview}>
