@@ -57,13 +57,13 @@ import SaleOrder2 from "../views/shop/SaleOrder2";
 
 import MyOrderList from "../views/mypage/shop/MyOrderList";
 import MySaleList from "../views/mypage/shop/MySaleList";
+import {SSEProvider} from "../views/notification/sse/SSEProvider";
 
 function AppRouter() {
     return (
+      <SSEProvider>
         <Router>
             <Routes>
-
-
                 <Route path="/user/findId" element={<FindId/>} />
                 <Route path="/user/findIdResult/:id" element={<FindIdResult/>} />
                 <Route path="/user/findPwd" element={<FindPwd/>} />
@@ -109,7 +109,7 @@ function AppRouter() {
             <Route path="/shop/saleOrderResult" element={<SaleOrderResult />} />
             <Route path="/shop/shoppingCart" element={<ShoppingCart />} />
 
-            <Route path="/shop/shoppingCartOrder/:artworkIds" element={<ShoppingCartOrder />} />
+            <Route path="/shop/shoppingCartOrder" element={<ShoppingCartOrder />} />
 
 
             <Route path="/mypage/regartworklist" element={<RegArtworkList/>} />
@@ -144,6 +144,7 @@ function AppRouter() {
             
             </Routes>
         </Router>
+      </SSEProvider>
     );
 }
 
