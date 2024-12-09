@@ -25,12 +25,11 @@ const Artwork = () => {
     const [isCanvasAvailable, setIsCanvasAvailable] = useState(false);
     const [isCanvasAvailableYn, setIsCanvasAvailableYn] = useState(false);
 
-    console.log("토큰",token)
    
     const [artwork, setArtwork] = useState({
         canvasType: 'A', description: '', height: '',
         isStandaedcanvas: '', length: '', price: '', stock: '', saleStatus: '',
-        termsAccepted: '', title: '', width: '', canvasId: 0, categoryId: 0, subjectId: 0, typeId: 0, artistId: user.userName
+        termsAccepted: '', title: '', width: '', canvasId: 0, categoryId: '', subjectId: '', typeId: '', artistId: user.userName
     });
 
     const navigate = useNavigate();
@@ -97,7 +96,7 @@ const Artwork = () => {
         }));
         // 카테고리가 그림일때
         
-        if(selectedCatrgory ==='1'){
+        if(selectedCatrgory ==='1' ){
             setIsCanvasAvailableYn(true);
             setIsCanvasAvailable(true);
 
@@ -296,12 +295,10 @@ const Artwork = () => {
                                         <select
                                             value={artwork.categoryId}
                                             onChange={handleCategoryChange}
-                                            
                                             id="categoryId"
                                             name="categoryId"
-
                                         >
-                                            <option value="">카테고리 선택</option>
+                                            <option value="" selected disabled hidden >카테고리 선택</option>
                                             {category.map((categoryItem) => (
                                                 <option key={categoryItem.categoryId} value={categoryItem.categoryId}  >
                                                     {categoryItem.categoryName}
@@ -321,7 +318,7 @@ const Artwork = () => {
                                             id='typeId'
                                             name='typeId'
                                             disabled={!artwork.categoryId}>
-                                            <option value="">타입 선택</option>
+                                            <option value="" selected disabled hidden>타입 선택</option>
                                             {types.length > 0 && types.map((typeItem) => (
                                                 <option key={typeItem.typeId} value={typeItem.typeId}>
                                                     {typeItem.typeName}
@@ -339,7 +336,7 @@ const Artwork = () => {
                                             id='subjectId'
                                             name='subjectId'
                                             disabled={!artwork.categoryId}>
-                                                <option value="">주제 선택</option>
+                                                <option value="" selected disabled hidden>주제 선택</option>
                                                 {themes.length > 0 && themes.map((subjectItem) => (
                                                     <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
                                                         {subjectItem.subjectName}
@@ -431,10 +428,10 @@ const Artwork = () => {
                             <tr>
                                 <td className={styles.artworkInfotdTitle}>판매 금액</td>
                                 <td>
-                                    <input className={styles.artworkInfocontent} disabled={handleSaleStatusChange} value={artwork.price} id='price' name='price' onChange={handleInputChange}/>
+                                    <input className={styles.artworkInfocontent} disabled = {!saleStatus} value={artwork.price} id='price' name='price' onChange={handleInputChange}/>
                                 </td>
                                 <td className={styles.artworkInfotdTitle}>수량</td>
-                                <td><input className={styles.artworkInfocontent} disabled={handleSaleStatusChange} value={artwork.stock}  id='stock' name='stock' onChange={handleInputChange}/></td>
+                                <td><input className={styles.artworkInfocontent} disabled={!saleStatus} value={artwork.stock}  id='stock' name='stock' onChange={handleInputChange}/></td>
                             </tr>
                         </table>
                     </div>
@@ -456,7 +453,9 @@ const Artwork = () => {
                                         className={styles.previewImage}
                                     />
                                 ) : (
-                                    <div className={styles.plusIcon}>+</div>
+                                    <div className={styles.plusIconFrame}>
+                                        <div className={styles.plusIcon}>+</div>
+                                    </div>
                                 )}
                             </label>
                         </div>

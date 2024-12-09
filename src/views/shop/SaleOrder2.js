@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../css/shop/SaleOrder.module.css';
 import Header from '../Header';
-import { useAtomValue, useAtom } from 'jotai/react';
+import { useAtomValue } from 'jotai/react';
 import { tokenAtom, userAtom } from "../../atoms";
 import { url } from "../../config";
 import axios from 'axios';
@@ -15,16 +15,12 @@ const SaleOrder = () => {
     const{artworkId} = useParams();
     const[orderData, setOrderData] = useState(); 
     const user = useAtomValue(userAtom);
-    const [useMemberInfo, setUseMemberInfo] = useState(false);
+    const [useMemberInfo, setUseMemberInfo] = useState(true);
     const [userInfo, setUserInfo] = useState();
     const [saleFrameInfo,setSaleFrameInfo] = useState([]);
     const navigate = useNavigate();
 
     const saleItems = location.state?.saleItems || [];
-
-    console.log("saleItems", saleItems);
-
-
 
     useEffect(()=>{
         const getSalePayment = async () =>{
@@ -39,8 +35,6 @@ const SaleOrder = () => {
 
                 setOrderData(artworkList);  // artworkList 정보 설정
                 setSaleFrameInfo(frameList);
-                console.log("frameInfo", frameList);
-                console.log(res.data)
                 setUserInfo({
                     name: userList.name,
                     contact: userList.phone,
@@ -62,7 +56,17 @@ const SaleOrder = () => {
         email: '',
         address: '',
     });
-
+    
+    useEffect(() => {
+        if (userInfo) {
+            setBuyerInfo({
+                name: userInfo.name,
+                contact: userInfo.contact,
+                email: userInfo.email,
+                address: userInfo.address,
+            });
+        }
+    }, [userInfo]);
 
 
 
@@ -231,17 +235,13 @@ const SaleOrder = () => {
                             <h3>구매자 정보</h3>
                             <div className={styles.infoButtons}>
                                 <button
-                                    className={`${styles.memberButton} ${
-                                        useMemberInfo == true ? styles.activeButton : ''
-                                    }`}
+                                    className={`${useMemberInfo ? styles.activeButton : styles.inputButton}`}
                                     onClick={handleUseMemberInfo}
                                 >
                                     회원 배송지
                                 </button>
                                 <button
-                                    className={`${styles.inputButton} ${
-                                        !useMemberInfo != true ? styles.activeButton : ''
-                                    }`}
+                                    className={`${useMemberInfo !== true ? styles.activeButton : styles.inputButton }`}
                                     onClick={handleDirectInput}
                                 >
                                     직접 입력

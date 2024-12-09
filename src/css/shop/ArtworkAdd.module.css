@@ -180,7 +180,8 @@
 .imgInputBox {
     width: 100%;
     max-width: 400px;
-    height: 400px;
+    max-height: 400px;
+    height: 100%;
     background-color: #f9f9f9;
     display: flex;
     justify-content: center;
@@ -195,15 +196,25 @@
 .hiddenFileInput {
     display: none;
 }
+.previewImage{
+    max-width: 400px;
+    max-height: 400px;
+}
+.plusIconFrame{
+    width: 400px;
+    height: 400px;
+}
+
 .plusIcon {
-    font-size: 70px;
+    font-size: 100px;
     color: #b29c59;
     font-weight: bold;
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
+    margin-top: 30%;
     align-items: center;
-    margin-top: 5%;
+    margin-left: 43%;
 }
+
 .goldbutton:hover {
 
     cursor: pointer;

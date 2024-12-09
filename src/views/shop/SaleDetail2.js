@@ -321,13 +321,15 @@ const SaleDetail = () => {
                                     <>
                                         {saleDetail.categoryId === 1 && (
                                             <tr className={styles.detailTopRightOption}>
-                                                <td><Label><b>OPTION</b></Label></td>
-
-                                            </tr>
+                                                <td><Label><b></b></Label></td>
+                                            </tr>  // 공란을 위해 남겨놓음
                                         )}
                                         <tr>
+                                            <td className={styles.alignCenter}>
+                                                <div className={styles.buttonDarkStyle} onClick={showModal}>추천프레임</div>
+                                            </td>
                                             <td>
-                                                <div className={styles.buttonDarkStyle} onClick={addToCart}><b>ADD TO CART</b></div>
+                                                <div className={styles.buttonDarkStyle2} onClick={addToCart}><b>ADD TO CART</b></div>
                                             </td>
                                             <td>
                                                 <div className={styles.buttonDarkStyle2} onClick={()=> goOrder(saleDetail.artworkId)}><b>결제하기</b></div>
@@ -359,7 +361,7 @@ const SaleDetail = () => {
                                 <tr className={styles.detailTopRightArray}>
                                     <td><Label>{saleDetail.stock}</Label></td>
                                 </tr>
-                                {saleDetail.saleStatus === "AVAILABLE" && (
+                                {/* {saleDetail.saleStatus === "AVAILABLE" && (
                                     <>
                                     {saleDetail.categoryId === 1 && (
                                         <tr>
@@ -381,8 +383,8 @@ const SaleDetail = () => {
                                             </td>
                                         </tr>
                                     )}
-                                    </>
-                                )}
+                                    </> }
+                                )*/}
                             </tbody>
                         </Table>
 
