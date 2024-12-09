@@ -72,9 +72,9 @@ const AdminArtwork = () => {
                                 suspiciousArtworkList.map((item)=>(
                                     <tr className={`${item.artworkId === selectedArtwork.artworkId ? styles.selectedTr : ''}`}
                                     onClick={()=>handleSelecteArtwork(item)}>
-                                        <td>{item.artistId}</td>
-                                        <td>{item.title}</td>
-                                        <td>{new Date(item.createAt).toISOString().slice(0, 10)}</td>
+                                        <td>{item?.artistId}</td>
+                                        <td>{item?.title}</td>
+                                        <td>{new Date(item?.createAt).toISOString().slice(0, 10)}</td>
                                     </tr>    
                                 ))
                             : 
@@ -90,9 +90,9 @@ const AdminArtwork = () => {
                 <div className={styles.artwork}>
                     <img className={styles.artImg}  src={selectedArtwork?.imageUrl || "/img/default_image.jpg"}  alt='작품'/>
                 </div>
-                <div>제목 &nbsp;&nbsp;&nbsp;&nbsp;<span><b>{selectedArtwork.title}</b></span></div><br/>
+                <div>제목 &nbsp;&nbsp;&nbsp;&nbsp;<span><b>{selectedArtwork?.title}</b></span></div><br/>
                 <div>설명</div>
-                <textarea value={selectedArtwork.description} readOnly>
+                <textarea value={selectedArtwork?.description} readOnly>
                 </textarea>
                 <div className={styles.buttonDiv}>
                     <button className={styles.goldbutton} onClick={deleteArtwork}>삭제하기</button>

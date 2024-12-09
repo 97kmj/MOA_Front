@@ -6,15 +6,15 @@ import axios from 'axios'
 import { url } from "../../config";
 import { userAtom,tokenAtom } from '../../atoms';
 import { useAtomValue,useAtom } from 'jotai';
-
+import { useNavigate } from 'react-router';
 
 const ShoppingCart = () => {
   const user = useAtomValue(userAtom);
   const [token,setToken] = useAtom(tokenAtom);
   const [cartItems,setCartItems] = useState([])
-
+  const navigate = useNavigate();
   useEffect(()=>{
-    axios.get(`${url}/cart?username=${user.username}`,{headers:{Authorization:token}})
+    user && axios.get(`${url}/cart?username=${user.username}`,{headers:{Authorization:token}})
     .then(res=>{
       if(res.headers.authorization!==null && res.headers.authorization!==undefined) { //갱신받은 토큰이 있을 시
         setToken(res.headers.authorization);
@@ -27,26 +27,7 @@ const ShoppingCart = () => {
     })
 
   },[])
-
-
-  //   {
-  //     id: 2,
-  //     image: 'https://via.placeholder.com/150',
-  //     title: '꽃과 나무',
-  //     artist: '박지훈',
-  //     category: '식물',
-  //     subject: '자연',
-  //     price: 50000, // 기본 상품 가격
-  //     shipping: 3000, // 배송비
-  //     artworkquantity: 1,  // 상품 당 1개 작품
-  //     quantity: 3,  // 장바구니에 담긴 수량
-  //     options: [
-  //       { optionId: 'option1', option: '옵션1', contents: ['고급액자'], optionPrice: 4000, quantity: 1 },
-  //     ],
-  //   },
-  //   // 추가 상품들...
-  // ]);
-  
+ 
   const [selectedItems, setSelectedItems] = useState([]); //선택된 카트id리스트
   const [selectAll, setSelectAll] = useState(false);
 
@@ -73,11 +54,25 @@ const ShoppingCart = () => {
 
   // 선택된 항목 삭제
   const handleDeleteSelected = () => {
-    setCartItems((prevItems) => {
-      return prevItems.filter((item) => !selectedItems.includes(item.cartId)); // 선택된 항목 삭제
-    });
-    setSelectedItems([]); // 삭제 후 선택된 항목 초기화
-    setSelectAll(false); // 전체 선택 상태 초기화
+    axios.patch(`${url}/deleteCart`,selectedItems, {
+      headers : {
+        Authorization : token,
+        "Content-Type": "application/json",
+      }
+    })
+    .then(res=> {
+      if(res.headers.authorization!==null && res.headers.authorization!==undefined) { //갱신받은 토큰이 있을 시
+        setToken(res.headers.authorization);
+      }
+      setCartItems((prevItems) => {
+        return prevItems.filter((item) => !selectedItems.includes(item.cartId)); // 선택된 항목 삭제
+      });
+      setSelectedItems([]); // 삭제 후 선택된 항목 초기화
+      setSelectAll(false); // 전체 선택 상태 초기화
+    })
+    .catch(err=> {
+      console.error(err);
+    })
   };
 
   // 옵션 삭제
@@ -87,21 +82,22 @@ const ShoppingCart = () => {
       if(res.headers.authorization!==null && res.headers.authorization!==undefined) { //갱신받은 토큰이 있을 시
         setToken(res.headers.authorization);
       }
-      setCartItems((prevItems) => {
-        return prevItems.map((cartItem) => {
-          if (cartItem.cartId === itemId) {
-            return {
-              ...cartItem,
-              itemList: cartItem.itemList.filter((option) => option.cartItemId !== cartItemId), // 해당 옵션 삭제
-            };
-          }
-          return cartItem;
-        });
+      setCartItems(prevItems => {
+        return prevItems
+          .map(cartItem => {
+            if (cartItem.cartId === itemId) {
+              const newItemList = cartItem.itemList?.filter(option => option.cartItemId !== cartItemId);
+              if (!newItemList || newItemList.length === 0) {
+                return null; // 빈 카트는 삭제
+              }
+              return { ...cartItem, itemList: newItemList };
+            }
+            return cartItem;
+          })
+          .filter(Boolean); // null 값 제거
       });
-
     })
     .catch(err=> {
-      
       console.log(err);
     })
     
@@ -138,7 +134,18 @@ const ShoppingCart = () => {
 
   const { totalPrice, totalShipping, totalAmount } = calculateTotal();
 
-  
+  //카트에서 선택한 상품 주문하기 
+  const handleOrder = () => {
+    const selectedCartItem = cartItems.filter((item) => selectedItems.includes(item.cartId))
+    const totalPriceData = calculateTotal();
+
+    navigate(`/shop/shoppingCartOrder`, {
+      state : {
+      cartItems : selectedCartItem, 
+      totalData : totalPriceData
+      }
+    })
+  }
 
   return (
     <>
@@ -203,7 +210,7 @@ const ShoppingCart = () => {
                 <td className={styles.imageColumn}>
                   <div><strong>{item.artworkTitle}</strong></div> {/* 상품 제목 */}
                   <br/>
-                  <div>{(item.itemList[0].price).toLocaleString()}원</div>
+                  <div>{item.itemList?.length > 0 ?(item.itemList[0].price).toLocaleString() : 0}원</div>
                 </td>
                 <td className>
                   <div>{item.itemList.length}개</div>
@@ -212,7 +219,7 @@ const ShoppingCart = () => {
                 <td className={styles.optionAlign}>
                   {/* 옵션 항목들 */}
                   {item.itemList.map((option, index) => (
-                      <div key={option.optionId} className={styles.optionItem}>
+                      <div className={styles.optionItem}>
                         <span
                           className={styles.optionContent}
                         >
@@ -225,7 +232,7 @@ const ShoppingCart = () => {
                           color="danger"
                           className={styles.cartListButton}
                           onClick={() => handleDeleteOption(item.cartId, option.cartItemId)}
-                          style={{ marginLeft: '10px', marginTop: '10px', height: '25px', paddingTop: '2px' }}
+                          style={{height: '25px', paddingTop: '2px' }}
                         >
                           삭제
                         </Button>
@@ -234,7 +241,9 @@ const ShoppingCart = () => {
                 </td>
                 {/* 네 번째 열: 상품 금액 */}
                 <td  className={styles.titleColumn}>
-                  <div><strong>{(item.itemList[0].price * item.itemList.length + item.itemList.reduce((sum, option) => sum + (option.framePrice), 0)).toLocaleString()}원</strong></div>
+                  <div><strong>{item.itemList?.length > 0 ? 
+                  (item.itemList[0].price * item.itemList.length + item.itemList.reduce((sum, option) => sum + (option.framePrice), 0)).toLocaleString()
+                  : 0}원</strong></div>
                 </td>
                 {/* 다섯 번째 열: 배송비 */}
                 <td  className={styles.titleColumn}>
@@ -273,7 +282,7 @@ const ShoppingCart = () => {
                 className={styles.priceMiddleButton}
                 color="primary" 
                 disabled={selectedItems.length === 0}
-                onClick={() => alert('주문이 완료되었습니다!')}
+                onClick={handleOrder}
               >
                 주문하기
               </Button>
