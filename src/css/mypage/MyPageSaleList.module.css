@@ -39,10 +39,22 @@
 }
 
 .myPageSaleListTabs button.active {
-    background-color: #b84700;
-    color: #fff;
-    border-color: #b84700;
+    background-color: white;
+    border: 1px solid #B39C59;
+    color: black;
 }
+
+
+
+.active {
+    background-color: white;
+    color: #fff;
+    border: 1px solid #B39C59;
+    color: black;
+}
+
+
+
 .myPageSaletopbar{
     display:inline-block;
 }
