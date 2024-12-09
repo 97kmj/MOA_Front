@@ -151,8 +151,10 @@
 }
 
 .activeButton {
-    background-color: #333;
+    margin-right: 5px;
+    background: #fff;
     color: #b29c59;
+    border: 1px solid #b29c59 ;
 }
 
 .memberButton,
@@ -160,7 +162,7 @@
     cursor: pointer;
     padding: 10px 15px;
     border: 1px solid #ddd;
-    background: #fff;
+    background-color: #333;
     margin-right: 5px;
 }
 
