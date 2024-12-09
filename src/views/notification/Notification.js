@@ -98,7 +98,7 @@ const Notification = ({ username, children }) => {
                             </li>
                         ))
                     ) : (
-                        <li className={styles.empty}>No notifications</li>
+                        <li className={styles.empty}>알림이 없습니다.</li>
                     )}
                 </ul>
             )}
