@@ -11,7 +11,7 @@ const ShowGallery = ({ images, onClose }) => {
         <div className={styles.artworkViewContainer}>
             {onClose && (
                 <button
-                    className={styles.closeButton}
+                    className={styles.galleryButtonCloseButton}
                     onClick={onClose}
                 >
                     닫기

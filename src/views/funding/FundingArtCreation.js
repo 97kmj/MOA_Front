@@ -11,7 +11,7 @@ import {useAtomValue} from "jotai/index";
 
 function FundingArtCreation() {
     // Zustand 스토어에서 메서드 및 상태 가져오기
-    const { fundingInfo, artworks, setFundingInfo, storeAddArtwork, resetFundingState, rewards } = useFundingStore();
+    const { fundingInfo, artworks, setFundingInfo, storeAddArtwork,storeRemoveArtwork, resetFundingState, rewards } = useFundingStore();
     const [artWorkTitle, setArtWorkTitle] = useState('');
     const [artWorkDescription, setArtWorkDescription] = useState('');
     const [artWorkImage, setArtWorkImage] = useState(null);
@@ -58,6 +58,11 @@ function FundingArtCreation() {
         setArtWorkTitle('');
         setArtWorkDescription('');
         setArtWorkImage(null);
+    };
+
+
+    const removeArtwork = (index) => {
+        storeRemoveArtwork(index); // Zustand 스토어에서 삭제
     };
 
     const submitFundingData = async () => {
@@ -118,7 +123,7 @@ function FundingArtCreation() {
         <>
             <Header />
             <div className={styles.fundingArtCreation}>
-                <StepNavigation currentStep="펀딩 계획" />
+                <StepNavigation currentStep="펀딩 계획"/>
                 <div className={styles.fundingArtCreationMain}>
                     <div style={{flex: 1}}>
                         <label>펀딩 제목</label>
@@ -160,7 +165,7 @@ function FundingArtCreation() {
                 </div>
 
                 <div className={styles.fundingArtCreationMain}>
-                    <div style={{ flex: 1 }}>
+                    <div style={{flex: 1}}>
                         <h3>작품 소개</h3>
                         <label>작품 이름</label>
                         <input
@@ -206,18 +211,40 @@ function FundingArtCreation() {
                     </div>
                 </div>
 
+                {/*<div className={styles.fundingArtCreationWorks}>*/}
+                {/*    {artworks.map((artWork, index) => (*/}
+                {/*        <div key={index} className={styles.fundingArtCreationWorkItem}>*/}
+                {/*            <img*/}
+                {/*                src={URL.createObjectURL(artWork.image)}*/}
+                {/*                alt="작품 이미지"*/}
+                {/*            />*/}
+                {/*            <div>{artWork.title}</div>*/}
+                {/*            <div>{artWork.description}</div>*/}
+                {/*        </div>*/}
+                {/*    ))}*/}
+                {/*</div>*/}
+
                 <div className={styles.fundingArtCreationWorks}>
                     {artworks.map((artWork, index) => (
                         <div key={index} className={styles.fundingArtCreationWorkItem}>
+                            <button
+                                type="button"
+                                className={styles.removeArtworkButton}
+                                onClick={() => removeArtwork(index)}
+                            >
+                                X
+                            </button>
                             <img
                                 src={URL.createObjectURL(artWork.image)}
                                 alt="작품 이미지"
                             />
                             <div>{artWork.title}</div>
                             <div>{artWork.description}</div>
+
                         </div>
                     ))}
                 </div>
+
 
                 <div>
                     <button className={styles.FundingArtCreationSubmitButton} onClick={submitFundingData}>

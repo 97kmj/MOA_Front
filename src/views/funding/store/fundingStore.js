@@ -75,6 +75,17 @@ const useFundingStore = create((set) => ({
             artworks: [...state.artworks, artwork],
         })),
 
+    storeRemoveArtwork: (index) =>
+        set((state) => ({
+            artworks: state.artworks.filter((_, i) => i !== index),
+        })),
+
+
+
+
+
+
+
     // 초기화 메서드 추가
     resetFundingState: () =>
         set(() => ({

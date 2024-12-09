@@ -48,7 +48,7 @@
     transform: scale(1.05);
 }
 
-.closeButton {
+.galleryButtonCloseButton {
     position: absolute;
     top: 20px;
     right: 20px;

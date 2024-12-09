@@ -135,6 +135,7 @@
 
 
 .fundingArtCreationWorkItem {
+    position: relative;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 12px;
@@ -171,6 +172,20 @@
     transition: background-color 0.3s, transform 0.3s;
     display: inline-block;
     margin-top: 15px;
+}
+
+.removeArtworkButton {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: -3%;
+    right: -5%;
+    /* right: 98px; */
+    color: #aca6a5;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 

@@ -31,7 +31,6 @@ const SaleDetail = () => {
     ]);
 
 
-
     useEffect(() => {
         if (saleDetail) {
             setSaleItems([
