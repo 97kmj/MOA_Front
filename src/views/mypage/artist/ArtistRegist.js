@@ -6,9 +6,11 @@ import axios from "axios";
 import { useAtomValue,useAtom} from "jotai/react";
 import { userAtom,tokenAtom } from "../../../atoms";
 import { url } from "../../../config";
+import { useNavigate } from "react-router";
 const ArtistRegist = () => {
-    const user = useAtomValue(userAtom);
+    const [user,setUser] = useAtom(userAtom);
     const token = useAtomValue(tokenAtom);
+    const navigate = useNavigate();
     const [portfolioName, setPortfolioName] = useState('');
     const [profileImg, setProfileImg] = useState('');
     const [portfolioFile, setPortfolioFile] = useState('');
@@ -44,6 +46,9 @@ const ArtistRegist = () => {
     }
 
     const artistSubmit =() => {
+        if (user.artistApprovalStatus === 'PENDING') {
+            alert("이미 작가 신청을 완료하셨습니다. 관리자 측에서 승인 검토 중입니다.")
+        }
         if (!registArtistInfo.username) {
             alert("사용자 이름이 설정되지 않았습니다.");
             return;
@@ -67,7 +72,10 @@ const ArtistRegist = () => {
             })
             .then((res) => {
                 if (res.data === true) {
-                    alert("신청 완료");
+                    alert("신청되었습니다.")
+                    setUser({...user, artistApprovalStatus : 'PENDING'})
+                    navigate("/mypage/infoEdit")
+                    ;
                 } else {
                     alert("등록 실패");
                 }
