@@ -25,11 +25,6 @@ const Notification = ({ username, children }) => {
         }
     }, [username]);
 
-    // useEffect(() => {
-    //     if (sseUnreadCount !== undefined) {
-    //         setUnreadCount(sseUnreadCount);
-    //     }
-    // }, [sseUnreadCount]);
 
     useEffect(() => {
         if (sseUnreadCount !== undefined) {

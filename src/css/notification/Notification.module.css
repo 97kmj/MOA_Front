@@ -1,18 +1,89 @@
-.notificationBox {
-    position: relative;
-    cursor: pointer;
-}
+/*.notificationBox {*/
+/*    position: relative;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.iconContainer {
-    position: relative;
-    display: inline-block;
-}
+/*.iconContainer {*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*}*/
 
 
-.notificationTitle{
-    text-align: center;
+/*.notificationTitle{*/
+/*    text-align: center;*/
 
-}
+/*}*/
+
+/*.notificationCount {*/
+/*    position: absolute;*/
+/*    top: -15px;*/
+/*    right: 2px;*/
+/*    background: red;*/
+/*    color: white;*/
+/*    font-size: 12px;*/
+/*    font-weight: bold;*/
+/*    border-radius: 50%;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    z-index: 1;*/
+/*}*/
+
+/*.countBadge {*/
+/*    position: absolute;*/
+/*    top: -5px;*/
+/*    right: -5px;*/
+/*    background: red;*/
+/*    color: white;*/
+/*    font-size: 12px;*/
+/*    border-radius: 50%;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.notificationList {*/
+/*    position: absolute;*/
+/*    top: 30px;*/
+/*    !* right: 5px; *!*/
+/*    width: 711%;*/
+/*    color: #b29c59;*/
+/*    font-weight: bold;*/
+/*    background: #ffffff;*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);*/
+/*    border-radius: 5px;*/
+/*    padding: 8px;*/
+/*    list-style: none;*/
+/*    z-index: 10;*/
+/*    max-height: 200px;*/
+/*    overflow-y: auto;*/
+/*}*/
+
+/*.notificationItem {*/
+/*padding: 5px 10px;*/
+/*cursor: pointer;*/
+/*border-bottom: 1px solid #f0f0f0;*/
+/*}*/
+
+/*.notificationItem:last-child {*/
+/*border-bottom: none;*/
+/*}*/
+
+/*.notificationItem:hover {*/
+/*background: #ecebeb;*/
+/*}*/
+
+/*.emptyList {*/
+/*text-align: center;*/
+/*color: gray;*/
+/*padding: 10px;*/
+/*}*/
+
+
 
 .notificationCount {
     position: absolute;
@@ -31,6 +102,27 @@
     z-index: 1;
 }
 
+
+
+
+
+.notificationBox {
+    position: relative;
+    cursor: pointer;
+}
+
+.iconContainer {
+    position: relative;
+    display: inline-block;
+}
+
+
+.notificationTitle{
+    text-align: center;
+
+}
+
+
 .countBadge {
     position: absolute;
     top: -5px;
@@ -45,40 +137,44 @@
     justify-content: center;
     align-items: center;
 }
-
 .notificationList {
     position: absolute;
-    top: 30px;
-    /* right: 5px; */
-    width: 711%;
-    color: #b29c59;
-    font-weight: bold;
+    top: 50px;
+    width: 300px;
     background: #ffffff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
     list-style: none;
     z-index: 10;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
+    transition: all 0.3s ease-in-out;
 }
+
 
 .notificationItem {
-padding: 5px 10px;
-cursor: pointer;
-border-bottom: 1px solid #f0f0f0;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f4f4f4;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
 }
 
+
 .notificationItem:last-child {
-border-bottom: none;
+    border-bottom: none;
 }
 
 .notificationItem:hover {
-background: #ecebeb;
+    background: #ecebeb;
 }
 
 .emptyList {
-text-align: center;
-color: gray;
-padding: 10px;
+    text-align: center;
+    color: gray;
+    padding: 10px;
 }

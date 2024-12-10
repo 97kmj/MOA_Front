@@ -177,7 +177,9 @@ const FundingList = () => {
                                 </div>
                                 <div className={styles.info}>
                                     {/* 제목 */}
-                                    <h3 className={styles.title}>{funding.title}</h3>
+                                    {/*<h3 className={styles.title}>{funding.title}</h3>*/}
+
+                                    <div className={styles.fundingListTitle}>{funding.title}</div>
 
                                     {/* 펀딩 통계 */}
                                     <div className={styles.fundingStats}>

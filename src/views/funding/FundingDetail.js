@@ -110,7 +110,7 @@ const FundingDetail = () => {
                     }
 
 
-                    if (newQuantity > reward.stock) {
+                    if (reward.rewardType !== "BASIC" && newQuantity > reward.stock) {
                         alert(`이 리워드는 최대 ${reward.stock}개까지 구매 가능합니다.`);
                         return reward; // 변경하지 않고 그대로 반환
                     }

@@ -13,11 +13,17 @@ const FundingContribute = () => {
     const navigate = useNavigate();
     const [user] = useAtom(userAtom);
     const location = useLocation();
+    const [agreements, setAgreements] = useState({
+        personalInfoAgreement: false,
+        termsAgreement: false,
+    });
     const {fundingId, selectedRewards, fundingDetail} = location.state || {};//fundingDetail에서 받아온 데이터
     const [shippingInfo, setShippingInfo] = useState({
         name: "",
         phoneNumber: "",
         address: "",
+        detailAddress: "",
+        postalCode: "",
     });
 
     useEffect(() => {
@@ -32,6 +38,15 @@ const FundingContribute = () => {
     }, []);
 
     const requestPayment = async () => {
+        const isPersonalInfoChecked = document.getElementById("personalInfoAgreement").checked;
+        const isTermsChecked = document.getElementById("termsAgreement").checked;
+
+        if (!isPersonalInfoChecked || !isTermsChecked) {
+            alert("모든 동의 항목에 체크해주세요.");
+            return;
+        }
+
+
 
         if (!user || !user.username) {
             alert("로그인이 필요합니다.");
@@ -64,7 +79,7 @@ const FundingContribute = () => {
             0
         ); // 선택한 리워드의 총 금액 계산
 
-
+        const fullAddress = `${shippingInfo.postalCode || ""} / ${shippingInfo.address} / ${shippingInfo.detailAddress || ""}`.trim();
         // 백엔드에 전달할 데이터
         const requestData = {
             impUid: merchantUid, // 이 값은 결제 성공 후 업데이트됨
@@ -73,7 +88,9 @@ const FundingContribute = () => {
             fundingId: fundingId,
             rewardList: selectedRewards,
             // userName: user.username,
-            address: shippingInfo.address,
+            // address: shippingInfo.address,
+            address: fullAddress,
+
             phoneNumber: shippingInfo.phoneNumber || user.phone,
             name: shippingInfo.name || user.name,
             merchantUid: merchantUid,
@@ -111,7 +128,8 @@ const FundingContribute = () => {
                     buyer_email: user.email,
                     buyer_name: user.name,
                     buyer_tel: user.phone,
-                    buyer_addr: shippingInfo.address || user.address,
+                    // buyer_addr: shippingInfo.address || user.address,
+                    buyer_addr: fullAddress,
                     buyer_postcode: "123-456", // 구매자 우편번호
 
                 };
@@ -179,6 +197,20 @@ const FundingContribute = () => {
             ...prev,
             [name]: value,
         }));
+    };
+
+
+    const handleAddressSearch = () => {
+        new window.daum.Postcode({
+            oncomplete: (data) => {
+                const fullAddress = data.roadAddress || data.jibunAddress; // 도로명 또는 지번 주소
+                setShippingInfo((prev) => ({
+                    ...prev,
+                    address: fullAddress, // 주소 저장
+                    postalCode: data.zonecode, // 우편번호 저장
+                }));
+            },
+        }).open();
     };
 
 
@@ -303,16 +335,61 @@ const FundingContribute = () => {
                                             onChange={inputValueShippingInfo}
                                         />
                                     </label>
+                                    {/*<label>*/}
+                                    {/*    <span>주소</span>*/}
+                                    {/*    <input*/}
+                                    {/*        type="text"*/}
+                                    {/*        name="address"*/}
+                                    {/*        placeholder="주소를 입력하세요"*/}
+                                    {/*        value={shippingInfo.address}*/}
+                                    {/*        onChange={inputValueShippingInfo}*/}
+                                    {/*    />*/}
+                                    {/*</label>*/}
+                                    <label>
+                                        <span>우편번호</span>
+                                        <div className={styles.postalCodeContainer}>
+                                            <input
+                                                type="text"
+                                                name="postalCode"
+                                                placeholder="우편번호"
+                                                value={shippingInfo.postalCode}
+                                                readOnly // 직접 입력 불가
+                                                className={styles.postalCodeInput}
+                                            />
+                                        </div>
+                                    </label>
                                     <label>
                                         <span>주소</span>
+                                        <div className={styles.addressInputContainer}>
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                placeholder="주소를 입력하세요"
+                                                value={shippingInfo.address}
+                                                readOnly // 직접 입력 불가
+                                                className={styles.addressInput}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={handleAddressSearch} // 메서드 호출
+                                                className={styles.addressSearchButton}
+                                            >
+                                                주소 찾기
+                                            </button>
+                                        </div>
+                                    </label>
+                                    <label>
+                                        <span>상세 주소</span>
                                         <input
                                             type="text"
-                                            name="address"
-                                            placeholder="주소를 입력하세요"
-                                            value={shippingInfo.address}
+                                            name="detailAddress" //detailAddress로 설정
+                                            placeholder="상세 주소를 입력하세요"
+                                            value={shippingInfo.detailAddress || ""}
                                             onChange={inputValueShippingInfo}
+                                            className={styles.detailAddressInput}
                                         />
                                     </label>
+
                                 </div>
 
                             </section>
@@ -327,10 +404,10 @@ const FundingContribute = () => {
                                         .toLocaleString()}원
                                 </p>
                                 <label>
-                                    <input type="checkbox"/> 개인정보 제 3자 제공 동의
+                                    <input type="checkbox" id="personalInfoAgreement" /> 개인정보 제 3자 제공 동의
                                 </label>
                                 <label>
-                                    <input type="checkbox"/> 후원 유의사항 확인
+                                    <input type="checkbox" id="termsAgreement" /> 후원 유의사항 확인
                                 </label>
                                 <p className={styles.noticeText}>
                                     ※ 후원 유의사항: 후원자가 만일 중도 취소할 경우 환불 절차가 필요할 수 있습니다.

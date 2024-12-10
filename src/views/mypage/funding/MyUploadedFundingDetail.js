@@ -17,6 +17,8 @@ function MyUploadedFundingDetail() {
     const navigate = useNavigate();
     const token = useAtomValue(tokenAtom);
 
+    console.log("contributors", contributors);
+
     useEffect(() => {
         axios.get(`${url}/api/myPage/funding/registeredFunding/${fundingId}`, {headers: {Authorization: token}})
             .then((response) => {
@@ -25,7 +27,7 @@ function MyUploadedFundingDetail() {
             .catch((error) => {
                 console.error("Error fetching funding details:", error);
             });
-    }, [fundingId]);
+    }, [fundingId,token]);
 
     // 리워드 모달 열기
     const handleOpenModal = (rewards) => {
@@ -49,6 +51,7 @@ function MyUploadedFundingDetail() {
             <Header/>
             <div className={styles.container}>
                 <SideNav/>
+              <div className={styles.myUploadedFundingDetilOutForm}>
                 <div className={styles.myUploadedFundingDetail}>
                     {/* 펀딩 상세 보기 버튼 */}
                     <div className={styles.fundingDetailButton}>
@@ -138,6 +141,7 @@ function MyUploadedFundingDetail() {
                         </Box>
                     </Modal>
                 </div>
+            </div>
             </div>
         </>
     );

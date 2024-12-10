@@ -10,6 +10,13 @@
     width: 250px;
 }
 
+.myUploadedFundingDetilOutForm{
+    width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+}
+
+
 .myUploadedFundingDetail {
     flex: 1;
     padding: 50px;
@@ -19,11 +26,10 @@
 
 
 
-
 .myUploadedFundingDetail {
-    max-width: 900px;
-    padding-top: 50px;
-    margin: 0 auto;
+    /*max-width: 900px;*/
+    /*padding-top: 50px;*/
+    /*margin: 0 auto;*/
 }
 
 .myUploadedFundingDetail h3 {

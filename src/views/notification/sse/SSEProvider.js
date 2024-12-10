@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAtom } from "jotai/react";
-import { userAtom } from "../../../atoms";
+import {tokenAtom, userAtom} from "../../../atoms";
+import {useAtomValue} from "jotai/index";
 
 // Context 생성
 const SSEContext = createContext();
@@ -11,6 +12,7 @@ export const SSEProvider = ({ children }) => {
     const [isConnected, setIsConnected] = useState(false); // SSE 연결 상태
     const [user] = useAtom(userAtom); // 사용자 정보 가져오기
     const [unreadCount, setUnreadCount] = useState(0); // 읽지 않은 알림 개수
+    const token = useAtomValue(tokenAtom);
 
     // username 추출
     const username = user?.username;
@@ -73,7 +75,7 @@ export const SSEProvider = ({ children }) => {
                 eventSource.close();
             }
         };
-    }, [username]); // username 변경 시 실행
+    }, [username,token]); // username 변경 시 실행
 
     return (
         <SSEContext.Provider value={{ notifications, isConnected, unreadCount }}>
