@@ -7,9 +7,10 @@
 
 .myContributedFunding {
     font-family: Arial, sans-serif;
-    padding: 20px;
+    padding: 50px;
     margin: 0 auto;
-    width: 83%;
+    /* width: 83%; */
+    width: 1200px;
 }
 
 .myContributedFunding h2 {

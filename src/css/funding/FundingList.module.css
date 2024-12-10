@@ -116,6 +116,18 @@
 
 }
 
+.fundingListTitle{
+    font-size: 14px;
+    font-weight: bold;
+    color: #3f3f3f;
+    /* overflow: hidden; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+
+}
+
 .image {
     max-width: 95%;
     max-height: 90%;
@@ -133,6 +145,10 @@
     justify-content: space-between;
     flex-grow: 1;
     margin-bottom: 2%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*display: inline-block;*/
+    width: 250px;
 }
 
 .title {
