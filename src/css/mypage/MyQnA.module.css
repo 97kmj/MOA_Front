@@ -1,12 +1,13 @@
 .container {
-    display: flex; /* SideNav와 메인 콘텐츠를 나란히 배치 */
-    margin-top: 0; /* 헤더와 붙이기 */
+    display: flex; 
+    margin-top: 0; 
+    align-items: stretch;
 }
 
 .qnabody{
     margin:50px auto;
     width: 1000px;
-    height: 500px;
+    height:728px;
     position:relative;
 }
 

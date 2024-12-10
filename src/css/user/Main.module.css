@@ -117,6 +117,10 @@
 }
 .fundingUsername,.fundingTitle,.fundingAmount {
     margin-top: 10px;
+    width: 270px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .fundingTitle {
     font-weight: 600;

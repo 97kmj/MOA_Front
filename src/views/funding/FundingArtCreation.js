@@ -117,7 +117,7 @@ function FundingArtCreation() {
         });
 
         try {//안되면 {} 없애기
-            const response = await axios.post(`${url}/api/funding`, {formData}, {
+            const response = await axios.post(`${url}/api/funding`, formData, {
                 headers: {
                     Authorization: token,
                     "Content-Type": "multipart/form-data",

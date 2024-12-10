@@ -157,7 +157,7 @@
 .searchInput {
   padding: 8px;
   border: 1px solid #d1d5db;
-  border-radius: 8px 0 0 8px;
+  border-radius: 8px;
   outline: none;
   height: 15px; /* 높이를 명확히 설정 (선택 사항) */
 
@@ -195,10 +195,14 @@
   height: 55%; 
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-
-  background-color: #f9f9f9;
+  /* align-items: center; */  
+  background-color: #f8f9fa; /* 기본 배경색 */
+  
   padding: 10px;
+}
+.cardImageContainer:hover {
+  cursor : pointer;
+  
 }
 .cardImage {
   max-width: 100%;
@@ -221,7 +225,7 @@
 
 /* 텍스트 스타일 */
 .cardTitle {
-  font-size: 1rem;
+  
   font-weight: bold;
   margin-bottom: 8px;
 }
