@@ -119,17 +119,6 @@ const SaleDetail = () => {
     };
 
 
-
-    // const handleOptionChange = (index, selectedOption) => {
-    //     const updatedItems = [...saleItems];
-    //     const framePrice = getFrame.find((f) => f.frameId === selectedOption)?.framePrice || 0;
-    //     updatedItems[index].selectedOption = selectedOption;
-    //     updatedItems[index].framePrice = framePrice;
-    //     setSaleItems(updatedItems);
-    // };
-
-
-
     //좋아요 처리 
 
     const handleLikeButtonClick = async() => {
@@ -439,13 +428,6 @@ const SaleDetail = () => {
                                     <td className={styles.newItemQuantity}>
                                         {/* 수량 버튼 */}
                                         <button className={styles.quantityButton} onClick={addNewItem}>+</button>
-                                        {/*<button*/}
-                                        {/*    className={styles.quantityButton}*/}
-                                        {/*    onClick={() => removeSpecificItem(saleItems[0].id)}*/}
-                                        {/*    disabled={saleItems.length <= 1} // 기본 항목은 제거하지 않음*/}
-                                        {/*>*/}
-                                        {/*    -*/}
-                                        {/*</button>*/}
                                     </td>
                                 </tr>
                                 {/* 기본 작품 가격 정보 */}
@@ -508,6 +490,7 @@ const SaleDetail = () => {
                                             </td>
                                         </tr>
                                         <tr className={styles.newPriceRow}>
+                                            {/* <td className={styles.newItemPrice}> */}
                                             <td className={styles.newItemPrice}>
                                                 <Label>작품 가격</Label>
                                             </td>
@@ -549,9 +532,9 @@ const SaleDetail = () => {
                             </>
                         ) : (
                             <tbody className={styles.newSoldOut}>
-                            <tr>
-                                <td><b>SOLD_OUT</b></td>
-                            </tr>
+                                <tr>
+                                    <td><b>SOLD_OUT</b></td>
+                                </tr>
                             </tbody>
                         )}
                     </Table>

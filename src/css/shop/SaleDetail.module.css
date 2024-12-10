@@ -53,17 +53,21 @@
     height: 420px;
     display: flex;
     align-items: center;
+    justify-content: center
 }
+
 
 
 .detailTopLeft img {
     margin-top: 30px;
-    width: 90%;
-    height: 100%;
-    /* object-fit: contain; */
+    max-width: 550px;
+    /* width: 90%; */
+    max-height: 420px;
+    /* height: 90%; */
+    object-fit: contain;
     background-color: #f0f0f0; 
     display: block;
-    box-shadow: 3px 3px 3px #666;
+    box-shadow: 5px 5px 5px #666; 
 
 
 }
@@ -90,8 +94,8 @@
     color: #b39c59;
     margin-left: 50px;
 
-    margin-top: 5px;
-
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .detailTopRightArtworkprice {
@@ -242,7 +246,6 @@
     width: 1200px;
     display: flex;
     gap: 9%;
-
 }
 
 .leftgoldheart {
@@ -562,7 +565,8 @@
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid #e5e5e5;
-    width: 130%;
+    width: 200%;
+    max-width: 500px;
 }
 
 .newItemRowTotal {
@@ -580,13 +584,7 @@
     font-size: 16px;
     text-align: left;
     color: #555;
-}
-
-.newItemValue {
-    flex: 1;
-    text-align: right;
-    font-size: 16px;
-    color: #333;
+    
 }
 
 .newTotalLabel {
@@ -604,7 +602,15 @@
     font-weight: bold;
     color: #222;
 }
-
+.newPriceRow{
+    width: 500px;
+}
+.newItemPrice{
+    width: 350px;
+}
+.newTotalPriceValue{
+    width: 150px;
+}
 /* 옵션 선택 섹션 */
 .newOptionBody {
     margin-top: 20px;
@@ -640,7 +646,10 @@
 
 /* SOLD_OUT 스타일 */
 .newSoldOut {
-    text-align: center;
+ 
+    width: 500px;
+    margin-left: 400px;
+    /* text-align: center; */
     font-size: 18px;
     font-weight: bold;
     color: #d9534f;
