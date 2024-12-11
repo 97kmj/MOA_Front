@@ -81,21 +81,21 @@ const Login = () => {
         </div>
 
         <div className={styles.socialLogin}>
-          <button id={styles.naver} className={styles.socialButton}
-                  onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>네이버 로그인
-          </button>
-
-          {/*<button*/}
-          {/*    id={styles.naver}*/}
-          {/*    className={styles.socialButton}*/}
-          {/*    onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>*/}
-          {/*  <img src="/img/naverLogin.png" alt="네이버 로그인" className={styles.naverImage}/>*/}
+          {/*<button id={styles.naver} className={styles.socialButton}*/}
+          {/*        onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>네이버 로그인*/}
           {/*</button>*/}
+
+          <button
+              className={styles.socialLoginButton}
+              onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>
+            <img src="/img/naverLogin.png" alt="네이버 로그인" className={styles.socialLoginButtonImage}/>
+          </button>
 
 
           <button
-              className={styles.socialButton}
-              onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}>카카오 로그인
+              className={styles.socialLoginButton}
+              onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}>
+            <img src="/img/kakaoLogin.png" alt="카카오 로그인" className={styles.socialLoginButtonImage}/>
 
           </button>
           {/*<button className={styles.socialButton}>구글 로그인</button>*/}
