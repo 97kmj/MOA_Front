@@ -9,6 +9,7 @@ import axios from 'axios';
 import { userAtom } from '../../../atoms';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from "../../../atoms";
+import { useNavigate } from 'react-router';
 
 function MyContributedFunding() {
     const user = useAtomValue(userAtom);
@@ -18,7 +19,7 @@ function MyContributedFunding() {
     const [totalPages, setTotalPages] = useState(0);
     const itemsPerPage = 5; // Items per page
     const token = useAtomValue(tokenAtom);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         getSaleInfo(activeTab,currentPage);
@@ -72,6 +73,9 @@ function MyContributedFunding() {
         return true; // 
     });
 
+    const handleOrderListClieck = (artworkId) =>{
+        navigate(`/shop/saleDetail/${artworkId}`);
+    }
 
     const handlePageChange = (pageNumber) => {
         if (pageNumber >= 0 && pageNumber < totalPages) {
@@ -117,7 +121,7 @@ function MyContributedFunding() {
                     <div className={styles.myPageSaleListList}>
                         {saleData.length > 0 ? (
                             saleData.map((saleItem) => (
-                                <div key={saleItem.artworkId} className={styles.myPageSaleListItem}>
+                                <div key={saleItem.artworkId} className={styles.myPageSaleListItem} onClick={()=>handleOrderListClieck(saleItem.artworkId)}>
                                     <img src={saleItem.imageUrl} alt="saleList" className={styles.myPageSaleListItemItemImg} />
                                     <div className={styles.myPageSaleListItemItemDetails}>
                                         <h4>{saleItem.title}</h4>

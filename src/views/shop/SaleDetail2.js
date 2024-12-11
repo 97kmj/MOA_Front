@@ -308,21 +308,26 @@ const SaleDetail = () => {
                                 </tr>
                                 {saleDetail.saleStatus === "AVAILABLE" && (
                                     <>
-                                        {saleDetail.categoryId === 1 && (
+                                        {/* {saleDetail.categoryId === 1 && (
                                             <tr className={styles.detailTopRightOption}>
                                                 <td><Label><b></b></Label></td>
                                             </tr>  // 공란을 위해 남겨놓음
-                                        )}
+                                        )} */}
                                         <tr>
+                                        {saleDetail.categoryId === 1 ? (
                                             <td className={styles.alignCenter}>
                                                 <div className={styles.buttonDarkStyle} onClick={showModal}>추천프레임</div>
-                                            </td>
-                                            <td>
                                                 <div className={styles.buttonDarkStyle2} onClick={addToCart}><b>ADD TO CART</b></div>
-                                            </td>
-                                            <td>
                                                 <div className={styles.buttonDarkStyle2} onClick={()=> goOrder(saleDetail.artworkId)}><b>결제하기</b></div>
                                             </td>
+                                            
+                                            ) : (
+                                            <td className={styles.alignCenter}>
+                                                <div className={styles.buttonDarkStyle2} onClick={addToCart}><b>ADD TO CART</b></div>
+                                                <div className={styles.buttonDarkStyle2} onClick={()=> goOrder(saleDetail.artworkId)}><b>결제하기</b></div>
+                                            </td>
+                                            )}
+
                                         </tr>
                                     </>
                                 )}
@@ -336,7 +341,7 @@ const SaleDetail = () => {
                                     <td className={styles.artistMoveButton} onClick={()=> goArtist(saleDetail.artistId)}>작가상세</td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
-                                    <td><Label>{saleDetail.width}X{saleDetail.height}</Label></td>
+                                    <td><Label>{saleDetail.width} X {saleDetail.height}  {saleDetail.length && ` X ${saleDetail.length}`} cm </Label></td>
                                 </tr>
                                 <tr className={styles.detailTopRightArray}>
                                    <td><Label>{saleDetail.typeName}</Label></td>
