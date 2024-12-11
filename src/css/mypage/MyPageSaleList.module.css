@@ -1,5 +1,3 @@
-
-
 .myPageSaleList {
     font-family: Arial, sans-serif;
     align-items: stretch;
@@ -14,6 +12,7 @@
    width: 1200px;
    margin:0px auto;
    padding: 50px;
+   min-height: 770px;
    
 }
 .myPageSaleList h2 {

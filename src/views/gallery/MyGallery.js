@@ -277,7 +277,6 @@ const handleSearchChange = (event) => {
              placeholder="작가 및 작품 검색"
              className={styles.searchInput}
             />
-            <button className={styles.searchBtn}>🔍</button>
           </div>
         </div>
 
@@ -326,7 +325,9 @@ const handleSearchChange = (event) => {
             </div>
                 {/* 텍스트 설명 부분 */}
           <div className={styles.cardContent}>
-            <h2 className={styles.cardTitle}>{artwork.title}</h2>
+            <div className={styles.cardTitle}>
+              {artwork.title}
+            </div>
             <p className={styles.cardArtist}>{artwork.artist.name}</p>
             <div className={styles.cardCategories}>
               <p className={styles.cardCategory}>{artwork.category.categoryName}</p>

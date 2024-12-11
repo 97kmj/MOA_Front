@@ -1,16 +1,17 @@
 .container {
     display: flex;
-    align-items: flex-start; /* 상단 정렬 */
+    align-items: stretch; /* 상단 정렬 */
     width: 100%;
     margin: 0 auto;
 }
 
 .myContributedFunding {
     font-family: Arial, sans-serif;
-    padding: 50px;
+    padding-top: 50px;
     margin: 0 auto;
     /* width: 83%; */
     width: 1200px;
+    min-height: 780px;
 }
 
 .myContributedFunding h2 {
