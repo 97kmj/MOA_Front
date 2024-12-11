@@ -1,12 +1,13 @@
 .layout {
     display: flex;
-    flex-direction: row;
+    align-items: stretch;
   }
   
   .content {
     flex: 1; /* 메인 콘텐츠가 남은 공간을 차지 */
     padding: 20px;
     overflow: auto; /* 콘텐츠가 넘치면 스크롤 생성 */
+    height: 788px;
   }
   
   .sideNav {

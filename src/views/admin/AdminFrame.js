@@ -277,7 +277,7 @@ const AdminFrame = () => {
                                     </select>
                                 </div>
                             </td>
-                            <td><input type="text" name="framePrice" className={styles.editInput} onChange={handleChangeRegist} value={registFrame.framePrice} style={{textAlign:"right"}}></input></td>
+                            <td><input type="text" name="framePrice" className={styles.editInput} onChange={handleChangeRegist} value={registFrame.framePrice.toLocaleString()} style={{textAlign:"right"}}></input></td>
                             <td><input type="text" name="stock"  className={styles.editInput}  onChange={handleChangeRegist} value={registFrame.stock} style={{textAlign:"right"}}></input></td>
                         </tr> 
                     </tbody>

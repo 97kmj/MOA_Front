@@ -26,7 +26,7 @@ const Login = () => {
   
       // 헤더에서 JWT 토큰 읽기
       const token = response.headers['authorization']
-      console.log(token)
+      
   
       if (!token) {
         throw new Error('Access Token is missing in response headers.');

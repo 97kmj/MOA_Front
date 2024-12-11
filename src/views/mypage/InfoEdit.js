@@ -146,9 +146,8 @@ const handleEditClick = (field) => {
     <div>
       <Header />
       <div className={styles.layout}>
-        <div className={styles.sideNav}>
-          <SideNav />
-        </div>
+        <SideNav />
+        
         <div className={styles.content}>
           <h1 className={styles.pageTitle}>회원정보 수정</h1>
           <div className={styles.container}>
