@@ -88,14 +88,14 @@ const Login = () => {
           <button
               className={styles.socialLoginButton}
               onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>
-            <img src="/img/naverLogin.png" alt="네이버 로그인" className={styles.socialLoginButtonImage}/>
+            <img src="/img/naver.png" alt="네이버 로그인" className={styles.socialLoginButtonImage}/><div>&nbsp;&nbsp;네이버 로그인</div>
           </button>
 
 
           <button
               className={styles.socialLoginButton}
               onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}>
-            <img src="/img/kakaoLogin.png" alt="카카오 로그인" className={styles.socialLoginButtonImage}/>
+            <img src="/img/kakao.png" alt="카카오 로그인" className={styles.socialLoginButtonImage}/><div>&nbsp;&nbsp;카카오 로그인</div>
 
           </button>
           {/*<button className={styles.socialButton}>구글 로그인</button>*/}
