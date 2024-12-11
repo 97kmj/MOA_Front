@@ -98,11 +98,10 @@ function MyContributedFunding() {
         <>
             <Header/>
             <div className={styles.myPageSaleList}>
-                <div>
-                    <SideNav/>
-                </div>
+                <SideNav/>
+                
                 <div className={styles.myPageSaleListRight}>
-                    <h2>구매 목록 조회</h2>
+                    <h3>구매 목록 조회</h3>
 
                     {/* Date Filter: Start and End Date */}
                     <div className={styles.myPageSaleListTabs}>
@@ -130,7 +129,7 @@ function MyContributedFunding() {
                                     <img src={saleItem.imageUrl} alt="orderlist" className={styles.myPageSaleListItemItemImg} />
                                     <div className={styles.myPageSaleListItemItemDetails}>
                                         <h4>{saleItem.title}</h4>
-                                        <p>주문 금액: {saleItem.price}</p>
+                                        <p>주문 금액: {saleItem.price.toLocaleString()}</p>
                                         <p>판매일: {new Date(saleItem.paymentDate).toLocaleDateString('ko-KR')}</p>
                                     </div>
                                 </div>

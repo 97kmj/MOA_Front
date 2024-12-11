@@ -88,7 +88,7 @@ function MyContributedFunding() {
                     <SideNav/>
                 </div>
                 <div className={styles.myPageSaleListRight}>
-                    <h2>내가 올린 판매글 조회</h2>
+                    <h3>내가 올린 판매글 조회</h3>
 
                     {/* Tabs: 전체 보기, 판매완료, 판매중 */}
                     <div className={styles.myPageSaleListTabs}>
@@ -121,7 +121,7 @@ function MyContributedFunding() {
                                     <img src={saleItem.imageUrl} alt="saleList" className={styles.myPageSaleListItemItemImg} />
                                     <div className={styles.myPageSaleListItemItemDetails}>
                                         <h4>{saleItem.title}</h4>
-                                        <p>금액: {saleItem.price}</p>
+                                        <p>금액: {saleItem.price.toLocaleString()}</p>
                                         <p>판매여부: {saleItem.saleStatus==="AVAILABLE" ? "판매중" : "판매완료" }</p>
                                     </div>
                                 </div>

@@ -226,11 +226,11 @@ const SaleList = () => {
                             className={styles.searchInput}
                         />
                        
-                        <button className={styles.searchButton} >
+                        {/* <button className={styles.searchButton} >
                             <img src='/img/search.png' />
                             
 
-                        </button>
+                        </button> */}
                     </div>
 
                     <select className={styles.filter} onChange={handleSaleStatus}>

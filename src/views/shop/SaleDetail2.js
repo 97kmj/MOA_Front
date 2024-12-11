@@ -457,7 +457,6 @@ const SaleDetail = () => {
                                 </tr>
 
                                 {/* 수량 추가로 생성된 항목들 */}
-                                {/* 수량 추가로 생성된 항목들 */}
                                 {saleItems.slice(1).map((item, index) => (
                                     <React.Fragment key={item.id}>
                                         <tr className={styles.newItemRow}>
@@ -533,7 +532,11 @@ const SaleDetail = () => {
                         ) : (
                             <tbody className={styles.newSoldOut}>
                                 <tr>
-                                    <td><b>SOLD_OUT</b></td>
+                                    <td>
+                                        <div  className={styles.newSoldOutDiv}>
+                                            <b>SOLD_OUT</b>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         )}

@@ -343,7 +343,9 @@ const SaleDetail = () => {
                         ):(
                             <tbody className={styles.soldOut}>
                                 <tr>
-                                    <td ><b>SOLD_OUT</b></td>
+                                    <td>
+                                        <b>SOLD_OUsssT</b>
+                                    </td>
                                 </tr>
                             </tbody>  
                         )} 
