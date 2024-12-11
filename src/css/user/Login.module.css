@@ -103,3 +103,9 @@
   cursor: pointer;
   border-radius: 50px;
 }
+
+.naverImage {
+  width: 100%; /* 원하는 너비로 설정 */
+  height: auto; /* 비율 유지 */
+  display: block;
+}
