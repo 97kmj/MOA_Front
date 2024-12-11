@@ -52,7 +52,7 @@ const Main = () => {
                 </div>
             </div>
             <div className={styles.subject}>
-            <img src='https://img.icons8.com/?size=40&id=ILYxpWvfwV7u&format=png&color=000000'/>    
+            <img src='https://img.icons8.com/?size=40&id=oI66xA0sTgGs&format=png&color=B39C59'/>    
             <h3>작품</h3>          
             </div>
             
@@ -80,7 +80,7 @@ const Main = () => {
                 <button className={styles.goldbutton} onClick={()=>navigate("/shop/saleList")}>Shop</button>
             </div>
             <div className={styles.subject}>
-                <img src='https://img.icons8.com/?size=40&id=KimA28RaNE28&format=png&color=000000'/>
+                <img src='https://img.icons8.com/?size=40&id=62622&format=png&color=B39C59'/>
                 <h3>진행중인 펀딩</h3>
             </div>
             <hr className={styles.bar}></hr>

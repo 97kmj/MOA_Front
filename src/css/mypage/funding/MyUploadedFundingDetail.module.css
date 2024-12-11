@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     width: 100%;
     margin: 0 auto;
 }
@@ -14,6 +14,7 @@
     width: 1200px;
     margin: 0 auto;
     padding: 50px;
+    min-height: 780px;
 }
 
 

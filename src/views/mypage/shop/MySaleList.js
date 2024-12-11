@@ -83,10 +83,8 @@ function MyContributedFunding() {
         <>
             <Header/>
             <div className={styles.myPageSaleList}>
+                <SideNav/>
 
-                <div>
-                    <SideNav/>
-                </div>
                 <div className={styles.myPageSaleListRight}>
                     <h3>내가 올린 판매글 조회</h3>
 
