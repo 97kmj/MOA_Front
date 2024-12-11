@@ -180,8 +180,9 @@
 }
 
 .alignCenter {
-    display: inline-block;;
+    display: inline-flex;;
     justify-content: center;
+    width: 600px;
 
 }
 
@@ -202,6 +203,19 @@
     text-align: center;
     padding-top: 10px;
 }
+.buttonwhiteStyle{
+    margin-left: 60px;
+    width: 150px;
+    height: 30px;
+    size: 10px;
+    background-color: white;
+    color: white;
+    border-radius: 50px;
+    margin-top: 15px;
+    text-align: center;
+    padding-top: 10px;
+}
+
 
 .buttonDarkStyle2 {
     margin-left: 15px;
@@ -214,7 +228,6 @@
     margin-top: 15px;
     text-align: center;
     padding-top: 10px;
-
 }
 
 .buttonDarkStyle:hover {

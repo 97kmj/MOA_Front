@@ -241,9 +241,15 @@ const Artwork = () => {
             return;
         }
         
+        if(saleStatus == true && artwork.price == 0){
+            alert("가격 0 으로 기입하셨습니다. 올바른 가격을 기재해주세요.")
+            return;
 
+        } else if ( saleStatus == true && artwork.stock == 0 ){
 
-
+            alert("재고 수량이 0으로 기입하셨습니다. 올바른 재고를 기재해주세요.")
+            return;
+        }
 
         axios.post(`${url}/shopAdd/artworkAdd`, formData, {
             headers: {

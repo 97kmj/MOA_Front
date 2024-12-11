@@ -101,26 +101,25 @@ function MyContributedFunding() {
                 <SideNav/>
                 
                 <div className={styles.myPageSaleListRight}>
-                    <h3>구매 목록 조회</h3>
-
-                    {/* Date Filter: Start and End Date */}
-                    <div className={styles.myPageSaleListTabs}>
-                        <div className={styles.orderDateFilterStart}>
-                            <label htmlFor="startDate"></label>
-                            <input type="date"
-                                value={startDate}
-                                onChange={handleStartDateChange}
-                            />
-                        </div>
-                        <div className={styles.orderDateFilterEnd}>
-                            <label htmlFor="endDate"></label>
-                            <input type="date"
-                                value={endDate}
-                                onChange={handleEndDateChange}
-                            />
+                    <div className={styles.myPageSaleListTop}>
+                        <h3>구매 목록 조회</h3>
+                        <div className={styles.myPageSaleListTabs}>
+                            <div className={styles.orderDateFilterStart}>
+                                <label htmlFor="startDate"></label>
+                                <input type="date"
+                                    value={startDate}
+                                    onChange={handleStartDateChange}
+                                />
+                            </div>
+                            <div className={styles.orderDateFilterEnd}>
+                                <label htmlFor="endDate"></label>
+                                <input type="date"
+                                    value={endDate}
+                                    onChange={handleEndDateChange}
+                                />
+                            </div>
                         </div>
                     </div>
-
                     {/* Sale List */}
                     <div className={styles.myPageSaleListList}  >
                         {orderlist.length > 0 ? (

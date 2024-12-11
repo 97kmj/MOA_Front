@@ -74,7 +74,6 @@ const SaleList = () => {
     useEffect(() => {
         axios.get(`${url}/shop/artworkAdd`)
             .then(res => {
-             
                 setCategory(res.data);  
             })
             .catch(error => {
@@ -104,27 +103,33 @@ const SaleList = () => {
     }, [categoryId]);
 
     const handleCategoryChange = (e) => {
+
         setCategoryId(e.target.value);
+
         if (e.target.value === "A"){
             setCategoryName("");
         }else{
             setCategoryName(e.target.selectedOptions[0].text);
         }
-        setTypes([]);  // 타입 초기화
-        setThemes([]);  // 주제 초기화
+        setTypesId("");  // 타입 초기화
+        setSubjectId("");  // 주제 초기화
+        setVisibleCount(8);
  
     };
     const handleTypeChange = (e) => {
  
         setTypesId(e.target.value);
+        setVisibleCount(8);
     };
 
     const handleSubjectChange = (e) => {
         setSubjectId(e.target.value);
+        setVisibleCount(8);
     };
 
     const handleSearchKeyword = (e) =>{
         setSearchKeyword(e.target.value);
+        setVisibleCount(8);
 
     }
     const handleSaleStatus =(e) =>{
@@ -220,17 +225,11 @@ const SaleList = () => {
                     <div className={styles.searchGroup} >
                         <input
                             type="text"
-                            placeholder="검색"
+                            placeholder="작가 검색"
                             value={searchKeyword}
                             onChange={handleSearchKeyword}
                             className={styles.searchInput}
                         />
-                       
-                        {/* <button className={styles.searchButton} >
-                            <img src='/img/search.png' />
-                            
-
-                        </button> */}
                     </div>
 
                     <select className={styles.filter} onChange={handleSaleStatus}>
@@ -250,7 +249,7 @@ const SaleList = () => {
                             </div>
                             <div>
                                 <div className={styles.info}>
-                                    <p className={styles.title}>{item.title}</p>
+                                    <div className={styles.title}>{item.title}</div>
                                     <p className={styles.artistName}>{item.artistName}</p>
                                     <p className={styles.price}>{item.price.toLocaleString()}원</p>
                                     <p className={styles.category}>{item.subjectName}&nbsp;&nbsp;{item.typeName}</p>
