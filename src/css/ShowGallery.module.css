@@ -23,8 +23,10 @@
 }
 
 .card {
-    width: 250px;
-    height: 400px;
+    /*width: 250px;*/
+    /*height: 400px;*/
+    width: 350px;
+    height: 520px;
     background-color: #333;
     display: flex;
     flex-direction: column;

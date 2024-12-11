@@ -66,9 +66,9 @@
   padding: 10px;
   margin-top: 10px; /* 로그인 버튼 상단 간격 추가 */
   margin-bottom: 10px;
-  background-color: #b39c59;
+  background-color: #333;
   border: none;
-  color: white;
+  color: #b29c59;
   font-weight: bold;
   cursor: pointer;
   border-radius: 50px;
@@ -83,9 +83,9 @@
 .findButton {
   width: 48%;
   padding: 10px;
-  background-color: #b39c59;
+  background-color: #333;
   border: none;
-  color: white;
+  color: #b29c59;
   font-weight: bold;
   cursor: pointer;
   border-radius: 50px;
@@ -95,7 +95,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;}
+  margin-top: 20px;
+
+}
 
 .socialButton {
   width: 100%;
@@ -104,8 +106,22 @@
   border-radius: 50px;
 }
 
-.naverImage {
-  width: 100%; /* 원하는 너비로 설정 */
-  height: auto; /* 비율 유지 */
+
+
+
+
+.socialLoginButton {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 23%;
+
+}
+
+.socialLoginButtonImage {
   display: block;
+  max-width: 100%;
+  /*height: auto; */
+  height: 50px;
+  width: 70%;
 }

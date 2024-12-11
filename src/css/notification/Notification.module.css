@@ -108,28 +108,28 @@
     font-family: "Helvetica", "Arial", sans-serif;
 }
 
-.iconContainer {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: var(--bg-color);
-    border-radius: var(--radius);
-    padding: 10px;
-    transition: background var(--transition);
-    color: var(--text-color);
-}
+/*.iconContainer {*/
+/*    position: relative;*/
+/*    display: inline-flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    cursor: pointer;*/
+/*    background: var(--bg-color);*/
+/*    border-radius: var(--radius);*/
+/*    padding: 10px;*/
+/*    transition: background var(--transition);*/
+/*    color: var(--text-color);*/
+/*}*/
 
-.iconContainer:hover {
-    background: var(--hover-bg);
-}
+/*.iconContainer:hover {*/
+/*    background: var(--hover-bg);*/
+/*}*/
 
 /* 미읽은 개수 */
 .notificationCount {
     position: absolute;
-    top: 0px;
-    right: 11px;
+    top: -13px;
+    right: 0px;
     background: red;
     color: white;
     font-size: 12px;

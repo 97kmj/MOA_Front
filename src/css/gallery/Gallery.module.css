@@ -55,11 +55,16 @@
 }
 
 .separator {
+  /*width: 100%;*/
+  /*border: none;*/
+  /*height: 2px;*/
+  /*background-color: #b39c59;*/
+  /*margin: 8px 0 16px;*/
   width: 100%;
   border: none;
   height: 2px;
   background-color: #b39c59;
-  margin: 8px 0 16px;
+  margin: 0px 0 16px;
 }
 
 .viewButtons {
