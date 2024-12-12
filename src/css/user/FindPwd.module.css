@@ -41,8 +41,8 @@
   .button {
     flex: 1;
     padding: 0.5rem 0;
-    border: 2px solid #b39c59; 
-    color: #b39c59;
+    border: 2px solid #2F4F4F; 
+    color: #2F4F4F;
     border-radius: 0.5rem;
     background: none;
     cursor: pointer;
@@ -51,17 +51,17 @@
   .selbutton {
     flex: 1;
     padding: 0.5rem 0;
-    border: 2px solid #b39c59; 
+    border: 2px solid #2F4F4F; 
     color: white;
     border-radius: 0.5rem;
-    background: #b39c59;
+    background: #2F4F4F;
     cursor: pointer;
   }  
   
-  .button:hover {
-    background-color: #b39c59;
+  /* .button:hover {
+    background-color: #2F4F4F;
     color: white;
-  }
+  } */
   
   .inputGroup {
     margin-bottom: 1.5rem;
@@ -95,16 +95,16 @@
   .smallButton {
     padding: 0.25rem 0.75rem;
     border: 2px solid #b39c59; /* orange-400 */
-    color: #b39c59;
+    color: white;
     border-radius: 0.5rem;
-    background: none;
+    background: #b39c59;
     cursor: pointer;
   }
   
-  .smallButton:hover {
-    background-color: #b39c59;
+  /* .smallButton:hover {
+    background-color: #2F4F4F;
     color: white;
-  }
+  } */
   
   .alignCenter {
     display: flex;

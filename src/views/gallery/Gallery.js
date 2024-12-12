@@ -12,80 +12,80 @@ import { url } from "../../config";
 import ShowGallery from "../funding/ShowGallery";
 
 // Type과 Category의 옵션 매핑
-  const OPTIONS = {
-    그림: {
-      type: ["유화", "수채화", "아크릴화", "수묵화", "채색화", "판화", "기타"],
-      subject: [
-        "풍경화",
-        "인물화",
-        "정물화",
-        "크로키",
-        "추상화",
-        "초상화",
-        "기타",
-      ],
-    },
-    조소: {
-      type: [
-        "석조",
-        "목조",
-        "아조",
-        "점토상",
-        "석고상",
-        "청동상",
-        "테라코타",
-        "기타",
-      ],
-      subject: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
-    },
-    공예: {
-      type: ["석공예", "목공예", "유리공예", "도자공예", "기타"],
-      subject: ["기타"],
-    },
+const OPTIONS = {
+  그림: {
+    type: ["유화", "수채화", "아크릴화", "수묵화", "채색화", "판화", "기타"],
+    subject: [
+      "풍경화",
+      "인물화",
+      "정물화",
+      "크로키",
+      "추상화",
+      "초상화",
+      "기타",
+    ],
+  },
+  조소: {
+    type: [
+      "석조",
+      "목조",
+      "아조",
+      "점토상",
+      "석고상",
+      "청동상",
+      "테라코타",
+      "기타",
+    ],
+    subject: ["마스크", "흉상", "반신상", "전신상", "토르소", "등신상", "기타"],
+  },
+  공예: {
+    type: ["석공예", "목공예", "유리공예", "도자공예", "기타"],
+    subject: ["기타"],
+  },
+};
+
+
+// Dropdown 컴포넌트
+const Dropdown = ({ label, options, onChange, selectedValue }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
+    }
   };
 
+  const handleOptionClick = (option) => {
+    setIsOpen(false);
+    onChange(option === "전체" ? null : option); // 전체 선택 시 null 전달
+  };
 
-  // Dropdown 컴포넌트
-  const Dropdown = ({ label, options, onChange,selectedValue }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = () => setIsOpen((prev) => !prev);
-
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false); // 드롭다운 외부 클릭 시 닫기
-      }
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
+  }, []);
 
-    const handleOptionClick = (option) => {
-      setIsOpen(false);
-      onChange(option === "전체" ? null : option); // 전체 선택 시 null 전달
-    };
-
-    useEffect(() => {
-      document.addEventListener("mousedown", handleOutsideClick);
-      return () => {
-        document.removeEventListener("mousedown", handleOutsideClick);
-      };
-    }, []);
-
-    return (
-      <div className={styles.dropdown} ref={dropdownRef}>
-        <button
-          className={`${styles.btn} ${styles.dropdownBtn}`}
-          onClick={toggleDropdown}
-        >
-          {label}: {selectedValue || "전체"}
-          </button>
-        {isOpen && (
-          <div className={styles.dropdownMenu}>
-            <div
-              className={styles.dropdownItem}
-              onClick={() => handleOptionClick("전체")}
-            >
-              전체
-            </div>
+  return (
+    <div className={styles.dropdown} ref={dropdownRef}>
+      <button
+        className={`${styles.btn} ${styles.dropdownBtn}`}
+        onClick={toggleDropdown}
+      >
+        {label}: {selectedValue || "전체"}
+      </button>
+      {isOpen && (
+        <div className={styles.dropdownMenu}>
+          <div
+            className={styles.dropdownItem}
+            onClick={() => handleOptionClick("전체")}
+          >
+            전체
+          </div>
           {options.map((option, index) => (
             <div
               key={index}
@@ -99,147 +99,138 @@ import ShowGallery from "../funding/ShowGallery";
       )}
     </div>
   );
+};
+
+// Gallery 컴포넌트
+const Gallery = () => {
+  const [isGalleryView, setIsGalleryView] = useState(false); // 갤러리 보기 상태 관리
+  const [more, setMore] = useState(true);
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState('');
+  const keywordInput = useRef(null);
+
+  const user = useAtomValue(userAtom);
+  const [token, setToken] = useAtom(tokenAtom);
+  const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
+  const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
+  const [filters, setFilters] = useState({
+    subject: "",
+    type: "",
+    category: "",
+    sale_status: "NOT_SALE", // 기본값으로 설정
+  });
+
+  const navigate = useNavigate();
+
+
+  // Type과 Category 옵션 상태
+  const [typeOptions, setTypeOptions] = useState([]);
+  const [subjectOptions, setSubjectOptions] = useState([]);
+
+
+  // 카테고리 변경 시 Subject와 Type 업데이트
+  const handleCategoryChange = (category) => {
+
+    const changeFilters = {...filters, category, subject: "", type: "",}
+    setFilters(changeFilters);
+    if (category) {
+      setSubjectOptions(OPTIONS[category].subject);
+      setTypeOptions(OPTIONS[category].type);
+    } else {
+      setSubjectOptions([]);
+      setTypeOptions([]);
+    }
+
+    fetchArtworks(1, changeFilters, keyword);
   };
-
-  // Gallery 컴포넌트
-  const Gallery = () => {
-    const [isGalleryView, setIsGalleryView] = useState(false); // 갤러리 보기 상태 관리
-
-    const user = useAtomValue(userAtom);
-    const [token,setToken] = useAtom(tokenAtom);
-    const [viewMode, setViewMode] = useState("list"); // 기본 모드는 리스트
-    const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
-    const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수  
-    const [filters, setFilters] = useState({
-      subject: "",
-      type: "",
-      category: "",
-      sale_status: "NOT_SALE", // 기본값으로 설정
-    });
-
-    const [search, setSearch] = useState(""); // 검색어 상태
-    const [lightboxIndex, setLightboxIndex] = useState(-1); // Lightbox 상태
-    
-    const navigate = useNavigate();
-
-    
-    // Type과 Category 옵션 상태
-    const [typeOptions, setTypeOptions] = useState([]);
-    const [subjectOptions, setSubjectOptions] = useState([]);
-
-
-    // 카테고리 변경 시 Subject와 Type 업데이트
-    const handleCategoryChange = (category) => {
-      setFilters((prev) => ({
-        ...prev,
-        category,
-        subject: "",
-        type: "",
-      }));
-      if (category) {
-        setSubjectOptions(OPTIONS[category].subject);
-        setTypeOptions(OPTIONS[category].type);
-      } else {
-        setSubjectOptions([]);
-        setTypeOptions([]);
-      }
-    };
 
   // 필터 변경 핸들러
   const handleFilterChange = (key, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [key]: value,
-    }));
+    // keywordInput.current.value=null;
+    const changeFilters = {...filters, [key]: value};
+    setFilters(changeFilters);
+    fetchArtworks(1, changeFilters, keyword)
   };
 
+  const fetchArtworks = (pPage, pFilters, search) => {
+    setMore(true);
+    const queryParams = new URLSearchParams({
+      ...(pFilters.category && { category: pFilters.category }),
+      ...(pFilters.subject && { subject: pFilters.subject }),
+      ...(pFilters.type && { type: pFilters.type }),
+      ...(pFilters.sale_status && { sale_status: pFilters.sale_status }), // Enum 값과 일치하도록 설정
+      ...(search && { search }),
+      page: pPage - 1,
+      size: 8,
+    }).toString();
 
-    // 백엔드 API에서 데이터 가져오기
-    useEffect(() => {
-      const fetchArtworks = async () => {
-        try {
-
-          const queryParams = new URLSearchParams({
-            ...(filters.category && { category: filters.category }),
-            ...(filters.subject && { subject: filters.subject }),
-            ...(filters.type && { type: filters.type }),
-            ...(filters.sale_status && { sale_status: filters.sale_status }), // Enum 값과 일치하도록 설정
-            ...(search && { search }),
-            page: 0,
-            size: visibleCount,
-          }).toString();
-
-          const response = await fetch(
-            `${url}/api/artworks?${queryParams}`
-          );
-          const data = await response.json();
-
-          if (Array.isArray(data)) {
-            setArtworks(data); // 데이터가 배열인 경우 바로 설정
-          } else if (data.content) {
-            setArtworks(data.content); // content 키에서 배열 추출
-          } else {
-            console.error("Unexpected API response format:", data);
-            setArtworks([]);
-          }
-        } catch (error) {
-          console.error("Failed to fetch artworks:", error);
-          setArtworks([]);
-
+    axios.get(`${url}/api/artworks?${queryParams}`)
+      .then(res => {
+        console.log(res)
+        const artworkList = res.data.content;
+        if(pPage===1) {
+          setArtworks([...artworkList]);
+        } else {
+          setArtworks([...artworks, ...artworkList]);
         }
-  };
+        
+        setPage(pPage+1);
+        if(pPage >= res.data.totalPages) {
+          setMore(false);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to fetch artworks:", err);
+        // setArtworks([]);
+      })
+  }
 
-
-    fetchArtworks();
-  }, [filters, search, visibleCount]); // 필터, 검색어, visibleCount 변경 시 데이터 가져오기
-
-
-    const galleryImages = artworks.map((artwork) => artwork.imageUrl);
-
+  useEffect(()=> {
+    fetchArtworks(1, filters, keyword);
+  },[])
 
 
   // 검색 입력 필드 핸들러
   const handleSearchChange = (event) => {
-    setSearch(event.target.value); // 검색어 상태 업데이트
+    setKeyword(event.target.value)
+    fetchArtworks(1, filters, event.target.value); // 검색어 상태 업데이트
   };
 
   // 더보기 버튼 클릭 시
-  const loadMore = () => setVisibleCount((prev) => prev + 8);
+  const loadMore = () => {
+    fetchArtworks(page, filters);
+  }
 
   // 카드 클릭 핸들러
   const handleCardClick = (id) => {
     navigate(`/gallery/gallerydetail/${id}`);
   };
 
-
-
-
-
-    //관리자 작품 블랙리스트 체크박스
-   const handleCheckboxChange = (artworkId, isChecked) => {
-      axios.post(`${url}/updateArtworkStatus`,{
-          artworkId,
-          isSuspicious : isChecked //의심체크 여부 
-      }, {
-        headers : { Authorization : token}
+  //관리자 작품 블랙리스트 체크박스
+  const handleCheckboxChange = (artworkId, isChecked) => {
+    axios.post(`${url}/updateArtworkStatus`, {
+      artworkId,
+      isSuspicious: isChecked //의심체크 여부 
+    }, {
+      headers: { Authorization: token }
+    })
+      .then(res => {
+        console.log(res.data);
+        if (res.status === 200) {
+          setArtworks((prevArtworks) =>
+            prevArtworks.map((artwork) =>
+              artwork.artworkId === artworkId
+                ? { ...artwork, adminCheck: isChecked }
+                : artwork
+            )
+          );
+        };
       })
-      .then(res=>{
-          console.log(res.data);
-          if (res.status === 200) {
-              setArtworks((prevArtworks) =>
-                  prevArtworks.map((artwork) => 
-                      artwork.artworkId === artworkId
-                          ? { ...artwork, adminCheck: isChecked }
-                          : artwork
-                  )
-              );
-          };
+      .catch(err => {
+        console.error("아트워크 상태 업데이트 실패:", err);
+        alert("작품 상태를 업데이트하는 중 오류가 발생했습니다.");
       })
-      .catch(err=>{
-          console.error("아트워크 상태 업데이트 실패:", err);
-          alert("작품 상태를 업데이트하는 중 오류가 발생했습니다.");
-      })
-    };
+  };
 
   return (
     <>
@@ -251,10 +242,9 @@ import ShowGallery from "../funding/ShowGallery";
             <div className={styles.viewButtons}>
 
               <button
-                  className={`${styles.btn} ${
-                      viewMode === "gallery" ? styles.btnActive : ""
+                className={`${styles.btn} ${viewMode === "gallery" ? styles.btnActive : ""
                   }`}
-                  onClick={() => setIsGalleryView(true)}
+                onClick={() => setIsGalleryView(true)}
               >
                 갤러리로 보기
               </button>
@@ -262,108 +252,106 @@ import ShowGallery from "../funding/ShowGallery";
               {/* 갤러리 보기 */}
               {/* 갤러리 보기 */}
               {isGalleryView && (
-                  <ShowGallery
-                      images={galleryImages}
-                      onClose={() => setIsGalleryView(false)} // 닫기 버튼 핸들링
-                  />
+                <ShowGallery
+                  images={artworks.map((artwork) => artwork.imageUrl)}
+                  onClose={() => setIsGalleryView(false)} // 닫기 버튼 핸들링
+                />
               )}
 
               <button
-                  className={`${styles.btn} ${
-                      viewMode === "list" ? styles.btnActive : ""
+                className={`${styles.btn} ${viewMode === "list" ? styles.btnActive : ""
                   }`}
-                  onClick={() => setViewMode("list")}
+                onClick={() => setViewMode("list")}
               >
                 리스트로 보기
               </button>
             </div>
           </div>
-          <hr className={styles.separator}/>
+          <hr className={styles.separator} />
         </header>
 
         <div className={styles.filters}>
           <div className={styles.filters}>
             <Dropdown
-                label="카테고리"
-                options={Object.keys(OPTIONS)}
-                onChange={handleCategoryChange}
-            selectedValue={filters.category}
-          />
-          <Dropdown
-            label="종류"
-            options={typeOptions}
-            onChange={(value) => handleFilterChange("type", value)}
-            selectedValue={filters.type}
-          />
-          <Dropdown
-            label="주제"
-            options={subjectOptions}
-            onChange={(value) => handleFilterChange("subject", value)}
-            selectedValue={filters.subject}
-          />
-          
-        </div>
+              label="카테고리"
+              options={Object.keys(OPTIONS)}
+              onChange={handleCategoryChange}
+              selectedValue={filters.category}
+            />
+            <Dropdown
+              label="종류"
+              options={typeOptions}
+              onChange={(value) => handleFilterChange("type", value)}
+              selectedValue={filters.type}
+            />
+            <Dropdown
+              label="주제"
+              options={subjectOptions}
+              onChange={(value) => handleFilterChange("subject", value)}
+              selectedValue={filters.subject}
+            />
+
+          </div>
           <div className={styles.search}>
             <input
-             type="text"
-             value={search}
-             onChange={handleSearchChange}
-             placeholder="작가 및 작품 검색"
-             className={styles.searchInput}
+              type="text"
+              ref={keywordInput}
+              onChange={handleSearchChange}
+              placeholder="작가 및 작품 검색"
+              className={styles.searchInput}
             />
           </div>
         </div>
 
+        {viewMode === "list" && (
+          <div className={styles.listgalleryGrid}>
+            {Array.isArray(artworks) &&
+              artworks.map((artwork) => (
+                <div className={styles.card} key={artwork.artworkId}>
+                  {/* 이미지 부분 */}
+                  <div className={styles.cardImageContainer}>
+                    <img
+                      src={artwork.imageUrl}
+                      alt={artwork.title}
+                      className={styles.cardImage}
+                      onClick={() => handleCardClick(artwork.artworkId)}
+                    />
+                  </div>
 
-{viewMode === "list" && (
-  <div className={styles.listgalleryGrid}>
-    {Array.isArray(artworks) &&
-      artworks.map((artwork) => (
-        <div className={styles.card} key={artwork.artworkId}>
-          {/* 이미지 부분 */}
-          <div className={styles.cardImageContainer}>
-            <img
-              src={artwork.imageUrl}
-              alt={artwork.title}
-              className={styles.cardImage}
-              onClick={() => handleCardClick(artwork.artworkId)}
-            />
-          </div>
+                  {/* 텍스트 설명 부분 */}
+                  <div className={styles.cardContent}>
+                    <h4 className={styles.cardTitle}>{artwork.title}</h4>
+                    <p className={styles.cardArtist}>{artwork.artist.name}</p>
+                    <div className={styles.cardCategories}>
+                      <p className={styles.cardCategory}>{artwork.type.typeName}</p>
+                      <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
+                    </div>
 
-          {/* 텍스트 설명 부분 */}
-          <div className={styles.cardContent}>
-            <h4 className={styles.cardTitle}>{artwork.title}</h4>
-            <p className={styles.cardArtist}>{artwork.artist.name}</p>
-            <div className={styles.cardCategories}>
-              <p className={styles.cardCategory}>{artwork.type.typeName}</p>
-              <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
-            </div>
-            
-            {user.role === "ADMIN" && (
-              <label>
-                <input
-                  type="checkbox"
-                  checked={artwork.adminCheck}
-                  onChange={(e) =>
-                    handleCheckboxChange(artwork.artworkId, e.target.checked)
-                  }
-                />
-                의심작품 선택
-              </label>
-            )}
-          </div>
-        </div>
-      ))}
-  
+                    {user.role === "ADMIN" && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={artwork.adminCheck}
+                          onChange={(e) =>
+                            handleCheckboxChange(artwork.artworkId, e.target.checked)
+                          }
+                        />
+                        의심작품 선택
+                      </label>
+                    )}
+                  </div>
+                </div>
+              ))}
+
 
           </div>
         )}
-        {artworks.length >= visibleCount && (
-         <div className={styles.seemore} onClick={loadMore}>
-         <button className={styles.seemore}>
-             <img  src="/img/seemore.png"/>
-         </button>
-         </div>
+        {more && (
+          <div className={styles.seemore} onClick={loadMore}>
+            <button className={styles.seemore}>
+              <img src="/img/seemore.png" />
+            </button>
+          </div>
         )}
       </div>
     </>
