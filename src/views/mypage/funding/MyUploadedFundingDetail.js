@@ -70,6 +70,7 @@ function MyUploadedFundingDetail() {
                     </div>
 
                     <div className={styles.contributorsList}>
+                        {contributors.length > 0 ? (
                         <table>
                             <thead>
                             <tr>
@@ -105,6 +106,9 @@ function MyUploadedFundingDetail() {
                             ))}
                             </tbody>
                         </table>
+                        ) : (
+                            <p className={styles.noData}>후원자 정보가 없습니다.</p>
+                        )}
                     </div>
 
                     {/* 리워드 모달 */}
