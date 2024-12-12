@@ -9,6 +9,7 @@ import axios from "axios";
 import {useAtom} from "jotai/react";
 import {tokenAtom, userAtom} from "../../../atoms";
 import {useAtomValue} from "jotai/index";
+
 function MyUploadedFunding() {
     const [activeTab, setActiveTab] = useState('ONGOING'); // Default to "성공 펀딩"
     const [fundingList, setFundingList] = useState([]);
@@ -23,9 +24,9 @@ function MyUploadedFunding() {
     };
 
 
-     const goToDetail = (fundingId) => {
-            navigate(`/mypage/fundings/uploaded/${fundingId}`);
-     }
+    const goToDetail = (fundingId) => {
+        navigate(`/mypage/fundings/uploaded/${fundingId}`);
+    }
 
 
     useEffect(() => {
@@ -55,12 +56,27 @@ function MyUploadedFunding() {
     };
 
 
+    const getFundingStatusText = (status) => {
+        switch (status) {
+            case 'STANDBY':
+                return '대기 중';
+            case 'ONGOING':
+                return '진행 중';
+            case 'SUCCESSFUL':
+                return '성공';
+            case 'FAILED':
+                return '실패';
+            default:
+                return '알 수 없음';
+        }
+    };
+
 
     return (
         <>
-            <Header />
+            <Header/>
             <div className={styles.container}>
-                <SideNav />
+                <SideNav/>
 
                 <div className={styles.mainContent}>
                     <div className={styles.myUploadedFunding}>
@@ -90,21 +106,28 @@ function MyUploadedFunding() {
 
                         {/* Funding List */}
                         <div className={styles.myUploadedFundingList}>
-                            {fundingList.map((funding) => (
-                                <div key={funding.fundingId} className={styles.myUploadedFundingItem} onClick={() => goToDetail(funding.fundingId)}>
-                                    <img
-                                        src={funding.fundingImage}
-                                        alt="funding"
-                                        className={styles.myUploadedFundingItemImg}
-                                    />
-                                    <div className={styles.myUploadedFundingItemDetails}>
-                                        <h4>{funding.fundingTitle}</h4>
-                                        <p>모집 희망금액: {funding.goalAmount} 원</p>
-                                        <p>상태: {funding.fundingStatus}</p>
-                                        <p>마감일: {new Date(funding.endDate).toLocaleDateString()}</p>
+                            {fundingList.length > 0 ? (
+                                fundingList.map((funding) => (
+                                    <div key={funding.fundingId} className={styles.myUploadedFundingItem}
+                                         onClick={() => goToDetail(funding.fundingId)}>
+                                        <img
+                                            src={funding.fundingImage}
+                                            alt="funding"
+                                            className={styles.myUploadedFundingItemImg}
+                                        />
+                                        <div className={styles.myUploadedFundingItemDetails}>
+                                            <h4>{funding.fundingTitle}</h4>
+                                            <p>모집 희망금액: {funding.goalAmount} 원</p>
+                                            {/*<p>상태: {funding.fundingStatus}</p>*/}
+                                            <p>상태: {getFundingStatusText(funding.fundingStatus)}</p>
+                                            <p>마감일: {new Date(funding.endDate).toLocaleDateString()}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <p className={styles.noData}>데이터 없음</p>
+
+                            )}
                         </div>
 
                         {/* Pagination */}
