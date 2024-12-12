@@ -26,12 +26,40 @@ const FundingList = () => {
         setIsSortDropdownOpen(!isSortDropdownOpen);
         setIsFilterDropdownOpen(false);
     };
-    const handleSortChange = (option) => {
-        console.log(`Sort option changed to: ${option}`);
-        setSortOption(option);
-        setPage(0);
-        setFundingList([]);
+    // const handleSortChange = (option) => {
+    //     console.log(`Sort option changed to: ${option}`);
+    //     setSortOption(option);
+    //     setPage(0);
+    //     setFundingList([]);
+    // };
+
+    // 필터 변경 처리
+    const handleFilterChange = (newFilter) => {
+        if (filterType !== newFilter) {
+            setFilterType(newFilter);
+            setSortOption(getDefaultSortOption(newFilter)); // 필터에 맞는 기본 정렬값 설정
+            setFundingList([]); // 리스트 초기화
+            setPage(0); // 페이지 초기화
+        } else {
+            fetchFundingList(); // 동일 필터일 경우 새로고침
+        }
+        setIsFilterDropdownOpen(false); // 드롭다운 닫기
     };
+
+    // 정렬 변경 처리
+    const handleSortChange = (option) => {
+        if (sortOption !== option) {
+            setSortOption(option);
+            setFundingList([]); // 리스트 초기화
+            setPage(0); // 페이지 초기화
+        } else {
+            fetchFundingList(); // 동일 정렬일 경우 새로고침
+        }
+        setIsSortDropdownOpen(false); // 드롭다운 닫기
+    };
+
+
+
 
 
     // 펀딩 리스트 가져오기
@@ -84,6 +112,15 @@ const FundingList = () => {
         console.log("상세 페이지로 이동:", id);
     };
 
+
+    const getDefaultSortOption = (filter) => {
+        if (filter === "진행중 펀딩") return "최신순";
+        if (filter === "공개 예정 펀딩") return "공개 예정 순";
+        if (filter === "마감된 펀딩") return "최신순";
+        return "최신순";
+    };
+
+
     // 정렬 옵션
     const getSortOptions = () => {
         if (filterType === "진행중 펀딩") {
@@ -104,7 +141,7 @@ const FundingList = () => {
         }
 
         if (filterType === "마감된 펀딩") {
-            return ["최신순", "오래된순"];
+            return ["최신순", "오래된 순"];
         }
 
         return [];
@@ -131,15 +168,42 @@ const FundingList = () => {
 
                     {/* 필터 및 정렬 옵션 */}
                     <div className={styles.filterContainer}>
+                        {/*/!* 필터 드롭다운 *!/*/}
+                        {/*<div className={styles.customButton} onClick={handleFilterDropdown}>*/}
+                        {/*    <span>{filterType}</span>*/}
+                        {/*    <span className={styles.arrow}>▼</span>*/}
+                        {/*    {isFilterDropdownOpen && (*/}
+                        {/*        <ul className={styles.dropdown}>*/}
+                        {/*            <li onClick={() => setFilterType("진행중 펀딩")}>진행중 펀딩</li>*/}
+                        {/*            <li onClick={() => setFilterType("공개 예정 펀딩")}>공개 예정 펀딩</li>*/}
+                        {/*            <li onClick={() => setFilterType("마감된 펀딩")}>마감된 펀딩</li>*/}
+                        {/*        </ul>*/}
+                        {/*    )}*/}
+                        {/*</div>*/}
+
+                        {/*/!* 정렬 드롭다운 *!/*/}
+                        {/*<div className={styles.customButton} onClick={handleSortDropdown}>*/}
+                        {/*    <span>{sortOption}</span>*/}
+                        {/*    <span className={styles.arrow}>▼</span>*/}
+                        {/*    {isSortDropdownOpen && (*/}
+                        {/*        <ul className={styles.dropdown}>*/}
+                        {/*            {getSortOptions().map((option) => (*/}
+                        {/*                <li key={option} onClick={() => handleSortChange(option)}>*/}
+                        {/*                    {option}*/}
+                        {/*                </li>*/}
+                        {/*            ))}*/}
+                        {/*        </ul>*/}
+                        {/*    )}*/}
+                        {/*</div>*/}
                         {/* 필터 드롭다운 */}
                         <div className={styles.customButton} onClick={handleFilterDropdown}>
                             <span>{filterType}</span>
                             <span className={styles.arrow}>▼</span>
                             {isFilterDropdownOpen && (
                                 <ul className={styles.dropdown}>
-                                    <li onClick={() => setFilterType("진행중 펀딩")}>진행중 펀딩</li>
-                                    <li onClick={() => setFilterType("공개 예정 펀딩")}>공개 예정 펀딩</li>
-                                    <li onClick={() => setFilterType("마감된 펀딩")}>마감된 펀딩</li>
+                                    <li onClick={() => handleFilterChange("진행중 펀딩")}>진행중 펀딩</li>
+                                    <li onClick={() => handleFilterChange("공개 예정 펀딩")}>공개 예정 펀딩</li>
+                                    <li onClick={() => handleFilterChange("마감된 펀딩")}>마감된 펀딩</li>
                                 </ul>
                             )}
                         </div>
@@ -157,7 +221,9 @@ const FundingList = () => {
                                     ))}
                                 </ul>
                             )}
+
                         </div>
+
                     </div>
 
                     {/* 펀딩 리스트 */}
