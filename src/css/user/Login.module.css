@@ -66,9 +66,9 @@
   padding: 10px;
   margin-top: 10px; /* 로그인 버튼 상단 간격 추가 */
   margin-bottom: 10px;
-  background-color: #333;
+  background-color: #b29c59;
   border: none;
-  color: #b29c59;
+  color: #ffffff;
   font-weight: bold;
   cursor: pointer;
   border-radius: 50px;
@@ -83,9 +83,9 @@
 .findButton {
   width: 48%;
   padding: 10px;
-  background-color: #333;
+  background-color: #b29c59;
   border: none;
-  color: #b29c59;
+  color: #ffffff;
   font-weight: bold;
   cursor: pointer;
   border-radius: 50px;
@@ -111,17 +111,24 @@
 
 
 .socialLoginButton {
-  all: unset;
-  display: inline-block;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  justify-content: center;
+  padding:10px;
+  margin-top: 10px; /* 로그인 버튼 상단 간격 추가 */
+  margin-bottom: 10px;
+  background-color: #b29c59;
+  border: none;
+  color: #ffffff;
+  font-weight: bold;
   cursor: pointer;
-  padding-left: 23%;
-
+  border-radius: 50px;
 }
 
+
 .socialLoginButtonImage {
-  display: block;
-  max-width: 100%;
-  /*height: auto; */
-  height: 50px;
-  width: 70%;
+  height: 20px;
+  width: 20px;
 }

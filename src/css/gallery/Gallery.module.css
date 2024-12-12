@@ -254,12 +254,11 @@
   display: flex;
   justify-content: center;
   margin: 32px auto;
+  
   grid-column: span 4;
 }
 
 .loadMore .btn {
-  background-color: #b39c59;
-  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 50px;
@@ -270,4 +269,14 @@
   background-color: #a2844f;
 }
 
-
+.seemore{
+  width: 100%;
+  size : 20px;
+  text-align: center;
+}
+.seemore button{
+  all: unset;  
+}
+.seemore button:hover {
+  cursor: pointer;
+}
