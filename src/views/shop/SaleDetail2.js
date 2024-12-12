@@ -46,6 +46,14 @@ const SaleDetail = () => {
 
 
     const addToCart = () => {
+        if (!user.username) {
+            alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+            return;
+        }
+        if (saleDetail.stock < saleItems.length){
+            alert("재고수량 초과로 구매할 수 없습니다.");
+            return;
+        }
         const itemList = saleItems.map(item=> ({
             saleId : artworkId,
             price : item.basePrice,
@@ -220,8 +228,16 @@ const SaleDetail = () => {
 
 
     const goOrder = (artworkId) => {
+        if (!user.username) {
+            alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+            return;
+        }
+        if (saleDetail.stock < saleItems.length){
+            alert("재고수량 초과로 구매할 수 없습니다.");
+            return;
+        }
+        
         navigate(`/shop/SaleOrder/${artworkId}`, { state: { saleItems, frameId: frameListId } });
-
         console.log("saleItems order", saleItems);
     };
 
