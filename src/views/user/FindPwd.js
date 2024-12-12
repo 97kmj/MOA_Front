@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../../css/user/FindPwd.module.css';
 import {url} from '../../config';
 import axios from 'axios';
+import FindPwdResult from './FindPwdResult'
 
 const FindPwd = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const FindPwd = () => {
   const [id, setId] = useState('');
   const [idConfirm, setIdConfirm] = useState(false);
   const [isRequired, setIsRequired] = useState(false);
+  const [isChangePassword, setIsChangePassword] = useState(false);
 
   // 비밀번호 찾기 버튼 클릭 시 호출되는 함수
   const handleFindPwdClick = () => {
@@ -20,7 +22,8 @@ const FindPwd = () => {
       alert("인증이 필요합니다");
       return;
     }    
-    navigate(`/user/findPwdResult/${id}`); // /user/findPwdResult 경로로 이동
+    setIsChangePassword(true);
+    //navigate(`/user/findPwdResult/${id}`); // /user/findPwdResult 경로로 이동
   };
 
   const confirmId = () => {
@@ -65,7 +68,7 @@ const FindPwd = () => {
         console.log(res.data);
         setIsRequired(res.data);
         if(res.data===true) {
-          alert("이메일에서 인증코드를 확인하세요")
+          alert("인증코드를 확인하세요")
         } else {
           alert("인증코드 전송에 실패했습니다")
         }
@@ -91,7 +94,7 @@ const FindPwd = () => {
     }
 
     const path = `verify-${type}`;
-    const param = {[type]:verification,verificationCode:verificationCode};
+    const param = {[type]:verification,verificationCode:verificationCode,type:"search"};
     axios.post(`${url}/api/verification/${path}`, param)
       .then(res=>{
         console.log(res.data);
@@ -108,17 +111,24 @@ const FindPwd = () => {
       })
   }
 
+  const changeVerificationType = (ptype) => {
+    setType(ptype);
+    setVerification('');
+    setVerificationCode('');
+  }
+
   return (
-    <div className={styles.container}>
+    <>
+    { isChangePassword===false && <div className={styles.container}>
       <h1 className={styles.title}>MOA</h1>
       <h2 className={styles.subtitle}>비밀번호 찾기</h2>
       <div className={styles.separator}></div>
 
       <div className={styles.buttonGroup}>
         <button className={type==="sms"? styles.selbutton: styles.button} 
-          onClick={()=>setType("sms")}>휴대폰번호로 찾기</button>
+          onClick={()=>changeVerificationType("sms")}>휴대폰번호 인증</button>
         <button className={type==="email"? styles.selbutton: styles.button}
-          onClick={()=>setType("email")}>이메일로 찾기</button>
+          onClick={()=>changeVerificationType("email")}>이메일로 인증</button>
       </div>
 
       <div className={styles.inputGroup}>
@@ -143,6 +153,7 @@ const FindPwd = () => {
           type="text"
           className={`${styles.input} ${styles.shortInput}`}
           placeholder={type==="sms"? '휴대전화번호':'이메일'}
+          value={verification}
           onChange={(e)=>setVerification(e.target.value)}
         />
       </div>
@@ -156,16 +167,20 @@ const FindPwd = () => {
           type="text"
           className={`${styles.input} ${styles.shortInput}`}
           placeholder="인증번호"
+          value={verificationCode}
           onChange={(e)=>setVerificationCode(e.target.value)}
         />
       </div>
 
       <div className={styles.alignCenter}>
         <button className={styles.primaryButton} onClick={handleFindPwdClick}>
-          비밀번호 찾기
+          비밀번호 변경
         </button>
       </div>
     </div>
+  }
+  { isChangePassword===true && id!==null && id!=='' && <FindPwdResult username={id}/> }
+  </>
   );
 };
 

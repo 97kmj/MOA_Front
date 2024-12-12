@@ -2,10 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../css/user/Join.module.css";
 import Header from "../Header";
+import {url} from '../../config';
+import axios from "axios";
 
 function Join() {
     const navigate = useNavigate();
 
+    const [type, setType] = useState("sms");
+    const [verification, setVerification] = useState("");
+    const [verificationCode, setVerificationCode] = useState("");
+    const [isRequired, setIsRequired] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
+  
     const [formData, setFormData] = useState({
         id: "",
         password: "",
@@ -24,40 +32,97 @@ function Join() {
     // 아이디 중복 확인
     const [isIdAvailable, setIsIdAvailable] = useState(null); // 아이디 중복 확인 상태
     const handleUsernameCheck = async () => {
-    if (!formData.id.trim()) {
-        alert("아이디를 입력해주세요.");
-        return;
-    }
-    try {
-        const response = await fetch(`http://localhost:8080/api/user/check-username?username=${formData.id}`);
-        const isAvailable = await response.json();
-
-        if (isAvailable) {
-            alert("사용 가능한 아이디입니다.");
-            setIsIdAvailable(true);
-        } else {
-            alert("이미 사용 중인 아이디입니다.");
-            setIsIdAvailable(false);
+        if (!formData.id.trim()) {
+            alert("아이디를 입력해주세요.");
+            return;
         }
-    } catch (error) {
-        alert("아이디 중복 확인 중 에러가 발생했습니다.");
-    }
-};
+        axios.get(`${url}/api/user/check-username?username=${formData.id}`)
+            .then(res => {
+                setIsIdAvailable(res.data);
+                if (res.data) {
+                    alert("사용 가능한 아이디입니다.");
+                } else {
+                    alert("이미 사용 중인 아이디입니다.");
+                }
+            })
+            .catch(error => {
+                alert("아이디 중복 확인 중 에러가 발생했습니다.");
+            })
+        
+    };
 
     // 비밀번호 확인 상태
     const [passwordMatch, setPasswordMatch] = useState(null);
     // 비밀번호와 비밀번호 확인이 일치하는지 검사
     useEffect(() => {
-    if (formData.password && formData.passwordCheck) {
-        setPasswordMatch(formData.password === formData.passwordCheck);
-    } else {
-        setPasswordMatch(null); // 초기 상태로 설정
-    }
-}, [formData.password, formData.passwordCheck]);
+        if (formData.password && formData.passwordCheck) {
+            setPasswordMatch(formData.password === formData.passwordCheck);
+        } else {
+            setPasswordMatch(null); // 초기 상태로 설정
+        }
+    }, [formData.password, formData.passwordCheck]);
 
 
-const [verificationStatus, setVerificationStatus] = useState(null); // 인증 상태 저장
+    const [verificationStatus, setVerificationStatus] = useState(null); // 인증 상태 저장
 
+    const reqVerificationCode = (e) => {
+        e.preventDefault();
+        if(verification===null || verification==='') {
+          if(type==="sms") {
+            alert("전화번호를 입력하세요");
+          } else {
+            alert("이메일을 입력하세요");
+          }
+          return;
+        }
+        const path = "send-"+type;
+        const param = {[type]:verification}
+        console.log(param)
+        axios.post(`${url}/api/verification/${path}`, param)
+          .then(res=>{
+            console.log(res.data);
+            setIsRequired(res.data);
+            if(res.data===true) {
+              alert("인증코드를 확인하세요")
+            } else {
+              alert("인증코드 전송에 실패했습니다")
+            }
+          }).catch(err=>{
+            console.log(err)
+            alert("인증코드 전송에 실패했습니다")
+          })
+      }
+    
+    const sendVerificationCode = (e) => {
+        e.preventDefault();
+        console.log(isRequired)
+        if(isRequired!==true) {
+          alert("인증코드를 요청하세요")
+          return;
+        }
+        if(verificationCode===null || verificationCode==='') {
+          alert("인증코드를 입력하세요");
+          return;
+        }
+        const path = "verify-"+type;
+        const param = {[type]:verification,verificationCode:verificationCode,type:"join"}    
+        axios.post(`${url}/api/verification/${path}`, param)
+          .then(res=>{
+            console.log(res.data);
+            setIsVerified(res.data.verified)
+            if(res.data.verified===true) {
+              alert("인증이 완료되었습니다")
+              setVerificationStatus(true);
+            } else {
+              alert("인증에 실패했습니다")
+              setVerificationStatus(false);
+            }
+          }).catch(err=>{
+            console.log(err)
+            alert("인증에 실패했습니다")
+            setVerificationStatus(false);
+        })
+      }
 
     // Input change handler
     const handleChange = (e) => {
@@ -66,79 +131,12 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
             ...prevData,
             [id]: value,
         }));
-         // 비밀번호 확인 상태 업데이트
-         if (id === "password" || id === "passwordCheck") {
+        // 비밀번호 확인 상태 업데이트
+        if (id === "password" || id === "passwordCheck") {
             setPasswordMatch(formData.password === (id === "password" ? value : formData.passwordCheck));
         }
     };
 
-    // 전화번호 인증 코드 전송
-    const handleSendCode = async () => {
-        if (!formData.phone) {
-            alert("전화번호를 입력해주세요.");
-            return;
-        }
-    
-        // 전화번호를 국제 형식으로 변환
-        let formattedPhone = formData.phone;
-        if (formattedPhone.startsWith("0")) {
-            formattedPhone = "+82" + formattedPhone.substring(1); // 0을 +82로 변경
-        }
-    
-        try {
-            const response = await fetch("http://localhost:8080/api/phone/send-code", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formattedPhone), // 변환된 전화번호 사용
-            });
-    
-            if (response.ok) {
-                alert("인증 코드가 발송되었습니다.");
-            } else {
-                alert("인증 코드 발송에 실패했습니다.");
-            }
-        } catch (error) {
-            alert("에러가 발생했습니다. 다시 시도해주세요.");
-        }
-    };
-    
-
-    // 전화번호 인증 코드 검증
-    const handleVerifyCode = async () => {
-        if (!formData.phoneCode) {
-            alert("인증번호를 입력해주세요.");
-            return;
-        }
-    
-        // 전화번호를 국제 형식으로 변환
-        let formattedPhone = formData.phone;
-        if (formattedPhone.startsWith("0")) {
-            formattedPhone = "+82" + formattedPhone.substring(1); // 0을 +82로 변경
-        }
-    
-        try {
-            const response = await fetch("http://localhost:8080/api/phone/verify-code", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    phoneNumber: formattedPhone, // 변환된 전화번호 사용
-                    code: formData.phoneCode,
-                }),
-            });
-    
-            const result = await response.text();
-            if (response.ok && result === "Verification successful!") {
-                setVerificationStatus(true);
-                alert("전화번호 인증이 완료되었습니다.");
-            } else {
-                setVerificationStatus(false);
-                alert("인증번호가 일치하지 않습니다.");
-            }
-        } catch (error) {
-            alert("에러가 발생했습니다. 다시 시도해주세요.");
-        }
-    };
-    
 
     // Daum Postcode API handler
     const handleAddressSearch = () => {
@@ -181,13 +179,23 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!isIdAvailable) {
+            alert("아이디 중복 체크가 필요합니다.");
+            return;
+        }
+
         if (formData.password !== formData.passwordCheck) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
 
+        if(!verificationStatus) {
+            alert("사용자 인증이 필요합니다.")
+            return;
+        }
+
         try {
-            const response = await fetch("http://localhost:8080/api/user/register", {
+            const response = await fetch(`${url}/api/user/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -231,194 +239,204 @@ const [verificationStatus, setVerificationStatus] = useState(null); // 인증 �
         }
     };
 
+    const changeVerificationType = (e, ctype) => {
+        e.preventDefault();
+        setType(ctype);
+        setVerification('');
+        setVerificationCode('');
+    }
+
     return (
         <>
-        <Header/>
-        <div className={styles.joinContainer}>
-            <h1 className={styles.joinTitle}>MOA에 오신 것을 환영합니다</h1>
-            <form onSubmit={handleSubmit}>
-                {/* ID */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="id">아이디</label>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            id="id"
-                            value={formData.id}
-                            onChange={handleChange}
-                            placeholder="아이디 입력"
-                        />
-                        <button type="button" onClick={handleUsernameCheck}>
-                            확인
-                        </button>                    
+            <Header />
+            <div className={styles.joinContainer}>
+                <h1 className={styles.joinTitle}>MOA에 오신 것을 환영합니다</h1>
+                <form onSubmit={handleSubmit}>
+                    {/* ID */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="id">아이디</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="id"
+                                value={formData.id}
+                                onChange={handleChange}
+                                placeholder="아이디 입력"
+                                required
+                            />
+                            <button type="button" onClick={handleUsernameCheck}>
+                                확인
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                {/* Password */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="password">비밀번호</label>
-                    <div className={styles.inputGroup}>
-                    <input
-                        type="password"
-                        id="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="비밀번호 입력"
-                    />
-                    </div>
-                </div>
+                    {/* Name */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="name">이름</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                placeholder="이름 입력"
+                                required
+                            />
+                        </div>
+                    </div>                    
 
-                {/* Password Check */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="passwordCheck">비밀번호 확인</label>
-                    <div className={styles.inputGroup}>
-                    <input
-                        type="password"
-                        id="passwordCheck"
-                        value={formData.passwordCheck}
-                        onChange={handleChange}
-                        placeholder="비밀번호 확인"
-                    />
+                    {/* Password */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="password">비밀번호</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="password"
+                                id="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="비밀번호 입력"
+                                required
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    {passwordMatch === true && (
-                    <p style={{ color: "green", fontSize: "14px", marginTop: "5px" }}>
-                    비밀번호가 일치합니다.
-                    </p>
-                )}
-                    {passwordMatch === false && (
-                    <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
-                    비밀번호가 일치하지 않습니다.
-                    </p>
-                )}
-                </div>
+                    {/* Password Check */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="passwordCheck">비밀번호 확인</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="password"
+                                id="passwordCheck"
+                                value={formData.passwordCheck}
+                                onChange={handleChange}
+                                placeholder="비밀번호 확인"
+                                required
+                            />
+                        </div>
+                    </div>
 
-                {/* Address */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="address">주소</label>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            id="postcode"
-                            value={formData.postcode}
-                            onChange={handleChange}
-                            placeholder="우편번호"
-                        />
-                        <button type="button" onClick={handleAddressSearch}>
-                            찾기
-                        </button>
+                    <div>
+                        {passwordMatch === true && (
+                            <p style={{ color: "green", fontSize: "14px", marginTop: "5px" }}>
+                                비밀번호가 일치합니다.
+                            </p>
+                        )}
+                        {passwordMatch === false && (
+                            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+                                비밀번호가 일치하지 않습니다.
+                            </p>
+                        )}
                     </div>
-                    <div className={styles.inputGroup}>
-                    <input
-                        type="text"
-                        id="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        placeholder="주소"
-                    />
-                    </div>
-                    <div className={styles.inputGroup}>
-                    <input
-                        type="text"
-                        id="detailAddress"
-                        value={formData.detailAddress}
-                        onChange={handleChange}
-                        placeholder="상세주소"
-                    />
-                    </div>
-                    <div className={styles.inputGroup}>
-                    <input
-                        type="text"
-                        id="extraAddress"
-                        value={formData.extraAddress}
-                        onChange={handleChange}
-                        placeholder="참고항목"
-                    />
-                    </div>
-                </div>
 
-                {/* Phone */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="phone">전화번호</label>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            id="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder=" - 를 제외한 숫자만 입력"
-                        />
-                        <button type="button" onClick={handleSendCode}>
-                        전송
+                    {/* email */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="name">이메일</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="이메일 입력"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {/* Address */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="address">주소</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="postcode"
+                                value={formData.postcode}
+                                onChange={handleChange}
+                                placeholder="우편번호"
+                                required
+                            />
+                            <button type="button" onClick={handleAddressSearch}>
+                                찾기
+                            </button>
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                                placeholder="주소"
+                                required
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="detailAddress"
+                                value={formData.detailAddress}
+                                onChange={handleChange}
+                                placeholder="상세주소"
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="extraAddress"
+                                value={formData.extraAddress}
+                                onChange={handleChange}
+                                placeholder="참고항목"
+                            />
+                        </div>
+                    </div>
+
+
+
+                    <div className={styles.buttonGroup}>
+                        <button className={type === "sms" ? styles.selbutton : styles.button}
+                            onClick={(e) => changeVerificationType(e,"sms")}>휴대폰번호 인증</button>
+                        <button className={type === "email" ? styles.selbutton : styles.button}
+                            onClick={(e) => changeVerificationType(e,"email")}>이메일 인증</button>
+                    </div>                    
+
+                    <div className={styles.formGroup}>
+                        <label htmlFor="phone">{type==="sms"? '휴대전화번호':'이메일'}</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                value={verification}
+                                onChange={(e)=>setVerification(e.target.value)}
+                                placeholder={type==="sms"? '휴대전화번호':'이메일'}
+                            />
+                            <button type="button" onClick={reqVerificationCode}>
+                                전송
+                            </button>
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                value={verificationCode}
+                                onChange={(e)=>setVerificationCode(e.target.value)}
+                                placeholder="인증번호"
+                            />
+                            <button type="button" onClick={sendVerificationCode}>
+                                확인
+                            </button>
+                        </div>
+                        {verificationStatus === true && (
+                            <p style={{ color: "green", fontSize: "14px", marginTop: "5px" }}>인증이 완료되었습니다.</p>
+                        )}
+                        {verificationStatus === false && (
+                            <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>인증번호가 일치하지 않습니다.</p>
+                        )}
+                    </div>
+
+
+                    {/* Submit Button */}
+                    <button type="submit" className={styles.submitButton}>
+                        회원가입
                     </button>
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            id="phoneCode"
-                            value={formData.phoneCode}
-                            onChange={handleChange}
-                            placeholder="인증번호 확인"
-                        />
-                        <button type="button" onClick={handleVerifyCode}>
-                        확인
-                    </button>
-                    </div>
-                    {verificationStatus === true && (
-                    <p style={{ color: "green", fontSize: "14px", marginTop: "5px" }}>전화번호 인증이 완료되었습니다.</p>
-                )}
-                {verificationStatus === false && (
-                    <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>인증번호가 일치하지 않습니다.</p>
-                )}
-                </div>
-
-                {/* Name */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="name">이름</label>
-                    <div className={styles.inputGroup}>
-                    <input
-                        type="text"
-                        id="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="이름 입력"
-                    />
-                    </div>
-                </div>
-
-                {/* Email */}
-                <div className={styles.formGroup}>
-                    <label htmlFor="email">이메일</label>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="email"
-                            id="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="이메일 입력"
-                        />
-                        <button type="button">전송</button>
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <input
-                            type="text"
-                            id="emailCode"
-                            value={formData.emailCode}
-                            onChange={handleChange}
-                            placeholder="인증번호 확인"
-                        />
-                        <button type="button">확인</button>
-                    </div>
-                </div>
-
-                {/* Submit Button */}
-                <button type="submit" className={styles.submitButton}>
-                    회원가입
-                </button>
-            </form>
-        </div>
+                </form>
+            </div>
         </>
     );
 }

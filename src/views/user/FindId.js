@@ -59,7 +59,7 @@ const FindId = () => {
       return;
     }
     const path = "verify-"+type;
-    const param = {[type]:verification,verificationCode:verificationCode}    
+    const param = {[type]:verification,verificationCode:verificationCode,type:"search"}    
     axios.post(`${url}/api/verification/${path}`, param)
       .then(res=>{
         console.log(res.data);
@@ -84,9 +84,9 @@ const FindId = () => {
 
       <div className={styles.buttonGroup}>
         <button className={type==="sms"? styles.selbutton: styles.button} 
-          onClick={()=>setType("sms")}>휴대폰번호로 찾기</button>
+          onClick={()=>setType("sms")}>휴대폰번 인증</button>
         <button className={type==="email"? styles.selbutton: styles.button}
-          onClick={()=>setType("email")}>이메일로 찾기</button>        
+          onClick={()=>setType("email")}>이메일 인증</button>        
       </div>
 
       <div className={styles.inputGroup}>

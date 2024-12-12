@@ -18,6 +18,10 @@ const Login = () => {
 
   //일반 로그인 처리
   const handleLogin = async () => {
+    if(username===null || username==='' || password===null || password==='') {
+      alert("아이디와 비밀번호를 입력하세요.")
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("username", username);
@@ -60,6 +64,7 @@ const Login = () => {
           id="id"
           className={styles.inputBox}
           value={username}
+          required
           onChange={(e) => setUsername(e.target.value)}
         />
 
@@ -69,6 +74,7 @@ const Login = () => {
           id="password"
           className={styles.inputBox}
           value={password}
+          required
           onChange={(e) => setPassword(e.target.value)}
         />
 
@@ -81,24 +87,19 @@ const Login = () => {
         </div>
 
         <div className={styles.socialLogin}>
-          {/*<button id={styles.naver} className={styles.socialButton}*/}
-          {/*        onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>네이버 로그인*/}
-          {/*</button>*/}
-
           <button
               className={styles.socialLoginButton}
-              onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/naver')}>
+              onClick={() => (window.location.href = `${url}/oauth2/authorization/naver`)}>
             <img src="/img/naver.png" alt="네이버 로그인" className={styles.socialLoginButtonImage}/><div>&nbsp;&nbsp;네이버 로그인</div>
           </button>
 
 
           <button
               className={styles.socialLoginButton}
-              onClick={() => (window.location.href = 'http://localhost:8080/oauth2/authorization/kakao')}>
+              onClick={() => (window.location.href = `${url}/oauth2/authorization/kakao`)}>
             <img src="/img/kakao.png" alt="카카오 로그인" className={styles.socialLoginButtonImage}/><div>&nbsp;&nbsp;카카오 로그인</div>
 
           </button>
-          {/*<button className={styles.socialButton}>구글 로그인</button>*/}
         </div>
       </div>
     </div>
