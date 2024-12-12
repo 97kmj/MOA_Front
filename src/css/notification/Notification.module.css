@@ -90,9 +90,9 @@
 /*}*/
 
 :root {
-    --primary-color: #d4af37; /* 골드 컬러 */
+    --primary-color: #ffffff; /* 골드 컬러 */
     --bg-color: #000; /* 검정 배경 */
-    --text-color: #d4af37; /* 기본 텍스트 골드 */
+    --text-color: #ffffff; /* 기본 텍스트 골드 */
     --text-muted: #777; /* 읽은 알림 등 비활성화 텍스트 색상 */
     --border-color: #333; /* 미묘한 경계선 색상 */
     --hover-bg: #111; /* 호버 시 약간 밝은 검정 */
@@ -169,7 +169,7 @@
 .notificationTitle {
     text-align: left;
     font-size: 16px;
-    margin: 0 0 8px 0;
+    margin: 0 0 8px 10px;
     font-weight: 600;
     color: var(--text-color);
 }
@@ -194,10 +194,12 @@
     margin-left: 8px;
 }
 
-.actionButton:hover {
-    background: var(--primary-color);
-    color: #000;
-}
+/*.actionButton:hover {*/
+/*    background: var(--primary-color);*/
+/*    color: #000;*/
+
+
+
 
 /* 커스텀 체크박스 */
 .customCheckbox {
@@ -224,21 +226,21 @@
     width: 18px;
     height: 18px;
     background: #000;
-    border: 2px solid var(--primary-color);
+    border: 2px solid  #ffffff;;
     border-radius: 50%;
     transition: background var(--transition), border-color var(--transition);
     position: relative;
 }
 
 .customCheckbox .labelText {
-    margin-left: 5px;
+    margin-left: 13px;
     font-size: 14px;
     color: var(--text-color);
 }
 
 .customCheckbox input:checked ~ .checkmark {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
+    background: #b29c59;
+    border-color: #b29c59;
 }
 
 .customCheckbox input:checked ~ .checkmark::after {
@@ -284,7 +286,7 @@
 }
 
 .notificationText {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     flex: 1;
     cursor: pointer;
     font-size: 14px;
