@@ -40,7 +40,7 @@
     flex-grow: 1;
     padding: 8px;
     border: 1px solid #B39C59;
-    border-radius: 4px;
+    border-radius: 0.5rem;
 }
 
 .inputGroup button {
@@ -48,7 +48,7 @@
     color: #FFFFFF;
     padding: 8px 16px;
     border: none;
-    border-radius: 50px; /* 버튼에 둥근 모서리 적용 */
+    border-radius: 0.5rem; /* 버튼에 둥근 모서리 적용 */
     cursor: pointer;
     margin-bottom: 0.5rem;
     width: 70px;
@@ -60,7 +60,7 @@
     width: 100%;
     padding: 8px;
     border: 1px solid #B39C59;
-    border-radius: 4px;
+    border-radius: 0.5rem;
     margin-bottom: 8px; /* 입력 필드 간격 추가 */
 }
 
@@ -72,7 +72,7 @@
     font-weight: bold;
     padding: 12px;
     border: none;
-    border-radius: 50px; /* 버튼에 둥근 모서리 적용 */
+    border-radius: 0.5rem; /* 버튼에 둥근 모서리 적용 */
     cursor: pointer;
     margin-top: 16px;
 }
@@ -80,3 +80,52 @@
 .submitButton:hover {
     background-color: #9e8a45;
 }
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .button {
+    flex: 1;
+    padding: 0.5rem 0;
+    border: 2px solid #2F4F4F; 
+    color: #2F4F4F;
+    border-radius: 0.5rem;
+    background: none;
+    cursor: pointer;
+  }
+
+  .titleWithButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .shortInput {
+    width: 95%; /* 길이 축소 */
+    margin: 0 auto;
+  }
+  .smallButton {
+    padding: 0.25rem 0.75rem;
+    border: 2px solid #2F4F4F; /* orange-400 */
+    color: #2F4F4F;
+    border-radius: 0.5rem;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .smallButton:hover {
+    background-color: #2F4F4F;
+    color: white;
+  }
+  .selbutton {
+    flex: 1;
+    padding: 0.5rem 0;
+    border: 2px solid  #2F4F4F; 
+    color: white;
+    border-radius: 0.5rem;
+    background: #2F4F4F;
+    cursor: pointer;
+  } 

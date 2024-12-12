@@ -109,14 +109,14 @@ function MyUploadedFunding() {
                             {fundingList.length > 0 ? (
                                 fundingList.map((funding) => (
                                     <div key={funding.fundingId} className={styles.myUploadedFundingItem}
-                                         onClick={() => goToDetail(funding.fundingId)}>
+                                         >
                                         <img
                                             src={funding.fundingImage}
                                             alt="funding"
                                             className={styles.myUploadedFundingItemImg}
                                         />
                                         <div className={styles.myUploadedFundingItemDetails}>
-                                            <h4>{funding.fundingTitle}</h4>
+                                            <h4 onClick={() => goToDetail(funding.fundingId)}>{funding.fundingTitle}</h4>
                                             <p>모집 희망금액: {funding.goalAmount} 원</p>
                                             {/*<p>상태: {funding.fundingStatus}</p>*/}
                                             <p>상태: {getFundingStatusText(funding.fundingStatus)}</p>
