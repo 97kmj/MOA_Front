@@ -10,19 +10,15 @@ import { useAtomValue, useSetAtom,useAtom } from 'jotai';
 const SaleList = () => {
     const user = useAtomValue(userAtom);
     const [token,setToken] = useAtom(tokenAtom);
-    const [searchKeyword, setSearchKeyword] = useState(""); //검색어
     const [category, setCategory] = useState([]); // 카테고리 리스트 가져오기
     const [types, setTypes] = useState([]); // 타입 리스트 가져오기
     const [themes, setThemes] = useState([]); // 주제 리스트 가져오기
 
-    const [categoryId, setCategoryId] = useState(""); //카테고리 id 
-    const [categoryName, setCategoryName] = useState(""); //카테고리 name
-    const [typeId, setTypesId] = useState("");  // 타입 이름 넣어야함
-    const [subjectId, setSubjectId] = useState(""); // 서브젝트 이름넣어야함
-    const [saleStatus, setSaleStatus] = useState(""); // 판매상태
-  
-
+    const [fillters, setFillters] = useState({categoryId:'', typeId:'',subjectId:'', saleStatus:'', searchKeyword:''})
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
+    const [more, setMore] = useState(true);
+    const [page, setPage] = useState(1);
+
     const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
     const navigate = useNavigate(); 
     
@@ -31,45 +27,41 @@ const SaleList = () => {
     }
 
       // 더보기 버튼 클릭 시
-    const loadMore = () => setVisibleCount((prev) => prev + 8);
+    const loadMore = () => {
+        fetchArtworks(page, fillters);
+    }
 
-    useEffect(() => {
-
+    const fetchArtworks = (pPage, pFillters) => {
+        setMore(true);
         const queryParams = new URLSearchParams({
-            ...(categoryName && {categoryName: categoryName}),
-            ...(subjectId && {subjectId : subjectId}),
-            ...(typeId && {typeId : typeId}),
-            ...(searchKeyword && {searchKeyword : searchKeyword}),
-            ...(saleStatus && {saleStatus : saleStatus}),
-            page: 0,
-            size: visibleCount,
+            ...(pFillters.categoryId && {categoryId: pFillters.categoryId}),
+            ...(pFillters.subjectId && {subjectId : pFillters.subjectId}),
+            ...(pFillters.typeId && {typeId : pFillters.typeId}),
+            ...(pFillters.searchKeyword && {searchKeyword : pFillters.searchKeyword}),
+            ...(pFillters.saleStatus && {saleStatus : pFillters.saleStatus}),
+            page: pPage-1,
+            size: 8,
         }).toString();
-        
-        const page = 0;
-        
-        const listUrl = `${url}/shop/saleList?${queryParams}`
-        axios.get(listUrl)
-            .then(res =>{
-              
-               
-                if(res.data == 0){
-                    setArtworks([]);
 
-                }else{
-                    setArtworks(res.data);
-     
+        axios.get(`${url}/shop/saleList?${queryParams}`)
+            .then(res =>{
+                console.log(res)
+                if(pPage===1) {
+                    setArtworks([...res.data.artworks]);
+                  } else {
+                    setArtworks([...artworks, ...res.data.artworks])
+                  }
+                
+                if(pPage>=res.data.allPage) {
+                    setMore(false);
                 }
+                setPage(pPage+1);
             })
             .catch(err=>{
-                alert("상세페이지 가져오지 못하였습니다.", err);
-    
+                console.log(err);    
             });
-            
-    }, [categoryName, typeId, subjectId, searchKeyword, saleStatus, visibleCount]); // 모든 필터값 변경시마다 호출
-
-
-
-
+    }
+ 
     // 카테고리 가져오기
     useEffect(() => {
         axios.get(`${url}/shop/artworkAdd`)
@@ -79,12 +71,13 @@ const SaleList = () => {
             .catch(error => {
                 console.error("카테고리 불러오기 오류", error);
             });
+        fetchArtworks(1, fillters);
     },[]);
 
     // 타입하고 주제 가져오기
     useEffect(() => {
-        if (categoryId) {
-            axios.post(`${url}/shop/artworkAdd/type/${categoryId}`)
+        if (fillters.categoryId) {
+            axios.post(`${url}/shop/artworkAdd/type/${fillters.categoryId}`)
                 .then(res => {
                     setTypes(res.data); // API에서 가져온 타입 데이터 저장
                 })
@@ -92,7 +85,7 @@ const SaleList = () => {
                     console.error("타입 데이터 불러오기 오류", error);
                 });
 
-            axios.post(`${url}/shop/artworkAdd/subject/${categoryId}`)
+            axios.post(`${url}/shop/artworkAdd/subject/${fillters.categoryId}`)
                 .then(res => {
                     setThemes(res.data); // API에서 가져온 주제 데이터 저장
                 })
@@ -100,47 +93,14 @@ const SaleList = () => {
                     console.error("주제 데이터 불러오기 오류", error);
                 });
         }
-    }, [categoryId]);
+    }, [fillters.categoryId]);
 
-    const handleCategoryChange = (e) => {
-
-        setCategoryId(e.target.value);
-
-        if (e.target.value === "A"){
-            setCategoryName("");
-        }else{
-            setCategoryName(e.target.selectedOptions[0].text);
-        }
-        setTypesId("");  // 타입 초기화
-        setSubjectId("");  // 주제 초기화
-        setVisibleCount(8);
- 
+    const handleFillterChange = (e) => {
+        const changeFillters = {...fillters, [e.target.name]:e.target.value};
+        console.log(changeFillters)
+        setFillters(changeFillters)
+        fetchArtworks(1, changeFillters);
     };
-    const handleTypeChange = (e) => {
- 
-        setTypesId(e.target.value);
-        setVisibleCount(8);
-    };
-
-    const handleSubjectChange = (e) => {
-        setSubjectId(e.target.value);
-        setVisibleCount(8);
-    };
-
-    const handleSearchKeyword = (e) =>{
-        setSearchKeyword(e.target.value);
-        setVisibleCount(8);
-
-    }
-    const handleSaleStatus =(e) =>{
-        if (e.target.value === "ALL"){
-            setSaleStatus("");
-        }else{
-            setSaleStatus(e.target.value);
-        }
-    }
-
-
     
     //관리자 작품 블랙리스트 체크박스
     const handleCheckboxChange = (artworkId, isChecked) => {
@@ -170,8 +130,6 @@ const SaleList = () => {
         })
     };
 
-
-
     return (
         <>
         <Header/>
@@ -182,12 +140,12 @@ const SaleList = () => {
                 <div className={styles.filters}>
                     <div className={styles.selectGroup}>
                         <select
-                            value={categoryId}
-                            onChange={handleCategoryChange}
+                            value={fillters.categoryId}
+                            onChange={handleFillterChange}
                             className={styles.filter}
                             id='categoryId'
                             name='categoryId'>
-                        <option value="A" >전체보기</option>
+                        <option value="" >전체보기</option>
                         {category.map((categoryItem) => (
                             <option key={categoryItem.categoryId} value={categoryItem.categoryId}>
                                 {categoryItem.categoryName}
@@ -195,28 +153,28 @@ const SaleList = () => {
                         ))}
                         </select>
                         <select className={styles.filter}
-                            value={typeId}
-                            onChange={handleTypeChange}
+                            value={fillters.typeId}
+                            onChange={handleFillterChange}
                             id='typeId'
                             name='typeId'
-                            disabled={!categoryId}>
+                            disabled={!fillters.categoryId}>
 
                             <option value="">전체보기</option>
                             {types.map((typeItem) => (
-                                <option key={typeItem.typeName} value={typeItem.typeName}>
+                                <option key={typeItem.typeId} value={typeItem.typeId}>
                                     {typeItem.typeName} 
                                 </option>
                             ))}
                         </select>
                         <select className={styles.filter}
-                            value={subjectId}
-                            onChange={handleSubjectChange}
+                            value={fillters.subjectId}
+                            onChange={handleFillterChange}
                             id='subjectId'
                             name='subjectId'
-                            disabled={!categoryId}>
+                            disabled={!fillters.categoryId}>
                             <option value="">전체보기</option>
                             {themes.map((subjectItem) => (
-                                <option key={subjectItem.subjectName} value={subjectItem.subjectName}>
+                                <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
                                     {subjectItem.subjectName}
                                 </option>
                             ))}
@@ -226,16 +184,17 @@ const SaleList = () => {
                         <input
                             type="text"
                             placeholder="작가 검색"
-                            value={searchKeyword}
-                            onChange={handleSearchKeyword}
+                            value={fillters.searchKeyword}
+                            name="searchKeyword"
+                            onChange={handleFillterChange}
                             className={styles.searchInput}
                         />
                     </div>
 
-                    <select className={styles.filter} onChange={handleSaleStatus}>
-                        <option value="ALL">전체보기</option>
-                        <option value="AVAILABLE" >판매 작품</option>
-                        <option value="SOLD_OUT">판매된  작품</option>
+                    <select className={styles.filter} onChange={handleFillterChange} name="saleStatus">
+                        <option value="">전체보기</option>
+                        <option value="AVAILABLE" >판매중</option>
+                        <option value="SOLD_OUT">판매완료</option>
                     </select>
                 </div>
 
@@ -273,7 +232,7 @@ const SaleList = () => {
                     ))}
                 </div>
             </div>
-            {artworks.length >= visibleCount && (
+            {more && (
                 <div className={styles.seemore} onClick={loadMore}>
                     <button>
                         <img className={styles.seemore} src="/img/seemore.png"/>
