@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 import { tokenAtom } from "../../atoms";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
-
+import ShowGallery from "../funding/ShowGallery";
 // Type과 Category의 옵션 매핑
 const OPTIONS = {
   그림: {
@@ -102,6 +102,8 @@ const MyGallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // 갤러리 모드에서 중심 이미지 인덱스
   const [slideDirection, setSlideDirection] = useState(""); // 갤러리 모드 슬라이드 방향
   
+  const [isGalleryView, setIsGalleryView] = useState(false); // 갤러리 보기 상태 관리
+
   const [filters, setFilters] = useState({
     subject: "",
     type: "",
@@ -150,6 +152,7 @@ const handleSearchChange = (event) => {
 
         const data = await response.json();
         setArtworks(data);
+        console.log(data);
       } catch (error) {
         console.error("Failed to fetch liked artworks:", error);
       }
@@ -187,8 +190,15 @@ const handleSearchChange = (event) => {
   const loadMore = () => setVisibleCount((prev) => prev + 8);
 
   // 카드 클릭 핸들러
-  const handleCardClick = (id) => {
-    navigate(`/gallery/gallerydetail/${id}`);
+  const handleCardClick = (id,status) => {
+    console.log(status)
+    if(status==="NOT_SALE") {
+      navigate(`/gallery/gallerydetail/${id}`);
+      return;
+    } else {
+      navigate(`/shop/saleDetail/${id}`)
+      return;
+    }
   };
 
   
@@ -230,10 +240,19 @@ const handleSearchChange = (event) => {
                 className={`${styles.btn} ${
                   viewMode === "gallery" ? styles.btnActive : ""
                 }`}
-                onClick={() => setViewMode("gallery")}
+                onClick={() => setIsGalleryView(true)}
               >
                 갤러리로 보기
               </button>
+
+              {/* 갤러리 보기 */}
+              {isGalleryView && (
+                <ShowGallery
+                  images={artworks.map((artwork) => artwork.imageUrl)}
+                  onClose={() => setIsGalleryView(false)} // 닫기 버튼 핸들링
+                />
+              )}
+
               <button
                 className={`${styles.btn} ${
                   viewMode === "list" ? styles.btnActive : ""
@@ -314,14 +333,14 @@ const handleSearchChange = (event) => {
               <div
                 className={styles.card}
                 key={artwork.artworkId}
-                onClick={() => handleCardClick(artwork.artworkId)}
-              >
+                >
             <div className={styles.cardImageContainer}>
               <img
               src={artwork.imageUrl}
               alt={artwork.title}
               className={styles.cardImage}
-              onClick={() => handleCardClick(artwork.artworkId)}/>
+              onClick={() => handleCardClick(artwork.artworkId, artwork.saleStatus)}
+              />
             </div>
                 {/* 텍스트 설명 부분 */}
           <div className={styles.cardContent}>
@@ -330,7 +349,6 @@ const handleSearchChange = (event) => {
             </div>
             <p className={styles.cardArtist}>{artwork.artist.name}</p>
             <div className={styles.cardCategories}>
-              <p className={styles.cardCategory}>{artwork.category.categoryName}</p>
               <p className={styles.cardCategory}>{artwork.type.typeName}</p>
               <p className={styles.cardCategory}>{artwork.subject.subjectName}</p>
             </div>

@@ -129,8 +129,8 @@ const ArtistDetail = () => {
             alert("제목과 내용을 모두 입력하세요.");
             return;
         } 
-        setMessage({...message, artistId:artistId, username:user.username });
-        axios.post(`${url}/sendMessage`,message , {headers : {Authorization : token}})
+        const sendMessage = {...message, artistId:artistId, username:user.username}
+        axios.post(`${url}/sendMessage`,sendMessage , {headers : {Authorization : token}})
             .then(res=>{
                 if(res.data===true) {
                     alert("작가님께 쪽지를 보냈습니다.")
