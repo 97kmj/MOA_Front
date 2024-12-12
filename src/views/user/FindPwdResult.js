@@ -5,9 +5,8 @@ import {useParams} from 'react-router-dom';
 import {url} from '../../config';
 import axios from 'axios';
 
-const FindPwdResult = () => {
+const FindPwdResult = ({username}) => {
   const navigate = useNavigate();
-  const {id} = useParams();
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [isChanged, setIsChanged] = useState(false);
@@ -17,7 +16,7 @@ const FindPwdResult = () => {
       alert("비빌번호 확인이 틀립니다")
       return;
     }
-    axios.post(`${url}/api/verification/changePassword`, {username:id,password:password1})
+    axios.post(`${url}/api/verification/changePassword`, {username:username,password:password1})
       .then(res=> {
         console.log(res);
         if(res.data===true) {

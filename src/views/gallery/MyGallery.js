@@ -341,13 +341,13 @@ const handleSearchChange = (event) => {
       ))}
   
 
-            {artworks.length >= visibleCount && (
-              <div className={styles.loadMore}>
-                <button className={styles.btn} onClick={loadMore}>
-                  더보기
-                </button>
-              </div>
-            )}
+          </div>
+        )}
+        {artworks.length >= visibleCount && (
+          <div className={styles.seemore} onClick={loadMore}>
+          <button className={styles.seemore}>
+              <img  src="/img/seemore.png"/>
+          </button>
           </div>
         )}
       </div>
