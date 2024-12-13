@@ -124,7 +124,18 @@
     padding: 10px;
     overflow-y: auto;
 }
-
+.textarea {
+    width: 858px;
+    height: 170px;
+    resize: none;
+    border: #B39C59 1px solid;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 200%;
+}
 
 .bar {
     border: none;

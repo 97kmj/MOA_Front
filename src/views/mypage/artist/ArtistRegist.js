@@ -8,7 +8,9 @@ import { userAtom,tokenAtom } from "../../../atoms";
 import { url } from "../../../config";
 import { useNavigate } from "react-router";
 import ReactQuill from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
+
 
 const ArtistRegist = () => {
     const [user,setUser] = useAtom(userAtom);
@@ -163,6 +165,7 @@ const ArtistRegist = () => {
                     <div className={styles.buttonDiv}>
                         <button className={styles.goldbutton} onClick={artistSubmit}>신청하기</button>
                     </div>
+
                 </div>
             </div>
             <div>

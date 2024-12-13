@@ -169,9 +169,11 @@ const AdminArtist = () => {
                 </div>
                 <br></br>
                 <h5>작가이력</h5>
-                <textarea readOnly value={selectedArtistInfo.artistCareer || ""}></textarea>
+                <div className={styles.textarea} dangerouslySetInnerHTML={{__html: selectedArtistInfo.artistCareer}}/>
+                {/* <textarea readOnly value={selectedArtistInfo.artistCareer || ""}></textarea> */}
                 <h5>작가노트</h5>
-                <textarea readOnly value={selectedArtistInfo.artistNote || ""}></textarea>
+                <div className={styles.textarea} dangerouslySetInnerHTML={{__html: selectedArtistInfo.artistNote}}/>
+                {/* <textarea readOnly value={selectedArtistInfo.artistNote || ""}></textarea> */}
                 <div className={styles.buttonDiv}>
                     <button className={styles.goldbutton} onClick={approve}>승인하기</button>
                     <button className={styles.goldbutton} onClick={reject}>반려하기</button>

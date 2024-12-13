@@ -173,19 +173,24 @@ const ArtistDetail = () => {
                         <div className={isArtistNote ? styles.selected : styles.notSelected} data-name="note" onClick={artistInfoToggle}>작가노트</div>
                         <div className={!isArtistNote ? styles.selected : styles.notSelected} data-name="career" onClick={artistInfoToggle}>작가이력</div>    
                     </div>
-                    <textarea readOnly value={isArtistNote ? artist.artistNote : artist.artistCareer}></textarea>
+                    <div>
+                    <div className={styles.textarea} dangerouslySetInnerHTML={{__html: isArtistNote ? artist.artistNote : artist.artistCareer}}/>
+                    </div>
+                    {/* <textarea readOnly value={isArtistNote ? artist.artistNote : artist.artistCareer}></textarea> */}
                 </div>
             </div>
+            
             <div className={styles.artworktoggle}>
                     <div className={artworkType === "NOT_SALE" ? styles.typeSelected : styles.typeNotSelected} data-name="NOT_SALE" onClick={handleArtworkTypeChange}>온라인 갤러리</div>
                     <div className={artworkType === "AVAILABLE" ? styles.typeSelected : styles.typeNotSelected} data-name="AVAILABLE" onClick={handleArtworkTypeChange}>판매중인 작품</div>    
                     <div className={artworkType === "SOLD_OUT" ? styles.typeSelected : styles.typeNotSelected} data-name="SOLD_OUT" onClick={handleArtworkTypeChange}>판매완료 작품</div>    
             </div>
+            
             <div className={styles.artworkList}>
                 {
                     artworks.length > 0 ? (
                         artworks.map((artwork)=> (
-                            <article>
+                            <article className={styles.artworkCard}>
                                 <div className={styles.artwork}>
                                     <img className={styles.artImg} src={artwork.imageUrl} alt=''/>
                                 </div>
