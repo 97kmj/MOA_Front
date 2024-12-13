@@ -238,6 +238,8 @@
 .fundingDetailContentContainer {
     display: flex;
     gap: 20px;
+
+    width: 102%;
 }
 
 /*프로젝트 계획 start*/
@@ -248,11 +250,18 @@
 .showArtworks {
     margin: 10px 0;
     padding: 5px 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
+    color: #b29c59;
+    font-weight: bold;
+    background-color: #ffffff;
+    border: 1px solid #b29c58;
     border-radius: 5px;
     cursor: pointer;
 }
+.showArtworks:hover {
+    background-color: #b29c59;
+    color: #ffffff;
+}
+
 
 .projectDetails {
     margin-top: 20px;
@@ -393,7 +402,8 @@
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    padding: 20px;
+    /*padding: 20px;*/
+    padding: 18px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -401,6 +411,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /*gap: 20%;*/
 }
 
 .rewardHeader h5 {
@@ -416,6 +427,7 @@
     background-color: #ffe6e6;
     padding: 4px 8px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 .rewardDescription {

@@ -151,12 +151,6 @@ function FundingArtCreation() {
                             className={styles.fundingArtCreationInput}
                         />
                         <label>펀딩 소개</label>
-                        {/*<textarea*/}
-                        {/*    value={fundingInfo.description}*/}
-                        {/*    onChange={(e) => setFundingInfo({description: e.target.value})}*/}
-                        {/*    placeholder="펀딩 소개를 입력하세요"*/}
-                        {/*    className={styles.fundingArtCreationTextarea}*/}
-                        {/*/>*/}
                       <div className={styles.fundingInfoDescription}>
                           <ReactQuill
                               value={fundingInfo.description}
