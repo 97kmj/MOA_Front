@@ -20,7 +20,7 @@ const SaleList = () => {
     const [more, setMore] = useState(true);
     const [page, setPage] = useState(1);
 
-    const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
+    // const [visibleCount, setVisibleCount] = useState(8); // 표시할 데이터 수
     const navigate = useNavigate(); 
     
     const goDetailNavigation = (artworkId) => {  //디테일 이동

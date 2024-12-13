@@ -18,6 +18,12 @@
 .titlename {
     margin: 50px 0px 10px 0px;
     text-align: left;
+    display: flex;
+}
+
+.titlename b{
+    font-size: 18px;
+    align-content: center;
 }
 
 .detailTop {
@@ -272,7 +278,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 80px;
+ 
 }
+.likeIcon{
+    width: 40px;
+    height: 40px;
+}
+
 
 .likedcount {
     margin-left: 10px;
@@ -400,8 +413,9 @@
     border: 1px solid #c1c1c1;
     text-align: left;
     background-color: #F5F5F5;
-    padding: 10px;
+    padding: 20px;
     white-space: pre-wrap;
+    line-height: 200%;
 }
 
 .artistsearch {
