@@ -6,6 +6,10 @@ import { useAtomValue } from "jotai";
 import axios from "axios";
 import { url } from "../../../config";
 import { useState,useEffect } from "react";
+
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+
 const ArtistEdit = () => {
     const user = useAtomValue(userAtom);
     const token = useAtomValue(tokenAtom);
@@ -30,9 +34,18 @@ const ArtistEdit = () => {
             })
     },[user,token])
 
-    const edit = (e) => {
-        setArtistInfo({...artistInfo,[e.target.name]:e.target.value})
-    }
+    // const edit = (e) => {
+    //     setArtistInfo({...artistInfo,[e.target.name]:e.target.value})
+    // }
+
+    const edit = (value, name) => {
+        setArtistInfo((prev) => ({
+            ...prev,
+            [name]: value, // name을 키로, value를 값으로 설정
+        }));
+    };
+
+
 
     const profileChange = (e) => {
         const file = e.target.files[0];
@@ -90,10 +103,38 @@ const ArtistEdit = () => {
                     <div className={styles.imgUploadbox}>
                     <label for="profileImage">프로필 사진 변경</label><input type="file" id="profileImage" onChange={profileChange}/>
                     </div>
-                    <h4 style={{textAlign:"left"}}>작가 이력</h4>
-                    <textarea name="artistCareer" value={artistInfo.artistCareer} onChange={edit}></textarea>
-                    <h4 style={{textAlign:"left"}}>작가 노트</h4>
-                    <textarea name="artistNote" value={artistInfo.artistNote} onChange={edit}></textarea>
+
+
+                    {/*<h4 style={{textAlign:"left"}}>작가 이력</h4>*/}
+                    {/*<textarea name="artistCareer" value={artistInfo.artistCareer} onChange={edit}></textarea>*/}
+                    {/*<h4 style={{textAlign:"left"}}>작가 노트</h4>*/}
+                    {/*<textarea name="artistNote" value={artistInfo.artistNote} onChange={edit}></textarea>*/}
+
+                    <div>
+                        <h4 style={{textAlign: "left"}}>작가 이력</h4>
+                        <ReactQuill
+                            value={artistInfo.artistCareer || ""}
+                            onChange={(value) => edit(value, "artistCareer")}
+                            placeholder="작가 이력을 입력하세요"
+                            theme="snow"
+                            style={{height: "200px"}}
+                        />
+
+                    </div>
+
+                    <div className={styles.artistInfoArtistNoteOut}>
+                        <h4 style={{ textAlign: "left" }}>작가 노트</h4>
+                    <ReactQuill
+                        value={artistInfo.artistNote || ""}
+                        onChange={(value) => edit(value, "artistNote")}
+                        placeholder="작가 노트를 입력하세요"
+                        theme="snow"
+                        style={{ height: "200px" }}
+                    />
+
+                    </div>
+
+
                 <div className={styles.buttonDiv}>
                     <button className={styles.goldbutton} onClick={editArtist}>수정하기</button>
                 </div>
