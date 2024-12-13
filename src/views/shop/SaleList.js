@@ -145,7 +145,7 @@ const SaleList = () => {
                             className={styles.filter}
                             id='categoryId'
                             name='categoryId'>
-                        <option value="" >전체보기</option>
+                        <option value="" >카테고리 : 전체</option>
                         {category.map((categoryItem) => (
                             <option key={categoryItem.categoryId} value={categoryItem.categoryId}>
                                 {categoryItem.categoryName}

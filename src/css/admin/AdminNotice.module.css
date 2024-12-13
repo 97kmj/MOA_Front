@@ -4,14 +4,15 @@
     margin:0;
     padding:0;
     height: 100%;
+    
 }
 
 .noticeList {
     background-color: white;
     border: 1px solid #B39C49;
-    margin: 50px 30px 50px 30px;
+    margin: 50px 30px 50px 60px;
     text-align: center;
-    width: 440px;
+    width: 480px;
     padding:10px;
 
 }
@@ -119,7 +120,7 @@
 }
 
 .noticeDetail input:read-only , .noticeDetail textarea:read-only {
-    background-color: #f4f4f4;
+    background-color: #faf7f7;
 }
 
 

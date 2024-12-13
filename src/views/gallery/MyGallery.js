@@ -5,6 +5,7 @@ import { tokenAtom } from "../../atoms";
 import styles from "../../css/gallery/Gallery.module.css";
 import Header from "../Header";
 import ShowGallery from "../funding/ShowGallery";
+import { url } from "../../config";
 // Type과 Category의 옵션 매핑
 const OPTIONS = {
   그림: {
@@ -141,7 +142,7 @@ const handleSearchChange = (event) => {
         }).toString();
 
         const response = await fetch(
-          `http://localhost:8080/api/like/artworks?${queryParams}`,
+          `${url}/api/like/artworks?${queryParams}`,
           {
             headers: {
               Authorization: token, // 토큰 직접 사용
@@ -298,34 +299,6 @@ const handleSearchChange = (event) => {
             />
           </div>
         </div>
-
-        {viewMode === "gallery" && (
-          <div className={styles.galleryView}>
-            <button className={styles.arrowLeft} onClick={handlePrev}>
-              ◀
-            </button>
-            <div className={`${styles.galleryItems} ${styles[slideDirection]}`}>
-              {visibleItems.map((item, index) => (
-                <div
-                  key={item.artworkId}
-                  className={`${styles.galleryItem} ${
-                    index === 2 ? styles.centerItem : ""
-                  }`}
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className={styles.galleryImage}
-                  />
-                  <h2 className={styles.galleryTitle}>{item.title}</h2>
-                </div>
-              ))}
-            </div>
-            <button className={styles.arrowRight} onClick={handleNext}>
-              ▶
-            </button>
-          </div>
-        )}
 
         {viewMode === "list" && (
           <div className={styles.listgalleryGrid}>

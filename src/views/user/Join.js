@@ -343,6 +343,21 @@ function Join() {
                         </div>
                     </div>
 
+                    {/* phone */}
+                    <div className={styles.formGroup}>
+                        <label htmlFor="name">전화번호</label>
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                id="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                placeholder="전화번호 입력"
+                                required
+                            />
+                        </div>
+                    </div>                    
+
                     {/* Address */}
                     <div className={styles.formGroup}>
                         <label htmlFor="address">주소</label>
