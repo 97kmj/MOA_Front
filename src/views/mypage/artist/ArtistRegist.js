@@ -7,6 +7,8 @@ import { useAtomValue,useAtom} from "jotai/react";
 import { userAtom,tokenAtom } from "../../../atoms";
 import { url } from "../../../config";
 import { useNavigate } from "react-router";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 const ArtistRegist = () => {
     const [user,setUser] = useAtom(userAtom);
     const token = useAtomValue(tokenAtom);
@@ -109,6 +111,7 @@ const ArtistRegist = () => {
                     <label for="profileImage">프로필 사진 선택</label><input type="file" id="profileImage" name="profileImage" accept='image/*' onChange={profileChange}/>
                     </div>
                     <h4 style={{textAlign:"left"}}>작가 이력</h4>
+                    
                     <textarea name="artistCareer" onChange={edit}></textarea>
                     <h4 style={{textAlign:"left"}}>작가 노트</h4>
                     <textarea name="artistNote" onChange={edit}></textarea>

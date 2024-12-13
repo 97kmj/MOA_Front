@@ -88,6 +88,20 @@
     font-family: 'Arial Black', sans-serif; 
     padding:20px;
 }
+.textarea {
+    width:480px;
+    height:230px;
+    line-height: 200%;
+    overflow-y: auto;
+    border: #B39C59 1px solid;
+    background-color:  #fcf8ec;
+    padding:20px;
+    white-space: pre-wrap;
+    border-radius: 5px;
+    font-size:12px;
+    
+}
+
 .artworkList {
     display: flex;
     flex-wrap: wrap;
@@ -95,10 +109,11 @@
     
 }
 .artworkList article {
-    width:380px;
+    width:375px;
     margin:10px;
-    
+    border: 1px solid #e5e5e5;
 }
+
 
 .artworkInfo {
     vertical-align: middle;
@@ -106,16 +121,18 @@
     display : flex;
     justify-content: space-between;
     align-items : center;
+    padding:10px
 }
 .artworkTitle {
     max-width: 70%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-weight: 400;
 }
 .artworktoggle {
-    margin-top:10px;
-    margin-bottom: 20px;
+    margin-top:80px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     
@@ -172,8 +189,8 @@
 }
 
 .artwork {
-    width: 380px;
-    height: 380px;
+    width: 375px;
+    height: 375px;
     vertical-align:middle;
     background-color: #ececec;
     display: flex;
@@ -269,4 +286,28 @@
 }
 .sendbutton:hover,.close:hover, .messagebutton:hover  {
     cursor: pointer;
+}
+
+
+
+.textarea::-webkit-scrollbar {
+    width: 6px;
+    
+}
+
+.textarea::-webkit-scrollbar-track { 
+    background-color: whitesmoke;
+}
+
+.textarea::-webkit-scrollbar-thumb { 
+    background-color: #B39C59;
+}
+
+.textarea::-webkit-scrollbar-button {
+    display: none;
+}
+
+.textarea::-webkit-scrollbar-track,
+.textarea::-webkit-scrollbar-thumb {
+    border-radius: 5px;
 }
