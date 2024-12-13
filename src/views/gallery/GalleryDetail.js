@@ -120,23 +120,13 @@ function GalleryDetail() {
   return (
     <>
       <Header />
-      <div className={styles.galleryDetailContainer}>
-        <h1 className={styles.pageTitle}>갤러리 상세</h1>
+      <div className={styles.galleryDetailContainer}>      
+      <h3 className={styles.pageTitle}><img src='https://img.icons8.com/?size=40&id=oI66xA0sTgGs&format=png&color=B39C59'/>&nbsp;{data.title}</h3>
         <hr className={styles.titleSeparator} />
         <div className={styles.galleryDisplayArea}>
           <div className={styles.smallImageArea}>
-            <img src={data.imageUrl} alt={data.title} className={styles.smallImage} />
-            <div className={styles.imageDetails}>
-              <h2 className={styles.imageTitle}>{data.title}</h2>
-              <p>
-              <strong>ARTIST</strong><span >
-              {data.artist.name} <td className={styles.artistMoveButton} onClick={()=> goArtist(data.artist.username)}>작가상세</td>
-              </span>
-              </p>              
-              <p><strong>SIZE</strong> {data.width} x {data.height} cm</p>
-              <p><strong>TYPE</strong> {data.type.typeName}</p>
-              <p><strong>SUBJECT</strong> {data.subject.subjectName}</p>
-              {/* 좋아요 버튼 */}
+            <div className={styles.smallImageBox}>
+              <img src={data.imageUrl} alt={data.title} className={styles.smallImage}/>
               <button className={styles.likeButton} onClick={handleLikeButtonClick} >
                 <img
                   src={isLiked ? "/img/heart.svg" : "/img/goldheart.png"}
@@ -145,16 +135,27 @@ function GalleryDetail() {
                 />
               </button>
             </div>
+            <div className={styles.imageDetails}>
+              <h2 className={styles.imageTitle}>{data.title}</h2>
+              <p>
+              <strong>ARTIST</strong><span >
+              {data.artist.name} <button className={styles.artistMoveButton} onClick={()=> goArtist(data.artist.username)}>작가상세</button>
+              </span>
+              </p>              
+              <p><strong>SIZE</strong> {data.width} x {data.height} cm</p>
+              <p><strong>TYPE</strong> {data.type.typeName}</p>
+              <p><strong>SUBJECT</strong> {data.subject.subjectName}</p><br/>
+            </div>
           </div>
           <hr className={styles.imageSeparator} />
           <div className={styles.largeImageArea}>
             <img src={data.imageUrl} alt="큰 작품 이미지" className={styles.largeImage} />
-          </div>
-          <div className={styles.artDescription}>
-            <h3>작품 소개</h3>
-            <div className={styles.descriptionBox}>
-              {data.description}
+            <div className={styles.artDescription}>
+            <p>Art’s Description</p>
             </div>
+              <div className={styles.descriptionBox}>
+                {data.description}
+              </div>
           </div>
         </div>
       </div>
