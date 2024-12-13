@@ -290,7 +290,13 @@ const SaleDetail = () => {
         <>
             <Header/>
             <div className={styles.container}>
-                <p className={styles.titlename}><b>판매상세</b></p>
+                <p className={styles.titlename}>
+                    <img src='https://img.icons8.com/?size=40&id=oI66xA0sTgGs&format=png&color=B39C59'/> 
+                    &nbsp;
+                    <b>
+                        {saleDetail.title}
+                    </b>
+                </p>
                 <div className={styles.bar}></div>
                 <div className={styles.detailTop}>
                     <div className={styles.detailTopLeft}>
@@ -409,7 +415,7 @@ const SaleDetail = () => {
                             <img
                                 src={isLiked==true? "/img/heart.svg"  : "/img/goldheart.png"}
                                 alt="좋아요"
-                                className={styles.likeIcon}
+                                className={isLiked==true? '' : styles.likeIcon}
                                 onClick={handleLikeButtonClick}
                             />
                             <div className={styles.likedcount}
