@@ -7,6 +7,7 @@ import axios from 'axios';
 import { tokenAtom, userAtom } from '../../atoms';
 import { useAtomValue, useSetAtom,useAtom } from 'jotai';
 
+
 const SaleList = () => {
     const user = useAtomValue(userAtom);
     const [token,setToken] = useAtom(tokenAtom);
@@ -14,7 +15,7 @@ const SaleList = () => {
     const [types, setTypes] = useState([]); // 타입 리스트 가져오기
     const [themes, setThemes] = useState([]); // 주제 리스트 가져오기
 
-    const [fillters, setFillters] = useState({categoryId:'', typeId:'',subjectId:'', saleStatus:'', searchKeyword:''})
+    const [fillters, setFillters] = useState({categoryId:'', typeId:'',subjectId:'', saleStatus:'', searchKeyword:'' })
     const [artworks, setArtworks] = useState([]); // 백엔드에서 가져온 데이터를 저장
     const [more, setMore] = useState(true);
     const [page, setPage] = useState(1);
@@ -51,7 +52,6 @@ const SaleList = () => {
                   } else {
                     setArtworks([...artworks, ...res.data.artworks])
                   }
-                
                 if(pPage>=res.data.allPage) {
                     setMore(false);
                 }
@@ -95,11 +95,19 @@ const SaleList = () => {
         }
     }, [fillters.categoryId]);
 
+    const handleCategoryChange = (e) => {
+        const changeFillters = {...fillters, [e.target.name]:e.target.value,typeId:'', subjectId:''};
+        setFillters(changeFillters)
+        setTypes([]);
+        setThemes([]);
+        fetchArtworks(1, changeFillters);
+    }
+
     const handleFillterChange = (e) => {
         const changeFillters = {...fillters, [e.target.name]:e.target.value};
-        console.log(changeFillters)
         setFillters(changeFillters)
         fetchArtworks(1, changeFillters);
+
     };
     
     //관리자 작품 블랙리스트 체크박스
@@ -139,46 +147,52 @@ const SaleList = () => {
 
                 <div className={styles.filters}>
                     <div className={styles.selectGroup}>
-                        <select
-                            value={fillters.categoryId}
-                            onChange={handleFillterChange}
-                            className={styles.filter}
-                            id='categoryId'
-                            name='categoryId'>
-                        <option value="" >전체보기</option>
-                        {category.map((categoryItem) => (
-                            <option key={categoryItem.categoryId} value={categoryItem.categoryId}>
-                                {categoryItem.categoryName}
-                            </option>
-                        ))}
-                        </select>
-                        <select className={styles.filter}
-                            value={fillters.typeId}
-                            onChange={handleFillterChange}
-                            id='typeId'
-                            name='typeId'
-                            disabled={!fillters.categoryId}>
 
-                            <option value="">전체보기</option>
-                            {types.map((typeItem) => (
-                                <option key={typeItem.typeId} value={typeItem.typeId}>
-                                    {typeItem.typeName} 
+                        <div className={styles.customSelect}>
+                            <select
+                                value={fillters.categoryId}
+                                onChange={handleCategoryChange}
+                                id='categoryId'
+                                name='categoryId'>
+                            <option value="" > 카테고리 : 전체</option>
+                            {category.map((categoryItem) => (
+                                <option key={categoryItem.categoryId} value={categoryItem.categoryId}>
+                                   카테고리 : {categoryItem.categoryName}
                                 </option>
                             ))}
-                        </select>
-                        <select className={styles.filter}
-                            value={fillters.subjectId}
-                            onChange={handleFillterChange}
-                            id='subjectId'
-                            name='subjectId'
-                            disabled={!fillters.categoryId}>
-                            <option value="">전체보기</option>
-                            {themes.map((subjectItem) => (
-                                <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
-                                    {subjectItem.subjectName}
-                                </option>
-                            ))}
-                        </select>
+                            </select>
+
+                        </div>
+                        <div className={styles.customSelect}>
+                            <select className={styles.filter}
+                                value={fillters.typeId}
+                                onChange={handleFillterChange}
+                                id='typeId'
+                                name='typeId'
+                                >
+
+                                <option value="">종류 : 전체</option>
+                                {types.map((typeItem) => (
+                                    <option key={typeItem.typeId} value={typeItem.typeId}>
+                                        종류 : {typeItem.typeName} 
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className={styles.customSelect}>
+                            <select className={styles.filter}
+                                value={fillters.subjectId}
+                                onChange={handleFillterChange}
+                                id='subjectId'
+                                name='subjectId'>
+                                <option value="">주제 : 전체</option>
+                                {themes.map((subjectItem) => (
+                                    <option key={subjectItem.subjectId} value={subjectItem.subjectId}>
+                                        주제 : {subjectItem.subjectName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                     <div className={styles.searchGroup} >
                         <input
@@ -190,12 +204,13 @@ const SaleList = () => {
                             className={styles.searchInput}
                         />
                     </div>
-
-                    <select className={styles.filter} onChange={handleFillterChange} name="saleStatus">
-                        <option value="">전체보기</option>
-                        <option value="AVAILABLE" >판매중</option>
-                        <option value="SOLD_OUT">판매완료</option>
-                    </select>
+                    <div className={styles.customSelect}>
+                        <select className={styles.filter} onChange={handleFillterChange} name="saleStatus">
+                            <option value="">전체</option>
+                            <option value="AVAILABLE" >판매중</option>
+                            <option value="SOLD_OUT">판매완료</option>
+                        </select>
+                    </div>
                 </div>
 
 

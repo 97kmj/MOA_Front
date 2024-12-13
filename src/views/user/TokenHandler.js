@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useSetAtom } from 'jotai';
 import { tokenAtom, userAtom } from '../../atoms';
 import axios from 'axios';
+import { url } from "../../config";
+
 
 const TokenHandler = () => {
   const navigate = useNavigate();
@@ -16,16 +18,13 @@ const TokenHandler = () => {
 
     if (tokenString) {
       try {
-        const parsedToken = JSON.parse(decodeURIComponent(tokenString));
-        const accessToken = parsedToken.access_token.replace('Bearer ', '');
-
         // 토큰 저장
-        setToken(accessToken);
+        setToken(tokenString);
 
         // 사용자 정보 요청 및 저장
         axios
-          .get('http://localhost:8080/api/user/profile', {
-            headers: { Authorization: `Bearer ${accessToken}` },
+          .get(`${url}/api/user/profile`, {
+            headers: { Authorization: tokenString },
           })
           .then((response) => {
             setUser(response.data); // 사용자 정보 저장

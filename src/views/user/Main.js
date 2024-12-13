@@ -53,7 +53,8 @@ const Main = () => {
             </div>
             <div className={styles.subject}>
             <img src='https://img.icons8.com/?size=40&id=oI66xA0sTgGs&format=png&color=B39C59'/>    
-            <h3>작품</h3>          
+            <h3>작품</h3>
+            <span className={styles.more} onClick={()=>navigate("/shop/saleList")}>More &#10141;</span>          
             </div>
             
             <hr className={styles.bar}></hr>
@@ -68,20 +69,21 @@ const Main = () => {
                 {
                     artworkList.length > 0 && (
                         artworkList.map((artwork)=> 
-                            <div className={styles.artwork}>
-                            <img className={styles.artImg} src={artwork.imageUrl} id={artwork.artworkId} onClick={()=>toDetail(artwork.saleStatus,artwork.artworkId)}/>
+                            <div className={styles.artwork} onClick={()=>toDetail(artwork.saleStatus,artwork.artworkId)}>
+                            <img className={styles.artImg} src={artwork.imageUrl} id={artwork.artworkId} />
                         </div>        
                         )
                     )
                 }
             </div>
-            <div className={styles.buttonDiv}>
+            {/* <div className={styles.buttonDiv}>
                 <button className={styles.goldbutton} onClick={()=>navigate("/gallery/gallery")}>Gallery</button>
                 <button className={styles.goldbutton} onClick={()=>navigate("/shop/saleList")}>Shop</button>
-            </div>
+            </div> */}
             <div className={styles.subject}>
                 <img src='https://img.icons8.com/?size=40&id=62622&format=png&color=B39C59'/>
                 <h3>진행중인 펀딩</h3>
+                <span className={styles.more} onClick={()=>navigate("/fundings")}>More &#10141;</span>          
             </div>
             <hr className={styles.bar}></hr>
 
@@ -114,9 +116,10 @@ const Main = () => {
                     )
                 }                
             </div>
-            <div className={styles.buttonDiv}>
+            {/* <div className={styles.buttonDiv}>
                 <button className={styles.goldbutton} onClick={()=>navigate("/fundings")}>전체보기</button>
-            </div><br/>
+            </div> */}
+            <br/>
                 
         </div>
                         

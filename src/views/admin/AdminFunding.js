@@ -98,14 +98,16 @@ const AdminFunding = () => {
                 <h4>펀딩 신청 목록</h4>
                 <table>
                     <thead>
+                        <tr><td colSpan={3}><hr className={styles.bar}></hr></td></tr>
                         <tr><th>이름</th><th>아이디</th><th>신청일</th></tr>
+                        <tr><td colSpan={3}><hr className={styles.bar}></hr></td></tr>
                     </thead>
                     <tbody>
                         {   applyList.length>0 ? (
                             applyList.map((fundingItem) => (
                                 <tr 
                                 key={fundingItem.fundingId} 
-                                className={`${styles.fundingItem} ${
+                                className={`${styles.registItem} ${
                                     selectedFunding?.fundingId === fundingItem.fundingId? styles.selectedFunding : ""
                                 }`}
                                 onClick={selectFunding(fundingItem)}>

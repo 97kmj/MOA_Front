@@ -1,7 +1,7 @@
 import saleStyles from '../../css/shop/Result.module.css';
 import { Table, Label, Button , Input} from 'reactstrap';
 import { useLocation,useNavigate } from 'react-router';
-
+import Header from '../Header';
 const SaleOrderResult = () =>{
     const location = useLocation();
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ const SaleOrderResult = () =>{
     
     const orderDate = new Date(); 
     const formattedDate = orderDate.toLocaleDateString("ko-KR");
-
+    console.log()
     const goSaleList = ()=>{
         navigate(`/shop/saleList`);
         console.log("결제 확인 리스트로 이동");
@@ -18,6 +18,7 @@ const SaleOrderResult = () =>{
 
     return(
         <>
+        <Header/>
             <div className={saleStyles.resultImage}>
                 <img src="../img/ABOUTTHEPayment.png" />
             </div>
@@ -29,13 +30,13 @@ const SaleOrderResult = () =>{
             </div>
             <div className={saleStyles.priceInfo}>
                 <div>총 주문 금액:&nbsp; </div>
-                <div className=''>{userInfo.amount}</div>
+                <div className=''>{userInfo.amount.toLocaleString()}</div>
             </div>
             <Table className={saleStyles.resultInfoTable}>
                 <tbody>
                     <tr>
                         <td><b>받는분</b></td>
-                        <td>{userInfo.name}</td>
+                        <td>{userInfo.buyerName}</td>
                     </tr>
                     <tr>
                         <td><b>주문일시</b></td>
