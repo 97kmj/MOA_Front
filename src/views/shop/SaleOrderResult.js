@@ -9,7 +9,7 @@ const SaleOrderResult = () =>{
     
     const orderDate = new Date(); 
     const formattedDate = orderDate.toLocaleDateString("ko-KR");
-
+    console.log()
     const goSaleList = ()=>{
         navigate(`/shop/saleList`);
         console.log("결제 확인 리스트로 이동");
@@ -36,7 +36,7 @@ const SaleOrderResult = () =>{
                 <tbody>
                     <tr>
                         <td><b>받는분</b></td>
-                        <td>{userInfo.name}</td>
+                        <td>{userInfo.buyerName}</td>
                     </tr>
                     <tr>
                         <td><b>주문일시</b></td>
