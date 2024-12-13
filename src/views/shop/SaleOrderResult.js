@@ -1,7 +1,7 @@
 import saleStyles from '../../css/shop/Result.module.css';
 import { Table, Label, Button , Input} from 'reactstrap';
 import { useLocation,useNavigate } from 'react-router';
-
+import Header from '../Header';
 const SaleOrderResult = () =>{
     const location = useLocation();
     const navigate = useNavigate();
@@ -18,6 +18,7 @@ const SaleOrderResult = () =>{
 
     return(
         <>
+        <Header/>
             <div className={saleStyles.resultImage}>
                 <img src="../img/ABOUTTHEPayment.png" />
             </div>
@@ -29,7 +30,7 @@ const SaleOrderResult = () =>{
             </div>
             <div className={saleStyles.priceInfo}>
                 <div>총 주문 금액:&nbsp; </div>
-                <div className=''>{userInfo.amount}</div>
+                <div className=''>{userInfo.amount.toLocaleString()}</div>
             </div>
             <Table className={saleStyles.resultInfoTable}>
                 <tbody>

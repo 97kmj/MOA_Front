@@ -4,6 +4,7 @@ import styles from '../../css/user/FindPwd.module.css';
 import {url} from '../../config';
 import axios from 'axios';
 import FindPwdResult from './FindPwdResult'
+import Header from '../Header';
 
 const FindPwd = () => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const FindPwd = () => {
 
   return (
     <>
+    <Header/>
     { isChangePassword===false && <div className={styles.container}>
       <h1 className={styles.title}>MOA</h1>
       <h2 className={styles.subtitle}>비밀번호 찾기</h2>

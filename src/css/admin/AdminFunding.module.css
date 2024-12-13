@@ -16,7 +16,8 @@
 }
 .regList table{
     width:100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 5px;
 }
 .regList table tbody{
     max-height: 600px;
@@ -26,8 +27,20 @@
     border-bottom: 2px solid #B39C59;
     border-top: 2px solid #B39C59;
 }
-.regList table tbody tr {
-    padding: 10px 5px; /* 셀 간에 간격을 추가 */
+/* .regList table tbody tr {
+    padding: 10px 5px;
+}  */
+
+.registItem {
+    height: 40px;
+    margin-top:4px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: solid 1px transparent;
+    transition: outline-color 0.3s;
+}
+.registItem:hover {
+    outline-color: #B39C59;  
 }
 
 .fundingItem:hover {
@@ -195,9 +208,8 @@
     object-fit: contain;
 }
 
-.regList table tbody tr.selectedFunding {
-    border: #B39C59 1px solid;
-    border-radius: 10px;
+.selectedFunding {
+    outline: 1px #B39C59 solid;
 }
 
 

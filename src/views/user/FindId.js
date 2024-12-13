@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../../css/user/FindId.module.css';
 import {url} from '../../config';
 import axios from 'axios';
+import Header from '../Header';
 
 const FindId = () => {
   const navigate = useNavigate();
@@ -76,7 +77,9 @@ const FindId = () => {
       })
   }
 
-  return (
+  return (<>
+  
+      <Header/>
     <div className={styles.container}>
       <h1 className={styles.title}>MOA</h1>
       <h2 className={styles.subtitle}>아이디 찾기</h2>
@@ -121,6 +124,7 @@ const FindId = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

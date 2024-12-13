@@ -147,6 +147,7 @@ const SaleList = () => {
 
                 <div className={styles.filters}>
                     <div className={styles.selectGroup}>
+
                         <div className={styles.customSelect}>
                             <select
                                 value={fillters.categoryId}

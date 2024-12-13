@@ -26,7 +26,7 @@
 
 .subject {
     display: flex;
-    margin-top: 30px;
+    margin-top: 70px;
     align-items: center;
     vertical-align: middle;
 }
@@ -40,7 +40,7 @@
     align-items: center;
 }
 .mainArtImg {
-    /* max-width:800px; */
+    max-width:800px;
     height: 500px;
     object-fit: contain;
     box-shadow: 3px 3px 3px #666;
@@ -56,10 +56,15 @@
     width: 270px;
     height: 270px;
     vertical-align:middle;
-    background-color: #ececec;
+    background-color: #f8f9fa; /* 기본 배경색 */
+    transition: background-color 0.3s ease; /* 배경색 변경 애니메이션 */
     justify-content: center;
     text-align: center;
     align-items: center;
+}
+.artwork:hover {
+    cursor: pointer;
+    background-color: #dddddd; /* 마우스 올릴 때 진한 배경색 */
 }
 .artImg {
     max-width: 250px;
@@ -102,6 +107,7 @@
 .fundingBox {
     display: flex;
     justify-content: space-between;
+    
 }
 .fundingBox article {
     outline: 1px solid #ececec;
@@ -180,4 +186,14 @@
 .diffDate {
     font-size: 12px;
     color: #e41b1b;
+}
+
+.more {
+    margin-left: auto;
+    font-size: 16px;
+    color:#b39c59;
+    font-weight: bold;
+}
+.more:hover {
+    cursor: pointer;
 }

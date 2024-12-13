@@ -4,6 +4,7 @@ import Header from "../Header";
 import SideNav from "./SideNav"; // SideNav 컴포넌트 추가
 import { useAtomValue } from "jotai";
 import { tokenAtom } from "../../atoms";
+import { url } from '../../config';
 const InfoEdit = () => {
 
   const [userData, setUserData] = useState({
@@ -16,6 +17,7 @@ const InfoEdit = () => {
     extraAddress: '',
     email: '',
     role: '',
+    provider: ''
   });
 
   const [editMode, setEditMode] = useState({
@@ -31,12 +33,12 @@ const InfoEdit = () => {
     address: '수정하기',
     email: '수정하기',
   });
-  
+
   const token = useAtomValue(tokenAtom); // tokenAtom 값을 그대로 사용
 
   useEffect(() => {
     // Fetch user data from the server
-    fetch('http://localhost:8080/api/mypage/userinfoedit', {
+    fetch(`${url}/api/mypage/userinfoedit`, {
       method: 'GET',
       headers: {
         Authorization: token, // 토큰 직접 사용
@@ -53,61 +55,61 @@ const InfoEdit = () => {
       });
   }, []);
 
-// Daum Postcode API handler
-const handleAddressSearch = () => {
-  new window.daum.Postcode({
-    oncomplete: (data) => {
-      let addr = ""; // 주소 변수
-      let extraAddr = ""; // 참고항목 변수
+  // Daum Postcode API handler
+  const handleAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        let addr = ""; // 주소 변수
+        let extraAddr = ""; // 참고항목 변수
 
-      if (data.userSelectedType === "R") {
-        addr = data.roadAddress;
-      } else {
-        addr = data.jibunAddress;
-      }
-
-      if (data.userSelectedType === "R") {
-        if (data.bname && /[동|로|가]$/g.test(data.bname)) {
-          extraAddr += data.bname;
+        if (data.userSelectedType === "R") {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
         }
-        if (data.buildingName && data.apartment === "Y") {
-          extraAddr += (extraAddr !== "" ? ", " + data.buildingName : data.buildingName);
+
+        if (data.userSelectedType === "R") {
+          if (data.bname && /[동|로|가]$/g.test(data.bname)) {
+            extraAddr += data.bname;
+          }
+          if (data.buildingName && data.apartment === "Y") {
+            extraAddr += (extraAddr !== "" ? ", " + data.buildingName : data.buildingName);
+          }
+          if (extraAddr !== "") {
+            extraAddr = " (" + extraAddr + ")";
+          }
         }
-        if (extraAddr !== "") {
-          extraAddr = " (" + extraAddr + ")";
-        }
-      }
 
-      setUserData((prevData) => ({
-        ...prevData,
-        postcode: data.zonecode,
-        address: addr,
-        extraAddress: extraAddr,
-      }));
+        setUserData((prevData) => ({
+          ...prevData,
+          postcode: data.zonecode,
+          address: addr,
+          extraAddress: extraAddr,
+        }));
 
-      document.getElementById("detailAddress").focus();
-    },
-  }).open();
-};
+        document.getElementById("detailAddress").focus();
+      },
+    }).open();
+  };
 
 
-const handleEditClick = (field) => {
-  setEditMode((prev) => ({
-    ...prev,
-    [field]: !prev[field],
-  }));
-  setButtonState((prev) => ({
-    ...prev,
-    [field]: prev[field] === '수정하기' ? '확인' : '수정하기',
-  }));
-};
+  const handleEditClick = (field) => {
+    setEditMode((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+    setButtonState((prev) => ({
+      ...prev,
+      [field]: prev[field] === '수정하기' ? '확인' : '수정하기',
+    }));
+  };
   const handleUpdate = (field) => {
     const addressFields = ['postcode', 'address', 'detailAddress', 'extraAddress'];
     const body = field === 'address'
       ? addressFields.reduce((acc, key) => ({ ...acc, [key]: userData[key] }), { username: userData.username })
       : { [field]: userData[field], username: userData.username };
-  
-    fetch(`http://localhost:8080/api/mypage/userinfoupdate`, {
+
+    fetch(`${url}/api/mypage/userinfoupdate`, {
       method: 'PATCH',
       headers: {
         'Authorization': token,
@@ -133,21 +135,21 @@ const handleEditClick = (field) => {
           [field]: '수정하기', // 버튼 텍스트 초기화
         }));
       })
-      
+
       .catch((error) => {
         console.error('Error updating data:', error);
       });
   };
-  
 
 
-  
+
+
   return (
     <div>
       <Header />
       <div className={styles.layout}>
         <SideNav />
-        
+
         <div className={styles.content}>
           <h1 className={styles.pageTitle}>회원정보 수정</h1>
           <div className={styles.container}>
@@ -161,32 +163,36 @@ const handleEditClick = (field) => {
                 <span className={`${styles.value} ${styles.adjustedValue}`}>{userData.name}</span>
                 {/* DB에서 name 가져와야함 */}
               </div>
-              
+
               <div className={styles.row}>
                 <span className={styles.label}>아이디</span>
-                <span className={`${styles.value} ${styles.adjustedValue}`}>{userData.username}</span>
+                <span className={`${styles.value} ${styles.adjustedValue}`}>
+                  {userData.provider || userData.username}
+                </span>
                 {/* DB에서 username(=id) 가져와야함 */}
               </div>
-              
+
+
               <div className={styles.row}>
-                <span className={styles.label}>휴대폰 번호</span>
-                {editMode.phone ? (
-                  <input
-                    type="text"
-                    className={styles.value}
-                    value={userData.phone}
-                    onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
-                  />
-                ) : (
-                  <span className={styles.value}>{userData.phone}</span>
-                )}
+                  <span className={styles.label}>휴대폰 번호</span>
+                  {editMode.phone ? (
+                    <input
+                      type="text"
+                      style={{marginLeft:"20px"}}
+                      className={`${styles.value} ${styles.edit}`}
+                      value={userData.phone}
+                      onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+                    />
+                  ) : (
+                    <span className={styles.value}>{userData.phone}</span>
+                  )}
                 <button
                   className={styles.editButton}
                   onClick={() =>
                     editMode.phone ? handleUpdate('phone') : handleEditClick('phone')
                   }
                 >
-                    {buttonState.phone}
+                  {buttonState.phone}
                 </button>
               </div>
 
@@ -194,21 +200,23 @@ const handleEditClick = (field) => {
                 <span className={styles.label}>주소</span>
                 {editMode.address ? (
                   <div className={styles.address}>
-                    <div className={styles.inputGroup}>
+                    <div className={`${styles.value}`}>
                       <input
                         type="text"
                         id="postcode"
+                        className={`${styles.postvalue}`}
                         value={userData.postcode}
                         onChange={(e) => setUserData({ ...userData, postcode: e.target.value })}
                         placeholder="우편번호"
                       />
-                      <button type="button" onClick={handleAddressSearch}>
+                      <button type="button" className={`${styles.postButton}`} onClick={handleAddressSearch}>
                         찾기
                       </button>
                     </div>
                     <input
                       type="text"
                       id="address"
+                      className={`${styles.value} ${styles.edit}`}
                       value={userData.address}
                       onChange={(e) => setUserData({ ...userData, address: e.target.value })}
                       placeholder="주소"
@@ -216,6 +224,7 @@ const handleEditClick = (field) => {
                     <input
                       type="text"
                       id="detailAddress"
+                      className={`${styles.value} ${styles.edit}`}
                       value={userData.detailAddress}
                       onChange={(e) =>
                         setUserData({ ...userData, detailAddress: e.target.value })
@@ -225,6 +234,7 @@ const handleEditClick = (field) => {
                     <input
                       type="text"
                       id="extraAddress"
+                      className={`${styles.value} ${styles.edit}`}
                       value={userData.extraAddress}
                       onChange={(e) =>
                         setUserData({ ...userData, extraAddress: e.target.value })
@@ -257,7 +267,8 @@ const handleEditClick = (field) => {
                 {editMode.email ? (
                   <input
                     type="text"
-                    className={styles.value}
+                    style={{marginLeft:"20px"}}
+                    className={`${styles.value} ${styles.edit}`}
                     value={userData.email}
                     onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                   />
