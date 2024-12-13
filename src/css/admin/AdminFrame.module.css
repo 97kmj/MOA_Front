@@ -133,6 +133,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     padding: 5px 30px 5px 10px;
+   
 }
 
 .customSelect::after {
