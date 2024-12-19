@@ -1,4 +1,4 @@
-- 일반유저 - 
+- 일반유저
 
 판매1
 
@@ -39,7 +39,7 @@ https://github.com/user-attachments/assets/c7825ce1-ce59-482a-8729-e4fc4fa5af24
 
 
 
-- 작가 -
+- 작가 
 
 작품등록
 
@@ -65,7 +65,7 @@ https://github.com/user-attachments/assets/b9eb9338-1df8-4daf-8c4e-1c22e1194377
 
 
 
--관리자-
+- 관리자 
 
 관리자
 
