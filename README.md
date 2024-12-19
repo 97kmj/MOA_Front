@@ -30,7 +30,10 @@ https://github.com/user-attachments/assets/34822581-bd8c-4a64-938d-850a988b2549
 -관리자-
 
 관리자
-https://github.com/user-attachments/assets/7f639858-bf4c-4ab6-a015-d4a1fec05b88
+
+
+https://github.com/user-attachments/assets/d7912996-80fb-44d0-93d8-59f38b3677eb
+
 
 
 
