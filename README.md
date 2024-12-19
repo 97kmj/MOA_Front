@@ -39,6 +39,7 @@ https://github.com/user-attachments/assets/c7825ce1-ce59-482a-8729-e4fc4fa5af24
 
 
 
+
 - 작가 
 
 작품등록
@@ -58,6 +59,7 @@ https://github.com/user-attachments/assets/90b50221-0468-4ff1-8aa3-34419e33a05f
 마이페이지
 
 https://github.com/user-attachments/assets/b9eb9338-1df8-4daf-8c4e-1c22e1194377
+
 
 
 
